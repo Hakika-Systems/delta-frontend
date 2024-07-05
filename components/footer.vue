@@ -38,7 +38,9 @@
               <div class="th-widget-about">
                 <div class="about-logo">
                   <a href="home-organic-farm.html"
-                    ><img src="/assets/img/logo-footer.svg" alt="Frutin"
+                    ><img
+                      src="/assets/img/shopperschoice_small.svg"
+                      alt="Frutin"
                   /></a>
                 </div>
                 <p class="about-text">

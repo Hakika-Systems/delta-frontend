@@ -94,7 +94,7 @@
           <div class="col-auto">
             <div class="header-logo">
               <a href="home-organic-farm.html"
-                ><img src="/assets/img/logo.svg" alt="Frutin"
+                ><img src="/assets/img/shopperschoice_small.svg" alt="Frutin"
               /></a>
             </div>
           </div>
