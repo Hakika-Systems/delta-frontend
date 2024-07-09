@@ -4,7 +4,6 @@
       <div class="container">
         <div class="mb-4 text-center">
           <h5 class="box-text">Select Supermarket</h5>
-          <Chip label="Apple" icon="pi pi-apple" />
         </div>
         <div class="feature-list-wrap">
           <div class="feature-list">
