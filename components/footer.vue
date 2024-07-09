@@ -3,9 +3,7 @@
     <div class="container z-index-common">
       <div class="newsletter-wrap">
         <div class="newsletter-content">
-          <div class="email-icon">
-            <img src="/assets/img/icon/email_2.svg" alt="Icon" />
-          </div>
+          <div class="email-icon"></div>
           <h4 class="newsletter-title">
             Sign Up to Get Updates & News About Us.
           </h4>
@@ -24,9 +22,7 @@
     </div>
   </div>
   <footer class="footer-wrapper footer-layout3">
-    <div class="shape-mockup" data-top="0" data-left="0">
-      <img src="/assets/img/shape/footer_shape_3.png" alt="shape" />
-    </div>
+    <div class="shape-mockup" data-top="0" data-left="0"></div>
     <div class="shape-mockup" data-bottom="0" data-right="0">
       <img src="/assets/img/shape/footer_shape_4.png" alt="shape" />
     </div>
@@ -67,12 +63,7 @@
           </div>
           <div class="col-md-6 col-xl-auto">
             <div class="widget widget_nav_menu footer-widget">
-              <h3 class="widget_title">
-                <img
-                  src="/assets/img/theme-img/title_icon.svg"
-                  alt="Icon"
-                />Categories
-              </h3>
+              <h3 class="widget_title">Categories</h3>
               <div class="menu-all-pages-container">
                 <ul class="menu">
                   <li><a href="shop.html">Fresh Vegetable</a></li>
@@ -86,12 +77,7 @@
           </div>
           <div class="col-md-6 col-xl-auto">
             <div class="widget widget_nav_menu footer-widget">
-              <h3 class="widget_title">
-                <img
-                  src="/assets/img/theme-img/title_icon.svg"
-                  alt="Icon"
-                />Quick Links
-              </h3>
+              <h3 class="widget_title">Quick Links</h3>
               <div class="menu-all-pages-container">
                 <ul class="menu">
                   <li><a href="about.html">About Us</a></li>
@@ -105,12 +91,7 @@
           </div>
           <div class="col-md-6 col-xl-auto">
             <div class="widget footer-widget">
-              <h3 class="widget_title">
-                <img
-                  src="/assets/img/theme-img/title_icon.svg"
-                  alt="Icon"
-                />Contact Us
-              </h3>
+              <h3 class="widget_title">Contact Us</h3>
               <div class="th-widget-contact">
                 <div class="info-box">
                   <div class="info-box_icon">
@@ -158,11 +139,7 @@
               <a href="home-organic-farm.html">Frutin</a>. All Rights Reserved.
             </p>
           </div>
-          <div class="col-md-6 text-center text-md-end">
-            <div class="payment-img">
-              <img src="/assets/img/normal/payment_methods.png" alt="Image" />
-            </div>
-          </div>
+          <div class="col-md-6 text-center text-md-end"></div>
         </div>
       </div>
     </div>

@@ -94,7 +94,10 @@
           <div class="col-auto">
             <div class="header-logo">
               <a href="home-organic-farm.html"
-                ><img src="/assets/img/shopperschoice_small.svg" alt="Frutin"
+                ><img
+                  src="/assets/img/okshop.jpg"
+                  alt="OK shop easy"
+                  style="height: 80px; width: 200px"
               /></a>
             </div>
           </div>
@@ -138,7 +141,7 @@
                 <a class="menu-expand" href="#"
                   ><i class="far fa-bars"></i>Browse by Categories</a
                 >
-                <nav class="category-menu">
+                <!-- <nav class="category-menu">
                   <ul>
                     <li>
                       <a href="shop.html"
@@ -255,7 +258,7 @@
                       >
                     </li>
                   </ul>
-                </nav>
+                </nav> -->
               </div>
             </div>
             <div class="col-auto">
@@ -346,7 +349,6 @@ export default {
   name: "Header",
 };
 </script>
-
 <style scoped>
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css");

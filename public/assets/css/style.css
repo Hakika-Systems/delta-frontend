@@ -94,7 +94,7 @@ Version: 1.0.0
   --smoke-color2: #f5f7eb;
   --black-color: #000000;
   --black-color2: #080e1c;
-  --gray-color: #bdbdbd;
+  --gray-color: #39454f;
   --white-color: #ffffff;
   --light-color: #bdbdbd;
   --yellow-color: #ffb539;
@@ -243,7 +243,7 @@ p:empty {
 p {
   font-family: var(--body-font);
   margin: 0 0 18px 0;
-  color: var(--body-color);
+  color: var(--white-color);
   line-height: 1.75;
 }
 
@@ -4770,7 +4770,7 @@ ol.wp-block-rss {
     var(--theme-color),
     transparent
   );
-  background-image: linear-gradient(to right, var(--theme-color), transparent);
+  background-image: linear-gradient(to right, var(--theme2-color), transparent);
 }
 
 .footer-widget .widget_title img {
@@ -4863,7 +4863,7 @@ ol.wp-block-rss {
   height: auto;
   position: relative;
   background-color: transparent;
-  color: var(--body-color);
+  color: var(--white-color);
   line-height: 1;
 }
 
@@ -5877,7 +5877,7 @@ ol.wp-block-rss {
   font-weight: 700;
   text-transform: uppercase;
   color: var(--white-color);
-  background-color: var(--black-color);
+  background-color: var(--gray-color);
   padding: 17px 25px;
   width: 100%;
   /* Medium Large devices */
@@ -5907,7 +5907,7 @@ ol.wp-block-rss {
   -ms-flex-align: center;
   align-items: center;
   gap: 13px;
-  background-color: var(--title-color);
+  background-color: var(--gray-color);
   padding: 0 20px;
   height: 60px;
   /* Extra small devices */
@@ -6516,7 +6516,7 @@ ol.wp-block-rss {
 }
 
 .footer-top-newsletter {
-  background-color: var(--smoke-color2);
+  background-color: var(--gray-color);
   border-bottom: 1px solid var(--th-border-color);
 }
 
@@ -6544,8 +6544,8 @@ ol.wp-block-rss {
 }
 
 .footer-layout3 {
-  --body-color: #54595f;
-  background-color: var(--smoke-color2);
+  --body-color: white;
+  background-color: var(--gray-color);
 }
 
 .footer-layout3 .th-social a {
@@ -6565,7 +6565,7 @@ ol.wp-block-rss {
 }
 
 .footer-layout3 .info-box_icon {
-  background-color: rgba(1, 125, 3, 0.15);
+  background-color: var(--theme-color2);
   color: var(--theme-color2S);
 }
 

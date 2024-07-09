@@ -90,6 +90,7 @@
 
     <link rel="manifest" href="/assets/img/favicons/manifest.json" />
     <link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/assets/css/primeblocks.css" />
     <!-- Fontawesome Icon -->
     <link rel="stylesheet" href="/assets/css/fontawesome.min.css" />
     <!-- Magnific Popup -->
