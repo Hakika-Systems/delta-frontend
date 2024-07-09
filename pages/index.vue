@@ -5,9 +5,6 @@
         <div class="mb-4 text-center">
           <h5 class="box-text">Select Supermarket</h5>
           <Chip label="Apple" icon="pi pi-apple" />
-          <div class="card flex justify-center">
-            <Button label="Submit" />
-          </div>
         </div>
         <div class="feature-list-wrap">
           <div class="feature-list">
@@ -62,6 +59,4 @@
     </section>
   </NuxtLayout>
 </template>
-<script setup>
-import Button from "primevue/button";
-</script>
+<script setup></script>
