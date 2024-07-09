@@ -33,11 +33,7 @@
             <div class="widget footer-widget">
               <div class="th-widget-about">
                 <div class="about-logo">
-                  <a href="home-organic-farm.html"
-                    ><img
-                      src="/assets/img/shopperschoice_small.svg"
-                      alt="Frutin"
-                  /></a>
+                  <a href="home-organic-farm.html"></a>
                 </div>
                 <p class="about-text">
                   We provide specialized winterization services to safeguard
