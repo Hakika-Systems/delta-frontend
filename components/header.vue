@@ -97,7 +97,7 @@
                 ><img
                   src="/assets/img/okshop.jpg"
                   alt="OK shop easy"
-                  style="height: 80px; width: 200px"
+                  style="height: auto;width:200px;"
               /></a>
             </div>
           </div>
@@ -350,6 +350,14 @@ export default {
 };
 </script>
 <style scoped>
+.header-layout3 .header-top {
+    --body-color: #54595f;
+    background-color: #ea452f !important;
+    border-bottom: 1px solid var(--th-border-color);
+}
+.header-links li, .header-links span, .header-links p, .header-links a {
+    color: #ffffff !important;
+}
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css");
 </style>
