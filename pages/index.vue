@@ -1,61 +1,59 @@
 <template>
   <NuxtLayout name="dashboard">
-    <section class="mb-4">
-      <div class="container">
-        <div class="mb-4 text-center">
-          <h5 class="box-text">Select Supermarket</h5>
-        </div>
-        <div class="feature-list-wrap">
-          <div class="feature-list">
-            <div class="box-icon">
-              <img
-                src="/assets/img/Ok-Zim-Logo.png"
-                alt="icon"
-                style="margin: auto; margin-top: 18px; width: 80%"
-              />
-            </div>
-            <div class="media-body">
-              <h3 class="box-title">OK</h3>
-              <p class="box-text"></p>
-            </div>
+    <div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
+  <div class="surface-ground">
+    <div class="grid">
+      <div class="col-12 md:col-6 xl:col-3 p-3">
+        <div class="surface-card shadow-2 border-round p-4">
+          <div class="flex flex-column align-items-center mb-3">
+            <img src="/images/logos/okzim.jpg" class="mb-3" style="height: 70px;">
+            <span class="font-medium text-900 text-xl mb-2">OK Zimbabwe</span>
+            <span class="text-600 surface-200 p-2 border-round">64 Supermarkets</span>
           </div>
-          <div class="feature-list-line"></div>
-          <div class="feature-list">
-            <div class="box-icon">
-              <img src="/assets/img/icon/feature_list_2.svg" alt="icon" />
-            </div>
-            <div class="media-body">
-              <h3 class="box-title">Bon Marche</h3>
-              <p class="box-text"></p>
-            </div>
+          <div class="pt-3 border-top-1 surface-border flex">
+            <Button label="Shop Now" class="w-full" severity="contrast" outlined />
           </div>
-          <div class="feature-list-line"></div>
-          <div class="feature-list">
-            <div class="box-icon">
-              <img src="/assets/img/icon/food_lovers.svg" alt="icon" />
-            </div>
-            <div class="media-body">
-              <h3 class="box-title">Food Lovers</h3>
-              <p class="box-text"></p>
-            </div>
-          </div>
-          <div class="feature-list-line"></div>
-          <div class="feature-list">
-            <div class="box-icon">
-              <img
-                src="/assets/img/Ok-Zim-Logo.png"
-                alt="icon"
-                style="margin: auto; margin-top: 18px; width: 80%"
-              />
-            </div>
-            <div class="media-body">
-              <h3 class="box-title">OK Mart</h3>
-            </div>
-          </div>
-          <div class="feature-list-line"></div>
         </div>
       </div>
-    </section>
+      <div class="col-12 md:col-6 xl:col-3 p-3">
+        <div class="surface-card shadow-2 border-round p-4">
+          <div class="flex flex-column align-items-center mb-3">
+            <img src="/images/logos/bonmarche.png" class="mb-3" style="height: 70px;">
+            <span class="font-medium text-900 text-xl mb-2">Borne March'e</span>
+            <span class="text-600 surface-200 p-2 border-round">8 Supermarkets</span>
+          </div>
+          <div class="pt-3 border-top-1 surface-border flex">
+            <Button label="Shop Now" class="w-full" severity="contrast" outlined />
+          </div>
+        </div>
+      </div>
+      <div class="col-12 md:col-6 xl:col-3 p-3">
+        <div class="surface-card shadow-2 border-round p-4">
+          <div class="flex flex-column align-items-center mb-3">
+            <img src="/images/logos/foodlovers.png" class="mb-3" style="height: 70px;">
+            <span class="font-medium text-900 text-xl mb-2">Food Lovers</span>
+            <span class="text-600 surface-200 p-2 border-round">6 Supermarkets</span>
+          </div>
+          <div class="pt-3 border-top-1 surface-border flex">
+            <Button label="Shop Now" class="w-full" severity="contrast" outlined />
+          </div>
+        </div>
+      </div>
+      <div class="col-12 md:col-6 xl:col-3 p-3">
+        <div class="surface-card shadow-2 border-round p-4">
+          <div class="flex flex-column align-items-center mb-3">
+            <img src="/images/logos/okmart.jpg" class="mb-3" style="height: 70px;">
+            <span class="font-medium text-900 text-xl mb-2">OK Mart</span>
+            <span class="text-600 surface-200 p-2 border-round">1 Supermarkets</span>
+          </div>
+          <div class="pt-3 border-top-1 surface-border flex">
+            <Button label="Shop Now" class="w-full" severity="contrast" outlined />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
   </NuxtLayout>
 </template>
 <script setup></script>
