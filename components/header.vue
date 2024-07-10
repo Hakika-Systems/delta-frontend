@@ -358,6 +358,11 @@ export default {
 .header-links li, .header-links span, .header-links p, .header-links a {
     color: #ffffff !important;
 }
+.header-layout3 .menu-area {
+    position: relative;
+    z-index: 2;
+    background-color: #121212 !important;
+}
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css");
 </style>
