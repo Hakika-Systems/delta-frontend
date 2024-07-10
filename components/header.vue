@@ -7,7 +7,7 @@
         >
           <div class="col-auto d-none d-lg-block">
             <p class="header-notice">
-              Orders of $50 or more qualify for free shipping!
+              Orders of $50 or more qualify for free delivery!
             </p>
           </div>
           <div class="col-auto">
