@@ -2,6 +2,10 @@
   <NuxtLayout name="dashboard">
     <div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
   <div class="surface-ground">
+    <div class="text-700 text-center">
+    <div class="text-900 font-bold text-5xl mb-3">Discover Your Favorite Brands Nearby</div>
+    <div class="text-700 text-2xl mb-5">Choose from Our Curated Collection of Leading Brands and Find Shops Near You!</div>
+  </div>
     <div class="grid">
       <div class="col-12 md:col-6 xl:col-3 p-3">
         <div class="surface-card shadow-2 border-round p-4">
