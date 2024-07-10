@@ -1,0 +1,9 @@
+<svg width="212" height="212" viewBox="0 0 212 212" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .text { font-family: Arial, sans-serif; font-weight: bold; }
+    .background { fill: #fff; } /* Red color for background */
+    .white { fill: white; }
+  </style>
+  <circle cx="106" cy="106" r="106" class="background" />
+  <text x="50" y="120" font-size="100" class="text red">OK</text>
+</svg>

@@ -1,0 +1,12 @@
+<svg width="212" height="212" viewBox="0 0 212 212" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .text { font-family: Arial, sans-serif; font-weight: bold; }
+    .background { fill: #006838; }
+    .white { fill: white; }
+  </style>
+  <circle cx="106" cy="106" r="106" class="background" />
+  <text x="50" y="80" font-size="30" class="text white">FOOD</text>
+  <text x="35" y="120" font-size="30" class="text white">LOVER'S</text>
+  <rect x="25" y="130" width="160" height="40" class="white"/>
+  <text x="55" y="160" font-size="30" class="text background">MARKET</text>
+</svg>
