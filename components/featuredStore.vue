@@ -1,243 +1,43 @@
 <template>
     <div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
-        <div class="card border-featured">
-            <div class="bg-gray-900 px-4 py-5 md:px-6 lg:px-8">
-  <div class="flex flex-column md:align-items-center md:justify-content-between md:flex-row">
-    <div class="font-medium text-3xl text-white">OK ZIMBABWE</div>
-    <div class="mt-3 md:mt-0">
-      <button class="p-button p-component p-button-outlined mr-2" type="button" aria-label="Add" data-pc-name="button" data-pc-section="root" data-pd-ripple="true">
-        <span class="p-button-icon p-button-icon-left pi pi-user-plus" data-pc-section="icon"></span>
-        <span class="p-button-label" data-pc-section="label">Add</span>
-        <!---->
-        <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
-      </button>
-      <button class="p-button p-component" type="button" aria-label="Save" data-pc-name="button" data-pc-section="root" data-pd-ripple="true">
-        <span class="p-button-icon p-button-icon-left pi pi-check" data-pc-section="icon"></span>
-        <span class="p-button-label" data-pc-section="label">Save</span>
-        <!---->
-        <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
-      </button>
-    </div>
-  </div>
-</div>
-        <p class="mt-0 p-0 mb-5 text-600 text-2xl">Exclusive Selection</p>
-        <Carousel :value="products" :numVisible="4" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="8000">
+        <header class="flex w-full justify-content-between align-items-center  surface-border pb-5">
+        <div>
+            <h2 class="mt-0 mb-3 font-medium text-2xl text-900">OK Zimbabwe</h2>
+        </div>
+        <Button class="shopnow feat" label="Shop Now" />
+        </header>
+        <Carousel :value="products" :numVisible="5" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="8000">
             <template #item="slotProps">
                 <div class="border-1 surface-border border-round m-2 p-3">
-                    <div class="relative mb-3">
+                    <div class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto">
                 <img :src="slotProps.data.images[0]" class="w-full h-full object-cover">
-                <span class="bg-pink-500 text-pink-50 font-bold px-2 py-1 absolute" style="border-radius: 1rem; right: 1rem; bottom: 1rem;">{{ slotProps.data.category }}</span>
                 </div>
                     <div class="mb-3 font-medium nametext">{{ addEllipsis(slotProps.data.title) }}</div>
                     <div class="mb-4">
-                <span class="font-bold text-900 ml-2">${{ slotProps.data.price }}</span>
                 </div>
-                    <div class="flex justify-content-between mx-auto align-items-center">
-                       
-                            <Button  label="Add to Cart"  class="addtocart ok w-full"/>
-                    
-                    </div>
+                <div class="flex justify-content-between align-items-center">
+                    <span class="font-bold text-900 ml-2">${{ slotProps.data.price }}</span>
+                    <Button @click="navigateTo(`${slotProps.data.redirect_url}`,{external: true})" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
+                </div>
                 </div>
             </template>
         </Carousel>
-        <p class="mt-0 p-0 mb-5 text-600 text-2xl">Exclusive Selection</p>
-        <Carousel :value="products" :numVisible="4" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="8000">
+        <Carousel :value="products" :numVisible="5" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="8000">
             <template #item="slotProps">
                 <div class="border-1 surface-border border-round m-2 p-3">
-                    <div class="relative mb-3">
+                    <div class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto">
                 <img :src="slotProps.data.images[0]" class="w-full h-full object-cover">
-                <span class="bg-pink-500 text-pink-50 font-bold px-2 py-1 absolute" style="border-radius: 1rem; right: 1rem; bottom: 1rem;">-%25</span>
                 </div>
                     <div class="mb-3 font-medium nametext">{{ addEllipsis(slotProps.data.title) }}</div>
                     <div class="mb-4">
-                <span class="font-bold text-900 ml-2">{{ slotProps.data.price }}</span>
                 </div>
-                    <div class="flex justify-content-between mx-auto align-items-center">
-                       
-                            <Button  label="Add to Cart"  class="w-full"/>
-                    
-                    </div>
+                <div class="flex justify-content-between align-items-center">
+                    <span class="font-bold text-900 ml-2">${{ slotProps.data.price }}</span>
+                    <Button @click="navigateTo(`${slotProps.data.redirect_url}`,{external: true})" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
+                </div>
                 </div>
             </template>
         </Carousel>
-        <OverlayPanel ref="op" appendTo="body">
-            <DataTable :value="products" selectionMode="single" :paginator="true" :rows="5">
-                <Column field="name" header="Name" sortable style="min-width: 12rem"></Column>
-                <Column header="Image">
-                    <template #body="slotProps">
-                        <img :src="slotProps.data.image" :alt="slotProps.data.image" class="w-4rem shadow-1" />
-                    </template>
-                </Column>
-                <Column field="price" header="Price" sortable style="min-width: 8rem">
-                    <template #body="slotProps">
-                        $ {{ slotProps.data.price }}
-                    </template>
-                </Column>
-            </DataTable>
-        </OverlayPanel>
-    </div>
-    </div>
-    <div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
-        <div class="card px-4 py-4 md:px-6 lg:px-8">
-        <div>Borne March'e</div>
-        <Carousel :value="products" :numVisible="4" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="8000">
-            <template #item="slotProps">
-                <div class="border-1 surface-border border-round m-2 p-3">
-                    <div class="mb-3">
-                        <div class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto" style="height: 95px;">
-                            <img :src="slotProps.data.images[0]"  class="w-full h-full object-cover border-round" />
-                        </div>
-                    </div>
-                    <div class="mb-3 font-medium nametext">{{ addEllipsis(slotProps.data.title) }}</div>
-                    <div class="flex justify-content-between mx-auto align-items-center">
-                       
-                            <Button  label="Add to Cart"  class="w-full"/>
-                    
-                    </div>
-                </div>
-            </template>
-        </Carousel>
-        <Carousel :value="products" :numVisible="4" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="8000">
-            <template #item="slotProps">
-                <div class="border-1 surface-border border-round m-2 p-3">
-                    <div class="mb-3">
-                        <div class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto" style="height: 95px;">
-                            <img :src="slotProps.data.images[0]"  class="w-full h-full object-cover border-round" />
-                        </div>
-                    </div>
-                    <div class="mb-3 font-medium nametext">{{ addEllipsis(slotProps.data.title) }}</div>
-                    <div class="flex justify-content-between mx-auto align-items-center">
-                       
-                            <Button  label="Add to Cart"  class="w-full"/>
-                    
-                    </div>
-                </div>
-            </template>
-        </Carousel>
-        <OverlayPanel ref="op" appendTo="body">
-            <DataTable :value="products" selectionMode="single" :paginator="true" :rows="5">
-                <Column field="name" header="Name" sortable style="min-width: 12rem"></Column>
-                <Column header="Image">
-                    <template #body="slotProps">
-                        <img :src="slotProps.data.image" :alt="slotProps.data.image" class="w-4rem shadow-1" />
-                    </template>
-                </Column>
-                <Column field="price" header="Price" sortable style="min-width: 8rem">
-                    <template #body="slotProps">
-                        $ {{ slotProps.data.price }}
-                    </template>
-                </Column>
-            </DataTable>
-        </OverlayPanel>
-    </div>
-    </div>
-    <div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
-        <div class="card px-4 py-4 md:px-6 lg:px-8">
-        <div>Borne March'e</div>
-        <Carousel :value="products" :numVisible="4" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="8000">
-            <template #item="slotProps">
-                <div class="border-1 surface-border border-round m-2 p-3">
-                    <div class="mb-3">
-                        <div class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto" style="height: 95px;">
-                            <img :src="slotProps.data.images[0]"  class="w-full h-full object-cover border-round" />
-                        </div>
-                    </div>
-                    <div class="mb-3 font-medium nametext">{{ addEllipsis(slotProps.data.title) }}</div>
-                    <div class="flex justify-content-between mx-auto align-items-center">
-                       
-                            <Button  label="Add to Cart"  class="w-full"/>
-                    
-                    </div>
-                </div>
-            </template>
-        </Carousel>
-        <Carousel :value="products" :numVisible="4" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="8000">
-            <template #item="slotProps">
-                <div class="border-1 surface-border border-round m-2 p-3">
-                    <div class="mb-3">
-                        <div class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto" style="height: 95px;">
-                            <img :src="slotProps.data.images[0]"  class="w-full h-full object-cover border-round" />
-                        </div>
-                    </div>
-                    <div class="mb-3 font-medium nametext">{{ addEllipsis(slotProps.data.title) }}</div>
-                    <div class="flex justify-content-between mx-auto align-items-center">
-                       
-                            <Button  label="Add to Cart"  class="w-full"/>
-                    
-                    </div>
-                </div>
-            </template>
-        </Carousel>
-        <OverlayPanel ref="op" appendTo="body">
-            <DataTable :value="products" selectionMode="single" :paginator="true" :rows="5">
-                <Column field="name" header="Name" sortable style="min-width: 12rem"></Column>
-                <Column header="Image">
-                    <template #body="slotProps">
-                        <img :src="slotProps.data.image" :alt="slotProps.data.image" class="w-4rem shadow-1" />
-                    </template>
-                </Column>
-                <Column field="price" header="Price" sortable style="min-width: 8rem">
-                    <template #body="slotProps">
-                        $ {{ slotProps.data.price }}
-                    </template>
-                </Column>
-            </DataTable>
-        </OverlayPanel>
-    </div>
-    </div>
-    <div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
-        <div class="card px-4 py-4 md:px-6 lg:px-8">
-        <div>Borne March'e</div>
-        <Carousel :value="products" :numVisible="4" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="8000">
-            <template #item="slotProps">
-                <div class="border-1 surface-border border-round m-2 p-3">
-                    <div class="mb-3">
-                        <div class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto" style="height: 95px;">
-                            <img :src="slotProps.data.images[0]"  class="w-full h-full object-cover border-round" />
-                        </div>
-                    </div>
-                    <div class="mb-3 font-medium nametext">{{ addEllipsis(slotProps.data.title) }}</div>
-                    <div class="flex justify-content-between mx-auto align-items-center">
-                       
-                            <Button  label="Add to Cart"  class="w-full"/>
-                    
-                    </div>
-                </div>
-            </template>
-        </Carousel>
-        <Carousel :value="products" :numVisible="4" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="8000">
-            <template #item="slotProps">
-                <div class="border-1 surface-border border-round m-2 p-3">
-                    <div class="mb-3">
-                        <div class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto" style="height: 95px;">
-                            <img :src="slotProps.data.images[0]"  class="w-full h-full object-cover border-round" />
-                        </div>
-                    </div>
-                    <div class="mb-3 font-medium nametext">{{ addEllipsis(slotProps.data.title) }}</div>
-                    <div class="flex justify-content-between mx-auto align-items-center">
-                       
-                            <Button  label="Add to Cart"  class="w-full"/>
-                    
-                    </div>
-                </div>
-            </template>
-        </Carousel>
-        <OverlayPanel ref="op" appendTo="body">
-            <DataTable :value="products" selectionMode="single" :paginator="true" :rows="5">
-                <Column field="name" header="Name" sortable style="min-width: 12rem"></Column>
-                <Column header="Image">
-                    <template #body="slotProps">
-                        <img :src="slotProps.data.image" :alt="slotProps.data.image" class="w-4rem shadow-1" />
-                    </template>
-                </Column>
-                <Column field="price" header="Price" sortable style="min-width: 8rem">
-                    <template #body="slotProps">
-                        $ {{ slotProps.data.price }}
-                    </template>
-                </Column>
-            </DataTable>
-        </OverlayPanel>
-    </div>
     </div>
 </template>
 
@@ -368,7 +168,7 @@ img.w-full.h-full.object-cover.border-round {
 }
 img.w-full.h-full.object-cover {
     width: auto !important;
-    height: 245px !important;
+    height: 155px !important;
 }
 ul.p-carousel-indicators.p-reset {
     display: none;
@@ -384,6 +184,12 @@ button.p-button.p-component.ml-2.cart.tagee {
     background-image: linear-gradient(to right, #cb1400, #F44336) !important;
     border: none;
 }
+button.p-button.p-component.shopnow.feat {
+    background-color: #dadada;
+    border-radius: 30px;
+    border: none;
+    color: black;
+}
 .border-1.surface-border.border-round.p-3 {
     box-shadow: 0 5px 10px 0 rgba(41, 61, 102, .2) !important;
 }
@@ -394,6 +200,11 @@ button.p-button.p-component.ml-2.cart.tagee {
     color: white !important;
     font-weight: 900 !important;
     font-size: 25px !important;
+}
+button.p-button.p-component.ml-auto.cart {
+    background-color: #f7941f;
+    border: none;
+    border-radius: 33px;
 }
 .bonmarche {
     background-color: red;
