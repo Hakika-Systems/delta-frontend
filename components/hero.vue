@@ -1,5 +1,5 @@
 <template>
-  <div class="th-hero-wrapper hero-3" id="hero" style="background-image: url(&quot;/images/hero1.png&quot;);background-size: contain;">
+  <div class="th-hero-wrapper hero-3" id="hero" style="background-image: url(&quot;/images/shopperschoice_1920x576_Bon Marche.webp&quot;);background-size: contain;">
     <!-- <div class="container">
       <div class="row justify-content-end">
         <div class="col-xl-9">
