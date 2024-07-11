@@ -5,36 +5,35 @@
         <p class="mt-0 p-0 mb-5 text-600 text-2xl">Exclusive Selection</p>
         <Carousel :value="products" :numVisible="4" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="8000">
             <template #item="slotProps">
-                <div class="border-1 surface-border border-round  p-3 col-12 md:col-6 lg:col-12 mb-5 md:mb-0">
-                <div class="p-2">
-                <div class="relative mb-3">
-                <img :src="slotProps.data.images[0]" class="w-full">
-                <span class="bg-pink-500 text-pink-50 font-bold px-2 py-1 absolute" style="border-radius: 1rem; right: 1rem; bottom: 1rem;">-%25</span>
+                <div class="border-1 surface-border border-round m-2 p-3">
+                    <div class="relative mb-3">
+                <img :src="slotProps.data.images[0]" class="w-full h-full object-cover">
+                <span class="bg-pink-500 text-pink-50 font-bold px-2 py-1 absolute" style="border-radius: 1rem; right: 1rem; bottom: 1rem;">{{ slotProps.data.category }}</span>
                 </div>
-                <span class="text-900 font-medium text-xl">{{ addEllipsis(slotProps.data.title) }}</span>
-                <div class="mb-4">
-                <span class="font-bold text-900 ml-2">{{ slotProps.data.price }}</span>
+                    <div class="mb-3 font-medium nametext">{{ addEllipsis(slotProps.data.title) }}</div>
+                    <div class="mb-4">
+                <span class="font-bold text-900 ml-2">${{ slotProps.data.price }}</span>
                 </div>
-                <button class="p-button p-component w-full" type="button" aria-label="Add to Cart" data-pc-name="button" data-pc-section="root" data-pd-ripple="true">
-                <span class="p-button-icon p-button-icon-left pi pi-shopping-cart" data-pc-section="icon"></span>
-                <span class="p-button-label" data-pc-section="label">Add to Cart</span>
-                <!---->
-                <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
-                </button>
-            </div>
-            </div>
+                    <div class="flex justify-content-between mx-auto align-items-center">
+                       
+                            <Button  label="Add to Cart"  class="w-full"/>
+                    
+                    </div>
+                </div>
             </template>
         </Carousel>
         <p class="mt-0 p-0 mb-5 text-600 text-2xl">Exclusive Selection</p>
         <Carousel :value="products" :numVisible="4" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="8000">
             <template #item="slotProps">
                 <div class="border-1 surface-border border-round m-2 p-3">
-                    <div class="mb-3">
-                        <div class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto" style="height: 95px;">
-                            <img :src="slotProps.data.images[0]"  class="w-full h-full object-cover border-round" />
-                        </div>
-                    </div>
+                    <div class="relative mb-3">
+                <img :src="slotProps.data.images[0]" class="w-full h-full object-cover">
+                <span class="bg-pink-500 text-pink-50 font-bold px-2 py-1 absolute" style="border-radius: 1rem; right: 1rem; bottom: 1rem;">-%25</span>
+                </div>
                     <div class="mb-3 font-medium nametext">{{ addEllipsis(slotProps.data.title) }}</div>
+                    <div class="mb-4">
+                <span class="font-bold text-900 ml-2">{{ slotProps.data.price }}</span>
+                </div>
                     <div class="flex justify-content-between mx-auto align-items-center">
                        
                             <Button  label="Add to Cart"  class="w-full"/>
@@ -348,6 +347,10 @@ button.p-button.p-component.p-button-icon-only.p-button-secondary.p-button-outli
 img.w-full.h-full.object-cover.border-round {
     height: 100px !important;
     width: auto !important;
+}
+img:not([draggable]), embed, object, video {
+    width: auto !important;
+    height: 245px !important;
 }
 ul.p-carousel-indicators.p-reset {
     display: none;
