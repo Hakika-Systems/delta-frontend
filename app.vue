@@ -1,0 +1,21 @@
+<template>
+  <main>
+    <NuxtPage />
+  </main>
+</template>
+<style>
+
+</style>
+<script>
+import 'primevue/resources/themes/aura-light-green/theme.css'
+import 'primeicons/primeicons.css'
+import  "~/public/assets/primeblocks.css"
+</script>
+<style>
+@import url('https://fonts.cdnfonts.com/css/br-cobane');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap");
+.layout-wrapper, body {
+    background-color: #ffffff;
+    font-family: Poppins,Roboto,Helvetica,Arial,sans-serif !important;
+}
+</style>
