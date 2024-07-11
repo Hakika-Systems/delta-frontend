@@ -61,3 +61,8 @@
   </NuxtLayout>
 </template>
 <script setup></script>
+<style>
+.surface-ground {
+    background-color: #ffffff !important;
+}
+</style>
