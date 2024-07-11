@@ -14,7 +14,7 @@
             <div class="header-links">
               <ul>
                 <li class="d-none d-md-inline-block">
-                  <a href="shop.html">Track Your Order</a>
+                  <a href="#">Track Your Order</a>
                 </li>
                 <li class="d-none d-md-inline-block">
                   <div class="dropdown-link">
@@ -91,7 +91,7 @@
     <div class="menu-top">
       <div class="container">
         <div class="row align-items-center justify-content-between">
-          <div class="col-auto">
+          <div class="col-3">
             <div class="header-logo">
               <a href="home-organic-farm.html"
                 ><img
@@ -101,25 +101,42 @@
               /></a>
             </div>
           </div>
-          <div class="col-auto d-none d-lg-block">
+          <!-- <div class="col-4 d-none d-lg-block">
             <form class="header-search">
               <input type="text" placeholder="Enter Keyword" />
               <button type="submit"><i class="far fa-search"></i></button>
             </form>
-          </div>
-          <div class="col-auto">
+          </div> -->
+          <div class="col-4">
+    <div class="grid grid-nogutter align-items-center">
+        <div class="col h-3rem border-1 border-300 text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors">
+            <img src="/images/logos/okzim.jpg" alt="XS" class="h-3rem">
+        </div>
+        <div class="col h-3rem border-1 border-300 text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors">
+            <img src="/images/logos/bonmarche.png" alt="S" class="h-3rem">
+        </div>
+        <div class="col h-3rem border-1 border-300 text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors">
+            <img src="/images/logos/foodlovers.png" alt="M" class="h-3rem">
+        </div>
+        <div class="col h-3rem border-1 border-300 text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors">
+            <img src="/images/logos/okmart.jpg" alt="L" class="h-3rem">
+        </div>
+    </div>
+</div>
+
+          <div class="col-4">
             <div class="header-icons">
               <a href="contact.html" class="icon-btn d-none d-sm-block"
                 ><i class="far fa-user"></i
               ></a>
-              <a href="wishlist.html" class="icon-btn d-none d-sm-block">
+              <!-- <a href="wishlist.html" class="icon-btn d-none d-sm-block">
                 <span class="badge">3</span>
                 <i class="far fa-heart"></i>
               </a>
               <button type="button" class="icon-btn sideMenuToggler">
                 <span class="badge">5</span>
                 <i class="far fa-cart-shopping"></i>
-              </button>
+              </button> -->
               <button
                 type="button"
                 class="icon-btn sideMenuInfo d-none d-lg-block"
@@ -139,12 +156,12 @@
             <div class="col-3 d-none d-xl-block">
               <div class="category-menu-wrap">
                 <a class="menu-expand" href="#"
-                  ><i class="far fa-bars"></i>Browse by Categories</a
+                  ><i class="far fa-bars"></i>Shop by Isle</a
                 >
-                <!-- <nav class="category-menu">
+                <nav class="category-menu">
                   <ul>
                     <li>
-                      <a href="shop.html"
+                      <a href="#"
                         ><img
                           src="/assets/img/icon/category_1_1.svg"
                           alt="Icon"
@@ -152,7 +169,7 @@
                       >
                     </li>
                     <li>
-                      <a href="shop.html"
+                      <a href="#"
                         ><img
                           src="/assets/img/icon/category_1_2.svg"
                           alt="Icon"
@@ -160,7 +177,7 @@
                       >
                     </li>
                     <li class="menu-item-has-children">
-                      <a href="shop.html"
+                      <a href="#"
                         ><img
                           src="/assets/img/icon/category_1_3.svg"
                           alt="Icon"
@@ -168,7 +185,7 @@
                       >
                       <ul class="sub-menu">
                         <li>
-                          <a href="shop.html"
+                          <a href="#"
                             ><img
                               src="/assets/img/icon/category_1_4.svg"
                               alt="Icon"
@@ -176,7 +193,7 @@
                           >
                         </li>
                         <li>
-                          <a href="shop.html"
+                          <a href="#"
                             ><img
                               src="/assets/img/icon/category_1_5.svg"
                               alt="Icon"
@@ -184,7 +201,7 @@
                           >
                         </li>
                         <li>
-                          <a href="shop.html"
+                          <a href="#"
                             ><img
                               src="/assets/img/icon/category_1_6.svg"
                               alt="Icon"
@@ -192,7 +209,7 @@
                           >
                         </li>
                         <li>
-                          <a href="shop.html"
+                          <a href="#"
                             ><img
                               src="/assets/img/icon/category_1_7.svg"
                               alt="Icon"
@@ -202,7 +219,7 @@
                       </ul>
                     </li>
                     <li>
-                      <a href="shop.html"
+                      <a href="#"
                         ><img
                           src="/assets/img/icon/category_1_4.svg"
                           alt="Icon"
@@ -210,15 +227,7 @@
                       >
                     </li>
                     <li>
-                      <a href="shop.html"
-                        ><img
-                          src="/assets/img/icon/category_1_5.svg"
-                          alt="Icon"
-                        />Butter & Egg</a
-                      >
-                    </li>
-                    <li>
-                      <a href="shop.html"
+                      <a href="#"
                         ><img
                           src="/assets/img/icon/category_1_6.svg"
                           alt="Icon"
@@ -226,7 +235,7 @@
                       >
                     </li>
                     <li>
-                      <a href="shop.html"
+                      <a href="#"
                         ><img
                           src="/assets/img/icon/category_1_7.svg"
                           alt="Icon"
@@ -234,7 +243,7 @@
                       >
                     </li>
                     <li>
-                      <a href="shop.html"
+                      <a href="#"
                         ><img
                           src="/assets/img/icon/category_1_8.svg"
                           alt="Icon"
@@ -242,15 +251,7 @@
                       >
                     </li>
                     <li>
-                      <a href="shop.html"
-                        ><img
-                          src="/assets/img/icon/category_1_9.svg"
-                          alt="Icon"
-                        />Coconut Oil</a
-                      >
-                    </li>
-                    <li>
-                      <a href="shop.html"
+                      <a href="#"
                         ><img
                           src="/assets/img/icon/category_1_10.svg"
                           alt="Icon"
@@ -258,18 +259,18 @@
                       >
                     </li>
                   </ul>
-                </nav> -->
+                </nav>
               </div>
             </div>
             <div class="col-auto">
-              <nav class="main-menu menu-style1 d-none d-lg-inline-block">
+              <!-- <nav class="main-menu menu-style1 d-none d-lg-inline-block">
                 <ul>
                   <li class="menu-item-has-children">
                     <a href="home-organic-farm.html">Home</a>
                     <ul class="sub-menu">
                       <li><a href="home-organic-farm.html">Organic Farm</a></li>
                       <li><a href="home-organic-food.html">Organic Food</a></li>
-                      <li><a href="home-mega-shop.html">Mega Shop</a></li>
+                      <li><a href="home-mega-#">Mega Shop</a></li>
                       <li>
                         <a href="home-organic-farming.html">Organic Farming</a>
                       </li>
@@ -291,7 +292,7 @@
                       <li class="menu-item-has-children">
                         <a href="#">Shop</a>
                         <ul class="sub-menu">
-                          <li><a href="shop.html">Shop</a></li>
+                          <li><a href="#">Shop</a></li>
                           <li><a href="shop-details.html">Shop Details</a></li>
                           <li><a href="cart.html">Cart Page</a></li>
                           <li><a href="checkout.html">Checkout</a></li>
@@ -319,12 +320,10 @@
                     <a href="contact.html">Contact</a>
                   </li>
                 </ul>
-              </nav>
-              <button type="button" class="th-menu-toggle d-block d-lg-none">
-                <i class="far fa-bars"></i>
-              </button>
+              </nav> -->
+            
             </div>
-            <div class="col-auto">
+            <!-- <div class="col-auto">
               <div class="call-btn">
                 <div class="box-icon">
                   <i class="far fa-headphones"></i>
@@ -336,7 +335,7 @@
                   </h3>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -352,7 +351,7 @@ export default {
 <style scoped>
 .header-layout3 .header-top {
     --body-color: #54595f;
-    background-color: #ea452f !important;
+    background-color: #e48b4b !important;
     border-bottom: 1px solid var(--th-border-color);
 }
 .header-links li, .header-links span, .header-links p, .header-links a {
