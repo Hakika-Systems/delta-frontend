@@ -10,7 +10,7 @@
           >Bon March'e</span
         >
       </div>
-      <div class="card">
+      <div class="card mb-2">
         <Carousel
           :value="products"
           :numVisible="2"
