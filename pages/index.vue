@@ -19,6 +19,7 @@
     </div>
   </div>
 </div>
+<FeaturedStore />
   </NuxtLayout>
 </template>
 <script setup></script>
