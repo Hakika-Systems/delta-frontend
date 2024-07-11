@@ -1,7 +1,25 @@
 <template>
     <div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
-        <div class="card px-4 py-4 md:px-6 lg:px-8">
-            <div class="text-5xl font-medium text-900 text-left mb-6 okzimbabwe">OK ZIMBABWE</div>
+        <div class="card border-featured">
+            <div class="bg-gray-900 px-4 py-5 md:px-6 lg:px-8">
+  <div class="flex flex-column md:align-items-center md:justify-content-between md:flex-row">
+    <div class="font-medium text-3xl text-white">OK ZIMBABWE</div>
+    <div class="mt-3 md:mt-0">
+      <button class="p-button p-component p-button-outlined mr-2" type="button" aria-label="Add" data-pc-name="button" data-pc-section="root" data-pd-ripple="true">
+        <span class="p-button-icon p-button-icon-left pi pi-user-plus" data-pc-section="icon"></span>
+        <span class="p-button-label" data-pc-section="label">Add</span>
+        <!---->
+        <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
+      </button>
+      <button class="p-button p-component" type="button" aria-label="Save" data-pc-name="button" data-pc-section="root" data-pd-ripple="true">
+        <span class="p-button-icon p-button-icon-left pi pi-check" data-pc-section="icon"></span>
+        <span class="p-button-label" data-pc-section="label">Save</span>
+        <!---->
+        <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
+      </button>
+    </div>
+  </div>
+</div>
         <p class="mt-0 p-0 mb-5 text-600 text-2xl">Exclusive Selection</p>
         <Carousel :value="products" :numVisible="4" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="8000">
             <template #item="slotProps">
@@ -16,7 +34,7 @@
                 </div>
                     <div class="flex justify-content-between mx-auto align-items-center">
                        
-                            <Button  label="Add to Cart"  class="w-full"/>
+                            <Button  label="Add to Cart"  class="addtocart ok w-full"/>
                     
                     </div>
                 </div>
@@ -355,6 +373,9 @@ img.w-full.h-full.object-cover {
 ul.p-carousel-indicators.p-reset {
     display: none;
 }
+.card.border-featured {
+    border-radius: 10px !important;
+}
 img.shop_logo {
     width: auto;
     height: 43px;
@@ -381,6 +402,11 @@ button.p-button.p-component.ml-2.cart.tagee {
     color: white !important;
     font-weight: 900 !important;
     font-size: 25px !important;
+}
+button.p-button.p-component.ok.addtocart.w-full {
+    border-radius: 20px;
+    background-color: red ;
+    border: none;
 }
 .foodlovers {
     background-color: red;
