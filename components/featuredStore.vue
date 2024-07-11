@@ -348,7 +348,7 @@ img.w-full.h-full.object-cover.border-round {
     height: 100px !important;
     width: auto !important;
 }
-img:not([draggable]), embed, object, video {
+img.w-full.h-full.object-cover {
     width: auto !important;
     height: 245px !important;
 }
