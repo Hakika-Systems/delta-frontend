@@ -2,7 +2,8 @@
 import type { DefineComponent, SlotsType } from 'vue'
 type IslandComponent<T extends DefineComponent> = T & DefineComponent<{}, {refresh: () => Promise<void>}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, SlotsType<{ fallback: { error: unknown } }>>
 interface _GlobalComponents {
-      'Footer': typeof import("../components/footer.vue")['default']
+      'FeaturedStore': typeof import("../components/featuredStore.vue")['default']
+    'Footer': typeof import("../components/footer.vue")['default']
     'Header': typeof import("../components/header.vue")['default']
     'Hero': typeof import("../components/hero.vue")['default']
     'NuxtWelcome': typeof import("../node_modules/nuxt/dist/app/components/welcome")['default']
@@ -28,7 +29,8 @@ interface _GlobalComponents {
     'Body': typeof import("../node_modules/nuxt/dist/head/runtime/components")['Body']
     'NuxtIsland': typeof import("../node_modules/nuxt/dist/app/components/nuxt-island")['default']
     'NuxtRouteAnnouncer': IslandComponent<typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['default']>
-      'LazyFooter': typeof import("../components/footer.vue")['default']
+      'LazyFeaturedStore': typeof import("../components/featuredStore.vue")['default']
+    'LazyFooter': typeof import("../components/footer.vue")['default']
     'LazyHeader': typeof import("../components/header.vue")['default']
     'LazyHero': typeof import("../components/hero.vue")['default']
     'LazyNuxtWelcome': typeof import("../node_modules/nuxt/dist/app/components/welcome")['default']
@@ -68,6 +70,7 @@ declare module 'vue' {
   export interface GlobalComponents extends _GlobalComponents { }
 }
 
+export const FeaturedStore: typeof import("../components/featuredStore.vue")['default']
 export const Footer: typeof import("../components/footer.vue")['default']
 export const Header: typeof import("../components/header.vue")['default']
 export const Hero: typeof import("../components/hero.vue")['default']
@@ -94,6 +97,7 @@ export const Html: typeof import("../node_modules/nuxt/dist/head/runtime/compone
 export const Body: typeof import("../node_modules/nuxt/dist/head/runtime/components")['Body']
 export const NuxtIsland: typeof import("../node_modules/nuxt/dist/app/components/nuxt-island")['default']
 export const NuxtRouteAnnouncer: IslandComponent<typeof import("../node_modules/nuxt/dist/app/components/server-placeholder")['default']>
+export const LazyFeaturedStore: typeof import("../components/featuredStore.vue")['default']
 export const LazyFooter: typeof import("../components/footer.vue")['default']
 export const LazyHeader: typeof import("../components/header.vue")['default']
 export const LazyHero: typeof import("../components/hero.vue")['default']
