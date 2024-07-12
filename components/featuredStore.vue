@@ -39,6 +39,127 @@
             </template>
         </Carousel>
     </div>
+    
+    <div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
+        <header class="flex w-full justify-content-between align-items-center  surface-border pb-5">
+            <div>
+                <h2 class="mt-0 mb-3 font-medium text-2xl text-900">Bon Marche</h2>
+            </div>
+            <Button class="shopnow feat" label="Shop Now" />
+        </header>
+        <Carousel :value="dummyProducts" :numVisible="5" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="3000">
+            <template #item="slotProps">
+                <div class="border-1 surface-border border-round m-2 p-3">
+                    <div class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto">
+                        <img :src="slotProps.data.image" class="w-full h-full object-cover">
+                    </div>
+                    <div class="mb-3 font-medium nametext">{{ addEllipsis(slotProps.data.name) }}</div>
+                    <div class="mb-4">
+                    </div>
+                    <div class="flex justify-content-between align-items-center">
+                        <span class="font-bold text-900 ml-2">${{ slotProps.data.price }}</span>
+                        <Button @click="navigateTo(slotProps.data.redirect_url, {external: true})" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
+                    </div>
+                </div>
+            </template>
+        </Carousel>
+        <Carousel :value="products" :numVisible="5" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="3000">
+            <template #item="slotProps">
+                <div class="border-1 surface-border border-round m-2 p-3">
+                    <div class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto">
+                        <img :src="slotProps.data.image" class="w-full h-full object-cover">
+                    </div>
+                    <div class="mb-3 font-medium nametext">{{ addEllipsis(slotProps.data.name) }}</div>
+                    <div class="mb-4">
+                    </div>
+                    <div class="flex justify-content-between align-items-center">
+                        <span class="font-bold text-900 ml-2">${{ slotProps.data.price }}</span>
+                        <Button @click="navigateTo(slotProps.data.redirect_url, {external: true})" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
+                    </div>
+                </div>
+            </template>
+        </Carousel>
+    </div>
+    <div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
+        <header class="flex w-full justify-content-between align-items-center  surface-border pb-5">
+            <div>
+                <h2 class="mt-0 mb-3 font-medium text-2xl text-900">Food Lovers</h2>
+            </div>
+            <Button class="shopnow feat" label="Shop Now" />
+        </header>
+        <Carousel :value="dummyProducts" :numVisible="5" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="3000">
+            <template #item="slotProps">
+                <div class="border-1 surface-border border-round m-2 p-3">
+                    <div class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto">
+                        <img :src="slotProps.data.image" class="w-full h-full object-cover">
+                    </div>
+                    <div class="mb-3 font-medium nametext">{{ addEllipsis(slotProps.data.name) }}</div>
+                    <div class="mb-4">
+                    </div>
+                    <div class="flex justify-content-between align-items-center">
+                        <span class="font-bold text-900 ml-2">${{ slotProps.data.price }}</span>
+                        <Button @click="navigateTo(slotProps.data.redirect_url, {external: true})" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
+                    </div>
+                </div>
+            </template>
+        </Carousel>
+        <Carousel :value="products" :numVisible="5" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="3000">
+            <template #item="slotProps">
+                <div class="border-1 surface-border border-round m-2 p-3">
+                    <div class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto">
+                        <img :src="slotProps.data.image" class="w-full h-full object-cover">
+                    </div>
+                    <div class="mb-3 font-medium nametext">{{ addEllipsis(slotProps.data.name) }}</div>
+                    <div class="mb-4">
+                    </div>
+                    <div class="flex justify-content-between align-items-center">
+                        <span class="font-bold text-900 ml-2">${{ slotProps.data.price }}</span>
+                        <Button @click="navigateTo(slotProps.data.redirect_url, {external: true})" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
+                    </div>
+                </div>
+            </template>
+        </Carousel>
+    </div>
+    <div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
+        <header class="flex w-full justify-content-between align-items-center  surface-border pb-5">
+            <div>
+                <h2 class="mt-0 mb-3 font-medium text-2xl text-900">OKmart</h2>
+            </div>
+            <Button class="shopnow feat" label="Shop Now" />
+        </header>
+        <Carousel :value="dummyProducts" :numVisible="5" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="3000">
+            <template #item="slotProps">
+                <div class="border-1 surface-border border-round m-2 p-3">
+                    <div class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto">
+                        <img :src="slotProps.data.image" class="w-full h-full object-cover">
+                    </div>
+                    <div class="mb-3 font-medium nametext">{{ addEllipsis(slotProps.data.name) }}</div>
+                    <div class="mb-4">
+                    </div>
+                    <div class="flex justify-content-between align-items-center">
+                        <span class="font-bold text-900 ml-2">${{ slotProps.data.price }}</span>
+                        <Button @click="navigateTo(slotProps.data.redirect_url, {external: true})" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
+                    </div>
+                </div>
+            </template>
+        </Carousel>
+        <Carousel :value="products" :numVisible="5" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="3000">
+            <template #item="slotProps">
+                <div class="border-1 surface-border border-round m-2 p-3">
+                    <div class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto">
+                        <img :src="slotProps.data.image" class="w-full h-full object-cover">
+                    </div>
+                    <div class="mb-3 font-medium nametext">{{ addEllipsis(slotProps.data.name) }}</div>
+                    <div class="mb-4">
+                    </div>
+                    <div class="flex justify-content-between align-items-center">
+                        <span class="font-bold text-900 ml-2">${{ slotProps.data.price }}</span>
+                        <Button @click="navigateTo(slotProps.data.redirect_url, {external: true})" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
+                    </div>
+                </div>
+            </template>
+        </Carousel>
+    </div>
 </template>
 
 <script lang="ts" setup>
