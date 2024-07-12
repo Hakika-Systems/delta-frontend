@@ -54,4 +54,7 @@
 .topcardstext {
     font-weight: 900 !important;
 }
+.text-900.topcardstext.font-medium.mb-1 {
+    font-weight: 900 !important;
+}
 </style>
