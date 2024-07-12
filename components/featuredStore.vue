@@ -2,7 +2,8 @@
     <div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
         <header class="flex w-full justify-content-between align-items-center  surface-border pb-5">
             <div>
-                <h2 class="mt-0 mb-3 font-medium text-2xl text-900">OK Zimbabwe</h2>
+                <img src="/images/logos/okzim.jpg" class="w-12rem flex-shrink-0 mx-auto md:mx-0">
+                <!-- <h2 class="mt-0 mb-3 font-medium text-2xl text-900">OK Zimbabwe</h2> -->
             </div>
             <Button class="shopnow feat" label="Shop Now" />
         </header>
@@ -43,7 +44,8 @@
     <div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
         <header class="flex w-full justify-content-between align-items-center  surface-border pb-5">
             <div>
-                <h2 class="mt-0 mb-3 font-medium text-2xl text-900">Bon Marche</h2>
+                <img src="/images/logos/bonmarche.png" class="w-12rem flex-shrink-0 mx-auto md:mx-0">
+                <!-- <h2 class="mt-0 mb-3 font-medium text-2xl text-900">Bon Marche</h2> -->
             </div>
             <Button class="shopnow feat" label="Shop Now" />
         </header>
@@ -83,7 +85,8 @@
     <div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
         <header class="flex w-full justify-content-between align-items-center  surface-border pb-5">
             <div>
-                <h2 class="mt-0 mb-3 font-medium text-2xl text-900">Food Lovers</h2>
+                <img src="/images/logos/foodlovers.png" class="w-12rem flex-shrink-0 mx-auto md:mx-0">
+                <!-- <h2 class="mt-0 mb-3 font-medium text-2xl text-900">Food Lovers</h2> -->
             </div>
             <Button class="shopnow feat" label="Shop Now" />
         </header>
@@ -123,7 +126,7 @@
     <div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
         <header class="flex w-full justify-content-between align-items-center  surface-border pb-5">
             <div>
-                <h2 class="mt-0 mb-3 font-medium text-2xl text-900">OKmart</h2>
+                <img src="/images/logos/okmart.jpg" class="w-12rem flex-shrink-0 mx-auto md:mx-0">
             </div>
             <Button class="shopnow feat" label="Shop Now" />
         </header>

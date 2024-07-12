@@ -7,7 +7,7 @@
     <div class="border-1 surface-border surface-card border-round p-3 flex flex-column md:flex-row align-items-center z-1">
       <i class="pi pi-truck  text-2xl md:text-4xl mb-2 md:mb-0 mr-0 md:mr-3 topicons"></i>
       <div>
-        <div class="text-900 font-medium mb-1">FREE DELIVERY</div>
+        <div class="text-900 topcardstext font-medium mb-1">FREE DELIVERY</div>
         <span class="text-600 text-sm hidden md:block">On Orders over $100</span>
       </div>
     </div>
@@ -17,7 +17,7 @@
     <div class="border-1 surface-border surface-card border-round p-3 flex flex-column md:flex-row align-items-center z-1">
       <i class="pi pi-android topicons text-2xl md:text-4xl mb-2 md:mb-0 mr-0 md:mr-3"></i>
       <div>
-        <div class="text-600 font-medium mb-1">GET THE SHOPPER CHOICE APP</div>
+        <div class="text-600 topcardstext font-medium mb-1">GET THE SHOPPER CHOICE APP</div>
         <span class="text-600 text-sm hidden md:block">Mall in your pocket</span>
       </div>
     </div>
@@ -27,7 +27,7 @@
     <div class="border-1 surface-border surface-card border-round p-3 flex flex-column md:flex-row align-items-center z-1">
       <i class="pi pi-credit-card topicons  text-2xl md:text-4xl mb-2 md:mb-0 mr-0 md:mr-3"></i>
       <div>
-        <div class="text-900 font-medium mb-1">SHOP OVER 3000 PRODUCTS</div>
+        <div class="text-900 topcardstext font-medium mb-1">SHOP OVER 3000 PRODUCTS</div>
         <span class="text-600 text-sm hidden md:block">Using Shop Easy card</span>
       </div>
     </div>
@@ -50,5 +50,8 @@
     color: white !important;
     padding: 10px !important;
     border-radius: 35px !important;
+}
+.topcardstext {
+    font-weight: 900 !important;
 }
 </style>
