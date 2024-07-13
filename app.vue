@@ -21,6 +21,12 @@ import  "~/public/assets/primeblocks.css"
 .p-button-label {
   font-family: "IBM Plex Sans" !important;
 }
+.p-component {
+    font-family: 'IBM Plex Sans' !important;
+    font-feature-settings: var(--font-feature-settings, normal);
+    font-size: 1rem;
+    font-weight: normal;
+}
 span.font-bold.text-900.ml-2 {
   font-family: "IBM Plex Sans" !important;
 }
