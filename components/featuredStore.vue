@@ -374,6 +374,9 @@ img.w-full.h-full.object-cover {
     width: auto !important;
     height: 155px !important;
 }
+img.w-12rem.flex-shrink-0.mx-auto.md\:mx-0 {
+    border-radius: 21px;
+}
 ul.p-carousel-indicators.p-reset {
     display: none;
 }
