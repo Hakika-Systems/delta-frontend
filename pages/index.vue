@@ -53,6 +53,12 @@
 .p-button-label {
   font-family: "IBM Plex Sans" !important;
 }
+.p-component {
+    font-family: 'IBM Plex Sans' !important;
+    font-feature-settings: var(--font-feature-settings, normal);
+    font-size: 1rem;
+    font-weight: normal;
+}
 
 .mb-3.font-medium.nametext {
    font-family: "IBM Plex Sans";
