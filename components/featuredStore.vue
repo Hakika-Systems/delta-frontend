@@ -17,7 +17,7 @@
                     <div class="mb-4">
                     </div>
                     <div class="flex justify-content-between align-items-center">
-                        <span class="font-bold text-900 ml-2">${{ slotProps.data.price }}</span>
+                        <span class="font-bold text-900 ml-2">{{currency}}{{slotProps.data.price ? formatCurrency(slotProps.data.price) :  formatCurrency(0)}}</span>
                         <Button @click="navigateTo(slotProps.data.redirect_url, {external: true})" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
                     </div>
                 </div>
@@ -33,7 +33,7 @@
                     <div class="mb-4">
                     </div>
                     <div class="flex justify-content-between align-items-center">
-                        <span class="font-bold text-900 ml-2">${{ slotProps.data.price }}</span>
+                        <span class="font-bold text-900 ml-2">{{currency}}{{slotProps.data.price ? formatCurrency(slotProps.data.price) :  formatCurrency(0)}}</span>
                         <Button @click="navigateTo(slotProps.data.redirect_url, {external: true})" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
                     </div>
                 </div>
@@ -59,7 +59,7 @@
                     <div class="mb-4">
                     </div>
                     <div class="flex justify-content-between align-items-center">
-                        <span class="font-bold text-900 ml-2">${{ slotProps.data.price }}</span>
+                        <span class="font-bold text-900 ml-2">{{currency}}{{slotProps.data.price ? formatCurrency(slotProps.data.price) :  formatCurrency(0)}}</span>
                         <Button @click="navigateTo(slotProps.data.redirect_url, {external: true})" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
                     </div>
                 </div>
@@ -75,7 +75,7 @@
                     <div class="mb-4">
                     </div>
                     <div class="flex justify-content-between align-items-center">
-                        <span class="font-bold text-900 ml-2">${{ slotProps.data.price }}</span>
+                        <span class="font-bold text-900 ml-2">{{currency}}{{slotProps.data.price ? formatCurrency(slotProps.data.price) :  formatCurrency(0)}}</span>
                         <Button @click="navigateTo(slotProps.data.redirect_url, {external: true})" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
                     </div>
                 </div>
@@ -100,7 +100,7 @@
                     <div class="mb-4">
                     </div>
                     <div class="flex justify-content-between align-items-center">
-                        <span class="font-bold text-900 ml-2">${{ slotProps.data.price }}</span>
+                        <span class="font-bold text-900 ml-2">{{currency}}{{slotProps.data.price ? formatCurrency(slotProps.data.price) :  formatCurrency(0)}}</span>
                         <Button @click="navigateTo(slotProps.data.redirect_url, {external: true})" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
                     </div>
                 </div>
@@ -116,7 +116,7 @@
                     <div class="mb-4">
                     </div>
                     <div class="flex justify-content-between align-items-center">
-                        <span class="font-bold text-900 ml-2">${{ slotProps.data.price }}</span>
+                        <span class="font-bold text-900 ml-2">{{currency}}{{slotProps.data.price ? formatCurrency(slotProps.data.price) :  formatCurrency(0)}}</span>
                         <Button @click="navigateTo(slotProps.data.redirect_url, {external: true})" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
                     </div>
                 </div>
@@ -140,7 +140,7 @@
                     <div class="mb-4">
                     </div>
                     <div class="flex justify-content-between align-items-center">
-                        <span class="font-bold text-900 ml-2">${{ slotProps.data.price }}</span>
+                        <span class="font-bold text-900 ml-2">{{currency}}{{slotProps.data.price ? formatCurrency(slotProps.data.price) :  formatCurrency(0)}}</span>
                         <Button @click="navigateTo(slotProps.data.redirect_url, {external: true})" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
                     </div>
                 </div>
@@ -156,7 +156,7 @@
                     <div class="mb-4">
                     </div>
                     <div class="flex justify-content-between align-items-center">
-                        <span class="font-bold text-900 ml-2">${{ slotProps.data.price }}</span>
+                        <span class="font-bold text-900 ml-2">{{currency}}{{slotProps.data.price ? formatCurrency(slotProps.data.price) :  formatCurrency(0)}}</span>
                         <Button @click="navigateTo(slotProps.data.redirect_url, {external: true})" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
                     </div>
                 </div>
@@ -343,9 +343,12 @@ const responsiveOptions = ref([
         numScroll: 1
     }
 ]);
-
+const currency = ref("USD")
 const addEllipsis = (str:string) => {
     return str.length > 23 ? str.slice(0, 23) + '...' : str;
+};
+const formatCurrency = (value:any) => {
+    return value.toLocaleString('en-US', { style: 'currency', currency: currency.value });
 };
 </script>
 
