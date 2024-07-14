@@ -315,7 +315,5 @@ const removeProduct = (index)=>{
 
 </script>
 <style>
-.payment{
-    box-shadow: 0 4px 10px #00000008, 0 0 2px green, 0 2px 6px #0000001f !important;
-}
+
 </style>
