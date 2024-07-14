@@ -3,24 +3,25 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { mkdirSync } from 'node:fs';
 import { parentPort, threadId } from 'node:worker_threads';
-import { defineEventHandler, handleCacheHeaders, splitCookiesString, isEvent, createEvent, fetchWithEvent, getRequestHeader, eventHandler, setHeaders, sendRedirect, proxyRequest, createError, setResponseHeader, send, getResponseStatus, setResponseStatus, setResponseHeaders, getRequestHeaders, createApp, createRouter as createRouter$1, toNodeListener, lazyEventHandler, getRouterParam, getQuery as getQuery$1, readBody, getResponseStatusText } from 'file://C:/Users/user/Documents/GitHub/okzimbabwe/node_modules/h3/dist/index.mjs';
-import { getRequestDependencies, getPreloadLinks, getPrefetchLinks, createRenderer } from 'file://C:/Users/user/Documents/GitHub/okzimbabwe/node_modules/vue-bundle-renderer/dist/runtime.mjs';
-import { stringify, uneval } from 'file://C:/Users/user/Documents/GitHub/okzimbabwe/node_modules/devalue/index.js';
-import destr from 'file://C:/Users/user/Documents/GitHub/okzimbabwe/node_modules/destr/dist/index.mjs';
-import { parseURL, withoutBase, joinURL, getQuery, withQuery, withTrailingSlash, joinRelativeURL } from 'file://C:/Users/user/Documents/GitHub/okzimbabwe/node_modules/ufo/dist/index.mjs';
-import { renderToString } from 'file://C:/Users/user/Documents/GitHub/okzimbabwe/node_modules/vue/server-renderer/index.mjs';
-import { hash } from 'file://C:/Users/user/Documents/GitHub/okzimbabwe/node_modules/ohash/dist/index.mjs';
-import { propsToString, renderSSRHead } from 'file://C:/Users/user/Documents/GitHub/okzimbabwe/node_modules/@unhead/ssr/dist/index.mjs';
-import { createFetch as createFetch$1, Headers as Headers$1 } from 'file://C:/Users/user/Documents/GitHub/okzimbabwe/node_modules/ofetch/dist/node.mjs';
-import { createCall, createFetch } from 'file://C:/Users/user/Documents/GitHub/okzimbabwe/node_modules/unenv/runtime/fetch/index.mjs';
-import { createHooks } from 'file://C:/Users/user/Documents/GitHub/okzimbabwe/node_modules/hookable/dist/index.mjs';
-import { klona } from 'file://C:/Users/user/Documents/GitHub/okzimbabwe/node_modules/klona/dist/index.mjs';
-import { snakeCase } from 'file://C:/Users/user/Documents/GitHub/okzimbabwe/node_modules/scule/dist/index.mjs';
-import defu, { defuFn } from 'file://C:/Users/user/Documents/GitHub/okzimbabwe/node_modules/defu/dist/defu.mjs';
-import { createStorage, prefixStorage } from 'file://C:/Users/user/Documents/GitHub/okzimbabwe/node_modules/unstorage/dist/index.mjs';
-import unstorage_47drivers_47fs from 'file://C:/Users/user/Documents/GitHub/okzimbabwe/node_modules/unstorage/drivers/fs.mjs';
-import { toRouteMatcher, createRouter } from 'file://C:/Users/user/Documents/GitHub/okzimbabwe/node_modules/radix3/dist/index.mjs';
+import { defineEventHandler, handleCacheHeaders, splitCookiesString, isEvent, createEvent, fetchWithEvent, getRequestHeader, eventHandler, setHeaders, sendRedirect, proxyRequest, createError, setResponseHeader, send, getResponseStatus, setResponseStatus, setResponseHeaders, getRequestHeaders, createApp, createRouter as createRouter$1, toNodeListener, lazyEventHandler, getRouterParam, getQuery as getQuery$1, readBody, getResponseStatusText } from 'file://C:/Users/simba/OneDrive/Desktop/okproject/ok/node_modules/h3/dist/index.mjs';
+import { getRequestDependencies, getPreloadLinks, getPrefetchLinks, createRenderer } from 'file://C:/Users/simba/OneDrive/Desktop/okproject/ok/node_modules/vue-bundle-renderer/dist/runtime.mjs';
+import { stringify, uneval } from 'file://C:/Users/simba/OneDrive/Desktop/okproject/ok/node_modules/devalue/index.js';
+import destr from 'file://C:/Users/simba/OneDrive/Desktop/okproject/ok/node_modules/destr/dist/index.mjs';
+import { parseURL, withoutBase, joinURL, getQuery, withQuery, withTrailingSlash, joinRelativeURL } from 'file://C:/Users/simba/OneDrive/Desktop/okproject/ok/node_modules/ufo/dist/index.mjs';
+import { renderToString } from 'file://C:/Users/simba/OneDrive/Desktop/okproject/ok/node_modules/vue/server-renderer/index.mjs';
+import { hash } from 'file://C:/Users/simba/OneDrive/Desktop/okproject/ok/node_modules/ohash/dist/index.mjs';
+import { propsToString, renderSSRHead } from 'file://C:/Users/simba/OneDrive/Desktop/okproject/ok/node_modules/@unhead/ssr/dist/index.mjs';
+import { createFetch as createFetch$1, Headers as Headers$1 } from 'file://C:/Users/simba/OneDrive/Desktop/okproject/ok/node_modules/ofetch/dist/node.mjs';
+import { createCall, createFetch } from 'file://C:/Users/simba/OneDrive/Desktop/okproject/ok/node_modules/unenv/runtime/fetch/index.mjs';
+import { createHooks } from 'file://C:/Users/simba/OneDrive/Desktop/okproject/ok/node_modules/hookable/dist/index.mjs';
+import { klona } from 'file://C:/Users/simba/OneDrive/Desktop/okproject/ok/node_modules/klona/dist/index.mjs';
+import { snakeCase } from 'file://C:/Users/simba/OneDrive/Desktop/okproject/ok/node_modules/scule/dist/index.mjs';
+import defu, { defuFn } from 'file://C:/Users/simba/OneDrive/Desktop/okproject/ok/node_modules/defu/dist/defu.mjs';
+import { createStorage, prefixStorage } from 'file://C:/Users/simba/OneDrive/Desktop/okproject/ok/node_modules/unstorage/dist/index.mjs';
+import unstorage_47drivers_47fs from 'file://C:/Users/simba/OneDrive/Desktop/okproject/ok/node_modules/unstorage/drivers/fs.mjs';
+import { toRouteMatcher, createRouter } from 'file://C:/Users/simba/OneDrive/Desktop/okproject/ok/node_modules/radix3/dist/index.mjs';
 import { AsyncLocalStorage } from 'node:async_hooks';
+<<<<<<< HEAD
 import { consola } from 'file://C:/Users/user/Documents/GitHub/okzimbabwe/node_modules/consola/dist/index.mjs';
 import { getContext } from 'file://C:/Users/user/Documents/GitHub/okzimbabwe/node_modules/unctx/dist/index.mjs';
 import * as vue$1 from 'file://C:/Users/user/Documents/GitHub/okzimbabwe/node_modules/vue/index.mjs';
@@ -29,6 +30,16 @@ import BaseStyle$8 from 'file://C:/Users/user/Documents/GitHub/okzimbabwe/node_m
 import { Theme } from 'file://C:/Users/user/Documents/GitHub/okzimbabwe/node_modules/@primeuix/styled/index.mjs';
 import { createServerHead as createServerHead$1, CapoPlugin } from 'file://C:/Users/user/Documents/GitHub/okzimbabwe/node_modules/unhead/dist/index.mjs';
 import { defineHeadPlugin } from 'file://C:/Users/user/Documents/GitHub/okzimbabwe/node_modules/@unhead/shared/dist/index.mjs';
+=======
+import { consola } from 'file://C:/Users/simba/OneDrive/Desktop/okproject/ok/node_modules/consola/dist/index.mjs';
+import { getContext } from 'file://C:/Users/simba/OneDrive/Desktop/okproject/ok/node_modules/unctx/dist/index.mjs';
+import * as vue$1 from 'file://C:/Users/simba/OneDrive/Desktop/okproject/ok/node_modules/vue/index.mjs';
+import { isVNode, version, unref } from 'file://C:/Users/simba/OneDrive/Desktop/okproject/ok/node_modules/vue/index.mjs';
+import BaseStyle$8 from 'file://C:/Users/simba/OneDrive/Desktop/okproject/ok/node_modules/@primevue/core/base/style/index.mjs';
+import { Theme } from 'file://C:/Users/simba/OneDrive/Desktop/okproject/ok/node_modules/@primeuix/styled/index.mjs';
+import { createServerHead as createServerHead$1, CapoPlugin } from 'file://C:/Users/simba/OneDrive/Desktop/okproject/ok/node_modules/unhead/dist/index.mjs';
+import { defineHeadPlugin } from 'file://C:/Users/simba/OneDrive/Desktop/okproject/ok/node_modules/@unhead/shared/dist/index.mjs';
+>>>>>>> checkoutform
 
 const r=Object.create(null),E=e=>globalThis.process?.env||globalThis._importMeta_.env||globalThis.Deno?.env.toObject()||globalThis.__env__||(e?r:globalThis),s=new Proxy(r,{get(e,o){return E()[o]??r[o]},has(e,o){const i=E();return o in i||o in r},set(e,o,i){const g=E(!0);return g[o]=i,!0},deleteProperty(e,o){if(!o)return !1;const i=E(!0);return delete i[o],!0},ownKeys(){const e=E(!0);return Object.keys(e)}}),t=typeof process<"u"&&process.env&&"development"||"",p=[["APPVEYOR"],["AWS_AMPLIFY","AWS_APP_ID",{ci:!0}],["AZURE_PIPELINES","SYSTEM_TEAMFOUNDATIONCOLLECTIONURI"],["AZURE_STATIC","INPUT_AZURE_STATIC_WEB_APPS_API_TOKEN"],["APPCIRCLE","AC_APPCIRCLE"],["BAMBOO","bamboo_planKey"],["BITBUCKET","BITBUCKET_COMMIT"],["BITRISE","BITRISE_IO"],["BUDDY","BUDDY_WORKSPACE_ID"],["BUILDKITE"],["CIRCLE","CIRCLECI"],["CIRRUS","CIRRUS_CI"],["CLOUDFLARE_PAGES","CF_PAGES",{ci:!0}],["CODEBUILD","CODEBUILD_BUILD_ARN"],["CODEFRESH","CF_BUILD_ID"],["DRONE"],["DRONE","DRONE_BUILD_EVENT"],["DSARI"],["GITHUB_ACTIONS"],["GITLAB","GITLAB_CI"],["GITLAB","CI_MERGE_REQUEST_ID"],["GOCD","GO_PIPELINE_LABEL"],["LAYERCI"],["HUDSON","HUDSON_URL"],["JENKINS","JENKINS_URL"],["MAGNUM"],["NETLIFY"],["NETLIFY","NETLIFY_LOCAL",{ci:!1}],["NEVERCODE"],["RENDER"],["SAIL","SAILCI"],["SEMAPHORE"],["SCREWDRIVER"],["SHIPPABLE"],["SOLANO","TDDIUM"],["STRIDER"],["TEAMCITY","TEAMCITY_VERSION"],["TRAVIS"],["VERCEL","NOW_BUILDER"],["VERCEL","VERCEL",{ci:!1}],["VERCEL","VERCEL_ENV",{ci:!1}],["APPCENTER","APPCENTER_BUILD_ID"],["CODESANDBOX","CODESANDBOX_SSE",{ci:!1}],["STACKBLITZ"],["STORMKIT"],["CLEAVR"],["ZEABUR"],["CODESPHERE","CODESPHERE_APP_ID",{ci:!0}],["RAILWAY","RAILWAY_PROJECT_ID"],["RAILWAY","RAILWAY_SERVICE_ID"]];function B(){if(globalThis.process?.env)for(const e of p){const o=e[1]||e[0];if(globalThis.process?.env[o])return {name:e[0].toLowerCase(),...e[2]}}return globalThis.process?.env?.SHELL==="/bin/jsh"&&globalThis.process?.versions?.webcontainer?{name:"stackblitz",ci:!1}:{name:"",ci:!1}}const l=B(),d=l.name;function n(e){return e?e!=="false":!1}const I=globalThis.process?.platform||"",T=n(s.CI)||l.ci!==!1,R=n(globalThis.process?.stdout&&globalThis.process?.stdout.isTTY);n(s.DEBUG);const C=t==="test"||n(s.TEST);n(s.MINIMAL)||T||C||!R;const a=/^win/i.test(I);!n(s.NO_COLOR)&&(n(s.FORCE_COLOR)||(R||a)&&s.TERM!=="dumb"||T);const _=(globalThis.process?.versions?.node||"").replace(/^v/,"")||null;Number(_?.split(".")[0])||null;const W=globalThis.process||Object.create(null),c={versions:{}};new Proxy(W,{get(e,o){if(o==="env")return s;if(o in e)return e[o];if(o in c)return c[o]}});const A=globalThis.process?.release?.name==="node",L=!!globalThis.Bun||!!globalThis.process?.versions?.bun,D=!!globalThis.Deno,O=!!globalThis.fastly,S=!!globalThis.Netlify,N=!!globalThis.EdgeRuntime,u=globalThis.navigator?.userAgent==="Cloudflare-Workers",b=!!globalThis.__lagon__,F=[[S,"netlify"],[N,"edge-light"],[u,"workerd"],[O,"fastly"],[D,"deno"],[L,"bun"],[A,"node"],[b,"lagon"]];function G(){const e=F.find(o=>o[0]);if(e)return {name:e[1]}}const P=G();P?.name||"";
 
@@ -6021,7 +6032,7 @@ new Proxy(/* @__PURE__ */ Object.create(null), {
   }
 });
 
-const serverAssets = [{"baseName":"server","dir":"C:/Users/user/Documents/GitHub/okzimbabwe/server/assets"}];
+const serverAssets = [{"baseName":"server","dir":"C:/Users/simba/OneDrive/Desktop/okproject/ok/server/assets"}];
 
 const assets = createStorage();
 
@@ -6033,11 +6044,11 @@ const storage = createStorage({});
 
 storage.mount('/assets', assets);
 
-storage.mount('root', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"C:\\Users\\user\\Documents\\GitHub\\okzimbabwe","ignore":["**/node_modules/**","**/.git/**"]}));
-storage.mount('src', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"C:\\Users\\user\\Documents\\GitHub\\okzimbabwe\\server","ignore":["**/node_modules/**","**/.git/**"]}));
-storage.mount('build', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"C:\\Users\\user\\Documents\\GitHub\\okzimbabwe\\.nuxt","ignore":["**/node_modules/**","**/.git/**"]}));
-storage.mount('cache', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"C:\\Users\\user\\Documents\\GitHub\\okzimbabwe\\.nuxt\\cache","ignore":["**/node_modules/**","**/.git/**"]}));
-storage.mount('data', unstorage_47drivers_47fs({"driver":"fs","base":"C:\\Users\\user\\Documents\\GitHub\\okzimbabwe\\.data\\kv","ignore":["**/node_modules/**","**/.git/**"]}));
+storage.mount('root', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"C:\\Users\\simba\\OneDrive\\Desktop\\okproject\\ok","ignore":["**/node_modules/**","**/.git/**"]}));
+storage.mount('src', unstorage_47drivers_47fs({"driver":"fs","readOnly":true,"base":"C:\\Users\\simba\\OneDrive\\Desktop\\okproject\\ok\\server","ignore":["**/node_modules/**","**/.git/**"]}));
+storage.mount('build', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"C:\\Users\\simba\\OneDrive\\Desktop\\okproject\\ok\\.nuxt","ignore":["**/node_modules/**","**/.git/**"]}));
+storage.mount('cache', unstorage_47drivers_47fs({"driver":"fs","readOnly":false,"base":"C:\\Users\\simba\\OneDrive\\Desktop\\okproject\\ok\\.nuxt\\cache","ignore":["**/node_modules/**","**/.git/**"]}));
+storage.mount('data', unstorage_47drivers_47fs({"driver":"fs","base":"C:\\Users\\simba\\OneDrive\\Desktop\\okproject\\ok\\.data\\kv","ignore":["**/node_modules/**","**/.git/**"]}));
 
 function useStorage(base = "") {
   return base ? prefixStorage(storage, base) : storage;
@@ -6487,20 +6498,20 @@ if (!window.__NUXT_DEVTOOLS_TIME_METRIC__) {
 window.__NUXT_DEVTOOLS_TIME_METRIC__.appInit = Date.now()
 `;
 
-const _qPNxwPR69a = (function(nitro) {
+const _u22ZxVEivG = (function(nitro) {
   nitro.hooks.hook("render:html", (htmlContext) => {
     htmlContext.head.push(`<script>${script}<\/script>`);
   });
 });
 
-const rootDir = "C:/Users/user/Documents/GitHub/okzimbabwe";
+const rootDir = "C:/Users/simba/OneDrive/Desktop/okproject/ok";
 
 const devReducers = {
   VNode: (data) => isVNode(data) ? { type: data.type, props: data.props } : void 0,
   URL: (data) => data instanceof URL ? data.toString() : void 0
 };
 const asyncContext = getContext("nuxt-dev", { asyncContext: true, AsyncLocalStorage });
-const _0nDrbjBGtq = (nitroApp) => {
+const _XNLiDlm1Vp = (nitroApp) => {
   const handler = nitroApp.h3App.handler;
   nitroApp.h3App.handler = (event) => {
     return asyncContext.callAsync({ logs: [], event }, () => handler(event));
@@ -8102,12 +8113,47 @@ var BaseStyle$6 = basestyle_cjs;
 function _interopDefaultLegacy$6 (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
 var BaseStyle__default$6 = /*#__PURE__*/_interopDefaultLegacy$6(BaseStyle$6);
+<<<<<<< HEAD
+=======
+
+var classes$6 = {
+  root: function root(_ref) {
+    var instance = _ref.instance,
+      props = _ref.props;
+    return ['p-inputtext p-component', {
+      'p-filled': instance.filled,
+      'p-inputtext-sm': props.size === 'small',
+      'p-inputtext-lg': props.size === 'large',
+      'p-invalid': props.invalid,
+      'p-variant-filled': props.variant ? props.variant === 'filled' : instance.$primevue.config.inputStyle === 'filled'
+    }];
+  }
+};
+var InputTextStyle = BaseStyle__default$6["default"].extend({
+  name: 'inputtext',
+  classes: classes$6
+});
+
+var inputtextstyle_cjs = InputTextStyle;
+
+const InputTextStyle$1 = /*@__PURE__*/getDefaultExportFromCjs(inputtextstyle_cjs);
+
+var BaseStyle$5 = basestyle_cjs;
+
+function _interopDefaultLegacy$5 (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+
+var BaseStyle__default$5 = /*#__PURE__*/_interopDefaultLegacy$5(BaseStyle$5);
+>>>>>>> checkoutform
 
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : String(i); }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+<<<<<<< HEAD
 var classes$6 = {
+=======
+var classes$5 = {
+>>>>>>> checkoutform
   root: function root(_ref) {
     var instance = _ref.instance,
       props = _ref.props;
@@ -8132,16 +8178,208 @@ var classes$6 = {
   },
   label: 'p-button-label'
 };
+<<<<<<< HEAD
 var ButtonStyle = BaseStyle__default$6["default"].extend({
   name: 'button',
   classes: classes$6
+=======
+var ButtonStyle = BaseStyle__default$5["default"].extend({
+  name: 'button',
+  classes: classes$5
+>>>>>>> checkoutform
 });
 
 var buttonstyle_cjs = ButtonStyle;
 
 const ButtonStyle$1 = /*@__PURE__*/getDefaultExportFromCjs(buttonstyle_cjs);
 
+<<<<<<< HEAD
 var BaseStyle$5 = basestyle_cjs;
+=======
+var BaseStyle$4 = basestyle_cjs;
+
+function _interopDefaultLegacy$4 (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+
+var BaseStyle__default$4 = /*#__PURE__*/_interopDefaultLegacy$4(BaseStyle$4);
+
+var classes$4 = {
+  root: 'p-inputgroup'
+};
+var InputGroupStyle = BaseStyle__default$4["default"].extend({
+  name: 'inputgroup',
+  classes: classes$4
+});
+
+var inputgroupstyle_cjs = InputGroupStyle;
+
+const InputGroupStyle$1 = /*@__PURE__*/getDefaultExportFromCjs(inputgroupstyle_cjs);
+
+var BaseStyle$3 = basestyle_cjs;
+
+function _interopDefaultLegacy$3 (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+
+var BaseStyle__default$3 = /*#__PURE__*/_interopDefaultLegacy$3(BaseStyle$3);
+
+var inlineStyles$1 = {
+  submenu: function submenu(_ref) {
+    var instance = _ref.instance,
+      processedItem = _ref.processedItem;
+    return {
+      display: instance.isItemActive(processedItem) ? 'block' : 'none'
+    };
+  }
+};
+var classes$3 = {
+  root: function root(_ref2) {
+    var instance = _ref2.instance,
+      props = _ref2.props;
+    return ['p-tieredmenu p-component', {
+      'p-tieredmenu-overlay': props.popup,
+      'p-ripple-disabled': instance.$primevue.config.ripple === false
+    }];
+  },
+  start: 'p-tieredmenu-start',
+  menu: 'p-tieredmenu-root-list',
+  menuitem: function menuitem(_ref3) {
+    var instance = _ref3.instance,
+      processedItem = _ref3.processedItem;
+    return ['p-menuitem', {
+      'p-menuitem-active p-highlight': instance.isItemActive(processedItem),
+      'p-focus': instance.isItemFocused(processedItem),
+      'p-disabled': instance.isItemDisabled(processedItem)
+    }];
+  },
+  content: 'p-menuitem-content',
+  action: 'p-menuitem-link',
+  icon: 'p-menuitem-icon',
+  text: 'p-menuitem-text',
+  submenuIcon: 'p-submenu-icon',
+  submenu: 'p-submenu-list',
+  separator: 'p-menuitem-separator',
+  end: 'p-tieredmenu-end'
+};
+var TieredMenuStyle = BaseStyle__default$3["default"].extend({
+  name: 'tieredmenu',
+  classes: classes$3,
+  inlineStyles: inlineStyles$1
+});
+
+var tieredmenustyle_cjs = TieredMenuStyle;
+
+const TieredMenuStyle$1 = /*@__PURE__*/getDefaultExportFromCjs(tieredmenustyle_cjs);
+
+var BaseStyle$2 = basestyle_cjs;
+
+function _interopDefaultLegacy$2 (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+
+var BaseStyle__default$2 = /*#__PURE__*/_interopDefaultLegacy$2(BaseStyle$2);
+
+var inlineStyles = {
+  submenu: function submenu(_ref) {
+    var instance = _ref.instance,
+      processedItem = _ref.processedItem;
+    return {
+      display: instance.isItemActive(processedItem) ? 'block' : 'none'
+    };
+  }
+};
+var classes$2 = {
+  root: function root(_ref2) {
+    var instance = _ref2.instance;
+    return ['p-megamenu p-component', {
+      'p-megamenu-mobile': instance.queryMatches,
+      'p-megamenu-mobile-active': instance.mobileActive,
+      'p-megamenu-horizontal': instance.horizontal,
+      'p-megamenu-vertical': instance.vertical
+    }];
+  },
+  start: 'p-megamenu-start',
+  menubutton: 'p-megamenu-button',
+  menu: 'p-megamenu-root-list',
+  submenuHeader: function submenuHeader(_ref3) {
+    var instance = _ref3.instance,
+      processedItem = _ref3.processedItem;
+    return ['p-megamenu-submenu-header p-submenu-header', {
+      'p-disabled': instance.isItemDisabled(processedItem)
+    }];
+  },
+  menuitem: function menuitem(_ref4) {
+    var instance = _ref4.instance,
+      processedItem = _ref4.processedItem;
+    return ['p-menuitem', {
+      'p-menuitem-active p-highlight': instance.isItemActive(processedItem),
+      'p-focus': instance.isItemFocused(processedItem),
+      'p-disabled': instance.isItemDisabled(processedItem)
+    }];
+  },
+  content: 'p-menuitem-content',
+  action: 'p-menuitem-link',
+  icon: 'p-menuitem-icon',
+  label: 'p-menuitem-text',
+  submenuIcon: 'p-submenu-icon',
+  panel: 'p-megamenu-panel',
+  grid: 'p-megamenu-grid',
+  column: function column(_ref5) {
+    var instance = _ref5.instance,
+      processedItem = _ref5.processedItem;
+    var length = instance.isItemGroup(processedItem) ? processedItem.items.length : 0;
+    var columnClass;
+    if (instance.$parentInstance.queryMatches) columnClass = 'p-megamenu-col-12';else {
+      switch (length) {
+        case 2:
+          columnClass = 'p-megamenu-col-6';
+          break;
+        case 3:
+          columnClass = 'p-megamenu-col-4';
+          break;
+        case 4:
+          columnClass = 'p-megamenu-col-3';
+          break;
+        case 6:
+          columnClass = 'p-megamenu-col-2';
+          break;
+        default:
+          columnClass = 'p-megamenu-col-12';
+          break;
+      }
+    }
+    return columnClass;
+  },
+  submenu: 'p-submenu-list p-megamenu-submenu',
+  submenuLabel: 'p-menuitem-text',
+  separator: 'p-menuitem-separator',
+  end: 'p-megamenu-end'
+};
+var MegaMenuStyle = BaseStyle__default$2["default"].extend({
+  name: 'megamenu',
+  classes: classes$2,
+  inlineStyles: inlineStyles
+});
+
+var megamenustyle_cjs = MegaMenuStyle;
+
+const MegaMenuStyle$1 = /*@__PURE__*/getDefaultExportFromCjs(megamenustyle_cjs);
+
+var BaseStyle$1 = basestyle_cjs;
+
+function _interopDefaultLegacy$1 (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+
+var BaseStyle__default$1 = /*#__PURE__*/_interopDefaultLegacy$1(BaseStyle$1);
+
+var classes$1 = {
+  root: 'p-badge p-component'
+};
+var BadgeDirectiveStyle = BaseStyle__default$1["default"].extend({
+  name: 'badge',
+  classes: classes$1
+});
+
+var badgedirectivestyle_cjs = BadgeDirectiveStyle;
+
+const BadgeDirectiveStyle$1 = /*@__PURE__*/getDefaultExportFromCjs(badgedirectivestyle_cjs);
+
+var BaseStyle = basestyle_cjs;
+>>>>>>> checkoutform
 
 function _interopDefaultLegacy$5 (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
@@ -8434,18 +8672,26 @@ const styleProps = {
 };
 const styles$2 = [
   ,
+<<<<<<< HEAD
   BaseStyle$8 && BaseStyle$8.getStyleSheet ? BaseStyle$8.getStyleSheet(undefined, styleProps) : '',ButtonStyle$1 && ButtonStyle$1.getStyleSheet ? ButtonStyle$1.getStyleSheet(undefined, styleProps) : '',CarouselStyle$1 && CarouselStyle$1.getStyleSheet ? CarouselStyle$1.getStyleSheet(undefined, styleProps) : '',InputTextStyle$1 && InputTextStyle$1.getStyleSheet ? InputTextStyle$1.getStyleSheet(undefined, styleProps) : '',InputGroupStyle$1 && InputGroupStyle$1.getStyleSheet ? InputGroupStyle$1.getStyleSheet(undefined, styleProps) : '',TieredMenuStyle$1 && TieredMenuStyle$1.getStyleSheet ? TieredMenuStyle$1.getStyleSheet(undefined, styleProps) : '',MegaMenuStyle$1 && MegaMenuStyle$1.getStyleSheet ? MegaMenuStyle$1.getStyleSheet(undefined, styleProps) : '',BadgeDirectiveStyle$1 && BadgeDirectiveStyle$1.getStyleSheet ? BadgeDirectiveStyle$1.getStyleSheet(undefined, styleProps) : ''
+=======
+  BaseStyle$8 && BaseStyle$8.getStyleSheet ? BaseStyle$8.getStyleSheet(undefined, styleProps) : '',InputTextStyle$1 && InputTextStyle$1.getStyleSheet ? InputTextStyle$1.getStyleSheet(undefined, styleProps) : '',ButtonStyle$1 && ButtonStyle$1.getStyleSheet ? ButtonStyle$1.getStyleSheet(undefined, styleProps) : '',InputGroupStyle$1 && InputGroupStyle$1.getStyleSheet ? InputGroupStyle$1.getStyleSheet(undefined, styleProps) : '',TieredMenuStyle$1 && TieredMenuStyle$1.getStyleSheet ? TieredMenuStyle$1.getStyleSheet(undefined, styleProps) : '',MegaMenuStyle$1 && MegaMenuStyle$1.getStyleSheet ? MegaMenuStyle$1.getStyleSheet(undefined, styleProps) : '',BadgeDirectiveStyle$1 && BadgeDirectiveStyle$1.getStyleSheet ? BadgeDirectiveStyle$1.getStyleSheet(undefined, styleProps) : '',CarouselStyle$1 && CarouselStyle$1.getStyleSheet ? CarouselStyle$1.getStyleSheet(undefined, styleProps) : ''
+>>>>>>> checkoutform
 ].join('');
 
 Theme.setTheme(options?.theme);
 
 const themes = [
     BaseStyle$8 && BaseStyle$8.getCommonThemeStyleSheet ? BaseStyle$8.getCommonThemeStyleSheet(undefined, styleProps) : '',
+<<<<<<< HEAD
     BaseStyle$8 && BaseStyle$8.getThemeStyleSheet ? BaseStyle$8.getThemeStyleSheet(undefined, styleProps) : '',ButtonStyle$1 && ButtonStyle$1.getThemeStyleSheet ? ButtonStyle$1.getThemeStyleSheet(undefined, styleProps) : '',CarouselStyle$1 && CarouselStyle$1.getThemeStyleSheet ? CarouselStyle$1.getThemeStyleSheet(undefined, styleProps) : '',InputTextStyle$1 && InputTextStyle$1.getThemeStyleSheet ? InputTextStyle$1.getThemeStyleSheet(undefined, styleProps) : '',InputGroupStyle$1 && InputGroupStyle$1.getThemeStyleSheet ? InputGroupStyle$1.getThemeStyleSheet(undefined, styleProps) : '',TieredMenuStyle$1 && TieredMenuStyle$1.getThemeStyleSheet ? TieredMenuStyle$1.getThemeStyleSheet(undefined, styleProps) : '',MegaMenuStyle$1 && MegaMenuStyle$1.getThemeStyleSheet ? MegaMenuStyle$1.getThemeStyleSheet(undefined, styleProps) : '',BadgeDirectiveStyle$1 && BadgeDirectiveStyle$1.getThemeStyleSheet ? BadgeDirectiveStyle$1.getThemeStyleSheet(undefined, styleProps) : ''
+=======
+    BaseStyle$8 && BaseStyle$8.getThemeStyleSheet ? BaseStyle$8.getThemeStyleSheet(undefined, styleProps) : '',InputTextStyle$1 && InputTextStyle$1.getThemeStyleSheet ? InputTextStyle$1.getThemeStyleSheet(undefined, styleProps) : '',ButtonStyle$1 && ButtonStyle$1.getThemeStyleSheet ? ButtonStyle$1.getThemeStyleSheet(undefined, styleProps) : '',InputGroupStyle$1 && InputGroupStyle$1.getThemeStyleSheet ? InputGroupStyle$1.getThemeStyleSheet(undefined, styleProps) : '',TieredMenuStyle$1 && TieredMenuStyle$1.getThemeStyleSheet ? TieredMenuStyle$1.getThemeStyleSheet(undefined, styleProps) : '',MegaMenuStyle$1 && MegaMenuStyle$1.getThemeStyleSheet ? MegaMenuStyle$1.getThemeStyleSheet(undefined, styleProps) : '',BadgeDirectiveStyle$1 && BadgeDirectiveStyle$1.getThemeStyleSheet ? BadgeDirectiveStyle$1.getThemeStyleSheet(undefined, styleProps) : '',CarouselStyle$1 && CarouselStyle$1.getThemeStyleSheet ? CarouselStyle$1.getThemeStyleSheet(undefined, styleProps) : ''
+>>>>>>> checkoutform
 ].join('');
 
 const defineNitroPlugin = (def) => def;
-const _LbfdogAdQD = defineNitroPlugin(async (nitroApp) => {
+const _3EtREU4gZo = defineNitroPlugin(async (nitroApp) => {
   nitroApp.hooks.hook("render:html", (html) => {
     html.head.unshift(stylesToTop);
     html.head.push(styles$2);
@@ -8454,9 +8700,9 @@ const _LbfdogAdQD = defineNitroPlugin(async (nitroApp) => {
 });
 
 const plugins = [
-  _qPNxwPR69a,
-_0nDrbjBGtq,
-_LbfdogAdQD
+  _u22ZxVEivG,
+_XNLiDlm1Vp,
+_3EtREU4gZo
 ];
 
 const errorHandler = (async function errorhandler(error, event) {
@@ -8519,11 +8765,11 @@ const errorHandler = (async function errorhandler(error, event) {
   return send(event, html);
 });
 
-const _lazy_N5aQYl = () => Promise.resolve().then(function () { return renderer$1; });
+const _lazy_VIhUHW = () => Promise.resolve().then(function () { return renderer$1; });
 
 const handlers = [
-  { route: '/__nuxt_error', handler: _lazy_N5aQYl, lazy: true, middleware: false, method: undefined },
-  { route: '/**', handler: _lazy_N5aQYl, lazy: true, middleware: false, method: undefined }
+  { route: '/__nuxt_error', handler: _lazy_VIhUHW, lazy: true, middleware: false, method: undefined },
+  { route: '/**', handler: _lazy_VIhUHW, lazy: true, middleware: false, method: undefined }
 ];
 
 function createNitroApp() {
@@ -8788,8 +9034,8 @@ const appTeleportAttrs = {"id":"teleports"};
 
 globalThis.__buildAssetsURL = buildAssetsURL;
 globalThis.__publicAssetsURL = publicAssetsURL;
-const getClientManifest = () => import('file://C:/Users/user/Documents/GitHub/okzimbabwe/.nuxt/dist/server/client.manifest.mjs').then((r) => r.default || r).then((r) => typeof r === "function" ? r() : r);
-const getServerEntry = () => import('file://C:/Users/user/Documents/GitHub/okzimbabwe/.nuxt/dist/server/server.mjs').then((r) => r.default || r);
+const getClientManifest = () => import('file://C:/Users/simba/OneDrive/Desktop/okproject/ok/.nuxt/dist/server/client.manifest.mjs').then((r) => r.default || r).then((r) => typeof r === "function" ? r() : r);
+const getServerEntry = () => import('file://C:/Users/simba/OneDrive/Desktop/okproject/ok/.nuxt/dist/server/server.mjs').then((r) => r.default || r);
 const getSSRStyles = lazyCachedFunction(() => Promise.resolve().then(function () { return styles$1; }).then((r) => r.default || r));
 const getSSRRenderer = lazyCachedFunction(async () => {
   const manifest = await getClientManifest();
