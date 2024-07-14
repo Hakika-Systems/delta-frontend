@@ -28,7 +28,7 @@
  <i v-badge.danger="'5'" class="pi pi-shopping-cart carticon" style="font-size: 1rem" />
   </div>
 </div>
-<div class="foodloversheader py-3 px-6 shadow-2 flex align-items-center justify-content-between relative lg:static">
+<div class="foodloversheader px-6 shadow-2 flex align-items-center justify-content-between relative lg:static">
   <div class="row col-12 flex">
      <div class="col-2">
         <TieredMenu class="shopbyisle" :model="vertical_items" />
