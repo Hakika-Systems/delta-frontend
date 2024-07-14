@@ -1,10 +1,45 @@
 <template>
     <shopHeader />
-<div class="surface-section px-4 py-8 md:px-6 lg:px-8">
+    <div class="surface-section h-30rem bg-no-repeat bg-cover bg-center flex align-items-center" style="background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(&quot;/images/food.png?w=1060&quot;);">
+  <!-- <div class="px-4 mx-4 lg:px-6 lg:mx-6">
+    <span class="block text-3xl text-white mb-4">New Trend</span>
+    <span class="block text-5xl font-medium text-white mb-4">Special Collection</span>
+    <a tabindex="0" class="py-2 w-13rem text-center block mb-4 text-xl text-white font-medium border-2 cursor-pointer surface-border-0 border-round bg-white-alpha-30 p-ripple" data-pd-ripple="true">Explore Collection <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
+    </a>
+  </div> -->
+</div>
+    <div class="surface-section px-4 py-8 md:px-6 lg:px-8">
   <div class="flex justify-content-between flex-wrap">
     <div class="flex align-items-center mb-4 md:mb-0">
       <div class="text-900 font-bold text-3xl">Featured Products</div>
-      <span class="p-badge p-component ml-3 bg-gray-200 text-gray-900 p-0 border-circle" data-pc-name="badge" data-pc-section="root">76</span>
+    </div>
+  </div>
+   <div class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left" role="separator" aria-orientation="horizontal" data-pc-name="divider" data-pc-section="root" styleclass="w-full border-gray-200" style="justify-content: center;">
+    <!---->
+  </div>
+  
+    <Carousel :value="dummyProducts" :numVisible="5" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="3000">
+            <template #item="slotProps">
+                <div class="border-1 surface-border border-round m-2 p-3">
+                    <div class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto">
+                        <img :src="slotProps.data.image" class="w-full h-full object-cover">
+                    </div>
+                    <div class="mb-3 font-medium nametext">{{ addEllipsis(slotProps.data.name) }}</div>
+                    <div class="mb-4">
+                    </div>
+                    <div class="flex justify-content-between align-items-center">
+                        <span class="font-bold text-900 ml-2">{{currency}}{{slotProps.data.price ? formatCurrency(slotProps.data.price) :  formatCurrency(0)}}</span>
+                        <Button @click="navigateTo(slotProps.data.redirect_url, {external: true})" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
+                    </div>
+                </div>
+            </template>
+        </Carousel>
+
+</div>
+<div class="surface-section px-4 py-8 md:px-6 lg:px-8">
+  <div class="flex justify-content-between flex-wrap">
+    <div class="flex align-items-center mb-4 md:mb-0">
+      <div class="text-900 font-bold text-3xl">All Products</div>
     </div>
     <div>
       <button class="p-button p-component p-button-outlined p-button-secondary w-7rem p-2" type="button" aria-label="Sort By" data-pc-name="button" data-pc-section="root" data-pd-ripple="true">
@@ -23,7 +58,7 @@
     <div class="col-12 md:col-12 lg:col-12"">
         <div class="p-multiselect p-component p-inputwrapper p-inputwrapper-filled flex-auto lg:flex-1 mb-3 lg:mt-0 mr-0 lg:mr-4 text-900 w-16rem" data-pc-name="multiselect" data-pc-section="root">
       <div class="p-hidden-accessible" data-pc-section="hiddeninputwrapper" data-p-hidden-accessible="true">
-        <input type="text" readonly="" placeholder="Brand" tabindex="0" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="pv_id_4_list" data-pc-section="hiddeninput">
+        <input type="text" placeholder="Brand" tabindex="0" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="pv_id_4_list" data-pc-section="hiddeninput">
       </div>
       <div class="p-multiselect-label-container" data-pc-section="labelcontainer">
         <div class="p-multiselect-label" data-pc-section="label">Alfred, Hyper</div>
@@ -36,7 +71,7 @@
     </div>
     <div class="p-multiselect p-component p-inputwrapper p-inputwrapper-filled flex-auto lg:flex-1 mb-3 lg:mt-0 mr-0 lg:mr-4 text-900 w-16rem" data-pc-name="multiselect" data-pc-section="root">
       <div class="p-hidden-accessible" data-pc-section="hiddeninputwrapper" data-p-hidden-accessible="true">
-        <input type="text" readonly="" placeholder="Color" tabindex="0" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="pv_id_5_list" data-pc-section="hiddeninput">
+        <input type="text"  placeholder="Color" tabindex="0" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="pv_id_5_list" data-pc-section="hiddeninput">
       </div>
       <div class="p-multiselect-label-container" data-pc-section="labelcontainer">
         <div class="p-multiselect-label" data-pc-section="label">Black</div>
@@ -49,7 +84,7 @@
     </div>
     <div class="p-multiselect p-component p-inputwrapper flex-auto lg:flex-1 mb-3 lg:mt-0 mr-0 lg:mr-4 text-900 w-16rem" data-pc-name="multiselect" data-pc-section="root">
       <div class="p-hidden-accessible" data-pc-section="hiddeninputwrapper" data-p-hidden-accessible="true">
-        <input type="text" readonly="" placeholder="Price" tabindex="0" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="pv_id_6_list" data-pc-section="hiddeninput">
+        <input type="text"  placeholder="Price" tabindex="0" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-controls="pv_id_6_list" data-pc-section="hiddeninput">
       </div>
       <div class="p-multiselect-label-container" data-pc-section="labelcontainer">
         <div class="p-multiselect-label p-placeholder" data-pc-section="label">Price</div>
@@ -101,7 +136,119 @@
 </div>
 </template>
 <script setup lang="ts">
+const responsiveOptions = ref([
+    {
+        breakpoint: '1400px',
+        numVisible: 2,
+        numScroll: 1
+    },
+    {
+        breakpoint: '1199px',
+        numVisible: 3,
+        numScroll: 1
+    },
+    {
+        breakpoint: '767px',
+        numVisible: 2,
+        numScroll: 1
+    },
+    {
+        breakpoint: '575px',
+        numVisible: 1,
+        numScroll: 1
+    }
+]);
 const dummyProducts = ref([
+    {
+        name: 'Nivea Body Lotion Q10 400ml',
+        image: '/images/products/nivea.jpg',
+        price: '29.99',
+        redirect_url: '/product/1'
+    },
+    {
+        name: "Babysoft 18's",
+        image: '/images/products/tissue.jpg',
+        price: '39.99',
+        redirect_url: '/product/2'
+    },
+    {
+        name: 'Vaseline Blue Seal Petroleum Jelly 100ml',
+        image: '/images/products/vaseline.jpg',
+        price: '49.99',
+        redirect_url: '/product/3'
+    },
+    {
+        name: 'Sunlight Dishwasher Lemon 750ml',
+        image: '/images/products/sunlight.jpg',
+        price: '59.99',
+        redirect_url: '/product/4'
+    },
+    {
+        name: 'Harpic Toilet Cleaner Potpourri 500ml',
+        image: '/images/products/harpic.jpg',
+        price: '69.99',
+        redirect_url: '/product/5'
+    },
+    {
+        name: 'Nivea Body Lotion Q10 400ml',
+        image: '/images/products/nivea.jpg',
+        price: '29.99',
+        redirect_url: '/product/1'
+    },
+    {
+        name: "Babysoft 18's",
+        image: '/images/products/tissue.jpg',
+        price: '39.99',
+        redirect_url: '/product/2'
+    },
+    {
+        name: 'Vaseline Blue Seal Petroleum Jelly 100ml',
+        image: '/images/products/vaseline.jpg',
+        price: '49.99',
+        redirect_url: '/product/3'
+    },
+    {
+        name: 'Sunlight Dishwasher Lemon 750ml',
+        image: '/images/products/sunlight.jpg',
+        price: '59.99',
+        redirect_url: '/product/4'
+    },
+    {
+        name: 'Harpic Toilet Cleaner Potpourri 500ml',
+        image: '/images/products/harpic.jpg',
+        price: '69.99',
+        redirect_url: '/product/5'
+    },
+    {
+        name: 'Nivea Body Lotion Q10 400ml',
+        image: '/images/products/nivea.jpg',
+        price: '29.99',
+        redirect_url: '/product/1'
+    },
+    {
+        name: "Babysoft 18's",
+        image: '/images/products/tissue.jpg',
+        price: '39.99',
+        redirect_url: '/product/2'
+    },
+    {
+        name: 'Vaseline Blue Seal Petroleum Jelly 100ml',
+        image: '/images/products/vaseline.jpg',
+        price: '49.99',
+        redirect_url: '/product/3'
+    },
+    {
+        name: 'Sunlight Dishwasher Lemon 750ml',
+        image: '/images/products/sunlight.jpg',
+        price: '59.99',
+        redirect_url: '/product/4'
+    },
+    {
+        name: 'Harpic Toilet Cleaner Potpourri 500ml',
+        image: '/images/products/harpic.jpg',
+        price: '69.99',
+        redirect_url: '/product/5'
+    },
     {
         name: 'Nivea Body Lotion Q10 400ml',
         image: '/images/products/nivea.jpg',
@@ -171,3 +318,94 @@ const formatCurrency = (value:any) => {
     return value.toLocaleString('en-US', { style: 'currency', currency: currency.value });
 };
 </script>
+<style>
+.p-tag {
+    background: #003e95;
+    color: #ffffff;
+    text-transform: uppercase;
+}
+button.p-button.p-component.p-button-icon-only.ml-2.cart {
+    background-color: #003e95;
+    border-color: #003e95;
+}
+button.p-button.p-component.p-button-icon-only.p-button-secondary.p-button-outlined.whishlist {
+    background-color: #d6200e;
+    color: white;
+}
+img.w-full.h-full.object-cover.border-round {
+    height: 100px !important;
+    width: auto !important;
+}
+img.w-full.h-full.object-cover {
+    width: auto !important;
+    height: 155px !important;
+}
+img.w-12rem.flex-shrink-0.mx-auto.md\:mx-0 {
+    border-radius: 21px;
+}
+ul.p-carousel-indicators.p-reset {
+    display: none;
+}
+.card.border-featured {
+    border-radius: 10px !important;
+}
+img.shop_logo {
+    width: auto;
+    height: 43px;
+}
+button.p-button.p-component.ml-2.cart.tagee {
+    background-image: linear-gradient(to right, #cb1400, #F44336) !important;
+    border: none;
+}
+button.p-button.p-component.shopnow.feat {
+    background-color: #dadada;
+    border-radius: 30px;
+    border: none;
+    color: black;
+}
+.border-1.surface-border.border-round.p-3 {
+    box-shadow: 0 5px 10px 0 rgba(41, 61, 102, .2) !important;
+}
+.okzimbabwe {
+    background-color: red;
+    padding: 10px;
+    border-radius: 25px;
+    color: white !important;
+    font-weight: 900 !important;
+    font-size: 25px !important;
+}
+button.p-button.p-component.ml-auto.cart {
+    background-color: #f7941f;
+    border: none;
+    border-radius: 33px;
+}
+.bonmarche {
+    background-color: red;
+    padding: 10px;
+    border-radius: 25px;
+    color: white !important;
+    font-weight: 900 !important;
+    font-size: 25px !important;
+}
+button.p-button.p-component.ok.addtocart.w-full {
+    border-radius: 20px;
+    background-color: red ;
+    border: none;
+}
+.foodlovers {
+    background-color: red;
+    padding: 10px;
+    border-radius: 25px;
+    color: white !important;
+    font-weight: 900 !important;
+    font-size: 25px !important;
+}
+.okmart {
+    background-color: red;
+    padding: 10px;
+    border-radius: 25px;
+    color: white !important;
+    font-weight: 900 !important;
+    font-size: 25px !important;
+}
+</style>
