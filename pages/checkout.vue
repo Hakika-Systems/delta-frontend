@@ -219,7 +219,7 @@
                 <div class="py-2 mt-3 border-bottom-1 surface-border">
                   <div class="flex justify-content-between align-items-center mb-3">
                     <span class="text-900">Subtotal</span>
-                    <span class="text-900">{{subtotal}}</span>
+                    <span class="text-900">{{formatPrice(subtotal)}}</span>
                   </div>
                   <div class="flex justify-content-between align-items-center mb-3">
                     <span class="text-900">Delivery</span>
@@ -227,7 +227,7 @@
                   </div>
                   <div class="flex justify-content-between align-items-center mb-3">
                     <span class="text-900">Total</span>
-                    <span class="text-900 font-bold">{{totalAmount}}</span>
+                    <span class="text-900 font-bold">{{formatPrice(totalAmount)}}</span>
                   </div>
                 </div>
                
