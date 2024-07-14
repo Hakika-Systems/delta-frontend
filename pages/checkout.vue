@@ -30,11 +30,6 @@
                   <label for="surname2" class="text-900 font-medium mb-3">Surname</label>
                   <InputText id="surname2" variant="filled" size="large" type="text" class="p-inputtext w-full mb-3"/>
                 </div>
-              
-                <div class="col-12 field mb-0">
-                  <label for="country2" class="text-900 font-medium mb-3">Country</label>
-                  <InputText id="country2"  variant="filled" size="large" type="text" class="p-inputtext w-full mb-3"/>
-                </div>
                 <div class="col-12 field mb-0">
                   <label for="address3" class="text-900 font-medium mb-3">Street Address </label>
                   <InputText variant="filled" size="large" id="address3" type="text" class="p-inputtext mb-3"/>
@@ -181,34 +176,30 @@
                     <i class="pi pi-shopping-cart text-xl mr-2"></i>Your Order (1) </span>
                   <a tabindex="0" class="text-600 font-medium cursor-pointer hover:text-primary">Edit Cart</a>
                 </div>
-                <div class="flex flex-column lg:flex-row flex-wrap lg:align-items-center py-3 my-3 border-bottom-1 surface-border">
-                  <img src="/images/products/jacobs_coffee.jpg" class="w-8rem h-8rem flex-shrink-0 mb-3">
+                <div v-for="(item, index) in dummyProducts" :key="index" class="flex flex-column lg:flex-row flex-wrap lg:align-items-center py-3 my-3 border-bottom-1 surface-border">
+                  <img :src="item.image" class="w-8rem h-8rem flex-shrink-0 mb-3">
                   <div class="flex-auto lg:ml-3">
                     <div class="flex align-items-center justify-content-between mb-3">
-                      <span class="text-900 font-medium">Product Title</span>
-                      <span class="text-900 font-bold">$123.00</span>
+                      <span class="text-900 font-medium">{{ item.name }}</span>
+                      <span class="text-900 font-bold">{{ formatPrice(totalPrices[index]) }}</span>
                     </div>
                     <div class="flex flex-auto justify-content-between align-items-center">
                       <span class="p-inputnumber p-component p-inputwrapper p-inputwrapper-filled p-inputnumber-buttons-horizontal border-1 surface-border border-round" data-pc-name="inputnumber" data-pc-section="root" spinnermode="horizontal">
-                        <input class="p-inputtext p-component p-inputnumber-input w-2rem text-center py-2 px-1 border-transparent" data-pc-name="inputtext" data-pc-section="input" role="spinbutton" aria-valuemin="0" aria-valuenow="1">
-                        <!---->
-                        <button class="p-button p-component p-button-icon-only p-inputnumber-button p-inputnumber-button-up p-button-text text-600 hover:text-primary py-1 px-1" type="button" data-pc-name="button" data-pc-section="incrementbutton" tabindex="-1" aria-hidden="true" data-pd-ripple="true">
+                        <input class="p-inputtext p-component p-inputnumber-input w-2rem text-center py-2 px-1 border-transparent" v-model="itemQuantities[index]" data-pc-name="inputtext" data-pc-section="input" role="spinbutton" aria-valuemin="0" aria-valuenow="1">
+                        <button @click="increment(index)" class="p-button p-component p-button-icon-only p-inputnumber-button p-inputnumber-button-up p-button-text text-600 hover:text-primary py-1 px-1" type="button" data-pc-name="button" data-pc-section="incrementbutton" tabindex="-1" aria-hidden="true" data-pd-ripple="true">
                           <span class="pi pi-plus" data-pc-section=""></span>
                           <span class="p-button-label" data-pc-section="label">&nbsp;</span>
-                          <!---->
                           <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
                         </button>
-                        <button class="p-button p-component p-button-icon-only p-inputnumber-button p-inputnumber-button-down p-button-text text-600 hover:text-primary py-1 px-1" type="button" data-pc-name="button" data-pc-section="decrementbutton" tabindex="-1" aria-hidden="true" data-pd-ripple="true">
+                        <button @click="decrement(index)" class="p-button p-component p-button-icon-only p-inputnumber-button p-inputnumber-button-down p-button-text text-600 hover:text-primary py-1 px-1" type="button" data-pc-name="button" data-pc-section="decrementbutton" tabindex="-1" aria-hidden="true" data-pd-ripple="true">
                           <span class="pi pi-minus" data-pc-section="decrementbuttonicon"></span>
                           <span class="p-button-label" data-pc-section="label">&nbsp;</span>
-                          <!---->
                           <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
                         </button>
                       </span>
-                      <button class="p-button p-component p-button-icon-only text-600 p-button-text p-button-rounded" type="button" data-pc-name="button" data-pc-section="root" data-pd-ripple="true">
+                      <button @click="removeProduct(index)" class="p-button p-component p-button-icon-only text-600 p-button-text p-button-rounded" type="button" data-pc-name="button" data-pc-section="root" data-pd-ripple="true">
                         <span class="p-button-icon pi pi-trash" data-pc-section="icon"></span>
                         <span class="p-button-label" data-pc-section="label">&nbsp;</span>
-                        <!---->
                         <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
                       </button>
                     </div>
@@ -228,7 +219,7 @@
                 <div class="py-2 mt-3 border-bottom-1 surface-border">
                   <div class="flex justify-content-between align-items-center mb-3">
                     <span class="text-900">Subtotal</span>
-                    <span class="text-900">$12.00</span>
+                    <span class="text-900">{{subtotal}}</span>
                   </div>
                   <div class="flex justify-content-between align-items-center mb-3">
                     <span class="text-900">Delivery</span>
@@ -236,7 +227,7 @@
                   </div>
                   <div class="flex justify-content-between align-items-center mb-3">
                     <span class="text-900">Total</span>
-                    <span class="text-900 font-bold">$12.00</span>
+                    <span class="text-900 font-bold">{{totalAmount}}</span>
                   </div>
                 </div>
                
@@ -263,13 +254,64 @@ const delivery_type = ref('')
 const fast_delivery = 7.00
 const standard_delivery = 1.50
 let items = ref(1)
+let price = ref(123.00)
+let total_item_price = ref()
+
+const dummyProducts = ref([
+  { shop_logo: '/images/logos/nivea.jpg', name: 'Nivea Body Lotion Q10 400ml', image: '/images/products/nivea.jpg', price: 29.99, redirect_url: '/product/1' },
+  { shop_logo: '/images/logos/shop2.jpg', name: "Babysoft 18's", image: '/images/products/tissue.jpg', price: 39.99, redirect_url: '/product/2' },
+  { shop_logo: '/images/logos/shop3.jpg', name: 'Vaseline Blue Seal Petroleum Jelly 100ml', image: '/images/products/vaseline.jpg', price: 49.99, redirect_url: '/product/3' },
+  { shop_logo: '/images/logos/shop4.jpg', name: 'Sunlight Dishwasher Lemon 750ml', image: '/images/products/sunlight.jpg', price: 59.99, redirect_url: '/product/4' },
+  { shop_logo: '/images/logos/shop5.jpg', name: 'Harpic Toilet Cleaner Potpourri 500ml', image: '/images/products/harpic.jpg', price: 69.99, redirect_url: '/product/5' },
+  { shop_logo: '/images/logos/shop6.jpg', name: 'Handy And All Purpose Cleaner Lavendar 750ml', image: '/images/products/handy_andy.jpg', price: 79.99, redirect_url: '/product/6' },
+  { shop_logo: '/images/logos/shop7.jpg', name: 'Raid', image: '/images/products/raid.jpg', price: 89.99, redirect_url: '/product/7' },
+  { shop_logo: '/images/logos/shop8.jpg', name: 'Sta Soft', image: '/images/sta-soft.jpg', price: 99.99, redirect_url: '/product/8' },
+]);
+
+const itemQuantities = ref(dummyProducts.value.map(() => 1));
+const totalPrices = computed(() => itemQuantities.value.map((quantity, index) => quantity * dummyProducts.value[index].price));
+
+const increment = (index) => {
+  itemQuantities.value[index]++;
+};
+
+const decrement = (index) => {
+  if (itemQuantities.value[index] > 1) {
+    itemQuantities.value[index]--;
+  }
+};
 
 
-const increment = ()=>{
-       item.value+=1
+const formatPrice = (price) => `$${price.toFixed(2)}`;
 
+const subtotal = computed(() => {
+  let total = 0;
+  for (let i = 0; i < dummyProducts.value.length; i++) {
+    total += itemQuantities.value[i] * dummyProducts.value[i].price;
+  }
+  return total;
+});
+
+const totalAmount = computed(() => {
+  let total = subtotal.value;
+  if (delivery_type.value == 'Fast Delivery') {
+    total += fast_delivery;
+  } else if (delivery_type.value == 'Standard Delivery') {
+    total += standard_delivery;
+  }
+
+  return total;
+  console.log('total',total)
+});
+
+const removeProduct = (index)=>{
+  dummyProducts.value.splice(index,1)
+  itemQuantities.value.splice(index, 1)
+  console.log('dumy',dummyProducts.value)
 
 }
+
+
 
 </script>
 <style>
