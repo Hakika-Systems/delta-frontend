@@ -193,7 +193,7 @@
                         <input class="p-inputtext p-component p-inputnumber-input w-2rem text-center py-2 px-1 border-transparent" data-pc-name="inputtext" data-pc-section="input" role="spinbutton" aria-valuemin="0" aria-valuenow="1">
                         <!---->
                         <button class="p-button p-component p-button-icon-only p-inputnumber-button p-inputnumber-button-up p-button-text text-600 hover:text-primary py-1 px-1" type="button" data-pc-name="button" data-pc-section="incrementbutton" tabindex="-1" aria-hidden="true" data-pd-ripple="true">
-                          <span class="pi pi-plus" data-pc-section="incrementbuttonicon"></span>
+                          <span class="pi pi-plus" data-pc-section=""></span>
                           <span class="p-button-label" data-pc-section="label">&nbsp;</span>
                           <!---->
                           <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
@@ -262,6 +262,14 @@ const delivery_option = ref('')
 const delivery_type = ref('')
 const fast_delivery = 7.00
 const standard_delivery = 1.50
+let items = ref(1)
+
+
+const increment = ()=>{
+       item.value+=1
+
+
+}
 
 </script>
 <style>
