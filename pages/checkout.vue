@@ -99,67 +99,31 @@
                   <div class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left w-full px-2 mb-3" role="separator" aria-orientation="horizontal" data-pc-name="divider" data-pc-section="root" style="justify-content: center;">
                     <!---->
                   </div>
-                <div class="text-900 font-medium text-xl mt-4 lg:mt-0 mb-4 px-2"> Select Payment Method</div>
-                <div class="col-12 mb-4">
-                  <div class="p-3 border-1 border-round-top surface-border">
-                    <div class="p-radiobutton p-component" data-pc-name="radiobutton" data-pc-section="root">
-                      <div class="p-hidden-accessible" data-pc-section="hiddeninputwrapper" data-p-hidden-accessible="true">
-                        <input id="paypal" type="radio" name="paypal" data-pc-section="hiddeninput" value="paypal">
-                      </div>
-                      <div class="p-radiobutton-box" data-pc-section="input" data-p-highlight="false" data-p-disabled="false" data-p-focused="false">
-                        <div class="p-radiobutton-icon" data-pc-section="icon"></div>
-                      </div>
-                    </div>
-                    <label for="paypal" class="text-900 ml-3">PayPal</label>
-                  </div>
-                  <div class="p-3 border-x-1 surface-border">
-                    <div class="p-radiobutton p-component" data-pc-name="radiobutton" data-pc-section="root">
-                      <div class="p-hidden-accessible" data-pc-section="hiddeninputwrapper" data-p-hidden-accessible="true">
-                        <input id="creditCard" type="radio" name="creditCard" data-pc-section="hiddeninput" value="creditcard">
-                      </div>
-                      <div class="p-radiobutton-box" data-pc-section="input" data-p-highlight="false" data-p-disabled="false" data-p-focused="false">
-                        <div class="p-radiobutton-icon" data-pc-section="icon"></div>
-                      </div>
-                    </div>
-                    <label for="creditCard" class="text-900 ml-3">Credit Card</label>
-                  </div>
-                  <div class="p-3 border-1 border-round-bottom surface-border">
-                    <div class="p-radiobutton p-component" data-pc-name="radiobutton" data-pc-section="root">
-                      <div class="p-hidden-accessible" data-pc-section="hiddeninputwrapper" data-p-hidden-accessible="true">
-                        <input id="bank" type="radio" name="bank" data-pc-section="hiddeninput" value="bank">
-                      </div>
-                      <div class="p-radiobutton-box" data-pc-section="input" data-p-highlight="false" data-p-disabled="false" data-p-focused="false">
-                        <div class="p-radiobutton-icon" data-pc-section="icon"></div>
-                      </div>
-                    </div>
-                    <label for="bank" class="text-900 ml-3">Online Bank Transfer</label>
+                <div class="text-900 col-12 font-medium text-xl mt-4 lg:mt-0 mb-4 px-2"> Select Payment Method</div>
+                <div class="col-6 p-3 d-flex justify-content-center align-items-center">
+                  <div class="flex flex-column border-round border-1 surface-border p-4 cursor-pointer hover:border-primary transition-duration-150 d-flex justify-content-center align-items-center">
+                    <img src="/images/shopEasy.png" class="w-8rem" alt="Visa" >
                   </div>
                 </div>
-                <div class="col-12 field mb-4">
-                  <form class="relative">
-                    <label for="cc" class="text-900 font-medium mb-3 block">Card Number</label>
-                    <input class="p-inputmask p-inputtext p-component" data-pc-name="inputmask" data-pc-section="root" placeholder="9999-9999-9999-9999" style="margin-right: 0.5em;">
-                    <!---->
-                  </form>
+                <div class="col-6 p-3 d-flex justify-content-center align-items-center">
+                  <div class="flex flex-column border-round border-1 surface-border p-4 cursor-pointer hover:border-primary transition-duration-150 d-flex justify-content-center align-items-center">
+                    <img src="/images/paynow1.png" class="w-8rem" alt="Visa">
+                  </div>
                 </div>
-                <div class="col-12 lg:col-6 field mb-4">
-                  <form class="relative">
-                    <label for="exp" class="text-900 font-medium mb-3 block">Expiry Date</label>
-                    <input class="p-inputmask p-inputtext p-component" data-pc-name="inputmask" data-pc-section="root" placeholder="99/99" style="margin-right: 0.5em;">
-                    <!---->
-                  </form>
+                <div class="col-6 p-3 d-flex justify-content-center align-items-center">
+                  <div class="flex flex-column border-round border-1 surface-border p-4 cursor-pointer hover:border-primary transition-duration-150 d-flex justify-content-center align-items-center">
+                    <img src="/images/cod.jpg" class="w-8rem" alt="Visa">
+                  </div>
                 </div>
-                <div class="col-12 lg:col-6 field mb-4">
-                  <form class="relative">
-                    <label for="cvc" class="text-900 font-medium mb-3 block">CVC</label>
-                    <input class="p-inputmask p-inputtext p-component" data-pc-name="inputmask" data-pc-section="root" placeholder="999" style="margin-right: 0.5em;">
-                    <!---->
-                  </form>
+                <div class="col-6 p-3 d-flex justify-content-center align-items-center">
+                  <div class="flex flex-column border-round border-1 surface-border p-4 cursor-pointer hover:border-primary transition-duration-150 d-flex justify-content-center align-items-center">
+                    <img src="/images/contipay.png" class="w-13rem" alt="Visa">
+                  </div>
                 </div>
-                <div class="col-12 field mb-0">
-                  <label for="holderName" class="text-900 font-medium mb-3">Cardholder Name</label>
-                  <InputText id="holderName" variant="filled" type="text" size="large"/>
-                </div>
+                
+
+                
+              
                 <div class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left w-full px-2 mb-3" role="separator" aria-orientation="horizontal" data-pc-name="divider" data-pc-section="root" style="justify-content: center;">
                     <!---->
                   </div>
