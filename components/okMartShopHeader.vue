@@ -2,7 +2,7 @@
     <div class="foodloversheader py-3 px-6 shadow-2 flex align-items-center justify-content-between relative lg:static">
       <!-- Logo -->
       <div class="flex items-center flex-grow-0">
-        <img src="/images/logos/foodlovers.png" alt="Image" height="50">
+        <img src="/images/logos/okmart.jpg" alt="Image" height="90">
       </div>
     
       <!-- Search Input -->
@@ -333,7 +333,7 @@
         align-items: center;
       }
       .foodloversheader {
-        background-color: #d91120!important;
+        background-color:  #ed2226!important;
         border-bottom: 0.5px solid #c5c5c5;
         border-top: none !important;
     }

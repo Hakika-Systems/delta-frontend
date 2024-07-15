@@ -1,6 +1,6 @@
 <template>
     <okShopHeader />
-    <div class="surface-section h-30rem bg-no-repeat bg-cover bg-center flex align-items-center" style="background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(&quot;/images/food.png?w=1060&quot;);">
+    <div class="surface-section h-30rem bg-no-repeat bg-cover bg-center flex align-items-center" style="background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(&quot;/images/okgrand.png?w=1060&quot;);">
   <!-- <div class="px-4 mx-4 lg:px-6 lg:mx-6">
     <span class="block text-3xl text-white mb-4">New Trend</span>
     <span class="block text-5xl font-medium text-white mb-4">Special Collection</span>
@@ -95,7 +95,7 @@
         </svg>
       </div>
     </div>
-    <div class="p-button p-togglebutton p-component p-highlight mb-3 lg:mt-0 mr-4 flex-shrink-0 w-12rem" data-pc-name="togglebutton" data-pc-section="root" data-p-active="true" data-pd-ripple="true">
+    <div class="p-button ok p-togglebutton p-component p-highlight mb-3 lg:mt-0 mr-4 flex-shrink-0 w-12rem" data-pc-name="togglebutton" data-pc-section="root" data-p-active="true" data-pd-ripple="true">
       <span class="p-hidden-accessible" data-pc-section="hiddeninputwrapper" data-p-hidden-accessible="true">
         <input type="checkbox" role="switch" class="" data-pc-section="hiddeninput" value="true">
       </span>
@@ -103,7 +103,7 @@
       <span class="p-button-label" data-pc-section="label">Sustainable</span>
       <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
     </div>
-    <div class="p-button p-togglebutton p-component mb-3 lg:mt-0 mr-4 flex-shrink-0 w-9rem" data-pc-name="togglebutton" data-pc-section="root" data-p-active="false" data-pd-ripple="true">
+    <div class="p-button ok p-togglebutton p-component mb-3 lg:mt-0 mr-4 flex-shrink-0 w-9rem" data-pc-name="togglebutton" data-pc-section="root" data-p-active="false" data-pd-ripple="true">
       <span class="p-hidden-accessible" data-pc-section="hiddeninputwrapper" data-p-hidden-accessible="true">
         <input type="checkbox" role="switch" class="" data-pc-section="hiddeninput" value="false">
       </span>
@@ -400,12 +400,8 @@ button.p-button.p-component.ok.addtocart.w-full {
     font-weight: 900 !important;
     font-size: 25px !important;
 }
-.okmart {
-    background-color: red;
-    padding: 10px;
-    border-radius: 25px;
-    color: white !important;
-    font-weight: 900 !important;
-    font-size: 25px !important;
+.ok {
+    background-color: #ed2226;
+    border-color: #ed2226;
 }
 </style>
