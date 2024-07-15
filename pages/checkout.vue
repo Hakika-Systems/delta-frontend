@@ -190,11 +190,14 @@
                     <span class="text-900"> {{delivery_type == 'Fast Delivery' ? ` $${fast_delivery}` :(delivery_type == 'Standard Delivery') ? `$${standard_delivery}`: 'Free'}}</span>
                   </div>
                   <div class="flex justify-content-between align-items-center mb-3">
+                    <span class="text-900">VAT</span>
+                    <span class="text-900">{{ formatPrice(vatAmount) }} </span>
+                  </div>
+                  <div class="flex justify-content-between align-items-center mb-3">
                     <span class="text-900">Total</span>
                     <span class="text-900 font-bold">{{formatPrice(totalAmount)}}</span>
                   </div>
                 </div>
-               
                 <button class="p-button p-component p-button-primary w-full mt-3" type="button" aria-label="Place Order" data-pc-name="button" data-pc-section="root" data-pd-ripple="true">
                   <!---->
                   <span class="p-button-label" data-pc-section="label">Place Order</span>
@@ -209,7 +212,7 @@
       <!---->
     </div>
 
-  </template>
+</template>
 <script setup>
 import InputText from 'primevue/inputtext';
 const ingredient = ref()
@@ -220,6 +223,7 @@ const standard_delivery = 1.50
 let items = ref(1)
 let price = ref(123.00)
 let total_item_price = ref()
+const VAT_RATE = 0.145; // 14.5% VAT rate
 
 const dummyProducts = ref([
   { shop_logo: '/images/logos/nivea.jpg', name: 'Nivea Body Lotion Q10 400ml', image: '/images/products/nivea.jpg', price: 29.99, redirect_url: '/product/1' },
@@ -256,8 +260,12 @@ const subtotal = computed(() => {
   return total;
 });
 
+const vatAmount = computed(() => subtotal.value * VAT_RATE);
+
+
+
 const totalAmount = computed(() => {
-  let total = subtotal.value;
+  let total = subtotal.value + vatAmount.value;
   if (delivery_type.value == 'Fast Delivery') {
     total += fast_delivery;
   } else if (delivery_type.value == 'Standard Delivery') {
