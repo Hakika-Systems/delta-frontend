@@ -29,7 +29,7 @@
                     </div>
                     <div class="flex justify-content-between align-items-center">
                         <span class="font-bold text-900 ml-2">{{currency}}{{slotProps.data.price ? formatCurrency(slotProps.data.price) :  formatCurrency(0)}}</span>
-                        <Button @click="navigateTo(slotProps.data.redirect_url, {external: true})" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
+                        <Button @click="addToCart(slotProps.data.id)" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
                     </div>
                 </div>
             </template>
@@ -126,7 +126,7 @@
         </div>
         <div class="flex justify-content-between align-items-center">
             <span class="font-bold text-900 ml-2">{{currency}}{{product.price ? formatCurrency(product.price) :  formatCurrency(0)}}</span>
-            <Button  icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
+            <Button @click="addToCart(product.id)"  icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
         </div>
       </div>
     </div>
@@ -136,6 +136,11 @@
 </div>
 </template>
 <script setup lang="ts">
+import { storeToRefs } from 'pinia';
+import { useFrontStore } from '~/stores/front';
+const toast = useToast()
+const frontStore = useFrontStore()
+const cart:any = storeToRefs(frontStore).cart
 const responsiveOptions = ref([
     {
         breakpoint: '1400px',
@@ -158,158 +163,7 @@ const responsiveOptions = ref([
         numScroll: 1
     }
 ]);
-const dummyProducts = ref([
-    {
-        name: 'Nivea Body Lotion Q10 400ml',
-        image: '/images/products/nivea.jpg',
-        price: '29.99',
-        redirect_url: '/product/1'
-    },
-    {
-        name: "Babysoft 18's",
-        image: '/images/products/tissue.jpg',
-        price: '39.99',
-        redirect_url: '/product/2'
-    },
-    {
-        name: 'Vaseline Blue Seal Petroleum Jelly 100ml',
-        image: '/images/products/vaseline.jpg',
-        price: '49.99',
-        redirect_url: '/product/3'
-    },
-    {
-        name: 'Sunlight Dishwasher Lemon 750ml',
-        image: '/images/products/sunlight.jpg',
-        price: '59.99',
-        redirect_url: '/product/4'
-    },
-    {
-        name: 'Harpic Toilet Cleaner Potpourri 500ml',
-        image: '/images/products/harpic.jpg',
-        price: '69.99',
-        redirect_url: '/product/5'
-    },
-    {
-        name: 'Nivea Body Lotion Q10 400ml',
-        image: '/images/products/nivea.jpg',
-        price: '29.99',
-        redirect_url: '/product/1'
-    },
-    {
-        name: "Babysoft 18's",
-        image: '/images/products/tissue.jpg',
-        price: '39.99',
-        redirect_url: '/product/2'
-    },
-    {
-        name: 'Vaseline Blue Seal Petroleum Jelly 100ml',
-        image: '/images/products/vaseline.jpg',
-        price: '49.99',
-        redirect_url: '/product/3'
-    },
-    {
-        name: 'Sunlight Dishwasher Lemon 750ml',
-        image: '/images/products/sunlight.jpg',
-        price: '59.99',
-        redirect_url: '/product/4'
-    },
-    {
-        name: 'Harpic Toilet Cleaner Potpourri 500ml',
-        image: '/images/products/harpic.jpg',
-        price: '69.99',
-        redirect_url: '/product/5'
-    },
-    {
-        name: 'Nivea Body Lotion Q10 400ml',
-        image: '/images/products/nivea.jpg',
-        price: '29.99',
-        redirect_url: '/product/1'
-    },
-    {
-        name: "Babysoft 18's",
-        image: '/images/products/tissue.jpg',
-        price: '39.99',
-        redirect_url: '/product/2'
-    },
-    {
-        name: 'Vaseline Blue Seal Petroleum Jelly 100ml',
-        image: '/images/products/vaseline.jpg',
-        price: '49.99',
-        redirect_url: '/product/3'
-    },
-    {
-        name: 'Sunlight Dishwasher Lemon 750ml',
-        image: '/images/products/sunlight.jpg',
-        price: '59.99',
-        redirect_url: '/product/4'
-    },
-    {
-        name: 'Harpic Toilet Cleaner Potpourri 500ml',
-        image: '/images/products/harpic.jpg',
-        price: '69.99',
-        redirect_url: '/product/5'
-    },
-    {
-        name: 'Nivea Body Lotion Q10 400ml',
-        image: '/images/products/nivea.jpg',
-        price: '29.99',
-        redirect_url: '/product/1'
-    },
-    {
-        name: "Babysoft 18's",
-        image: '/images/products/tissue.jpg',
-        price: '39.99',
-        redirect_url: '/product/2'
-    },
-    {
-        name: 'Vaseline Blue Seal Petroleum Jelly 100ml',
-        image: '/images/products/vaseline.jpg',
-        price: '49.99',
-        redirect_url: '/product/3'
-    },
-    {
-        name: 'Sunlight Dishwasher Lemon 750ml',
-        image: '/images/products/sunlight.jpg',
-        price: '59.99',
-        redirect_url: '/product/4'
-    },
-    {
-        name: 'Harpic Toilet Cleaner Potpourri 500ml',
-        image: '/images/products/harpic.jpg',
-        price: '69.99',
-        redirect_url: '/product/5'
-    },
-    {
-        name: 'Handy And All Purpose Cleaner Lavendar 750ml',
-        image: '/images/products/handy_andy.jpg',
-        price: '79.99',
-        redirect_url: '/product/6'
-    },
-    {
-        name: 'Raid',
-        image: '/images/products/raid.jpg',
-        price: '89.99',
-        redirect_url: '/product/7'
-    },
-    {
-        name: 'Sta Soft',
-        image: '/images/sta-soft.jpg',
-        price: '99.99',
-        redirect_url: '/product/8'
-    },
-    {
-        name: 'Geisha Soup',
-        image: '/images/products/geisha.jpg',
-        price: '99.99',
-        redirect_url: '/product/8'
-    },
-    {
-        name: 'Dettol Anti Bacterial Soap Even Tone 175g',
-        image: '/images/products/detol.jpg',
-        price: '99.99',
-        redirect_url: '/product/8'
-    }
-]);
+const dummyProducts = storeToRefs(frontStore).dummyProducts
 const currency = ref("USD")
 const addEllipsis = (str:string) => {
     return str.length > 23 ? str.slice(0, 23) + '...' : str;
@@ -317,8 +171,46 @@ const addEllipsis = (str:string) => {
 const formatCurrency = (value:any) => {
     return value.toLocaleString('en-US', { style: 'currency', currency: currency.value });
 };
+const addToCart = (product_id :any) => {
+  // Find the product in dummyProducts
+  const product = dummyProducts.value.find(prod => prod.id === product_id);
+  
+  if (!product) {
+    console.error('Product not found');
+    return;
+  }
+  
+  // Check if the product is already in the cart
+  const productInCart = cart.value.find((cartItem: any) => cartItem.id === product_id);
+  
+  if (productInCart) {
+    // Increase the quantity if the product is already in the cart
+    productInCart.quantity += 1;
+    toast.add({ severity: 'info', summary: 'Cart', detail: 'Product Added', life: 3000 });
+  } else {
+    // Add the product to the cart with quantity 1
+    cart.value.push({ ...product, quantity: 1 });
+    toast.add({ severity: 'info', summary: 'Cart', detail: 'Product Added', life: 3000 });
+  }
+};
+
 </script>
 <style>
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  animation: ripple-effect 0.6s linear;
+  background-color: rgba(255, 255, 255, 0.7);
+  pointer-events: none;
+}
+
+@keyframes ripple-effect {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
 .p-tag {
     background: #003e95;
     color: #ffffff;
