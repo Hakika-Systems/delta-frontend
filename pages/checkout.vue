@@ -30,22 +30,32 @@
                   <label for="surname2" class="text-900 font-medium mb-3">Surname</label>
                   <InputText id="surname2" variant="filled" size="large" type="text" class="p-inputtext w-full mb-3"/>
                 </div>
-                <div class="col-12 field mb-0">
-                  <label for="address3" class="text-900 font-medium mb-3">Street Address </label>
-                  <InputText variant="filled" size="large" id="address3" type="text" class="p-inputtext mb-3"/>
-                </div>
-                <div class="col-12 lg:col-6 field mb-0">
-                  <label for="city2" class="text-900 font-medium mb-3">City</label>
-                  <InputText variant="filled" size="large" type="text" class="p-inputtext w-full mb-3"/>
-                </div>
-                <div class="col-12   lg:col-6 field mb-0">
-                  <label for="phone" class="text-900 font-medium mb-3">Phone</label>
-                  <InputText variant="filled" size="large" type="text" class="p-inputtext w-full mb-3"/>
-                </div>
                 <div class="col-12  lg:col-6 field mb-0">
                   <label for="phone" class="text-900 font-medium mb-3">Email</label>
                   <InputText variant="filled" size="large" id="phone" type="text" class="p-inputtext w-full mb-3"/>
                 </div>
+                <div class="col-12  lg:col-6 field mb-0">
+                  <label for="phone" class="text-900 font-medium mb-3">Phone Number</label>
+                  <InputText variant="filled" size="large" id="phone" type="text" class="p-inputtext w-full mb-3"/>
+                </div>
+                <div class="col-12  lg:col-6 field mb-0">
+                  <label for="phone" class="text-900 font-medium mb-3">Whatsapp Number</label>
+                  <InputText variant="filled" size="large" id="phone" type="text" class="p-inputtext w-full mb-3"/>
+                </div>
+                <div class="col-12 lg:col-6 field mb-0">
+                  <label for="address3" class="text-900 font-medium mb-3"> House Number & Street Address </label>
+                  <InputText variant="filled" size="large" id="address3" type="text" class="p-inputtext mb-3"/>
+                </div>
+                <div class="col-12 lg:col-6 field mb-0">
+                  <label for="city2" class="text-900 font-medium mb-3">Surburb</label>
+                  <InputText variant="filled" size="large" type="text" class="p-inputtext w-full mb-3"/>
+                </div>
+                <div class="col-12 lg:col-6 field mb-0">
+                  <label for="city2" class="text-900 font-medium mb-3">City/Town</label>
+                  <InputText variant="filled" size="large" type="text" class="p-inputtext w-full mb-3"/>
+                </div>
+              
+               
                 <div class="col-12 field mb-0">
                   <label for="country2" class="text-900 font-medium mb-3">Create account password</label>
                   <InputText variant="filled" size="large"  id="country2" type="text" class="p-inputtext w-full mb-3"/>
