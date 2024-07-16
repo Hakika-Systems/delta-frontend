@@ -65,7 +65,7 @@
         <div class="col h-3rem  text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors">
             <img src="/images/logos/foodlovers.png" alt="M" class="h-3rem">
         </div>
-        <div class="col h-3rem  text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors">
+        <div @click="navigateTo('/okmart')" class="col h-3rem  text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors">
             <img src="/images/logos/okmart.jpg" alt="L" class="h-3rem">
         </div>
     </div>

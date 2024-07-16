@@ -7,12 +7,12 @@
     "module": true,
     "resourceType": "script"
   },
-  "C:/Users/simba/OneDrive/Desktop/okproject/ok/node_modules/nuxt/dist/app/entry.js": {
+  "C:/Users/user/Documents/GitHub/okzimbabwe/node_modules/nuxt/dist/app/entry.js": {
     "resourceType": "script",
     "module": true,
     "prefetch": true,
     "preload": true,
     "isEntry": true,
-    "file": "C:/Users/simba/OneDrive/Desktop/okproject/ok/node_modules/nuxt/dist/app/entry.js"
+    "file": "C:/Users/user/Documents/GitHub/okzimbabwe/node_modules/nuxt/dist/app/entry.js"
   }
 }
