@@ -8,7 +8,7 @@
     </a>
   </div> -->
 </div>
-    <div class="surface-section px-4 py-8 md:px-6 lg:px-8">
+    <div class="surface-section px-4 py-8 md:px-6 lg:px-8"> 
   <div class="flex justify-content-between flex-wrap">
     <div class="flex align-items-center mb-4 md:mb-0">
       <div class="text-900 font-bold text-3xl">Featured Products</div>
@@ -171,6 +171,7 @@ const addEllipsis = (str:string) => {
 const formatCurrency = (value:any) => {
     return value.toLocaleString('en-US', { style: 'currency', currency: currency.value });
 };
+
 const addToCart = (product_id :any) => {
   // Find the product in dummyProducts
   const product = dummyProducts.value.find(prod => prod.id === product_id);
