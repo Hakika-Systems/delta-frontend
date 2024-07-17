@@ -65,7 +65,7 @@
         <div class="col h-3rem  text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors">
             <img src="/images/logos/foodlovers.png" alt="M" class="h-3rem">
         </div>
-        <div @click="navigateTo('/okmart')" class="col h-3rem  text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors">
+        <div  @click="goToShop(shop_d)" class="col h-3rem  text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors">
             <img src="/images/logos/okmart.jpg" alt="L" class="h-3rem">
         </div>
     </div>
@@ -268,10 +268,11 @@
   </header>
 </template>
 
-<script>
-export default {
-  name: "Header",
-};
+<script setup lang="ts">
+const shop_d = ref("okmart")
+const goToShop = (shopName:any) => {
+     navigateTo(`/${shopName}`)
+}
 </script>
 <style scoped>
 .header-layout3 .header-top {
