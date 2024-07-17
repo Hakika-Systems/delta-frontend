@@ -31,7 +31,7 @@
         </InputGroupAddon>
         <InlineMessage severity="secondary">USD{{ cartTotal() }}</InlineMessage>
         <!-- <InputNumber v-model="cartTotal()" class="inputtotal" disabled placeholder="0.00" /> -->
-        <Button label="Checkout" icon="pi pi-angle-right" iconPos="right" severity="warn" />
+        <Button @click="navigateTo('/okMartCheckOut')" label="Checkout" icon="pi pi-angle-right" iconPos="right" severity="warn" />
     </InputGroup>
      <!-- <i v-badge.danger="'5'" class="pi pi-shopping-cart carticon" style="font-size: 1rem" /> -->
       </div>
@@ -80,7 +80,7 @@
                 </div>
             </div>
             <div>
-                <Button type="button" label="Checkout" class="w-full mt-2" />
+                <Button @click="navigateTo('/okMartCheckOut')" type="button" label="Checkout" class="w-full mt-2" />
         </div>
         </OverlayPanel>
       
