@@ -112,6 +112,7 @@ const addEllipsis = (str:string) => {
 const formatCurrency = (value:any) => {
   return value.toLocaleString('en-US', { style: 'currency', currency: currency.value });
 };
+
 const addToCart = (product_id :any) => {
 // Find the product in dummyProducts
 const product = dummyProducts.value.find(prod => prod.id === product_id);

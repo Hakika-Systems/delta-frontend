@@ -150,8 +150,8 @@
                     <i class="pi pi-shopping-cart text-xl mr-2"></i>Your Order (1) </span>
                   <a tabindex="0" class="text-600 font-medium cursor-pointer hover:text-primary">Edit Cart</a>
                 </div>
-                <div v-for="(item, index) in dummyProducts" :key="index" class="flex flex-column lg:flex-row flex-wrap lg:align-items-center py-3 my-3 border-bottom-1 surface-border">
-                  <img :src="item.image" class="w-8rem h-8rem flex-shrink-0 mb-3">
+                <div v-for="(item, index) in dummyProducts" :key="index" class="flex flex-column lg:flex-row flex-wrap lg:align-items-center py-1 my-3 border-bottom-1 surface-border">
+                  <img :src="item.image" class="w-5rem h-3rem flex-shrink-0 mb-3">
                   <div class="flex-auto lg:ml-3">
                     <div class="flex align-items-center justify-content-between mb-3">
                       <span class="text-900 font-medium">{{ item.name }}</span>
