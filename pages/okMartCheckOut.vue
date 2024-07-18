@@ -81,30 +81,31 @@
                 </div>
       
                 <div  v-if= "delivery_option == 'Delivery'" class="col-12 flex flex-column lg:flex-row field">
-                    <div class="flex justify-content-between p-3 border-round border-1 surface-border w-full mr-3 hover:border-primary cursor-pointer">
+                    <div @click="select_fast_delivery()" @mouseenter="select_fast_delivery()" class="flex justify-content-between p-3 border-round border-1 surface-border w-full mr-3 hover:border-primary cursor-pointer">
                       <div class="mr-3 lg:mr-0">
                         <div class="text-900 font-bold mb-2">Fast Delivery</div>
                       </div>
                       <div class="flex justify-content-between align-items-center">
                         <span class="text-primary mr-2 font-medium">$7.00</span>
                         <div class="flex items-center">
-                          <RadioButton variant="filled" v-model="delivery_type" inputId="ingredient1" name="pizza" value="Fast Delivery" />
+                        
                        </div> 
                       </div>
                     </div>
-                    <div class="flex justify-content-between p-3 mt-3 lg:mt-0 border-round border-1 surface-border w-full hover:border-primary cursor-pointer">
+                    <div @click="select_standard_delivery" class="flex justify-content-between p-3 mt-3 lg:mt-0 border-round border-1 surface-border w-full hover:border-primary cursor-pointer">
                       <div class="mr-3 lg:mr-0">
                         <div class="text-900 font-bold mb-2">Standard Delivery</div>
                         
                       </div>
-                      <div class="flex justify-content-between align-items-center">
+                      <div  class="flex justify-content-between align-items-center">
                         <span class="text-primary mr-2 font-medium">$1.50</span>
                         <div class="flex items-center">
-                       <RadioButton variant="filled" v-model="delivery_type" inputId="ingredient1" name="pizza" value="Standard Delivery" />
+                       
                       </div> 
                       </div>
                     </div>
                   </div>
+                  <div v-else></div>
                   <div class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left w-full px-2 mb-3" role="separator" aria-orientation="horizontal" data-pc-name="divider" data-pc-section="root" style="justify-content: center;">
                     <!---->
                   </div>
@@ -199,7 +200,7 @@
                   </div>
                   <div class="flex justify-content-between align-items-center mb-3">
                     <span class="text-900">VAT</span>
-                    <span class="text-900">${{ (vatAmount) }} </span>
+                    <span class="text-900">${{ (vatAmount).toFixed(2) }} </span>
                   </div>
                   <div class="flex justify-content-between align-items-center mb-3">
                     <span class="text-900">Total</span>
@@ -224,17 +225,18 @@
 <script setup lang="ts">
 const frontStore = useFrontStore()
 import InputText from 'primevue/inputtext';
-const ingredient = ref()
+
 const delivery_option = ref('')
 const delivery_type = ref('')
-const fast_delivery = ref(7.00)
+const fast_delivery = Number(7.00)
 const notes = ref('')
 const cart:any = storeToRefs(frontStore).cart
-const standard_delivery = ref(1.50)
+const standard_delivery = Number(1.50)
 let items = ref(1)
 let price = ref(123.00)
 let total_item_price = ref()
-const VAT_RATE = 0.145; // 14.5% VAT rate
+const VAT_RATE = Number(0.145); // 14.5% VAT rate
+console.log(typeof VAT_RATE)
 
 const dummyProducts = ref([
   { shop_logo: '/images/logos/nivea.jpg', name: 'Nivea Body Lotion Q10 400ml', image: '/images/products/nivea.jpg', price: 29.99, redirect_url: '/product/1' },
@@ -278,28 +280,43 @@ const lineTotal = (price:any, quantity:any) => {
 
 
 const subtotal = computed(() => {
-  let products_total = cartTotal()
-  if (delivery_type.value == 'Fast Delivery') {
-    products_total += fast_delivery;
-  } else if (delivery_type.value == 'Standard Delivery') {
-    products_total += standard_delivery;
-  }
-  return products_total;
+  let products_total = Number(cartTotal())
+  console.log('Initial products_total:', products_total);
+  
+  console.log('Final products_total:', products_total);
+  return Number(products_total);
 });
 
-const vatAmount = computed(() => (subtotal.value * VAT_RATE).toFixed(2));
+console.log(typeof subtotal.value)
+
+const vatAmount = computed(() => Number((subtotal.value) * VAT_RATE));
+console.log("simba",typeof vatAmount.value)
+
+const formatPrice = (valueToFormat) => {
+   return valueToFormat.toFixed(2)
+}
+
+const select_fast_delivery = ()=>{
+  delivery_type.value = "Fast Delivery"
+  console.log('sm',delivery_type.value)
+}
+
+const select_standard_delivery = ()=>{
+  delivery_type.value = "Standard Delivery"
+  console.log('standrd',delivery_type.value)
+}
 
 
 
 const totalAmount = computed(() => {
-  let total:any = (parseFloat(subtotal.value) + parseFloat(vatAmount.value));
+  let total:any = (subtotal.value + vatAmount.value);
   if (delivery_type.value === 'Fast Delivery') {
     total += fast_delivery;
   } else if (delivery_type.value === 'Standard Delivery') {
     total += standard_delivery;
   }
 
-  return total.toFixed(2);
+  return Number(total.toFixed(2));
 });
 
 
