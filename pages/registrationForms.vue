@@ -6,8 +6,18 @@
       
       <div class="flex justify-content-center mb-4">
         <ul class="p-2 m-0 list-none flex overflow-x-auto select-none">
+            <li @click="Individual_account()" @mouseenter="Individual_account()" class="px-3">
+            <a class="cursor-pointer px-4 py-3 flex align-items-center hover:surface-100 border-round transition-colors transition-duration-150 p-ripple text-700 hover:bg-primary" data-pd-ripple="true">
+              <i class="pi pi-cog mr-2"></i>
+              <span class="font-medium" >Individual</span>
+              <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
+            </a>
+          </li>
+          <li class="flex align-items-center">
+            <div class="border-right-1 surface-border" style="width: 1px; height: 50%;"></div>
+          </li>
           <li @click="Mukando()" @mouseenter="Mukando()" class="pr-3">
-            <a  class="cursor-pointer px-4 py-3 flex align-items-center hover:surface-100 border-round transition-colors transition-duration-150 p-ripple text-700" data-pd-ripple="true">
+            <a  class="cursor-pointer px-4 py-3 flex align-items-center hover:surface-100 border-round transition-colors transition-duration-150 p-ripple  hover:bg-primary text-700" data-pd-ripple="true">
               <i class="pi pi-home mr-2"></i>
               <span class="font-medium" >Mukando</span>
               <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
@@ -17,7 +27,7 @@
             <div class="border-right-1 surface-border" style="width: 1px; height: 50%;"></div>
           </li>
           <li @click="Trader()" @mouseenter="Trader()" class="px-3">
-            <a class="cursor-pointer px-4 py-3 flex align-items-center hover:surface-100 border-round transition-colors transition-duration-150 p-ripple bg-primary hover:bg-primary text-700" data-pd-ripple="true">
+            <a class="cursor-pointer px-4 py-3 flex align-items-center hover:surface-100 border-round transition-colors transition-duration-150 p-ripple  hover:bg-primary text-700" data-pd-ripple="true">
               <i class="pi pi-users mr-2"></i>
               <span class="font-medium" @click="trader = true">Trader</span>
               <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root" style="height: 144px; width: 144px; top: -60.5557px; left: 23.3542px;"></span>
@@ -27,7 +37,7 @@
             <div class="border-right-1 surface-border" style="width: 1px; height: 50%;"></div>
           </li>
           <li @click="Business_account()" @mouseenter="Business_account()" class="px-3">
-            <a class="cursor-pointer px-4 py-3 flex align-items-center hover:surface-100 border-round transition-colors transition-duration-150 p-ripple text-700" data-pd-ripple="true">
+            <a class="cursor-pointer px-4 py-3 flex align-items-center hover:surface-100 border-round transition-colors transition-duration-150 p-ripple text-700 hover:bg-primary"  data-pd-ripple="true">
               <i class="pi pi-shopping-cart mr-2"></i>
               <span class="font-medium" @click="business = true">Business Registration</span>
               <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
@@ -37,22 +47,14 @@
             <div class="border-right-1 surface-border" style="width: 1px; height: 50%;"></div>
           </li>
           <li @click="Institution_account()" @mouseenter="Institution_account()" class="px-3">
-            <a class="cursor-pointer px-4 py-3 flex align-items-center hover:surface-100 border-round transition-colors transition-duration-150 p-ripple text-700" data-pd-ripple="true">
+            <a class="cursor-pointer px-4 py-3 flex align-items-center hover:surface-100 border-round transition-colors transition-duration-150 p-ripple text-700 hover:bg-primary" data-pd-ripple="true">
               <i class="pi pi-user mr-2"></i>
               <span class="font-medium" @click="Institution = true">Institution</span>
               <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
             </a>
           </li>
-          <li class="flex align-items-center">
-            <div class="border-right-1 surface-border" style="width: 1px; height: 50%;"></div>
-          </li>
-          <li @click="Individual_account()" @mouseenter="Individual_account()" class="px-3">
-            <a class="cursor-pointer px-4 py-3 flex align-items-center hover:surface-100 border-round transition-colors transition-duration-150 p-ripple text-700" data-pd-ripple="true">
-              <i class="pi pi-cog mr-2"></i>
-              <span class="font-medium" >Individual</span>
-              <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
-            </a>
-          </li>
+         
+         
         </ul>
       </div>
       <div v-if="Individual == true" class="flex justify-content-center mb-4">
@@ -197,6 +199,7 @@
                     <FloatLabel>
                         <InputText id="username" size="large" v-model="value" />
                         <label for="username">Tax Clearance</label>
+                        
                     </FloatLabel>
                 </div>
                 <div class="field mb-4 col-6">
