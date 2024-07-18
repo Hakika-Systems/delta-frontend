@@ -9,9 +9,15 @@
     "nitro": "2.9.7"
   },
   "dev": {
-    "pid": 18548,
+<<<<<<< HEAD
+    "pid": 13356,
     "workerAddress": {
-      "socketPath": "\\\\.\\pipe\\nitro\\worker-18548-1.sock"
+      "socketPath": "\\\\.\\pipe\\nitro\\worker-13356-1.sock"
+=======
+    "pid": 29148,
+    "workerAddress": {
+      "socketPath": "\\\\.\\pipe\\nitro\\worker-29148-1.sock"
+>>>>>>> 5a5fa52a7fcf587ce757d8980de25492874a7ef2
     }
   }
 }
