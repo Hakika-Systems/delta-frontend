@@ -156,28 +156,7 @@ export const useFrontStore = defineStore('front', {
                 redirect_url: '/product/8'
             }
         ],
-        threeProducts: [
-            {   id: 1,
-                name: 'Nivea Body Lotion Q10 400ml',
-                image: '/images/products/nivea.jpg',
-                price: '29.99',
-                redirect_url: '/product/1'
-            },
-            {   id: 2,
-                name: "Babysoft 18's",
-                image: '/images/products/tissue.jpg',
-                price: '39.99',
-                redirect_url: '/product/2'
-            },
-            {   id: 3,
-                name: 'Vaseline Blue Seal Petroleum Jelly 100ml',
-                image: '/images/products/vaseline.jpg',
-                price: '49.99',
-                redirect_url: '/product/3'
-            },
-            
-        ],
-
+       
     }),
     getters: {},
     actions: {
