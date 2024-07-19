@@ -45,11 +45,35 @@
     <div class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left" role="separator" aria-orientation="horizontal" data-pc-name="divider" data-pc-section="root" styleclass="w-full border-gray-200" style="justify-content: center;">
       <!---->
     </div>
-    <div class="flex">
-      <div class="col-10 grid grid-nogutter align-items-center">
+    <div class="flex ">
+      <div class="col-4">
+        <div class="side-banner ">
+          <img src="/images/banner3.png" alt="Side Banner"  class="banner object-repeat">
+        </div>
+      </div>
+      <div class="col-8 grid grid-nogutter align-items-center">
       <div class="col-12">
         <div class="grid">
-          <div v-for="product in dummyProducts" :key="product.id" class="col-12 md:col-6 lg:col-3">
+          <div v-for="product in dummyProducts.slice(0,3)" :key="product.id" class="col-12 md:col-6 lg:col-4">
+            <div class="p-2">
+              <div class="border-1 surface-border border-round m-2 p-3">
+                <div class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto">
+                  <img :src="product.image" class="w-full h-full object-cover">
+                </div>
+                <div class="mb-3 font-medium nametext">{{ addEllipsis(product.name) }}</div>
+                <div class="mb-4">
+                </div>
+                <div class="flex justify-content-between align-items-center">
+                  <span class="font-bold text-900 ml-2">{{currency}}{{product.price ? formatCurrency(product.price) : formatCurrency(0)}}</span>
+                  <Button @click="addToCart(product.id)" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div  class="col-8 md:col-6 lg:col-12">
+            <img src="/images/middle_banner.jpg" alt="Side Banner"  >
+          </div>
+          <div v-for="product in dummyProducts.slice(3,6)" :key="product.id" class="col-12 md:col-6 lg:col-4">
             <div class="p-2">
               <div class="border-1 surface-border border-round m-2 p-3">
                 <div class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto">
@@ -68,11 +92,7 @@
         </div>
       </div>
     </div>
-    <div class="col-2">
-        <div class="side-banner px-4">
-          <img src="https://images.squarespace-cdn.com/content/v1/6089786faa3d7b014f479600/ec1d8fa6-0545-4ccc-a76b-a8e8bd2f56af/Food+Pantry+Sidebar+2.jpg?format=1500w" alt="Side Banner" class="banner w-full h-full object-cover">
-        </div>
-      </div>
+    
     </div>
   </div>
 </template>
@@ -170,9 +190,10 @@ img.w-full.h-full.object-cover.border-round {
   height: 100px !important;
   width: auto !important;
 }
-img.w-full.h-full.object-cover {
-  width: auto !important;
-  height: 155px !important;
+.banner{
+  width: 100% !important;
+  height: 100% !important
+  ;
 }
 img.w-12rem.flex-shrink-0.mx-auto.md\:mx-0 {
   border-radius: 21px;
@@ -243,7 +264,8 @@ button.p-button.p-component.ok.addtocart.w-full {
   font-size: 25px !important;
 }
 .side-banner {
-    height: 100% !important;
-    margin-top: 20px;
+    
+    height: 100%;
+    margin-top: 12px;
 }
 </style>

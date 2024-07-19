@@ -81,7 +81,7 @@
                 </div>
       
                 <div  v-if= "delivery_option == 'Delivery'" class="col-12 flex flex-column lg:flex-row field">
-                    <div @click="select_fast_delivery()" @mouseenter="select_fast_delivery()" class="flex justify-content-between p-3 border-round border-1 surface-border w-full mr-3 hover:border-primary cursor-pointer">
+                    <div @click="select_fast_delivery()"  class="flex justify-content-between p-3 border-round border-1 surface-border w-full mr-3 hover:border-primary cursor-pointer">
                       <div class="mr-3 lg:mr-0">
                         <div class="text-900 font-bold mb-2">Fast Delivery</div>
                       </div>
