@@ -15,14 +15,10 @@
     
       <!-- Account and Cart Links -->
       <div class="flex items-center col-5 flex-grow-0 account-cart-container">
-        <a class="text-white font-medium inline-flex align-items-center cursor-pointer px-3 hover:text-gray-200 p-ripple" data-pd-ripple="true">
-       <i class="pi pi-sign-in mr-2 sm:mr-3 text-sm"></i>
-       <span>Sign In</span>
-       <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
-     </a>
-     <a @click="navigateTo('/registrationForms')" class="text-white font-medium inline-flex align-items-center cursor-pointer px-3 hover:text-gray-200 p-ripple" data-pd-ripple="true">
+        <Dropdown v-model="selectedCurrency" :options="currencies" optionValue="name" optionLabel="name" placeholder="Select Currency" class="w-50 md:w-7rem" />
+     <a class="text-white font-medium inline-flex align-items-center cursor-pointer px-3 hover:text-gray-200 p-ripple" data-pd-ripple="true">
        <i class="pi pi-user mr-2 sm:mr-3 text-sm"></i>
-       <span>Create Account</span>
+       <span>My Account<br><strong>Sign In</strong></span>
        <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
      </a>
      <InputGroup class="w-custom md:w-[30rem]">
@@ -90,10 +86,10 @@
     const frontStore = useFrontStore()
     const cart:any = storeToRefs(frontStore).cart
     const op = ref();
-    const members = ref([
-        { name: 'Amy Elsner', image: 'amyelsner.png', email: 'amy@email.com', role: 'Owner' },
-        { name: 'Bernardo Dominic', image: 'bernardodominic.png', email: 'bernardo@email.com', role: 'Editor' },
-        { name: 'Ioni Bowcher', image: 'ionibowcher.png', email: 'ioni@email.com', role: 'Viewer' }
+    const selectedCurrency = ref("USD");
+    const currencies = ref([
+        { name: 'USD', symbol: '$' },
+        {name: 'ZIG', symbol: 'ZIG'}
     ]);
     const getTotalItemsInCart = () => {
         //@ts-ignore
@@ -251,151 +247,27 @@
       }, 0).toFixed(2);
     }
     const items = ref([
-        {
-            label: 'Irvine’s',
-            icon: 'pi pi-chicken',
-            items: [
-                [
-                    {
-                        label: 'Poultry',
-                        items: [{ label: 'Chicken' }, { label: 'Eggs' }, { label: 'Chicken Sausages' }]
-                    }
-                ],
-                [
-                    {
-                        label: 'Frozen Foods',
-                        items: [{ label: 'Frozen Chicken' }, { label: 'Frozen Nuggets' }, { label: 'Frozen Wings' }]
-                    }
-                ]
-            ]
-        },
-        {
-            label: 'Gloria',
-            icon: 'pi pi-milk',
-            items: [
-                [
-                    {
-                        label: 'Dairy Products',
-                        items: [{ label: 'Milk' }, { label: 'Yogurt' }, { label: 'Cheese' }]
-                    }
-                ],
-                [
-                    {
-                        label: 'Ice Cream',
-                        items: [{ label: 'Vanilla' }, { label: 'Chocolate' }, { label: 'Strawberry' }]
-                    }
-                ]
-            ]
-        },
-        {
-            label: 'Bata',
-            icon: 'pi pi-shoe',
-            items: [
-                [
-                    {
-                        label: 'Footwear',
-                        items: [{ label: 'School Shoes' }, { label: 'Casual Shoes' }, { label: 'Sports Shoes' }]
-                    }
-                ],
-                [
-                    {
-                        label: 'Accessories',
-                        items: [{ label: 'Socks' }, { label: 'Shoe Polish' }, { label: 'Laces' }]
-                    }
-                ]
-            ]
-        },
-        {
-            label: 'Coca-Cola',
-            icon: 'pi pi-cup',
-            items: [
-                [
-                    {
-                        label: 'Soft Drinks',
-                        items: [{ label: 'Coca-Cola' }, { label: 'Fanta' }, { label: 'Sprite' }]
-                    }
-                ],
-                [
-                    {
-                        label: 'Juices',
-                        items: [{ label: 'Minute Maid' }, { label: 'Fruit Tree' }]
-                    }
-                ]
-            ]
-        },
-        {
-            label: 'Probrands',
-            icon: 'pi pi-boxd',
-            items: [
-                [
-                    {
-                        label: 'Cereals',
-                        items: [{ label: 'Cornflakes' }, { label: 'Oats' }, { label: 'Wheat Flakes' }]
-                    }
-                ],
-                [
-                    {
-                        label: 'Grains & Rice',
-                        items: [{ label: 'Rice' }, { label: 'Maize Meal' }, { label: 'Sorghum' }]
-                    }
-                ]
-            ]
-        },
-        {
-            label: 'Olive Tree',
-            icon: 'pi pi-olive',
-            items: [
-                [
-                    {
-                        label: 'Cooking Oil',
-                        items: [{ label: 'Sunflower Oil' }, { label: 'Vegetable Oil' }]
-                    }
-                ],
-                [
-                    {
-                        label: 'Condiments',
-                        items: [{ label: 'Tomato Sauce' }, { label: 'Mayonnaise' }, { label: 'Mustard' }]
-                    }
-                ]
-            ]
-        },
-        {
-            label: 'Dandy',
-            icon: 'pi pi-candy',
-            items: [
-                [
-                    {
-                        label: 'Snacks',
-                        items: [{ label: 'Corn Snacks' }, { label: 'Potato Chips' }, { label: 'Popcorn' }]
-                    }
-                ],
-                [
-                    {
-                        label: 'Sweets',
-                        items: [{ label: 'Toffees' }, { label: 'Lollipops' }, { label: 'Gums' }]
-                    }
-                ]
-            ]
-        },
-        {
-            label: 'Blue Ribbon',
-            icon: 'pi pi-bread',
-            items: [
-                [
-                    {
-                        label: 'Flour Products',
-                        items: [{ label: 'Bread Flour' }, { label: 'Cake Flour' }, { label: 'Self-Raising Flour' }]
-                    }
-                ],
-                [
-                    {
-                        label: 'Baked Goods',
-                        items: [{ label: 'Bread' }, { label: 'Buns' }, { label: 'Cakes' }]
-                    }
-                ]
-            ]
-        }
-    ]);
+    {
+        label: 'Bata',
+        icon: 'pi pi-shoe'
+    },
+    {
+        label: 'Capri',
+        icon: 'pi pi-cube'
+    },
+    {
+        label: 'KDV'
+    },
+    {
+        label: 'Heroes Special'
+    },
+    {
+        label: 'CEO\'s Specials'
+    },
+    {
+        label: 'Motor Vehicle'
+    }
+]);
     
     
     </script>
@@ -412,8 +284,10 @@
     }
     .p-inputgroup-addon {
     width: 65px;
-}
-    
+    }
+    span.p-dropdown-label.p-inputtext {
+        margin: auto;
+    }
       .account-cart-container a {
         display: flex;
         align-items: center;
