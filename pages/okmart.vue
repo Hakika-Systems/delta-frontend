@@ -148,11 +148,11 @@ const productInCart = cart.value.find((cartItem: any) => cartItem.id === product
 if (productInCart) {
   // Increase the quantity if the product is already in the cart
   productInCart.quantity += 1;
-  toast.add({ severity: 'info', summary: 'Cart', detail: 'Product Added', life: 3000 });
+  toast.add({ severity: 'info', summary: 'Cart', detail: 'Product Added',group: 'br', life: 3000 });
 } else {
   // Add the product to the cart with quantity 1
   cart.value.push({ ...product, quantity: 1 });
-  toast.add({ severity: 'info', summary: 'Cart', detail: 'Product Added', life: 3000 });
+  toast.add({ severity: 'info', summary: 'Cart', detail: 'Product Added',group: 'br', life: 3000 });
 }
 };
 
