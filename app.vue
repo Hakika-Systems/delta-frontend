@@ -11,6 +11,9 @@
     </ConfirmDialog>
     <ConfirmDialog group="positionDialog"></ConfirmDialog>
     <Toast/>
+    <Toast position="top-left" group="tl" />
+    <Toast position="bottom-left" group="bl" />
+    <Toast position="bottom-right" group="br" />
     <NuxtPage />
   </main>
 </template>

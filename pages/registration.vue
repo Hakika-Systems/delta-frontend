@@ -2,7 +2,7 @@
     <okMartShopHeader/>
     <div class="block-content surface-ground text-center px-4 py-8 md:px-6 lg:px-8">
       <div class="text-900 font-medium text-3xl mb-2">Register an account</div>
-      <div class="text-700 line-height-3 mb-4">Already have an account? <a href="/login" class="text-primary">Login</a></div>
+      <div class="text-700 line-height-3 mb-4">Already have an account? <a href="/signin" class="text-primary">Login</a></div>
       
       <div class="flex justify-content-center mb-4">
         <ul class="p-2 m-0 list-none flex overflow-x-auto select-none">
@@ -401,6 +401,7 @@
   </template>
 <script setup lang="ts">
 
+const value = ref()
 let mukando = ref(false)
 let trader = ref(false)
 let business = ref(false)
@@ -443,7 +444,9 @@ const Business_account = ()=>{
     Institution.value = false
     Individual.value = false
 }
-
+onMounted(() => {
+    Individual.value = true
+})
 </script>
 
   

@@ -1,5 +1,5 @@
 <template>
-    <div class="foodloversheader py-3 px-6 shadow-2 flex align-items-center justify-content-between relative lg:static">
+    <div class="foodloversheader fixedheader py-3 px-6 shadow-2 flex align-items-center justify-content-between relative">
       <!-- Logo -->
       <div class="flex items-center flex-grow-0">
         <img src="/images/logos/okmart.jpg" alt="Image" height="90">
@@ -18,7 +18,7 @@
         <Dropdown v-model="selectedCurrency" :options="currencies" optionValue="name" optionLabel="name" placeholder="Select Currency" class="w-50 md:w-7rem" />
      <a class="text-white font-medium inline-flex align-items-center cursor-pointer px-3 hover:text-gray-200 p-ripple" data-pd-ripple="true">
        <i class="pi pi-user mr-2 sm:mr-3 text-sm"></i>
-       <span>My Account<br><strong>Sign In</strong></span>
+       <span @click="navigateTo('/signin')">My Account<br><strong>Sign In</strong></span>
        <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
      </a>
      <InputGroup class="w-custom md:w-[30rem]">
@@ -293,10 +293,11 @@
         align-items: center;
       }
       .foodloversheader {
-        background-color:  #ed2226!important;
-        border-bottom: 0.5px solid #c5c5c5;
-        border-top: none !important;
-    }
+    padding-top: 120px;
+    background-color: #ed2226 !important;
+    border-bottom: 0.5px solid #c5c5c5;
+    border-top: none !important;
+}
     .p-megamenu.p-megamenu-horizontal .p-megamenu-root-list > .p-menuitem > .p-menuitem-content .p-menuitem-link .p-submenu-icon {
         color: #ffffff;
         margin-left: 0.5rem;
@@ -327,6 +328,20 @@
     .w-custom {
     width: 50% !important;
     }
+    .fixedheader {
+    position: fixed !important;
+    top: 0;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #b1b1b1;
+    background-color: #333;
+    color: white;
+    /* margin-bottom: 88px !important; */
+    /* text-align: center; */
+    padding: 15px 0;
+    box-shadow: none !important;
+    z-index: 1000;
+}
     .p-tieredmenu .p-menuitem > .p-menuitem-content .p-menuitem-link {
         color: #ffffff;
         padding: 0.5rem 0.75rem;
