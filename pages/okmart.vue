@@ -46,15 +46,15 @@
       <!---->
     </div>
     <div class="flex ">
-      <div class="col-4">
+      <!-- <div class="col-4">
         <div class="side-banner ">
           <img src="/images/banner3.png" alt="Side Banner"  class="banner object-repeat">
         </div>
-      </div>
-      <div class="col-8 grid grid-nogutter align-items-center">
+      </div> -->
+      <div class="col-12 grid grid-nogutter align-items-center">
       <div class="col-12">
         <div class="grid">
-          <div v-for="product in dummyProducts.slice(0,12)" :key="product.id" class="col-12 md:col-6 lg:col-4">
+          <div v-for="product in dummyProducts.slice(0,8)" :key="product.id" class="col-12 md:col-6 lg:col-3">
             <div class="p-2">
               <div class="border-1 surface-border border-round m-2 p-3">
                 <div class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto">
@@ -71,9 +71,9 @@
             </div>
           </div>
           <div  class="col-8 md:col-6 lg:col-12">
-            <img src="/images/middle_banner.jpg" alt="Side Banner"  >
+            <img src="/images/middle_banner.jpg" alt="Side Banner" class="w-full"  >
           </div>
-          <div v-for="product in dummyProducts.slice(3,12)" :key="product.id" class="col-12 md:col-6 lg:col-4">
+          <div v-for="product in dummyProducts.slice(3,11)" :key="product.id" class="col-12 md:col-6 lg:col-3">
             <div class="p-2">
               <div class="border-1 surface-border border-round m-2 p-3">
                 <div class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto">
