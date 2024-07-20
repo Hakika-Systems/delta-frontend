@@ -196,7 +196,7 @@
                   </div>
                   <div class="flex justify-content-between align-items-center mb-3">
                     <span class="text-900">Delivery</span>
-                    <span class="text-900"> {{delivery_type == 'Fast Delivery' ? ` $${fast_delivery}` :(delivery_type == 'Standard Delivery') ? `$${standard_delivery}`: 'Free'}}</span>
+                    <span class="text-900"> {{delivery_type == 'Fast Delivery' ? ` $${fast_delivery}` :(delivery_type == 'Standard Delivery') ? `$${standard_delivery}`: "--"}}</span>
                   </div>
                   <div class="flex justify-content-between align-items-center mb-3">
                     <span class="text-900">VAT</span>

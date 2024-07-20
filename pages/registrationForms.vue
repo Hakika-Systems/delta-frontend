@@ -1,12 +1,12 @@
 <template>
-    <shopHeader/>
-    <div class="block-content surface-card text-center px-4 py-8 md:px-6 lg:px-8">
+    <okMartShopHeader/>
+    <div class="block-content surface-ground text-center px-4 py-8 md:px-6 lg:px-8">
       <div class="text-900 font-medium text-3xl mb-2">Register an account</div>
       <div class="text-700 line-height-3 mb-4">Already have an account? <a href="/login" class="text-primary">Login</a></div>
       
       <div class="flex justify-content-center mb-4">
         <ul class="p-2 m-0 list-none flex overflow-x-auto select-none">
-            <li @click="Individual_account()" @mouseenter="Individual_account()" class="px-3">
+            <li @click="Individual_account()"  class="px-3">
             <a class="cursor-pointer px-4 py-3 flex align-items-center hover:surface-100 border-round transition-colors transition-duration-150 p-ripple text-700 hover:bg-primary" data-pd-ripple="true">
               <i class="pi pi-cog mr-2"></i>
               <span class="font-medium" >Individual</span>
@@ -16,7 +16,7 @@
           <li class="flex align-items-center">
             <div class="border-right-1 surface-border" style="width: 1px; height: 50%;"></div>
           </li>
-          <li @click="Mukando()" @mouseenter="Mukando()" class="pr-3">
+          <li @click="Mukando()"  class="pr-3">
             <a  class="cursor-pointer px-4 py-3 flex align-items-center hover:surface-100 border-round transition-colors transition-duration-150 p-ripple  hover:bg-primary text-700" data-pd-ripple="true">
               <i class="pi pi-home mr-2"></i>
               <span class="font-medium" >Mukando</span>
@@ -26,7 +26,7 @@
           <li class="flex align-items-center">
             <div class="border-right-1 surface-border" style="width: 1px; height: 50%;"></div>
           </li>
-          <li @click="Trader()" @mouseenter="Trader()" class="px-3">
+          <li @click="Trader()"  class="px-3">
             <a class="cursor-pointer px-4 py-3 flex align-items-center hover:surface-100 border-round transition-colors transition-duration-150 p-ripple  hover:bg-primary text-700" data-pd-ripple="true">
               <i class="pi pi-users mr-2"></i>
               <span class="font-medium" @click="trader = true">Trader</span>
@@ -36,7 +36,7 @@
           <li class="flex align-items-center">
             <div class="border-right-1 surface-border" style="width: 1px; height: 50%;"></div>
           </li>
-          <li @click="Business_account()" @mouseenter="Business_account()" class="px-3">
+          <li @click="Business_account()"  class="px-3">
             <a class="cursor-pointer px-4 py-3 flex align-items-center hover:surface-100 border-round transition-colors transition-duration-150 p-ripple text-700 hover:bg-primary"  data-pd-ripple="true">
               <i class="pi pi-shopping-cart mr-2"></i>
               <span class="font-medium" @click="business = true">Business Registration</span>
@@ -46,7 +46,7 @@
           <li class="flex align-items-center">
             <div class="border-right-1 surface-border" style="width: 1px; height: 50%;"></div>
           </li>
-          <li @click="Institution_account()" @mouseenter="Institution_account()" class="px-3">
+          <li @click="Institution_account()"  class="px-3">
             <a class="cursor-pointer px-4 py-3 flex align-items-center hover:surface-100 border-round transition-colors transition-duration-150 p-ripple text-700 hover:bg-primary" data-pd-ripple="true">
               <i class="pi pi-user mr-2"></i>
               <span class="font-medium" @click="Institution = true">Institution</span>
@@ -63,31 +63,31 @@
             <div class="grid formgrid p-fluid ">
                 <div class="field mb-4 col-6">
                     <FloatLabel>
-                        <InputText id="username" v-model="value" />
+                        <InputText id="username" v-model="value" size="large" />
                         <label for="username">Name</label>
                     </FloatLabel>
                 </div>
                 <div class="field mb-4 col-6">
                     <FloatLabel>
-                        <InputText id="username" v-model="value" />
+                        <InputText id="username" v-model="value" size="large" />
                         <label for="username">Address</label>
                     </FloatLabel>
                 </div>
                 <div class="field mb-4 col-6">
                     <FloatLabel>
-                        <InputText id="username" v-model="value" />
+                        <InputText id="username" v-model="value" size="large" />
                         <label for="username">Email</label>
                     </FloatLabel>
                 </div>
                 <div class="field mb-4 col-6">
                     <FloatLabel>
-                        <InputText id="username" v-model="value" />
+                        <InputText id="username" v-model="value" size="large" />
                         <label for="username">Phone Number</label>
                     </FloatLabel>
                 </div>
                 <div class="field mb-4 col-6">
                     <FloatLabel>
-                        <InputText id="username" v-model="value" />
+                        <InputText id="username" v-model="value" size="large"/>
                         <label for="username">Whatsapp Phone Number</label>
                     </FloatLabel>
                 </div>
@@ -195,25 +195,7 @@
                         <label for="username">Sector of Tradee.g Retail / Liquor</label>
                     </FloatLabel>
                 </div>
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">Tax Clearance</label>
-                        
-                    </FloatLabel>
-                </div>
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">VAT Certificate</label>
-                    </FloatLabel>
-                </div>
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">Trading License</label>
-                    </FloatLabel>
-                </div>
+              
                 <div class="field mb-4 col-6">
                     <FloatLabel>
                         <InputText id="username" size="large" v-model="value" />
@@ -226,18 +208,35 @@
                         <label for="username">Designation</label>
                     </FloatLabel>
                 </div>
-                <div class="field mb-4 col-6">
+                <!-- <div class="field mb-4 col-6">
                     <FloatLabel>
                         <InputText id="username" size="large" v-model="value" />
                         <label for="username">Phone Number of Representative</label>
                     </FloatLabel>
-                </div>
+                </div> -->
                 <div class="field mb-4 col-6">
                     <FloatLabel>
                         <InputText id="username" size="large" v-model="value" />
                         <label for="username">Email</label>
                     </FloatLabel>
                 </div>
+               
+     
+                <div class="field mb-4 col-6">
+                    <FileUpload name="demo[]" url="/api/upload" @upload="onAdvancedUpload($event)" :multiple="true" accept="image/*" :maxFileSize="1000000">
+                        <template #empty>
+                            <span style="">Drag and drop files to here to upload Tax Clearance.</span>
+                        </template>
+                    </FileUpload>
+                </div>
+                <div class="field mb-4 col-6">
+                    <FileUpload name="demo[]" url="/api/upload" @upload="onAdvancedUpload($event)" :multiple="true" accept="image/*" :maxFileSize="1000000">
+                        <template #empty>
+                            <span style="">Drag and drop files to here to upload Trading License.</span>
+                        </template>
+                    </FileUpload>
+                </div>
+
                 <div class="surface-border border-top-1  mb-4 col-12 "></div>
                 <div class="field mb-4 col-3">
                     <Button label="Send Details" severity="success" />
@@ -281,18 +280,7 @@
                         <label for="username">Business Type e.g Bank / Mine</label>
                     </FloatLabel>
                 </div>
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">Tax Clearance</label>
-                    </FloatLabel>
-                </div>
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">VAT Certificate</label>
-                    </FloatLabel>
-                </div>
+                
                 
                 <div class="field mb-4 col-6">
                     <FloatLabel>
@@ -306,17 +294,31 @@
                         <label for="username">Designation</label>
                     </FloatLabel>
                 </div>
-                <div class="field mb-4 col-6">
+                <!-- <div class="field mb-4 col-6">
                     <FloatLabel>
                         <InputText id="username" size="large" v-model="value" />
                         <label for="username">Phone Number of Representative</label>
                     </FloatLabel>
-                </div>
+                </div> -->
                 <div class="field mb-4 col-6">
                     <FloatLabel>
                         <InputText id="username" size="large" v-model="value" />
                         <label for="username">Email</label>
                     </FloatLabel>
+                </div>
+                <div class="field mb-4 col-6">
+                    <FileUpload name="demo[]" url="/api/upload" @upload="onAdvancedUpload($event)" :multiple="true" accept="image/*" :maxFileSize="1000000">
+                        <template #empty>
+                            <span style="">Drag and drop files to here to upload Tax Clearance.</span>
+                        </template>
+                    </FileUpload>
+                </div>
+                <div class="field mb-4 col-6">
+                    <FileUpload name="demo[]" url="/api/upload" @upload="onAdvancedUpload($event)" :multiple="true" accept="image/*" :maxFileSize="1000000">
+                        <template #empty>
+                            <span style="">Drag and drop files to here to upload VAT Certificate.</span>
+                        </template>
+                    </FileUpload>
                 </div>
                 <div class="surface-border border-top-1  mb-4 col-12 "></div>
                 <div class="field mb-4 col-3">
@@ -403,7 +405,7 @@ let mukando = ref(false)
 let trader = ref(false)
 let business = ref(false)
 let Institution = ref(false)
-let Individual = ref(false)
+let Individual = ref(true)
 console.log("mukando",mukando.value)
 
 const Mukando = ()=>{
