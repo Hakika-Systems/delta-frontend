@@ -281,6 +281,12 @@ const lineTotal = (price:any, quantity:any) => {
 const subtotal = computed(() => {
   let products_total = Number(cartTotal())
   console.log('Initial products_total:', products_total);
+  if (delivery_type.value === 'Fast Delivery') {
+    products_total += fast_delivery;
+  } else if (delivery_type.value === 'Standard Delivery') {
+    products_total += standard_delivery;
+  }
+  
   
   console.log('Final products_total:', products_total);
   return Number(products_total);
@@ -309,11 +315,7 @@ const select_standard_delivery = ()=>{
 
 const totalAmount = computed(() => {
   let total:any = (subtotal.value + vatAmount.value);
-  if (delivery_type.value === 'Fast Delivery') {
-    total += fast_delivery;
-  } else if (delivery_type.value === 'Standard Delivery') {
-    total += standard_delivery;
-  }
+ 
 
   return Number(total.toFixed(2));
 });
