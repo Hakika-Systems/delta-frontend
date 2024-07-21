@@ -147,7 +147,7 @@
               <div class="surface-card border-round  shadow-2 payment p-5" >
                 <div class="flex justify-content-between align-items-center border-bottom-1 pb-3 surface-border">
                   <span class="text-900 font-medium text-lg lg:text-xl">
-                    <i class="pi pi-shopping-cart text-xl mr-2"></i>Your Order (1) </span>
+                    <i class="pi pi-shopping-cart text-xl mr-2"></i>Your Order  </span>
                 </div>
                 <div v-for="(item, index) in cart" :key="index" class="flex flex-column lg:flex-row flex-wrap lg:align-items-center py-3 my-3 border-bottom-1 surface-border">
                   <img :src="item.image" class="w-8rem h-8rem flex-shrink-0 mb-3">
