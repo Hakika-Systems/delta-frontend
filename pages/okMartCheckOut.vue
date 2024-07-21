@@ -9,8 +9,8 @@
                 <div class="col-12 mb-4 flex flex-column lg:flex-row align-items-center justify-content-between">
                   <div class="text-900 font-medium text-xl">Contact Information</div>
                   <div class="mt-3 lg:mt-0">
-                    <span class="text-600 mr-2">Already have an account?</span>
-                    <a tabindex="0" class="cursor-pointer text-900 hover:text-primary transition-duration-150">Login</a>
+                    <span class="text-600 mr-2">If You Already have an account?</span>
+                    <a tabindex="0" href="/signin" class="cursor-pointer text-900 hover:text-primary transition-duration-150">Login</a>
                   </div>
                 </div>
              
@@ -235,7 +235,7 @@ const standard_delivery = Number(1.50)
 let items = ref(1)
 let price = ref(123.00)
 let total_item_price = ref()
-const VAT_RATE = Number(0.145); // 14.5% VAT rate
+const VAT_RATE = Number(0.15); // 14.5% VAT rate
 console.log(typeof VAT_RATE)
 
 const dummyProducts = ref([
@@ -255,7 +255,6 @@ const totalPrices = computed(() => itemQuantities.value.map((quantity, index) =>
 const lineTotal = (price:any, quantity:any) => {
        return (Number(price)) * (quantity).toFixed(2)
     }
-
     const increment = (index:any) => {
         //@ts-ignore
       cart.value[index].quantity += 1;
