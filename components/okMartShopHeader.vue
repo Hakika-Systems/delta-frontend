@@ -18,7 +18,7 @@
         <Dropdown v-model="selectedCurrency" :options="currencies" optionValue="name" optionLabel="name" placeholder="Select Currency" class="w-50 md:w-7rem" />
      <a class="text-white font-medium inline-flex align-items-center cursor-pointer px-3 hover:text-gray-200 p-ripple" data-pd-ripple="true">
        <i class="pi pi-user mr-2 sm:mr-3 text-sm"></i>
-       <span @click="navigateTo('/signin')">My Account<br><strong>Sign In</strong></span>
+       <span @click="navigateTo('/registration')">My Account<br><strong>Sign In</strong></span>
        <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
      </a>
      <InputGroup class="w-custom md:w-[30rem]">
