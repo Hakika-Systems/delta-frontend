@@ -28,16 +28,15 @@
         </div>
       </div>
       <div class="font-bold text-900 mb-3">Brand</div>
-      <div class="flex align-items-center mb-5">
-        Example
+      <div class="flex align-items-center mb-5 cursor-pointer">
+        {{ product?.brand }}
       </div>
       <div class="font-bold text-900 mb-3">Category</div>
-      <div class="flex align-items-center mb-5">
-        Example
+      <div class="flex align-items-center cursor-pointer mb-5">
+        {{ product?.category }}
       </div>
       <div class="font-bold text-900 mb-3">Description</div>
-      <div class="flex align-items-center mb-5">
-        Volutpat maecenas volutpat blandit aliquam etiam erat velit scelerisque in. Duis ultricies lacus sed turpis tincidunt id. Sed tempus urna et pharetra. Metus vulputate eu scelerisque felis imperdiet proin fermentum. Venenatis urna cursus eget nunc scelerisque viverra mauris in. Viverra justo nec ultrices dui sapien eget mi proin. Laoreet suspendisse interdum consectetur libero id faucibus.
+      <div v-html="product?.description" class="flex align-items-center mb-5">
       </div>
       <div class="mb-3 flex align-items-center justify-content-between">
         <span class="font-bold text-900">Add Review</span>
