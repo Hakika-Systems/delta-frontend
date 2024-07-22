@@ -297,7 +297,7 @@ console.log(typeof subtotal.value)
 const vatAmount = computed(() => Number((subtotal.value) * VAT_RATE));
 console.log("simba",typeof vatAmount.value)
 
-const formatPrice = (valueToFormat) => {
+const formatPrice = (valueToFormat:any) => {
    return valueToFormat.toFixed(2)
 }
 
