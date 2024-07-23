@@ -14,10 +14,10 @@
     <Carousel :value="dummyProducts" :numVisible="5" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="3000">
       <template #item="slotProps">
         <div class="border-1 surface-border border-round m-2 p-3">
-          <div class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto">
+          <div @click="navigateTo(`/detail-${slotProps.data.id}`)"  class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto cursor-pointer">
             <img :src="slotProps.data.image" class="w-full h-full object-cover">
           </div>
-          <div class="mb-3 font-medium nametext">{{ addEllipsis(slotProps.data.name) }}</div>
+          <div @click="navigateTo(`/detail-${slotProps.data.id}`)" class="mb-3 font-medium nametext cursor-pointer">{{ addEllipsis(slotProps.data.name) }}</div>
           <div class="mb-4">
           </div>
           <div class="flex justify-content-between align-items-center">
@@ -57,10 +57,10 @@
           <div v-for="product in dummyProducts.slice(0,8)" :key="product.id" class="col-12 md:col-6 lg:col-3">
             <div class="p-2">
               <div class="border-1 surface-border border-round m-2 p-3">
-                <div class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto">
+                <div @click="navigateTo(`/detail-${product.id}`)" class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
                   <img :src="product.image" class="w-full h-full object-cover">
                 </div>
-                <div class="mb-3 font-medium nametext">{{ addEllipsis(product.name) }}</div>
+                <div @click="navigateTo(`/detail-${product.id}`)" class="mb-3 font-medium nametext cursor-pointer">{{ addEllipsis(product.name) }}</div>
                 <div class="mb-4">
                 </div>
                 <div class="flex justify-content-between align-items-center">
@@ -76,10 +76,10 @@
           <div v-for="product in dummyProducts.slice(3,11)" :key="product.id" class="col-12 md:col-6 lg:col-3">
             <div class="p-2">
               <div class="border-1 surface-border border-round m-2 p-3">
-                <div class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto">
+                <div @click="navigateTo(`/detail-${product.id}`)" class="surface-50 flex align-items-center cursor-pointer justify-content-center mb-3 mx-auto">
                   <img :src="product.image" class="w-full h-full object-cover">
                 </div>
-                <div class="mb-3 font-medium nametext">{{ addEllipsis(product.name) }}</div>
+                <div @click="navigateTo(`/detail-${product.id}`)" class="mb-3 font-medium nametext cursor-pointer">{{ addEllipsis(product.name) }}</div>
                 <div class="mb-4">
                 </div>
                 <div class="flex justify-content-between align-items-center">
