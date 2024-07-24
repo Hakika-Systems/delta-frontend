@@ -141,7 +141,6 @@ const findRelatedProducts = async () => {
   return products.value.filter(p => p.category === product.value.category && p.id !== product.value.id);
 }
 const addToCart = (product_id:any) => {
-  // Find the product in products
   const product = products.value.find(prod => prod.id === product_id);
 
   if (!product) {
@@ -172,7 +171,6 @@ const findProduct = (id:any) => {
       break;
     }
   }
-  console.log(product.value);
   return product.value
 };
 const currency = ref("USD")
