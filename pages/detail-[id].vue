@@ -69,6 +69,54 @@
     </div>
   </div>
 </div>
+<div class="surface-section px-4 py-8 md:px-6 lg:px-8">
+    <div class="flex justify-content-between flex-wrap">
+      <div class="flex align-items-center mb-4 md:mb-0">
+        <div class="text-900 font-bold text-3xl">Related Products</div>
+      </div>
+      <div>
+        <button class="p-button p-component p-button-outlined p-button-secondary w-7rem p-2" type="button" aria-label="Sort By" data-pc-name="button" data-pc-section="root" data-pd-ripple="true">
+          <span class="p-button-icon p-button-icon-right pi pi-sort-alt" data-pc-section="icon"></span>
+          <span class="p-button-label" data-pc-section="label">Sort By</span>
+          <!---->
+          <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
+        </button>
+      </div>
+    </div>
+    <div class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left" role="separator" aria-orientation="horizontal" data-pc-name="divider" data-pc-section="root" styleclass="w-full border-gray-200" style="justify-content: center;">
+      <!---->
+    </div>
+    <div class="flex ">
+      <!-- <div class="col-4">
+        <div class="side-banner ">
+          <img src="/images/banner3.png" alt="Side Banner"  class="banner object-repeat">
+        </div>
+      </div> -->
+      <div class="col-12 grid grid-nogutter align-items-center">
+      <div class="col-12">
+        <div class="grid">
+          <div v-for="item in related_products" :key="item.id" class="col-12 md:col-6 lg:col-3">
+            <div class="p-2">
+              <div class="border-1 surface-border border-round m-2 p-3">
+                <div @click="navigateTo(`/detail-${item.id}`)" class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
+                  <img :src="item.image" class="w-full h-full object-cover">
+                </div>
+                <div @click="navigateTo(`/detail-${item.id}`)" class="mb-3 font-medium nametext cursor-pointer">{{ addEllipsis(item.name) }}</div>
+                <div class="mb-4">
+                </div>
+                <div class="flex justify-content-between align-items-center">
+                  <span class="font-bold text-900 ml-2">USD {{item.price ? formatCurrency(item.price) : formatCurrency(0)}}</span>
+                  <Button @click="addToCartRelated(item.id)" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    </div>
+  </div>
 </template>
 <script setup lang="ts">
 const frontStore = useFrontStore()
@@ -78,11 +126,20 @@ const {params:{id}} = useRoute()
 const toast = useToast()
 const rating = ref()
 const quantity = ref(1)
+const related_products:any = ref([])
 const product = ref()
 onMounted( async () => {
-  console.log("sjks",id)
-  product.value = await findProduct(id)
+product.value = await findProduct(id)
+if (product.value) {
+    related_products.value = await  findRelatedProducts();
+    console.log("dsklsd",related_products.value)
+}
+
 })
+
+const findRelatedProducts = async () => {
+  return products.value.filter(p => p.category === product.value.category && p.id !== product.value.id);
+}
 const addToCart = (product_id:any) => {
   // Find the product in products
   const product = products.value.find(prod => prod.id === product_id);
@@ -118,7 +175,36 @@ const findProduct = (id:any) => {
   console.log(product.value);
   return product.value
 };
+const currency = ref("USD")
+const addEllipsis = (str:string) => {
+  return str.length > 23 ? str.slice(0, 23) + '...' : str;
+};
+const formatCurrency = (value:any) => {
+  return value.toLocaleString('en-US', { style: 'currency', currency: currency.value });
+};
 
+const addToCartRelated = (product_id :any) => {
+// Find the product in dummyProducts
+const product = products.value.find(prod => prod.id === product_id);
+
+if (!product) {
+  console.error('Product not found');
+  return;
+}
+
+// Check if the product is already in the cart
+const productInCart = cart.value.find((cartItem: any) => cartItem.id === product_id);
+
+if (productInCart) {
+  // Increase the quantity if the product is already in the cart
+  productInCart.quantity += 1;
+  toast.add({ severity: 'info', summary: 'Cart', detail: 'Product Added',group: 'br', life: 3000 });
+} else {
+  // Add the product to the cart with quantity 1
+  cart.value.push({ ...product, quantity: 1 });
+  toast.add({ severity: 'info', summary: 'Cart', detail: 'Product Added',group: 'br', life: 3000 });
+}
+};
 </script>
 <style>
 
