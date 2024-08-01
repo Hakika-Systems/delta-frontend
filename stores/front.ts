@@ -1,9 +1,10 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
-
+import { SHOP_URL } from '~/services/global.variables';
 export const useFrontStore = defineStore('front', {
     state: ()=>({
         cart: [],
+        brands: null,
         dummyProducts: [
             {   
               id: 1,
@@ -260,6 +261,25 @@ export const useFrontStore = defineStore('front', {
     }),
     getters: {},
     actions: {
+      async getBrands() {
+    
+        const url = new URL(`${SHOP_URL}/api/shop-brands`);
+        const token = useCookie('token').value || ""
+        const headers = {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        };
+        try {
+            const response = await fetch(url, {
+                method: "GET",
+                headers,
+            });
+            const data = await response.json();
+            return data;
+        } finally {
+        }
+    },
       
     }
    })
