@@ -268,25 +268,10 @@
     </template>
     <span class="p-text-secondary block mb-5">Select Branch.</span>
     <div class="flex align-items-center gap-3 mb-3">
-      <Dropdown v-model="shopBranch" :options="branches" filter optionLabel="name" optionValue="id" placeholder="Select a Branch" class="w-full">
-    <template #value="slotProps">
-        <div v-if="slotProps?.value" class="flex align-items-center">
-            <div>{{ slotProps?.value?.name }}</div>
-        </div>
-        <span v-else>
-            {{ slotProps?.placeholder }}
-        </span>
-    </template>
-    <template #option="slotProps">
-        <div class="flex align-items-center">
-            <img :alt="slotProps?.option?.label" src="https://primefaces.org/cdn/primevue/images/flag/flag_placeholder.png" :class="`mr-2 flag flag-${slotProps?.option?.code.toLowerCase()}`" style="width: 18px" />
-            <div>{{ slotProps?.option?.name }}</div>
-        </div>
-    </template>
-</Dropdown>
+      <Dropdown v-model="shopBranch" :options="branches" filter optionLabel="name" optionValue="id" placeholder="Select a Store" checkmark :highlightOnSelect="false" class="w-full" />
     </div>
     <template #footer>
-        <Button label="Proceed to Shop" outlined severity="secondary" @click="select_shop = false" autofocus />
+        <Button :loading="loading" label="Continue Shopping" outlined severity="secondary" :disabled="!shopBranch" @click="goToShop()" autofocus />
     </template>
 </Dialog>
 </template>
@@ -296,20 +281,29 @@ const shop_d = ref("okmart")
 const frontStore = useFrontStore()
 const brands:any = storeToRefs(frontStore).brands
 const select_shop = ref(false)
-const shopBranch = ref(5)
+const loading = ref(false)
+const shopBranch = ref()
 const branches = ref()
 const shopID = ref()
 const shopLogo = ref()
 const shopName = ref()
-const selectShop = (shopIDD:any,logo:any,name:any) => {
+const selectShop = async (shopIDD:any,logo:any,name:any) => {
   select_shop.value = true
   shopID.value = shopIDD
   shopLogo.value = logo
+  await getShopsForBrand(shopIDD)
   shopName.value = name
 }
+const getShopsForBrand = (brandId:any) => {
+  branches.value = null
+  //@ts-ignore
+  let branchess = brands.value.find(brand => brand.id === brandId);
+  branches.value = branchess?.shops
+}
 const goToShop = () => {
-     
+     loading.value = true
      navigateTo(`/shop-${shopID.value}-${shopBranch.value}`)
+     loading.value = false
 }
 onMounted(async() => {
   let result_one = await frontStore.getBrands().then((data) => {
