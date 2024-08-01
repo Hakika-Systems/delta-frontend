@@ -55,20 +55,13 @@
    
 </div>
           <div class="col-4">
-    <div class="grid grid-nogutter align-items-center">
-        <div class="col h-3rem  text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors">
-            <img src="/images/logos/okzim.jpg" alt="XS" class="h-3rem">
-        </div>
-        <div class="col h-3rem  text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors">
-            <img src="/images/logos/bonmarche.png" alt="S" class="h-3rem">
-        </div>
-        <div class="col h-3rem  text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors">
-            <img src="/images/logos/foodlovers.png" alt="M" class="h-3rem">
-        </div>
-        <div  @click="goToShop(shop_d)" class="col h-3rem  text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors">
-            <img src="/images/logos/okmart.jpg" alt="L" class="h-3rem">
-        </div>
+            <div class="grid grid-nogutter align-items-center">
+    <div v-for="brand in brands" :key="brand.id" 
+         class="col h-3rem text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors" 
+         @click="selectShop(brand?.id,brand?.logo,brand?.name)">
+        <img :src="brand.logo" :alt="brand.name" class="h-3rem">
     </div>
+</div>
 </div>
         </div>
       </div>
@@ -266,14 +259,68 @@
       </div>
     </div>
   </header>
+  <Dialog v-model:visible="select_shop" modal header="Edit Profile" :style="{ width: '25rem' }">
+    <template #header>
+        <div class="inline-flex align-items-center justify-content-center gap-2">
+            <Avatar :image="shopLogo" shape="circle" />
+            <span class="font-bold white-space-nowrap">Welcome to {{shopName}}</span>
+        </div>
+    </template>
+    <span class="p-text-secondary block mb-5">Select Branch.</span>
+    <div class="flex align-items-center gap-3 mb-3">
+      <Dropdown v-model="shopBranch" :options="branches" filter optionLabel="name" optionValue="id" placeholder="Select a Branch" class="w-full">
+    <template #value="slotProps">
+        <div v-if="slotProps?.value" class="flex align-items-center">
+            <div>{{ slotProps?.value?.name }}</div>
+        </div>
+        <span v-else>
+            {{ slotProps?.placeholder }}
+        </span>
+    </template>
+    <template #option="slotProps">
+        <div class="flex align-items-center">
+            <img :alt="slotProps?.option?.label" src="https://primefaces.org/cdn/primevue/images/flag/flag_placeholder.png" :class="`mr-2 flag flag-${slotProps?.option?.code.toLowerCase()}`" style="width: 18px" />
+            <div>{{ slotProps?.option?.name }}</div>
+        </div>
+    </template>
+</Dropdown>
+    </div>
+    <template #footer>
+        <Button label="Proceed to Shop" outlined severity="secondary" @click="select_shop = false" autofocus />
+    </template>
+</Dialog>
 </template>
 
 <script setup lang="ts">
 const shop_d = ref("okmart")
-const goToShop = (shopName:any) => {
-     navigateTo(`/${shopName}`)
+const frontStore = useFrontStore()
+const brands:any = storeToRefs(frontStore).brands
+const select_shop = ref(false)
+const shopBranch = ref(5)
+const branches = ref()
+const shopID = ref()
+const shopLogo = ref()
+const shopName = ref()
+const selectShop = (shopIDD:any,logo:any,name:any) => {
+  select_shop.value = true
+  shopID.value = shopIDD
+  shopLogo.value = logo
+  shopName.value = name
 }
+const goToShop = () => {
+     
+     navigateTo(`/shop-${shopID.value}-${shopBranch.value}`)
+}
+onMounted(async() => {
+  let result_one = await frontStore.getBrands().then((data) => {
+    console.log("djkds",data?.data?.shopbrands)
+    brands.value = data?.data?.shopbrands
+  })
+})
 </script>
+
+
+
 <style scoped>
 .header-layout3 .header-top {
     --body-color: #54595f;
