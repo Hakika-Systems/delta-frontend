@@ -5,6 +5,9 @@ export const useFrontStore = defineStore('front', {
     state: ()=>({
         cart: [],
         brands: null,
+        shop_id: null,
+        brand_id: null,
+        products: null,
         dummyProducts: [
             {   
               id: 1,
@@ -280,6 +283,34 @@ export const useFrontStore = defineStore('front', {
         } finally {
         }
     },
+    async getProducts(my_params:any) {
+      const url = new URL(`${SHOP_URL}/api/products/shop`);
+      const params:any = {
+          per_page: `${my_params.per_page}`,
+          page:`${my_params.page}`,
+          shop_brand_id: `${my_params.shop_brand_id}`,
+          shop_id: `${my_params.shop_id}`
+      };
+      Object.keys(params).forEach((key) =>
+          url.searchParams.append(key, params[key])
+      );
+      const token = useCookie('token').value || ""
+      const headers = {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+      };
+  
+      try {
+          const response = await fetch(url, {
+              method: "GET",
+              headers,
+          });
+          const data = await response.json();
+          return data;
+      } finally {
+      }
+  },
       
     }
    })
