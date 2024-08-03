@@ -27,7 +27,7 @@
         </InputGroupAddon>
         <InlineMessage severity="secondary">USD{{ cartTotal() }}</InlineMessage>
         <!-- <InputNumber v-model="cartTotal()" class="inputtotal" disabled placeholder="0.00" /> -->
-        <Button @click="navigateTo('/okMartCheckOut')" label="Checkout" icon="pi pi-angle-right" iconPos="right" severity="warn" />
+        <Button @click="navigateTo(`checkout-${brand_id}-${shop_id}`)" label="Checkout" icon="pi pi-angle-right" iconPos="right" severity="warn" />
     </InputGroup>
      <!-- <i v-badge.danger="'5'" class="pi pi-shopping-cart carticon" style="font-size: 1rem" /> -->
       </div>
@@ -48,7 +48,7 @@
                     <ul class="list-none p-0 m-0 flex flex-column gap-3">
                         <p v-if="cart.length === 0">No Items in Cart</p>
                         <li v-else v-for="(item, index) in cart" :key="item?.id" class="flex align-items-center gap-2">
-                <img :src="item.image" style="width: 32px" />
+                <img :src="getParsedImages(item.thumbnails)" style="width: 32px" />
                 <div class="col-4 flex align-items-center gap-2 text-color-secondary text-sm">
                     <span class="font-medium">{{ item.name }}</span>
                 </div>
@@ -76,7 +76,7 @@
                 </div>
             </div>
             <div>
-                <Button @click="navigateTo('/okMartCheckOut')" type="button" label="Checkout" class="w-full mt-2" />
+                <Button @click="navigateTo(`checkout-${brand_id}-${shop_id}`)" type="button" label="Checkout" class="w-full mt-2" />
         </div>
         </OverlayPanel>
       
@@ -86,6 +86,8 @@
     const frontStore = useFrontStore()
     const cart:any = storeToRefs(frontStore).cart
     const op = ref();
+    const brand_id = storeToRefs(frontStore).brand_id
+    const shop_id = storeToRefs(frontStore).shop_id
     const selectedCurrency = ref("USD");
     const currencies = ref([
         { name: 'USD', symbol: '$' },
@@ -229,6 +231,7 @@
     const increment = (index:any) => {
         //@ts-ignore
       cart.value[index].quantity += 1;
+
     }
     const decrement = (index:any) => {
          //@ts-ignore
@@ -246,6 +249,16 @@
         return total + (item.price * item.quantity);
       }, 0).toFixed(2);
     }
+    const getParsedImages = (images: string) => {
+    try {
+        const parsedImages = JSON.parse(images);
+        const cleanedString = JSON.parse(parsedImages.replace(/\\/g, ''));
+        return cleanedString[0]
+    } catch (error) {
+        console.error('Error parsing images JSON:', error);
+    }
+    return null; // Return null if parsing fails or no images are found
+    };
     const items = ref([
     {
         label: 'Bata',
