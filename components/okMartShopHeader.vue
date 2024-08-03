@@ -1,5 +1,5 @@
 <template>
-    <div class="foodloversheader fixedheader py-3 px-6 shadow-2 flex align-items-center justify-content-between relative">
+    <div class="okmartheader fixedheader py-3 px-6 shadow-2 flex align-items-center justify-content-between relative">
       <!-- Logo -->
       <div class="flex items-center flex-grow-0">
         <img src="/images/logos/okmart.jpg" alt="Image" height="90">
@@ -32,7 +32,7 @@
      <!-- <i v-badge.danger="'5'" class="pi pi-shopping-cart carticon" style="font-size: 1rem" /> -->
       </div>
     </div>
-    <div class="foodloversheader px-6 shadow-2 flex align-items-center justify-content-between relative lg:static">
+    <div class="foodloversheader okmartheader px-6 shadow-2 flex align-items-center justify-content-between relative lg:static">
       <div class="row col-12 flex">
          <div class="col-2">
             <TieredMenu class="shopbyisle" :model="vertical_items" />
@@ -301,13 +301,15 @@
     span.p-dropdown-label.p-inputtext {
         margin: auto;
     }
+    .okmartheader {
+    background-color: red !important;
+    }
       .account-cart-container a {
         display: flex;
         align-items: center;
       }
       .foodloversheader {
     padding-top: 120px;
-    background-color: #ed2226 !important;
     border-bottom: 0.5px solid #c5c5c5;
     border-top: none !important;
 }

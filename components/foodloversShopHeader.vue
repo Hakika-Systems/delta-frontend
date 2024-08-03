@@ -1,10 +1,9 @@
 <template>
-    <div class="bonmarcheheader fixedheader py-3 px-6 shadow-2 flex align-items-center justify-content-between relative">
+    <div class="foodloversheader2 fixedheader py-3 px-6 shadow-2 flex align-items-center justify-content-between relative">
       <!-- Logo -->
       <div class="flex items-center flex-grow-0">
-        <img src="/images/logos/bonmarche.png" alt="Image" height="90">
+        <img src="/images/logos/foodlovers.png" alt="Image" height="90">
       </div>
-    
       <!-- Search Input -->
       <div class="flex items-center col-6 flex-grow search-container">
         <InputGroup class="w-full">
@@ -32,7 +31,7 @@
      <!-- <i v-badge.danger="'5'" class="pi pi-shopping-cart carticon" style="font-size: 1rem" /> -->
       </div>
     </div>
-    <div class="foodloversheader bonmarcheheadertwo px-6 shadow-2 flex align-items-center justify-content-between relative lg:static">
+    <div class="foodloversheader2 bonmarcheheadertwo px-6 shadow-2 flex align-items-center justify-content-between relative lg:static">
       <div class="row col-12 flex">
          <div class="col-2">
             <TieredMenu class="shopbyisle" :model="vertical_items" />
@@ -313,6 +312,13 @@
       }
       .foodloversheader {
     padding-top: 120px;
+   
+    border-bottom: 0.5px solid #c5c5c5;
+    border-top: none !important;
+}
+.foodloversheader2 {
+    padding-top: 120px;
+    background-color: #276749 !important;
     border-bottom: 0.5px solid #c5c5c5;
     border-top: none !important;
 }
