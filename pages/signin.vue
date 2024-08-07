@@ -7,9 +7,9 @@
         <span class="mr-3 text-900">Dont have an Account? <NuxtLink to="/registration" class="font-medium text-blue-500 hover:text-blue-700 cursor-pointer transition-colors transition-duration-150">  Sign Up</NuxtLink></span>
       </div>
       <label for="email4" class="block text-900 font-medium mb-2">Email</label>
-      <input class="p-inputtext p-component w-full mb-3 p-3" data-pc-name="inputtext" data-pc-section="root" id="email4" type="text" placeholder="Email address">
+      <InputText class="p-inputtext p-component w-full mb-3 p-3" placeholder="Email Address" v-model="email" />
       <label for="password4" class="block text-900 font-medium mb-2">Password</label>
-      <input class="p-inputtext p-component w-full mb-3 p-3" data-pc-name="inputtext" data-pc-section="root" id="password4" type="password" placeholder="Password">
+      <Password class="w-full mb-3 p-3" placeholder="Enter Password" v-model="password" />
       <div class="flex align-items-center justify-content-between mb-6">
         <div class="flex align-items-center">
           <div class="p-checkbox p-component mr-2" data-pc-name="checkbox" data-pc-section="root" id="rememberme4">
@@ -24,60 +24,26 @@
         </div>
         <a class="font-medium text-blue-500 hover:text-blue-700 cursor-pointer transition-colors transition-duration-150">Forgot password?</a>
       </div>
-      <button class="p-button p-component w-full py-3 font-medium" type="button" aria-label="Sign In" data-pc-name="button" data-pc-section="root" data-pd-ripple="true">
-        <!---->
-        <span class="p-button-label" data-pc-section="label">Sign In</span>
-        <!---->
-        <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
-      </button>
+      <Button label="Sign In" @click="signIn()" class="w-full" /> 
     </div>
   </div>
   </template>
 <script setup lang="ts">
+const authStore = useAuthStore()
+const email = ref()
+const password = ref()
 
-const value = ref()
-let mukando = ref(false)
-let trader = ref(false)
-let business = ref(false)
-let Institution = ref(false)
-let Individual = ref(false)
-console.log("mukando",mukando.value)
+const signIn = async () => {
+  const info = {
+    email: email.value,
+    password: password.value
+  }
+  
+  let result = await authStore.login(info).then((data) => {
+    console.log("dshdshj",data)
+  })
+}
 
-const Mukando = ()=>{
-    mukando.value = true
-    trader.value = false
-    business.value = false
-    Institution.value = false
-    Individual.value = false
-}
-const Trader = ()=>{
-    mukando.value = false
-    trader.value = true
-    business.value = false
-    Institution.value = false
-    Individual.value = false
-}
-const Institution_account = ()=>{
-    mukando.value = false
-    trader.value = false
-    business.value = false
-    Institution.value = true
-    Individual.value = false
-}
-const Individual_account = ()=>{
-    mukando.value = false
-    trader.value = false
-    business.value = false
-    Institution.value = false
-    Individual.value = true
-}
-const Business_account = ()=>{
-    mukando.value = false
-    trader.value = false
-    business.value = true
-    Institution.value = false
-    Individual.value = false
-}
 
 </script>
 

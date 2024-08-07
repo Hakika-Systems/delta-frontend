@@ -61,10 +61,10 @@
             <div v-for="product in products" :key="product.id" class="col-12 md:col-6 lg:col-3">
               <div class="p-2">
                 <div class="border-1 surface-border border-round m-2 p-3">
-                  <div @click="navigateTo(`/detail-${product.id}`)" class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
+                  <div @click="navigateTo(`/detail-${product.id}-${brand_id}-${shop_id}-${product.category.id}`)" class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
                     <img :src="getParsedImages(product.images)" class="w-full h-full object-cover">
                   </div>
-                  <div @click="navigateTo(`/detail-${product.id}`)" class="mb-3 font-medium nametext cursor-pointer">{{ addEllipsis(product.name) }}</div>
+                  <div @click="navigateTo(`/detail-${product.id}-${brand_id}-${shop_id}-${product.category.id}`)" class="mb-3 font-medium nametext cursor-pointer">{{ addEllipsis(product.name) }}</div>
                   <div class="mb-4">
                   </div>
                   <div class="flex justify-content-between align-items-center">
@@ -136,7 +136,6 @@ const getParsedImages = (images: string) => {
   return null; // Return null if parsing fails or no images are found
 };
   onMounted( async() => {
-    console.log("jje",brand_id)
     brand_idd.value = brand_id
     shop_idd.value = shop_id
     let params = {

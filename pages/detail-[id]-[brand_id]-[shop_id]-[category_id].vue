@@ -6,14 +6,14 @@
       <div class="flex">
         
         <div class="pl-3 w-12">
-          <img :src="product?.image" class="w-full border-round">
+          <img :src="getParsedImages(product?.images)" class="w-full border-round">
         </div>
       </div>
     </div>
     <div class="col-12 lg:col-6 py-3 lg:pl-6">
       <div class="flex align-items-center text-xl font-medium text-900 mb-4">{{ product?.name }}</div>
       <div class="flex align-items-center justify-content-between mb-5">
-        <span class="text-900 font-medium text-3xl block">USD{{ product?.price }}</span>
+        <span class="text-900 font-medium text-3xl block">USD {{product?.prices[0]?.price}} </span>
         <div class="flex align-items-center">
           <span class="mr-3">
             <i class="pi pi-star-fill text-yellow-500 mr-1"></i>
@@ -29,11 +29,11 @@
       </div>
       <div class="font-bold text-900 mb-3">Brand</div>
       <div class="flex align-items-center mb-5 cursor-pointer">
-        {{ product?.brand }}
+        {{ product?.brand ? product?.brand : "" }}
       </div>
       <div class="font-bold text-900 mb-3">Category</div>
       <div class="flex align-items-center cursor-pointer mb-5">
-        {{ product?.category }}
+        {{ product?.category?.name }}
       </div>
       <div class="font-bold text-900 mb-3">Description</div>
       <div v-html="product?.description" class="flex align-items-center mb-5">
@@ -99,7 +99,7 @@
             <div class="p-2">
               <div class="border-1 surface-border border-round m-2 p-3">
                 <div @click="navigateTo(`/detail-${item.id}`)" class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
-                  <img :src="item.image" class="w-full h-full object-cover">
+                  <img :src="getParsedImages(item?.images)" class="w-full h-full object-cover">
                 </div>
                 <div @click="navigateTo(`/detail-${item.id}`)" class="mb-3 font-medium nametext cursor-pointer">{{ addEllipsis(item.name) }}</div>
                 <div class="mb-4">
@@ -120,28 +120,41 @@
 </template>
 <script setup lang="ts">
 const frontStore = useFrontStore()
-const products = storeToRefs(frontStore).dummyProducts
+const products:any = storeToRefs(frontStore).products
 const cart:any = storeToRefs(frontStore).cart
-const {params:{id}} = useRoute()
+const {params:{id,brand_id,shop_id,category_id}} = useRoute()
 const toast = useToast()
+const brand_idd:any = storeToRefs(frontStore).brand_id
+const shop_idd:any = storeToRefs(frontStore).shop_id
 const rating = ref()
 const quantity = ref(1)
 const related_products:any = ref([])
 const product = ref()
 onMounted( async () => {
-product.value = await findProduct(id)
-if (product.value) {
-    related_products.value = await  findRelatedProducts();
-    console.log("dsklsd",related_products.value)
+brand_idd.value = brand_id
+shop_idd.value = shop_id
+let params = {
+    page: 1,
+    per_page: 10,
+    shop_brand_id: brand_id,
+    shop_id: shop_id
 }
-
+let related_params = {
+    page: 1,
+    per_page: 10,
+    shop_brand_id: brand_id,
+    category_id: category_id
+}
+let productsd =  await frontStore.getProducts(params).then((data) => {
+  products.value = data?.data?.products
 })
-
-const findRelatedProducts = async () => {
-  return products.value.filter(p => p.category === product.value.category && p.id !== product.value.id);
-}
+let related_productss =  await frontStore.getRelatedProducts(related_params).then((data) => {
+  related_products.value = data?.data?.products
+})
+product.value = await findProduct(id)
+})
 const addToCart = (product_id:any) => {
-  const product = products.value.find(prod => prod.id === product_id);
+  const product = products.value.find((prod:any) => prod.id === product_id);
 
   if (!product) {
     console.error('Product not found');
@@ -173,6 +186,16 @@ const findProduct = (id:any) => {
   }
   return product.value
 };
+const getParsedImages = (images: string) => {
+  try {
+    const parsedImages = JSON.parse(images);
+    const cleanedString = JSON.parse(parsedImages.replace(/\\/g, ''));
+    return cleanedString[0]
+  } catch (error) {
+    console.error('Error parsing images JSON:', error);
+  }
+  return null; // Return null if parsing fails or no images are found
+};
 const currency = ref("USD")
 const addEllipsis = (str:string) => {
   return str.length > 23 ? str.slice(0, 23) + '...' : str;
@@ -183,7 +206,7 @@ const formatCurrency = (value:any) => {
 
 const addToCartRelated = (product_id :any) => {
 // Find the product in dummyProducts
-const product = products.value.find(prod => prod.id === product_id);
+const product = products.value.find((prod:any) => prod.id === product_id);
 
 if (!product) {
   console.error('Product not found');

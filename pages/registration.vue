@@ -61,39 +61,39 @@
           <div class="">
             <div class="surface-card p-4 shadow-2 border-round">
             <div class="grid formgrid p-fluid ">
-                <div class="field mb-4 col-6">
+                <div class="field mb-4 col-12">
                     <FloatLabel>
-                        <InputText id="username" v-model="value" size="large" />
+                        <InputText placeholder="Enter Full Name" id="username" v-model="name" size="large" />
                         <label for="username">Name</label>
                     </FloatLabel>
                 </div>
                 <div class="field mb-4 col-6">
                     <FloatLabel>
-                        <InputText id="username" v-model="value" size="large" />
-                        <label for="username">Address</label>
+                        <InputText id="username" v-model="email" size="large" />
+                        <label for="username">Email Address</label>
                     </FloatLabel>
                 </div>
                 <div class="field mb-4 col-6">
                     <FloatLabel>
-                        <InputText id="username" v-model="value" size="large" />
-                        <label for="username">Email</label>
+                        <InputText id="username" v-model="whatsapp_number" size="large" />
+                        <label for="username">WhatsApp Number</label>
                     </FloatLabel>
                 </div>
                 <div class="field mb-4 col-6">
                     <FloatLabel>
-                        <InputText id="username" v-model="value" size="large" />
-                        <label for="username">Phone Number</label>
+                        <Password id="username" v-model="password" size="large" />
+                        <label for="username">Password</label>
                     </FloatLabel>
                 </div>
                 <div class="field mb-4 col-6">
                     <FloatLabel>
-                        <InputText id="username" v-model="value" size="large"/>
-                        <label for="username">Whatsapp Phone Number</label>
+                        <Password id="username" v-model="password_confirmation" size="large" />
+                        <label for="username">Password Confirmation</label>
                     </FloatLabel>
                 </div>
                 <div class="surface-border border-top-1  mb-4 col-12 "></div>
                 <div class="field mb-4 col-3">
-                    <Button label="Send Details" severity="success" />
+                    <Button :loading="loading" @click="individualRegistration()" :disabled="!name || !email || !whatsapp_number || !password || !password_confirmation" label="Sign Up" severity="success" />
                 </div>
             </div>
           </div>
@@ -195,7 +195,6 @@
                         <label for="username">Sector of Tradee.g Retail / Liquor</label>
                     </FloatLabel>
                 </div>
-              
                 <div class="field mb-4 col-6">
                     <FloatLabel>
                         <InputText id="username" size="large" v-model="value" />
@@ -223,14 +222,14 @@
                
      
                 <div class="field mb-4 col-6">
-                    <FileUpload name="demo[]" url="/api/upload" @upload="onAdvancedUpload($event)" :multiple="true" accept="image/*" :maxFileSize="1000000">
+                    <FileUpload name="demo[]" url="/api/upload"  :multiple="true" accept="image/*" :maxFileSize="1000000">
                         <template #empty>
                             <span style="">Drag and drop files to here to upload Tax Clearance.</span>
                         </template>
                     </FileUpload>
                 </div>
                 <div class="field mb-4 col-6">
-                    <FileUpload name="demo[]" url="/api/upload" @upload="onAdvancedUpload($event)" :multiple="true" accept="image/*" :maxFileSize="1000000">
+                    <FileUpload name="demo[]" url="/api/upload"  :multiple="true" accept="image/*" :maxFileSize="1000000">
                         <template #empty>
                             <span style="">Drag and drop files to here to upload Trading License.</span>
                         </template>
@@ -307,14 +306,14 @@
                     </FloatLabel>
                 </div>
                 <div class="field mb-4 col-6">
-                    <FileUpload name="demo[]" url="/api/upload" @upload="onAdvancedUpload($event)" :multiple="true" accept="image/*" :maxFileSize="1000000">
+                    <FileUpload name="demo[]" url="/api/upload"  :multiple="true" accept="image/*" :maxFileSize="1000000">
                         <template #empty>
                             <span style="">Drag and drop files to here to upload Tax Clearance.</span>
                         </template>
                     </FileUpload>
                 </div>
                 <div class="field mb-4 col-6">
-                    <FileUpload name="demo[]" url="/api/upload" @upload="onAdvancedUpload($event)" :multiple="true" accept="image/*" :maxFileSize="1000000">
+                    <FileUpload name="demo[]" url="/api/upload"  :multiple="true" accept="image/*" :maxFileSize="1000000">
                         <template #empty>
                             <span style="">Drag and drop files to here to upload VAT Certificate.</span>
                         </template>
@@ -401,13 +400,20 @@
   </template>
 <script setup lang="ts">
 
+const frontStore = useFrontStore()
+const toast = useToast()
+const name = ref()
+const email = ref()
+const password = ref()
+const loading = ref(false)
+const password_confirmation = ref()
+const whatsapp_number = ref()
 const value = ref()
 let mukando = ref(false)
 let trader = ref(false)
 let business = ref(false)
 let Institution = ref(false)
 let Individual = ref(true)
-console.log("mukando",mukando.value)
 
 const Mukando = ()=>{
     mukando.value = true
@@ -447,6 +453,26 @@ const Business_account = ()=>{
 onMounted(() => {
     Individual.value = true
 })
+
+const individualRegistration = async () => {
+    loading.value = true
+    const info = {
+        name: name.value,
+        email: email.value,
+        whatsapp_number: whatsapp_number.value,
+        password: password.value,
+        password_confirmation: password_confirmation.value
+    }
+    let result = await frontStore.individualRegistration(info).then((data)=> {
+        loading.value = false
+        if (data.status === "success") {
+            toast.add({ severity: 'success', summary: 'Success', detail: 'You have been registred', life: 3000 });
+            navigateTo('/signin')
+        } else {
+            toast.add({ severity: 'warn', summary: 'Failed', detail: data.errors, life: 3000 });
+        }
+    })
+}
 </script>
 
   

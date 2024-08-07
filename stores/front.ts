@@ -7,7 +7,7 @@ export const useFrontStore = defineStore('front', {
         brands: null,
         shop_id: null,
         brand_id: null,
-        products: null,
+        products: [],
         dummyProducts: [
             {   
               id: 1,
@@ -310,7 +310,68 @@ export const useFrontStore = defineStore('front', {
           return data;
       } finally {
       }
-  },
+    },
+    async getRelatedProducts(my_params:any) {
+      const url = new URL(`${SHOP_URL}/api/products/related`);
+      const params:any = {
+          per_page: `${my_params.per_page}`,
+          page:`${my_params.page}`,
+          shop_brand_id: `${my_params.shop_brand_id}`,
+          category_id: `${my_params.category_id}`
+      };
+      Object.keys(params).forEach((key) =>
+          url.searchParams.append(key, params[key])
+      );
+      const token = useCookie('token').value || ""
+      const headers = {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+      };
+  
+      try {
+          const response = await fetch(url, {
+              method: "GET",
+              headers,
+          });
+          const data = await response.json();
+          return data;
+      } finally {
+      }
+    },
+    async individualRegistration(my_params: any) {
+      const url = `${SHOP_URL}/api/auth/signup`;
+      const token = useCookie('token').value || "";
+      
+      const headers = {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      };
+      
+      const body = {
+        name: my_params.name,
+        email: my_params.email,
+        whatsapp_number: my_params.whatsapp_number,
+        password: my_params.password,
+        password_confirmation: my_params.password_confirmation,
+      };
+      
+      try {
+        const response = await fetch(url, {
+          method: "POST",
+          headers,
+          body: JSON.stringify(body),
+        });
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error:', error);
+        throw error;
+      }
+    }
+    
+
       
     }
    })
