@@ -75,12 +75,7 @@
         <div class="text-900 font-bold text-3xl">Related Products</div>
       </div>
       <div>
-        <button class="p-button p-component p-button-outlined p-button-secondary w-7rem p-2" type="button" aria-label="Sort By" data-pc-name="button" data-pc-section="root" data-pd-ripple="true">
-          <span class="p-button-icon p-button-icon-right pi pi-sort-alt" data-pc-section="icon"></span>
-          <span class="p-button-label" data-pc-section="label">Sort By</span>
-          <!---->
-          <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
-        </button>
+        <Button class="p-button p-component p-button-outlined p-button-secondary w-7rem p-2" label="Sort By" />
       </div>
     </div>
     <div class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left" role="separator" aria-orientation="horizontal" data-pc-name="divider" data-pc-section="root" styleclass="w-full border-gray-200" style="justify-content: center;">
@@ -94,7 +89,8 @@
       </div> -->
       <div class="col-12 grid grid-nogutter align-items-center">
       <div class="col-12">
-        <div class="grid">
+        <p v-if="related_products.length === 0">No Related Products</p>
+        <div v-else class="grid">
           <div v-for="item in related_products" :key="item.id" class="col-12 md:col-6 lg:col-3">
             <div class="p-2">
               <div class="border-1 surface-border border-round m-2 p-3">
