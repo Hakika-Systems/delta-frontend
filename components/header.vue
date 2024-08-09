@@ -51,20 +51,19 @@
               <button type="submit"><i class="far fa-search"></i></button>
             </form>
           </div> -->
-          <div class="col-8">
-            <InputGroup>
-                        <IconField iconPosition="left">
-                        <InputIcon>
-                            <i class="pi pi-search" />
+          <div class="col-3">
 
-                        </InputIcon>
-                        <InputText  class="searchinput p-inputtext p-component surface-section text-600 surface-border w-full" placeholder="Search Product | Category | Brand"/>
+          </div>
+          <div class="col-6">
+            <InputGroup class="w-full">
+                        <IconField class="w-full" iconPosition="left">
+                        <InputText  class="searchinput p-inputtext p-component surface-section text-600 surface-border w-full"  placeholder="What are you looking for..."/>
                         <!-- <input @keydown="isKeyDown = true" @keyup="searchProducts()"  v-model="search_text" class="searchinput p-inputtext p-component surface-section text-600 surface-border w-full" data-pc-name="inputtext" data-pc-section="root" type="text" placeholder="Search Product | Category | Brand"> -->
                     </IconField>
-                    <Button  :loading="loading" icon="pi pi-search seachbutton" severity="warning" />
+                    <Button style="border-radius:0px 30px 30px 0px"   icon="pi pi-search seachbutton" severity="warning" />
                 </InputGroup>
           </div>
-          <div class="col-4">
+          <div class="col-3">
             <div v-if="loading" class="grid grid-nogutter align-items-center">
               <div
                   class="col h-3rem text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors">
@@ -360,6 +359,9 @@ onMounted(async() => {
 }
 .menu-top {
     border-bottom: 1px solid #d8caca;
+}
+input.p-inputtext.p-component.searchinput.p-inputtext.p-component.surface-section.text-600.surface-border.w-full {
+    border-radius: 30px 0px 0px 30px;
 }
 .menu-expand {
     display: inline-block;
