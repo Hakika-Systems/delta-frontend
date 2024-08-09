@@ -52,16 +52,44 @@
             </form>
           </div> -->
           <div class="col-8">
-   
-</div>
+            <InputGroup>
+                        <IconField iconPosition="left">
+                        <InputIcon>
+                            <i class="pi pi-search" />
+
+                        </InputIcon>
+                        <InputText  class="searchinput p-inputtext p-component surface-section text-600 surface-border w-full" placeholder="Search Product | Category | Brand"/>
+                        <!-- <input @keydown="isKeyDown = true" @keyup="searchProducts()"  v-model="search_text" class="searchinput p-inputtext p-component surface-section text-600 surface-border w-full" data-pc-name="inputtext" data-pc-section="root" type="text" placeholder="Search Product | Category | Brand"> -->
+                    </IconField>
+                    <Button  :loading="loading" icon="pi pi-search seachbutton" severity="warning" />
+                </InputGroup>
+          </div>
           <div class="col-4">
-            <div class="grid grid-nogutter align-items-center">
-    <div v-for="brand in brands" :key="brand.id" 
-         class="col h-3rem text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors" 
-         @click="selectShop(brand?.id,brand?.logo,brand?.name)">
-        <img :src="brand.logo" :alt="brand.name" class="h-3rem">
-    </div>
-</div>
+            <div v-if="loading" class="grid grid-nogutter align-items-center">
+              <div
+                  class="col h-3rem text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors">
+                  <Skeleton class="h-3rem" />
+              </div>
+              <div
+                  class="col h-3rem text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors">
+                  <Skeleton class="h-3rem" />
+              </div>
+              <div
+                  class="col h-3rem text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors">
+                  <Skeleton class="h-3rem" />
+              </div>
+              <div
+                  class="col h-3rem text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors">
+                  <Skeleton class="h-3rem" />
+              </div>
+            </div>
+            <div v-else class="grid grid-nogutter align-items-center">
+              <div v-for="brand in brands" :key="brand.id" 
+                  class="col h-3rem text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors" 
+                  @click="selectShop(brand?.id,brand?.logo,brand?.name)">
+                  <img :src="brand.logo" :alt="brand.name" class="h-3rem">
+              </div>
+            </div>
 </div>
         </div>
       </div>
@@ -281,7 +309,7 @@ const shop_d = ref("okmart")
 const frontStore = useFrontStore()
 const brands:any = storeToRefs(frontStore).brands
 const select_shop = ref(false)
-const loading = ref(false)
+const loading = ref(true)
 const shopBranch = ref()
 const branches = ref()
 const shopID = ref()
@@ -309,6 +337,7 @@ onMounted(async() => {
   let result_one = await frontStore.getBrands().then((data) => {
     console.log("djkds",data?.data?.shopbrands)
     brands.value = data?.data?.shopbrands
+    loading.value = false
   })
 })
 </script>
