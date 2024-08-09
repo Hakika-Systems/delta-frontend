@@ -1,12 +1,19 @@
 <template>
     <div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
-        <header class="flex w-full justify-content-between align-items-center  surface-border pb-5">
+        <div class="flex flex-wrap mb-5 relative" style="border-radius: 1rem; background: radial-gradient(100% 1126.49% at 100% 0%, rgb(238 28 37) 0%, rgb(238 28 37) 100%), rgb(33, 33, 33);">
+            <div class="px-6 py-4">
+                <img src="/images/logos/okzim.jpg" class="w-12rem flex-shrink-0 mx-auto md:mx-0">
+            </div>
+            
+            <img src="https://tmpnponline.co.zw/wp-content/uploads/2023/03/132049-Irvines-Mixed-Portions-2kg-768x768.png" alt="Image" class="block mx-auto lg:absolute" style="height: 340px;top: -7rem;right:-1rem;z-index:10;/* margin-bottom: 34px !important; */">
+        </div>
+
+        <!-- <header class="flex w-full justify-content-between align-items-center  surface-border pb-5">
             <div>
                 <img src="/images/logos/okzim.jpg" class="w-12rem flex-shrink-0 mx-auto md:mx-0">
-                <!-- <h2 class="mt-0 mb-3 font-medium text-2xl text-900">OK Zimbabwe</h2> -->
             </div>
             <Button class="shopnow feat" label="Shop Now" />
-        </header>
+        </header> -->
         <Carousel :value="dummyProducts" :numVisible="5" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="3000">
             <template #item="slotProps">
                 <div class="border-1 surface-border border-round m-2 p-3">
@@ -42,13 +49,11 @@
     </div>
     
     <div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
-        <header class="flex w-full justify-content-between align-items-center  surface-border pb-5">
-            <div>
-                <img src="/images/logos/bonmarche.png" class="w-12rem flex-shrink-0 mx-auto md:mx-0">
-                <!-- <h2 class="mt-0 mb-3 font-medium text-2xl text-900">Bon Marche</h2> -->
-            </div>
-            <Button class="shopnow feat" label="Shop Now" />
-        </header>
+        <div class="flex flex-wrap mb-5 relative" style="border-radius:1rem;background: radial-gradient(100% 1126.49% at 100% 0%, rgb(163 180 135) 0%, rgb(163 201 98) 100%), rgb(33, 33, 33);">
+         <div class="px-6 py-4">
+            <img src="/images/logos/bonmarche.png" class="w-12rem flex-shrink-0 mx-auto md:mx-0">
+         </div>
+         <img src="https://tmpnponline.co.zw/wp-content/uploads/2023/03/132049-Irvines-Mixed-Portions-2kg-768x768.png" alt="Image" class="block mx-auto lg:absolute" style="height: 340px;top: -7rem;right:-1rem;z-index:10;/* margin-bottom: 34px !important; */">  </div>
         <Carousel :value="dummyProducts" :numVisible="5" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="3000">
             <template #item="slotProps">
                 <div class="border-1 surface-border border-round m-2 p-3">
@@ -83,13 +88,11 @@
         </Carousel>
     </div>
     <div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
-        <header class="flex w-full justify-content-between align-items-center  surface-border pb-5">
-            <div>
+            <div class="flex flex-wrap mb-5 relative " style="border-radius: 1rem;background: radial-gradient(100% 1126.49% at 100% 0%, rgb(44 96 73) 0%, rgb(1 113 63) 100%), rgb(33, 33, 33);">
+            <div class="px-6 py-4">
                 <img src="/images/logos/foodlovers.png" class="w-12rem flex-shrink-0 mx-auto md:mx-0">
-                <!-- <h2 class="mt-0 mb-3 font-medium text-2xl text-900">Food Lovers</h2> -->
             </div>
-            <Button class="shopnow feat" label="Shop Now" />
-        </header>
+            <img src="https://tmpnponline.co.zw/wp-content/uploads/2022/03/54491472-Coca-Cola-500ml-1-300x300.png" alt="Image" class="block mx-auto lg:absolute" style="height: 340px;top: -7rem;right:-1rem;z-index:10;/* margin-bottom: 34px !important; */">    </div>
         <Carousel :value="dummyProducts" :numVisible="5" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="3000">
             <template #item="slotProps">
                 <div class="border-1 surface-border border-round m-2 p-3">
@@ -124,12 +127,13 @@
         </Carousel>
     </div>
     <div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
-        <header class="flex w-full justify-content-between align-items-center  surface-border pb-5">
-            <div>
+        <div class="flex flex-wrap  relative mb-5" style="border-radius: 1rem;background: radial-gradient(100% 1126.49% at 100% 0%, rgb(238 28 37) 0%, rgb(238 28 37) 100%), rgb(33, 33, 33);">
+            <div class="px-6 py-4">
                 <img src="/images/logos/okmart.jpg" class="w-12rem flex-shrink-0 mx-auto md:mx-0">
             </div>
-            <Button class="shopnow feat" label="Shop Now" />
-        </header>
+            <img src="https://tmpnponline.co.zw/wp-content/uploads/2023/03/132362-Sable-Drums-1kg-300x300.png" alt="Image" class="block mx-auto lg:absolute" style="height: 340px;top: -7rem;right:-1rem;z-index:10;/* margin-bottom: 34px !important; */">  
+        </div>
+        
         <Carousel :value="dummyProducts" :numVisible="5" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="3000">
             <template #item="slotProps">
                 <div class="border-1 surface-border border-round m-2 p-3">
