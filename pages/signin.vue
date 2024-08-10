@@ -9,7 +9,7 @@
       <label for="email4" class="block text-900 font-medium mb-2">Email</label>
       <InputText class="p-inputtext p-component w-full mb-3 p-3" placeholder="Email Address" v-model="email" />
       <label for="password4" class="block text-900 font-medium mb-2">Password</label>
-      <Password class="w-full mb-3 p-3" placeholder="Enter Password" v-model="password" />
+      <Password class="w-full password mb-3" placeholder="Enter Password" v-model="password" />
       <div class="flex align-items-center justify-content-between mb-6">
         <div class="flex align-items-center">
           <div class="p-checkbox p-component mr-2" data-pc-name="checkbox" data-pc-section="root" id="rememberme4">
@@ -24,27 +24,45 @@
         </div>
         <a class="font-medium text-blue-500 hover:text-blue-700 cursor-pointer transition-colors transition-duration-150">Forgot password?</a>
       </div>
-      <Button label="Sign In" @click="signIn()" class="w-full" /> 
+      <Button :loading="loading" label="Sign In" @click="signIn()" class="w-full" /> 
     </div>
   </div>
   </template>
 <script setup lang="ts">
 const authStore = useAuthStore()
 const email = ref()
+const loading = ref(false)
 const password = ref()
+const toast = useToast()
 
 const signIn = async () => {
+  loading.value = true
   const info = {
     email: email.value,
     password: password.value
   }
   
   let result = await authStore.login(info).then((data) => {
-    console.log("dshdshj",data)
+    console.log("dshdshj",data.data.message)
+    if(data.data.login.data.token) {
+      toast.add({ severity: 'success', summary: 'Success', detail: 'Succesfull Signed In', life: 3000 });
+      navigateTo('/myaccount')
+      loading.value = false
+    }
+    else {
+      toast.add({ severity: 'warn', summary: 'Sign In Failed', detail: data.data.message, life: 3000 });
+      loading.value = false
+    }
   })
 }
 
 
 </script>
+<style>
+input.p-inputtext.p-component.p-password-input {
+    width: 100%;
+    height: 50px;
+}
+</style>
 
   
