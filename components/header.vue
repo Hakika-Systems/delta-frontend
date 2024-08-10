@@ -14,10 +14,15 @@
             </div>
           </div>
           <div class="col-8 d-none d-lg-block">
-            <!-- <form class="header-search">
-              <input type="text" placeholder="Enter Keyword" />
-              <button type="submit"><i class="far fa-search"></i></button>
-            </form> -->
+           
+            <InputGroup class="w-full">
+                        <IconField class="w-full" iconPosition="left">
+                        <InputText  class="searchinput p-inputtext p-component surface-section text-600 surface-border w-full"  placeholder="What are you looking for..."/>
+                        <!-- <input @keydown="isKeyDown = true" @keyup="searchProducts()"  v-model="search_text" class="searchinput p-inputtext p-component surface-section text-600 surface-border w-full" data-pc-name="inputtext" data-pc-section="root" type="text" placeholder="Search Product | Category | Brand"> -->
+                    </IconField>
+                    <Button style="border-radius:0px 30px 30px 0px"   icon="pi pi-search seachbutton" severity="warning" />
+                </InputGroup>
+       
           </div>
           <div class="col-2">
             <div class="header-icons">
@@ -53,15 +58,6 @@
           </div> -->
           <div class="col-3">
 
-          </div>
-          <div class="col-6">
-            <InputGroup class="w-full">
-                        <IconField class="w-full" iconPosition="left">
-                        <InputText  class="searchinput p-inputtext p-component surface-section text-600 surface-border w-full"  placeholder="What are you looking for..."/>
-                        <!-- <input @keydown="isKeyDown = true" @keyup="searchProducts()"  v-model="search_text" class="searchinput p-inputtext p-component surface-section text-600 surface-border w-full" data-pc-name="inputtext" data-pc-section="root" type="text" placeholder="Search Product | Category | Brand"> -->
-                    </IconField>
-                    <Button style="border-radius:0px 30px 30px 0px"   icon="pi pi-search seachbutton" severity="warning" />
-                </InputGroup>
           </div>
           <div class="col-3">
             <div v-if="loading" class="grid grid-nogutter align-items-center">
