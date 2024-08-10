@@ -308,7 +308,9 @@ const loading = ref(true)
 const shopBranch = ref()
 const branches = ref()
 const shopID = ref()
+const featured = ref()
 const shopLogo = ref()
+const featuredProductsByBrand:any = storeToRefs(frontStore).brand_featured_products
 const shopName = ref()
 const selectShop = async (shopIDD:any,logo:any,name:any) => {
   select_shop.value = true
@@ -329,12 +331,43 @@ const goToShop = () => {
      loading.value = false
 }
 onMounted(async() => {
-  let result_one = await frontStore.getBrands().then((data) => {
+  let result_one = await frontStore.getBrands().then( async(data) => {
     console.log("djkds",data?.data?.shopbrands)
     brands.value = data?.data?.shopbrands
+    await getAllBrandsFeaturedProducts()
     loading.value = false
   })
 })
+
+const getAllBrandsFeaturedProducts = async () => {
+  const brandss:any = brands.value
+
+  // Create an object to store the featured products for each brand
+
+
+  // Loop through each brand and get featured products
+  for (const brand of brands.value) {
+    let products = await getFeaturedProducts(brand.id);
+    featuredProductsByBrand.value[brand.name] = products; // Store the products in the object
+  }
+
+  // Now you have an object containing featured products for each brand
+  console.log(featuredProductsByBrand.value);
+};
+
+const getFeaturedProducts = async (brand_id:any) => {
+  let params = {
+        page: 1,
+        per_page: 10,
+        id: brand_id,
+        is_shop_brand: true
+    }
+    let productsd =  await frontStore.getFeaturedProducts(params).then((data) => {
+      featured.value = {}
+      featured.value = data?.data?.products
+    })
+    return featured.value
+}
 </script>
 
 
