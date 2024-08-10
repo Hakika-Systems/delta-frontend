@@ -4,7 +4,7 @@ import { SHOP_URL } from '~/services/global.variables';
 export const useFrontStore = defineStore('front', {
     state: ()=>({
         cart: [],
-        brands: null,
+        brands: [],
         shop_id: null,
         brand_id: null,
         brand_featured_products: {},
