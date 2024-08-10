@@ -1,177 +1,159 @@
 <template>
-    <div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
+    <div v-if="okZimbabweProducts.length > 0" class="surface-ground px-4 py-8 md:px-6 lg:px-8">
         <div class="flex flex-wrap mb-5 relative" style="border-radius: 1rem; background: radial-gradient(100% 1126.49% at 100% 0%, rgb(238 28 37) 0%, rgb(238 28 37) 100%), rgb(33, 33, 33);">
             <div class="px-6 py-4">
                 <img src="/images/logos/okzim.jpg" class="w-12rem flex-shrink-0 mx-auto md:mx-0">
             </div>
-            
             <img src="https://tmpnponline.co.zw/wp-content/uploads/2023/03/132049-Irvines-Mixed-Portions-2kg-768x768.png" alt="Image" class="block mx-auto lg:absolute" style="height: 340px;top: -7rem;right:-1rem;z-index:10;/* margin-bottom: 34px !important; */">
         </div>
-
         <!-- <header class="flex w-full justify-content-between align-items-center  surface-border pb-5">
             <div>
                 <img src="/images/logos/okzim.jpg" class="w-12rem flex-shrink-0 mx-auto md:mx-0">
             </div>
             <Button class="shopnow feat" label="Shop Now" />
         </header> -->
-        <Carousel :value="dummyProducts" :numVisible="5" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="3000">
-            <template #item="slotProps">
+        <div class="col-12 grid grid-nogutter align-items-center">
+        <div class="col-12">
+          <div class="grid">
+            <div v-for="product in okZimbabweProducts" :key="product.id" class="col-12 md:col-6 lg:col-3">
+              <div class="p-2">
                 <div class="border-1 surface-border border-round m-2 p-3">
-                    <div class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto">
-                        <img :src="slotProps.data.image" class="w-full h-full object-cover">
-                    </div>
-                    <div class="mb-3 font-medium nametext">{{ addEllipsis(slotProps.data.name) }}</div>
-                    <div class="mb-4">
-                    </div>
-                    <div class="flex justify-content-between align-items-center">
-                        <span class="font-bold text-900 ml-2">{{currency}}{{slotProps.data.price ? formatCurrency(slotProps.data.price) :  formatCurrency(0)}}</span>
-                        <Button @click="navigateTo(slotProps.data.redirect_url, {external: true})" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
-                    </div>
+                  <div  class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
+                    <img :src="getParsedImages(product.images)" class="w-full h-full object-cover">
+                  </div>
+                  <div  class="mb-3 font-medium nametext cursor-pointer">{{ addEllipsis(product.name) }}</div>
+                  <div class="mb-4">
+                  </div>
+                  <div class="flex justify-content-between align-items-center">
+                    <span class="font-bold text-900 ml-2">{{currency}}{{product.prices[0]?.price ? formatCurrency(product.prices[0]?.price) : formatCurrency(0)}}</span>
+                    <Button  icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
+                  </div>
                 </div>
-            </template>
-        </Carousel>
-        <Carousel :value="products" :numVisible="5" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="3000">
-            <template #item="slotProps">
-                <div class="border-1 surface-border border-round m-2 p-3">
-                    <div class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto">
-                        <img :src="slotProps.data.image" class="w-full h-full object-cover">
-                    </div>
-                    <div class="mb-3 font-medium nametext">{{ addEllipsis(slotProps.data.name) }}</div>
-                    <div class="mb-4">
-                    </div>
-                    <div class="flex justify-content-between align-items-center">
-                        <span class="font-bold text-900 ml-2">{{currency}}{{slotProps.data.price ? formatCurrency(slotProps.data.price) :  formatCurrency(0)}}</span>
-                        <Button @click="navigateTo(slotProps.data.redirect_url, {external: true})" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
-                    </div>
-                </div>
-            </template>
-        </Carousel>
+              </div>
+            </div>
+            <!-- <div  class="col-8 md:col-6 lg:col-12">
+              <img src="/images/middle_banner.jpg" alt="Side Banner" class="w-full"  >
+            </div> -->
+          </div>
+        </div>
+      </div>
     </div>
-    
-    <div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
+    <div  v-if="bornemarcheProducts.length > 0" class="surface-ground px-4 py-8 md:px-6 lg:px-8">
         <div class="flex flex-wrap mb-5 relative" style="border-radius:1rem;background: radial-gradient(100% 1126.49% at 100% 0%, rgb(163 180 135) 0%, rgb(163 201 98) 100%), rgb(33, 33, 33);">
          <div class="px-6 py-4">
             <img src="/images/logos/bonmarche.png" class="w-12rem flex-shrink-0 mx-auto md:mx-0">
          </div>
          <img src="https://tmpnponline.co.zw/wp-content/uploads/2023/03/132049-Irvines-Mixed-Portions-2kg-768x768.png" alt="Image" class="block mx-auto lg:absolute" style="height: 340px;top: -7rem;right:-1rem;z-index:10;/* margin-bottom: 34px !important; */">  </div>
-        <Carousel :value="dummyProducts" :numVisible="5" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="3000">
-            <template #item="slotProps">
+         <div class="col-12 grid grid-nogutter align-items-center">
+        <div class="col-12">
+          <div class="grid">
+            <div v-for="product in bornemarcheProducts" :key="product.id" class="col-12 md:col-6 lg:col-3">
+              <div class="p-2">
                 <div class="border-1 surface-border border-round m-2 p-3">
-                    <div class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto">
-                        <img :src="slotProps.data.image" class="w-full h-full object-cover">
-                    </div>
-                    <div class="mb-3 font-medium nametext">{{ addEllipsis(slotProps.data.name) }}</div>
-                    <div class="mb-4">
-                    </div>
-                    <div class="flex justify-content-between align-items-center">
-                        <span class="font-bold text-900 ml-2">{{currency}}{{slotProps.data.price ? formatCurrency(slotProps.data.price) :  formatCurrency(0)}}</span>
-                        <Button @click="navigateTo(slotProps.data.redirect_url, {external: true})" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
-                    </div>
+                  <div  class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
+                    <img :src="getParsedImages(product.images)" class="w-full h-full object-cover">
+                  </div>
+                  <div  class="mb-3 font-medium nametext cursor-pointer">{{ addEllipsis(product.name) }}</div>
+                  <div class="mb-4">
+                  </div>
+                  <div class="flex justify-content-between align-items-center">
+                    <span class="font-bold text-900 ml-2">{{currency}}{{product.prices[0]?.price ? formatCurrency(product.prices[0]?.price) : formatCurrency(0)}}</span>
+                    <Button  icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
+                  </div>
                 </div>
-            </template>
-        </Carousel>
-        <Carousel :value="products" :numVisible="5" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="3000">
-            <template #item="slotProps">
-                <div class="border-1 surface-border border-round m-2 p-3">
-                    <div class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto">
-                        <img :src="slotProps.data.image" class="w-full h-full object-cover">
-                    </div>
-                    <div class="mb-3 font-medium nametext">{{ addEllipsis(slotProps.data.name) }}</div>
-                    <div class="mb-4">
-                    </div>
-                    <div class="flex justify-content-between align-items-center">
-                        <span class="font-bold text-900 ml-2">{{currency}}{{slotProps.data.price ? formatCurrency(slotProps.data.price) :  formatCurrency(0)}}</span>
-                        <Button @click="navigateTo(slotProps.data.redirect_url, {external: true})" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
-                    </div>
-                </div>
-            </template>
-        </Carousel>
+              </div>
+            </div>
+            <!-- <div  class="col-8 md:col-6 lg:col-12">
+              <img src="/images/middle_banner.jpg" alt="Side Banner" class="w-full"  >
+            </div> -->
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
+    <div v-if="foodloversProducts.length > 0" class="surface-ground px-4 py-8 md:px-6 lg:px-8">
             <div class="flex flex-wrap mb-5 relative " style="border-radius: 1rem;background: radial-gradient(100% 1126.49% at 100% 0%, rgb(44 96 73) 0%, rgb(1 113 63) 100%), rgb(33, 33, 33);">
             <div class="px-6 py-4">
                 <img src="/images/logos/foodlovers.png" class="w-12rem flex-shrink-0 mx-auto md:mx-0">
             </div>
             <img src="https://tmpnponline.co.zw/wp-content/uploads/2022/03/54491472-Coca-Cola-500ml-1-300x300.png" alt="Image" class="block mx-auto lg:absolute" style="height: 340px;top: -7rem;right:-1rem;z-index:10;/* margin-bottom: 34px !important; */">    </div>
-        <Carousel :value="dummyProducts" :numVisible="5" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="3000">
-            <template #item="slotProps">
+          <div class="col-12 grid grid-nogutter align-items-center">
+        <div class="col-12">
+          <div class="grid">
+            <div v-for="product in foodloversProducts" :key="product.id" class="col-12 md:col-6 lg:col-3">
+              <div class="p-2">
                 <div class="border-1 surface-border border-round m-2 p-3">
-                    <div class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto">
-                        <img :src="slotProps.data.image" class="w-full h-full object-cover">
-                    </div>
-                    <div class="mb-3 font-medium nametext">{{ addEllipsis(slotProps.data.name) }}</div>
-                    <div class="mb-4">
-                    </div>
-                    <div class="flex justify-content-between align-items-center">
-                        <span class="font-bold text-900 ml-2">{{currency}}{{slotProps.data.price ? formatCurrency(slotProps.data.price) :  formatCurrency(0)}}</span>
-                        <Button @click="navigateTo(slotProps.data.redirect_url, {external: true})" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
-                    </div>
+                  <div  class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
+                    <img :src="getParsedImages(product.images)" class="w-full h-full object-cover">
+                  </div>
+                  <div  class="mb-3 font-medium nametext cursor-pointer">{{ addEllipsis(product.name) }}</div>
+                  <div class="mb-4">
+                  </div>
+                  <div class="flex justify-content-between align-items-center">
+                    <span class="font-bold text-900 ml-2">{{currency}}{{product.prices[0]?.price ? formatCurrency(product.prices[0]?.price) : formatCurrency(0)}}</span>
+                    <Button  icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
+                  </div>
                 </div>
-            </template>
-        </Carousel>
-        <Carousel :value="products" :numVisible="5" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="3000">
-            <template #item="slotProps">
-                <div class="border-1 surface-border border-round m-2 p-3">
-                    <div class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto">
-                        <img :src="slotProps.data.image" class="w-full h-full object-cover">
-                    </div>
-                    <div class="mb-3 font-medium nametext">{{ addEllipsis(slotProps.data.name) }}</div>
-                    <div class="mb-4">
-                    </div>
-                    <div class="flex justify-content-between align-items-center">
-                        <span class="font-bold text-900 ml-2">{{currency}}{{slotProps.data.price ? formatCurrency(slotProps.data.price) :  formatCurrency(0)}}</span>
-                        <Button @click="navigateTo(slotProps.data.redirect_url, {external: true})" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
-                    </div>
-                </div>
-            </template>
-        </Carousel>
+              </div>
+            </div>
+            <!-- <div  class="col-8 md:col-6 lg:col-12">
+              <img src="/images/middle_banner.jpg" alt="Side Banner" class="w-full"  >
+            </div> -->
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
+    <div v-if="okmartProducts.length > 0" class="surface-ground px-4 py-8 md:px-6 lg:px-8">
         <div class="flex flex-wrap  relative mb-5" style="border-radius: 1rem;background: radial-gradient(100% 1126.49% at 100% 0%, rgb(238 28 37) 0%, rgb(238 28 37) 100%), rgb(33, 33, 33);">
             <div class="px-6 py-4">
                 <img src="/images/logos/okmart.jpg" class="w-12rem flex-shrink-0 mx-auto md:mx-0">
             </div>
             <img src="https://tmpnponline.co.zw/wp-content/uploads/2023/03/132362-Sable-Drums-1kg-300x300.png" alt="Image" class="block mx-auto lg:absolute" style="height: 340px;top: -7rem;right:-1rem;z-index:10;/* margin-bottom: 34px !important; */">  
         </div>
-        
-        <Carousel :value="dummyProducts" :numVisible="5" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="3000">
-            <template #item="slotProps">
+        <div class="col-12 grid grid-nogutter align-items-center">
+        <div class="col-12">
+          <div class="grid">
+            <div v-for="product in okmartProducts" :key="product.id" class="col-12 md:col-6 lg:col-3">
+              <div class="p-2">
                 <div class="border-1 surface-border border-round m-2 p-3">
-                    <div class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto">
-                        <img :src="slotProps.data.image" class="w-full h-full object-cover">
-                    </div>
-                    <div class="mb-3 font-medium nametext">{{ addEllipsis(slotProps.data.name) }}</div>
-                    <div class="mb-4">
-                    </div>
-                    <div class="flex justify-content-between align-items-center">
-                        <span class="font-bold text-900 ml-2">{{currency}}{{slotProps.data.price ? formatCurrency(slotProps.data.price) :  formatCurrency(0)}}</span>
-                        <Button @click="navigateTo(slotProps.data.redirect_url, {external: true})" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
-                    </div>
+                  <div  class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
+                    <img :src="getParsedImages(product.images)" class="w-full h-full object-cover">
+                  </div>
+                  <div  class="mb-3 font-medium nametext cursor-pointer">{{ addEllipsis(product.name) }}</div>
+                  <div class="mb-4">
+                  </div>
+                  <div class="flex justify-content-between align-items-center">
+                    <span class="font-bold text-900 ml-2">{{currency}}{{product.prices[0]?.price ? formatCurrency(product.prices[0]?.price) : formatCurrency(0)}}</span>
+                    <Button  icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
+                  </div>
                 </div>
-            </template>
-        </Carousel>
-        <Carousel :value="products" :numVisible="5" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="3000">
-            <template #item="slotProps">
-                <div class="border-1 surface-border border-round m-2 p-3">
-                    <div class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto">
-                        <img :src="slotProps.data.image" class="w-full h-full object-cover">
-                    </div>
-                    <div class="mb-3 font-medium nametext">{{ addEllipsis(slotProps.data.name) }}</div>
-                    <div class="mb-4">
-                    </div>
-                    <div class="flex justify-content-between align-items-center">
-                        <span class="font-bold text-900 ml-2">{{currency}}{{slotProps.data.price ? formatCurrency(slotProps.data.price) :  formatCurrency(0)}}</span>
-                        <Button @click="navigateTo(slotProps.data.redirect_url, {external: true})" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
-                    </div>
-                </div>
-            </template>
-        </Carousel>
+              </div>
+            </div>
+            <!-- <div  class="col-8 md:col-6 lg:col-12">
+              <img src="/images/middle_banner.jpg" alt="Side Banner" class="w-full"  >
+            </div> -->
+          </div>
+        </div>
+      </div>
     </div>
 </template>
 
 <script lang="ts" setup>
 const op = ref();
+const frontStore = useFrontStore()
+const featured_products:any = storeToRefs(frontStore).brand_featured_products
 
+const okZimbabweProducts = computed(() => {
+    return featured_products.value["OK ZIMBABWEE"] || [];
+})
+const bornemarcheProducts = computed(() => {
+    return featured_products.value["BORNE MARCH'E"] || [];
+})
+const okmartProducts = computed(() => {
+    return featured_products.value["OK MARTT"] || [];
+})
+const foodloversProducts = computed(() => {
+    return featured_products.value.FOODLOVERS || [];
+})
 
 // Dummy products data
 const dummyProducts = [
@@ -246,6 +228,16 @@ const dummyProducts = [
         redirect_url: '/product/8'
     }
 ];
+const getParsedImages = (images: string) => {
+  try {
+    const parsedImages = JSON.parse(images);
+    const cleanedString = JSON.parse(parsedImages.replace(/\\/g, ''));
+    return cleanedString[0]
+  } catch (error) {
+    console.error('Error parsing images JSON:', error);
+  }
+  return null; // Return null if parsing fails or no images are found
+};
 const products = [
     {
         shop_logo: '/images/logos/nivea.jpg',
