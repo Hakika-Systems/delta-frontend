@@ -56,7 +56,7 @@
           </li>
         </ul>
         <div class="surface-card p-5 shadow-2 border-round flex-auto">
-          <div class="text-900 text-center font-bold text-3xl mb-4">Welcome back, Simbarashe</div>
+          <div class="text-900 text-center font-bold text-3xl mb-4">Welcome back,User</div>
           <div class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left" role="separator" aria-orientation="horizontal" data-pc-name="divider" data-pc-section="root" style="justify-content: center;">
             <!---->
           </div><div class="surface-ground">
@@ -186,3 +186,7 @@
   <!---->
 </div>
 </template>
+<script setup lang="ts">
+//@ts-ignore
+const mytoken = useCookie('token');
+</script>
