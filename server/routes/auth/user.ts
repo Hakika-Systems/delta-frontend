@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
 
     try {
         const data = await login({ email, password });
-        setCookie(event, "token",JSON.stringify(data?.token));
+        setCookie(event, "token",JSON.stringify(data?.data?.token));
         setCookie(event, "user", JSON.stringify(data));
         response['login'] = data;
         response['success'] = true;
