@@ -282,7 +282,7 @@
       </div>
     </div>
   </header>
-  <Dialog v-model:visible="select_shop" modal header="Edit Profile" :style="{ width: '25rem' }">
+  <Dialog v-model:visible="select_shop" modal header="Shop Selection" :style="{ width: '25rem' }">
     <template #header>
         <div class="inline-flex align-items-center justify-content-center gap-2">
             <Avatar :image="shopLogo" shape="circle" />
