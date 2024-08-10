@@ -7,6 +7,7 @@ export const useFrontStore = defineStore('front', {
         brands: null,
         shop_id: null,
         brand_id: null,
+        brand_featured_products: {},
         products: [],
         dummyProducts: [
             {   
@@ -290,6 +291,33 @@ export const useFrontStore = defineStore('front', {
           page:`${my_params.page}`,
           shop_brand_id: `${my_params.shop_brand_id}`,
           shop_id: `${my_params.shop_id}`
+      };
+      Object.keys(params).forEach((key) =>
+          url.searchParams.append(key, params[key])
+      );
+      const token = useCookie('token').value || ""
+      const headers = {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+      };
+  
+      try {
+          const response = await fetch(url, {
+              method: "GET",
+              headers,
+          });
+          const data = await response.json();
+          return data;
+      } finally {
+      }
+    },
+    async getFeaturedProducts(my_params:any) {
+      const url = new URL(`${SHOP_URL}/api/featured-products/${my_params.id}`);
+      const params:any = {
+          per_page: `${my_params.per_page}`,
+          page:`${my_params.page}`,
+          is_shop_brand: `${my_params.is_shop_brand}`
       };
       Object.keys(params).forEach((key) =>
           url.searchParams.append(key, params[key])
