@@ -26,7 +26,7 @@
                   </div>
                   <div class="flex justify-content-between align-items-center">
                     <span class="font-bold text-900 ml-2">{{currency}}{{product.prices[0]?.price ? formatCurrency(product.prices[0]?.price) : formatCurrency(0)}}</span>
-                    <Button  icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
+                    <Button  @click="selectShop(brands[ok_index]?.id,brands[ok_index]?.logo,brands[ok_index]?.name)"   icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
                   </div>
                 </div>
               </div>
@@ -58,7 +58,7 @@
                   </div>
                   <div class="flex justify-content-between align-items-center">
                     <span class="font-bold text-900 ml-2">{{currency}}{{product.prices[0]?.price ? formatCurrency(product.prices[0]?.price) : formatCurrency(0)}}</span>
-                    <Button  icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
+                    <Button @click="selectShop(brands[bornemarche_index]?.id,brands[bornemarche_index]?.logo,brands[bornemarche_index]?.name)"  icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
                   </div>
                 </div>
               </div>
@@ -90,7 +90,7 @@
                   </div>
                   <div class="flex justify-content-between align-items-center">
                     <span class="font-bold text-900 ml-2">{{currency}}{{product.prices[0]?.price ? formatCurrency(product.prices[0]?.price) : formatCurrency(0)}}</span>
-                    <Button  icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
+                    <Button @click="selectShop(brands[foodlovers_index]?.id,brands[foodlovers_index]?.logo,brands[foodlovers_index]?.name)"  icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
                   </div>
                 </div>
               </div>
@@ -123,7 +123,7 @@
                   </div>
                   <div class="flex justify-content-between align-items-center">
                     <span class="font-bold text-900 ml-2">{{currency}}{{product.prices[0]?.price ? formatCurrency(product.prices[0]?.price) : formatCurrency(0)}}</span>
-                    <Button  icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
+                    <Button @click="selectShop(brands[okmart_index]?.id,brands[okmart_index]?.logo,brands[okmart_index]?.name)" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
                   </div>
                 </div>
               </div>
@@ -135,27 +135,76 @@
         </div>
       </div>
     </div>
+    <Dialog v-model:visible="select_shop" modal header="Shop Selection" :style="{ width: '25rem' }">
+    <template #header>
+        <div class="inline-flex align-items-center justify-content-center gap-2">
+            <Avatar :image="shopLogo" shape="circle" />
+            <span class="font-bold white-space-nowrap">Welcome to {{shopName}}</span>
+        </div>
+    </template>
+    <span class="p-text-secondary block mb-5">Select Branch.</span>
+    <div class="flex align-items-center gap-3 mb-3">
+      <Dropdown v-model="shopBranch" :options="branches" filter optionLabel="name" optionValue="id" placeholder="Select a Store" checkmark :highlightOnSelect="false" class="w-full" />
+    </div>
+    <template #footer>
+        <Button :loading="loading" label="Continue Shopping" outlined severity="secondary" :disabled="!shopBranch" @click="goToShop()" autofocus />
+    </template>
+</Dialog>
 </template>
 
 <script lang="ts" setup>
 const op = ref();
 const frontStore = useFrontStore()
+const select_shop = ref(false)
+const brands:any = storeToRefs(frontStore).brands
 const featured_products:any = storeToRefs(frontStore).brand_featured_products
-
+const shopBranch = ref()
+const ok_index = ref()
+const bornemarche_index = ref()
+const foodlovers_index = ref()
+const okmart_index = ref()
+const branches = ref()
+const shopID = ref()
+const loading = ref(false)
+const shopLogo = ref()
+const shopName = ref()
 const okZimbabweProducts = computed(() => {
+    ok_index.value = brands.value.findIndex((brand:any) => brand.name === "OK ZIMBABWEE");
     return featured_products.value["OK ZIMBABWEE"] || [];
 })
+
 const bornemarcheProducts = computed(() => {
+    bornemarche_index.value = brands.value.findIndex((brand:any) => brand.name === "BORNE MARCH'E");
     return featured_products.value["BORNE MARCH'E"] || [];
 })
+
 const okmartProducts = computed(() => {
+    okmart_index.value = brands.value.findIndex((brand:any) => brand.name === "OK MARTT");
     return featured_products.value["OK MARTT"] || [];
 })
+
 const foodloversProducts = computed(() => {
+    foodlovers_index.value = brands.value.findIndex((brand:any) => brand.name === "FOODLOVERS");
     return featured_products.value.FOODLOVERS || [];
 })
-
-// Dummy products data
+const selectShop = async (shopIDD:any,logo:any,name:any) => {
+  select_shop.value = true
+  shopID.value = shopIDD
+  shopLogo.value = logo
+  await getShopsForBrand(shopIDD)
+  shopName.value = name
+}
+const getShopsForBrand = (brandId:any) => {
+  branches.value = null
+  //@ts-ignore
+  let branchess = brands.value.find(brand => brand.id === brandId);
+  branches.value = branchess?.shops
+}
+const goToShop = () => {
+     loading.value = true
+     navigateTo(`/shop-${shopID.value}-${shopBranch.value}`)
+     loading.value = false
+}
 const dummyProducts = [
     {
         shop_logo: '/images/logos/nivea.jpg',
