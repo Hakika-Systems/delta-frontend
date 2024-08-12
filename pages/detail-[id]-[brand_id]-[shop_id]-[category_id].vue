@@ -3,14 +3,37 @@
   <div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
       <div class="grid grid-nogutter -mt-3 -ml-3 -mr-3">
           <!-- Image Card -->
-          <div class="col-12 lg:col-6 p-3">
-              <div class="border-round surface-section p-4 shadow-2 flex align-items-center justify-content-center">
+          <div class="col-12 lg:col-4 p-3">
+            <div class="grid grid-nogutter lg:flex-column">
+              <div class="col-12 lg:col-12 mb-5">
+                <div class="border-round surface-section p-4 shadow-2 flex align-items-center justify-content-center">
                   <img :src="getParsedImages(product?.images)" class="product_image w-full border-round">
+                 </div>
               </div>
+              <div class="col-12">
+              <div class="border-round surface-section p-4 shadow-2">
+                  <div class="font-bold text-900 mb-3">Quantity</div>
+                  <div class="flex flex-column sm:flex-row sm:align-items-center sm:justify-content-between">
+                      <span class="p-inputnumber p-component p-inputwrapper p-inputwrapper-filled p-inputnumber-buttons-horizontal w-8rem">
+                          <input v-model="quantity" class="p-inputtext p-component p-inputnumber-input w-3rem text-center" role="spinbutton" aria-valuemin="0" aria-valuenow="1">
+                          <button @click="quantity++" class="p-button p-component p-button-icon-only p-inputnumber-button p-inputnumber-button-up p-button-text" type="button">
+                              <span class="pi pi-plus"></span>
+                          </button>
+                          <button :disabled="quantity <= 1" @click="quantity--" class="p-button p-component p-button-icon-only p-inputnumber-button p-inputnumber-button-down p-button-text" type="button">
+                              <span class="pi pi-minus"></span>
+                          </button>
+                      </span>
+                      <div class="flex align-items-center flex-1 mt-3 sm:mt-0 ml-0 sm:ml-5">
+                          <Button @click="addToCart(product?.id)" class="p-button p-component flex-1 mr-5" label="Add to cart" />
+                      </div>
+                  </div>
+              </div>
+          </div>
+            </div>
           </div>
 
           <!-- Major Details Card -->
-           <div class="col-12 lg:col-6">
+           <div class="col-12 lg:col-8">
             <div class="grid grid-nogutter lg:flex-column">
             <div class="col-12 lg:col-12 p-3">
               <div class="border-round surface-section p-4 shadow-2">
@@ -43,38 +66,13 @@
               <div class="border-round surface-section p-4 shadow-2">
                   <div class="flex justify-content-between align-items-center mb-3">
                       <span class="font-bold text-900">Add Review</span>
-                      <a tabindex="0" class="cursor-pointer text-600 text-sm flex align-items-center">
-                          Contact Sales Rep
-                          <i class="ml-1 pi pi-whatsapp" style="color: #25D366;"></i>
-                      </a>
+                      <Button icon="pi pi-whatsapp" class="p-button p-component w-4 flex  mr-5" label="Contact Sales Rep" />
                   </div>
-                  <Rating class="mb-5" v-model="rating" :cancel="false" />
-                  <div class="font-bold text-900 mb-3">Quantity</div>
-                  <div class="flex flex-column sm:flex-row sm:align-items-center sm:justify-content-between">
-                      <span class="p-inputnumber p-component p-inputwrapper p-inputwrapper-filled p-inputnumber-buttons-horizontal w-8rem">
-                          <input v-model="quantity" class="p-inputtext p-component p-inputnumber-input w-3rem text-center" role="spinbutton" aria-valuemin="0" aria-valuenow="1">
-                          <button @click="quantity++" class="p-button p-component p-button-icon-only p-inputnumber-button p-inputnumber-button-up p-button-text" type="button">
-                              <span class="pi pi-plus"></span>
-                          </button>
-                          <button :disabled="quantity <= 1" @click="quantity--" class="p-button p-component p-button-icon-only p-inputnumber-button p-inputnumber-button-down p-button-text" type="button">
-                              <span class="pi pi-minus"></span>
-                          </button>
-                      </span>
-                      <div class="flex align-items-center flex-1 mt-3 sm:mt-0 ml-0 sm:ml-5">
-                          <Button @click="addToCart(product?.id)" class="p-button p-component flex-1 mr-5" label="Add to cart" />
-                          <i class="pi text-2xl cursor-pointer pi-heart text-600"></i>
-                      </div>
-                  </div>
+                  <Rating class="mb-4" v-model="rating" :cancel="false" />
               </div>
           </div>
            </div>
            </div>
-           
-          
-
-          <!-- Contact Agent and Reviews Card -->
-        
-
           <!-- Related Products Section -->
           <div class="col-12 p-3">
               <div class="border-round surface-section p-4">
@@ -213,10 +211,9 @@ const addToCartRelated = (product_id:any) => {
   }
 }
 </script>
-
 <style scoped>
 img.product_image.w-full.border-round {
     width: auto !important;
-    height: 600px !important;
+    height: 365px !important;
 }
 </style>
