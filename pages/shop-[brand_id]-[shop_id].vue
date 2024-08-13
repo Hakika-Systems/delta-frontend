@@ -14,18 +14,18 @@
       <div class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left" role="separator" aria-orientation="horizontal" data-pc-name="divider" data-pc-section="root" styleclass="w-full border-gray-200" style="justify-content: center;">
         <!---->
       </div>
-      <Carousel :value="products" :numVisible="5" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="3000">
+      <Carousel :value="featured_products" :numVisible="5" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="3000">
     <template #item="{ data }">
       <div class="border-1 surface-border border-round m-2 p-3">
         <div @click="navigateTo(`/detail-${data.id}`)" class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto cursor-pointer">
-          <img :src="data.images[0]" class="w-full h-full object-cover">
+          <img :src="getParsedImages(data.images)" class="w-full h-full object-cover">
         </div>
         <div @click="navigateTo(`/detail-${data.id}`)" class="mb-3 font-medium nametext cursor-pointer">{{ addEllipsis(data.name) }}</div>
         <div class="mb-4">
           <!-- Additional details if needed -->
         </div>
         <div class="flex justify-content-between align-items-center">
-          <span class="font-bold text-900 ml-2">{{ currency }}{{ data.prices.length > 0 ? formatCurrency(data.prices[0].amount) : '0' }}</span>
+          <span class="font-bold text-900 ml-2">{{currency}}{{data.prices[0]?.price ? formatCurrency(data.prices[0]?.price) : formatCurrency(0)}}</span>
           <Button @click="addToCart(data.id)" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
         </div>
       </div>
@@ -92,6 +92,7 @@
   const shop_idd:any = storeToRefs(frontStore).shop_id
   const {params:{brand_id,shop_id}} = useRoute()
   const cart:any = storeToRefs(frontStore).cart
+  const featured_products:any = ref()
   const responsiveOptions = ref([
     {
         breakpoint: '1400px',
@@ -146,6 +147,16 @@ const getParsedImages = (images: string) => {
     }
     let productsd =  await frontStore.getProducts(params).then((data) => {
       products.value = data?.data?.products
+    })
+    let featured_params = {
+        page: 1,
+        per_page: 10,
+        is_shop_brand: false,
+        id: shop_id
+    }
+    let featured_productss = await frontStore.getFeaturedProducts(featured_params).then((data) => {
+      console.log("datatata",data.data.products)
+      featured_products.value = data.data.products
     })
   })
   
