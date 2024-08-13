@@ -17,16 +17,65 @@
            
             <InputGroup class="w-full">
                         <IconField class="w-full" iconPosition="left">
-                        <InputText  class="searchinput p-inputtext p-component surface-section text-600 surface-border w-full"  placeholder="What are you looking for..."/>
+                        <InputText v-model="search_text"   class="searchinput p-inputtext p-component surface-section text-600 surface-border w-full"  placeholder="What are you looking for..."/>
                         <!-- <input @keydown="isKeyDown = true" @keyup="searchProducts()"  v-model="search_text" class="searchinput p-inputtext p-component surface-section text-600 surface-border w-full" data-pc-name="inputtext" data-pc-section="root" type="text" placeholder="Search Product | Category | Brand"> -->
                     </IconField>
                     <Button style="border-radius:0px 30px 30px 0px"   icon="pi pi-search seachbutton" severity="warning" />
-                </InputGroup>
-       
+            </InputGroup>
+                <div v-if="search_text" class="card p-3"  style="display: flex;flex-direction: column;pointer-events: auto;width: 60rem;border-radius: 10px;background-color: #f2f2f2;margin-top: 10px;"  >
+                        <DataTable v-if="isKeyDown" :value="products" :row="10">
+                        <Column field="code">
+                            <template #body>
+                                <Skeleton></Skeleton>
+                            </template>
+                        </Column>
+                        <Column field="name" >
+                            <template #body>
+                                <Skeleton></Skeleton>
+                            </template>
+                        </Column>
+                        <Column field="category">
+                            <template #body>
+                                <Skeleton></Skeleton>
+                            </template>
+                        </Column>
+                        <Column field="quantity">
+                            <template #body>
+                                <Skeleton></Skeleton>
+                            </template>
+                        </Column>
+                        </DataTable>
+                        <DataTable v-else :value="products"  resizableColumns columnResizeMode="expand" showGridlines rowGroupMode="subheader" groupRowsBy="Category" sortMode="single"
+        sortField="Category" :sortOrder="1" scrollable scrollHeight="400px">
+                        <Column field="Category" header="Category"></Column>
+                        <Column field="Product" header="Product">
+                            <template #body="slotProps">
+                                <div class="flex align-items-center gap-2">
+                                    <Avatar icon="pi pi-shopping-bag" style="background-color: #dee9fc; color: #1a2551" shape="circle" />
+                                    <span>{{ slotProps.data.Product }}</span>
+                                </div>
+                            </template>
+                        </Column>
+                        <Column v-for="shop in brands" :field="shop" :header="shop">
+                            <template #body="slotProps">
+                                <span v-if="slotProps?.data?.[shop] === '-'">-</span>
+                                <span v-else>USD {{ slotProps?.data?.[shop] }}</span>
+                            </template>
+                        </Column>
+                        <template #groupheader="slotProps">
+                            <div class="flex align-items-center gap-2">
+                                <Button icon="pi pi-folder-open" severity="secondary" text rounded outlined aria-label="Bookmark" />
+                                <span class="catheaders">{{ slotProps.data.Category }}</span>
+                            </div>
+                        </template>
+                        </DataTable>
+                      <!---->
+                      <span class="p-hidden-accessible p-hidden-focusable" tabindex="0" role="presentation" aria-hidden="true" data-p-hidden-accessible="true" data-p-hidden-focusable="true" data-pc-section="lastfocusableelement"></span>
+                </div>
           </div>
           <div class="col-2">
             <div class="header-icons">
-              <Button type="button" label="My Account" icon="pi pi-user" class="my-account" />
+              <Button type="button" @click="navigateTo('/signin')" label="My Account" icon="pi pi-user" class="my-account" />
               <!-- <a href="wishlist.html" class="icon-btn d-none d-sm-block">
                 <span class="badge">3</span>
                 <i class="far fa-heart"></i>
@@ -93,191 +142,6 @@
       <!-- Main Menu Area -->
       <div class="menu-area">
         <div class="">
-          <div class="row align-items-center justify-content-between">
-            <div class="col-3 d-none d-xl-block">
-              <div class="category-menu-wrap">
-                <a class="menu-expand" href="#"
-                  ><i class="far fa-bars"></i>Shop by Isle</a
-                >
-                <!-- <nav class="category-menu">
-                  <ul>
-                    <li>
-                      <a href="#"
-                        ><img
-                          src="/assets/img/icon/category_1_1.svg"
-                          alt="Icon"
-                        />Fresh Vegetables</a
-                      >
-                    </li>
-                    <li>
-                      <a href="#"
-                        ><img
-                          src="/assets/img/icon/category_1_2.svg"
-                          alt="Icon"
-                        />Grocery & Frozen</a
-                      >
-                    </li>
-                    <li class="menu-item-has-children">
-                      <a href="#"
-                        ><img
-                          src="/assets/img/icon/category_1_3.svg"
-                          alt="Icon"
-                        />Fresh Fruits</a
-                      >
-                      <ul class="sub-menu">
-                        <li>
-                          <a href="#"
-                            ><img
-                              src="/assets/img/icon/category_1_4.svg"
-                              alt="Icon"
-                            />Salad</a
-                          >
-                        </li>
-                        <li>
-                          <a href="#"
-                            ><img
-                              src="/assets/img/icon/category_1_5.svg"
-                              alt="Icon"
-                            />Butter & Egg</a
-                          >
-                        </li>
-                        <li>
-                          <a href="#"
-                            ><img
-                              src="/assets/img/icon/category_1_6.svg"
-                              alt="Icon"
-                            />Milk Cream</a
-                          >
-                        </li>
-                        <li>
-                          <a href="#"
-                            ><img
-                              src="/assets/img/icon/category_1_7.svg"
-                              alt="Icon"
-                            />Fresh Meat</a
-                          >
-                        </li>
-                      </ul>
-                    </li>
-                    <li>
-                      <a href="#"
-                        ><img
-                          src="/assets/img/icon/category_1_4.svg"
-                          alt="Icon"
-                        />Salad</a
-                      >
-                    </li>
-                    <li>
-                      <a href="#"
-                        ><img
-                          src="/assets/img/icon/category_1_6.svg"
-                          alt="Icon"
-                        />Milk Cream</a
-                      >
-                    </li>
-                    <li>
-                      <a href="#"
-                        ><img
-                          src="/assets/img/icon/category_1_7.svg"
-                          alt="Icon"
-                        />Fresh Meat</a
-                      >
-                    </li>
-                    <li>
-                      <a href="#"
-                        ><img
-                          src="/assets/img/icon/category_1_8.svg"
-                          alt="Icon"
-                        />Fresh Fish</a
-                      >
-                    </li>
-                    <li>
-                      <a href="#"
-                        ><img
-                          src="/assets/img/icon/category_1_10.svg"
-                          alt="Icon"
-                        />Bread & Bakery</a
-                      >
-                    </li>
-                  </ul>
-                </nav> -->
-              </div>
-            </div>
-            <div class="col-auto">
-              <!-- <nav class="main-menu menu-style1 d-none d-lg-inline-block">
-                <ul>
-                  <li class="menu-item-has-children">
-                    <a href="home-organic-farm.html">Home</a>
-                    <ul class="sub-menu">
-                      <li><a href="home-organic-farm.html">Organic Farm</a></li>
-                      <li><a href="home-organic-food.html">Organic Food</a></li>
-                      <li><a href="home-mega-#">Mega Shop</a></li>
-                      <li>
-                        <a href="home-organic-farming.html">Organic Farming</a>
-                      </li>
-                    </ul>
-                  </li>
-                  <li><a href="about.html">About Us</a></li>
-                  <li class="menu-item-has-children">
-                    <a href="#">Service</a>
-                    <ul class="sub-menu">
-                      <li><a href="service.html">Service</a></li>
-                      <li>
-                        <a href="service-details.html">Service Details</a>
-                      </li>
-                    </ul>
-                  </li>
-                  <li class="menu-item-has-children">
-                    <a href="#">Pages</a>
-                    <ul class="sub-menu">
-                      <li class="menu-item-has-children">
-                        <a href="#">Shop</a>
-                        <ul class="sub-menu">
-                          <li><a href="#">Shop</a></li>
-                          <li><a href="shop-details.html">Shop Details</a></li>
-                          <li><a href="cart.html">Cart Page</a></li>
-                          <li><a href="checkout.html">Checkout</a></li>
-                          <li><a href="wishlist.html">Wishlist</a></li>
-                        </ul>
-                      </li>
-                      <li><a href="team.html">Team</a></li>
-                      <li><a href="team-details.html">Team Details</a></li>
-                      <li><a href="project.html">Project Gallery</a></li>
-                      <li>
-                        <a href="project-details.html">Project Details</a>
-                      </li>
-                      <li><a href="faq.html">Faq Page</a></li>
-                      <li><a href="error.html">Error Page</a></li>
-                    </ul>
-                  </li>
-                  <li class="menu-item-has-children">
-                    <a href="#">Blog</a>
-                    <ul class="sub-menu">
-                      <li><a href="blog.html">Blog</a></li>
-                      <li><a href="blog-details.html">Blog Details</a></li>
-                    </ul>
-                  </li>
-                  <li>
-                    <a href="contact.html">Contact</a>
-                  </li>
-                </ul>
-              </nav> -->
-            
-            </div>
-            <!-- <div class="col-auto">
-              <div class="call-btn">
-                <div class="box-icon">
-                  <i class="far fa-headphones"></i>
-                </div>
-                <div class="media-body">
-                  <p class="box-subtitle">Call Us 24/7</p>
-                  <h3 class="box-title">
-                    <a href="tel:+1632543654">(+163)-254-3654</a>
-                  </h3>
-                </div>
-              </div>
-            </div> -->
-          </div>
         </div>
       </div>
     </div>
@@ -308,8 +172,11 @@ const loading = ref(true)
 const shopBranch = ref()
 const branches = ref()
 const shopID = ref()
+const products = ref()
+const search_text = ref()
 const featured = ref()
 const shopLogo = ref()
+const isKeyDown = ref(false)
 const featuredProductsByBrand:any = storeToRefs(frontStore).brand_featured_products
 const shopName = ref()
 const selectShop = async (shopIDD:any,logo:any,name:any) => {
