@@ -26,7 +26,7 @@
         </div>
         <div class="flex justify-content-between align-items-center">
           <span class="font-bold text-900 ml-2">{{currency}}{{data.prices[0]?.price ? formatCurrency(data.prices[0]?.price) : formatCurrency(0)}}</span>
-          <Button :loading="loading" @click="addToCart(data.id,data.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
+          <Button :loading="loading"  @click="addToCart(data.id,data.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
         </div>
       </div>
     </template>
@@ -69,7 +69,8 @@
                   </div>
                   <div class="flex justify-content-between align-items-center">
                     <span class="font-bold text-900 ml-2">{{currency}}{{product.prices[0]?.price ? formatCurrency(product.prices[0]?.price) : formatCurrency(0)}}</span>
-                    <Button :loading="loading" @click="addToCart(product.id,product.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
+                    <Button v-if="product?.details[0]?.quantity >= 1" :loading="loading" @click="addToCart(product.id,product.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
+                      <Button v-else :loading="loading" @click="addToCart(product.id,product.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Out of Stock" class="ml-auto cart" disabled/>
                   </div>
                 </div>
               </div>
