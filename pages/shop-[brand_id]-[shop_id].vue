@@ -26,7 +26,7 @@
         </div>
         <div class="flex justify-content-between align-items-center">
           <span class="font-bold text-900 ml-2">{{currency}}{{data.prices[0]?.price ? formatCurrency(data.prices[0]?.price) : formatCurrency(0)}}</span>
-          <Button @click="addToCart(data.id)" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
+          <Button :loading="loading" @click="addToCart(data.id,data.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
         </div>
       </div>
     </template>
@@ -69,7 +69,7 @@
                   </div>
                   <div class="flex justify-content-between align-items-center">
                     <span class="font-bold text-900 ml-2">{{currency}}{{product.prices[0]?.price ? formatCurrency(product.prices[0]?.price) : formatCurrency(0)}}</span>
-                    <Button @click="addToCart(product.id)" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
+                    <Button :loading="loading" @click="addToCart(product.id,product.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
                   </div>
                 </div>
               </div>
@@ -86,13 +86,21 @@
   <script setup lang="ts">
   import { storeToRefs } from 'pinia';
   import { useFrontStore } from '~/stores/front';
+  import { createId } from '@paralleldrive/cuid2';
   const toast = useToast()
   const frontStore = useFrontStore()
+  const mytoken = useCookie('token');
+  const name = useCookie('username');
+  const user_id = useCookie('user_id');
+  const loading = ref(false)
+  const cart_id = storeToRefs(frontStore).cart_id
   const brand_idd:any = storeToRefs(frontStore).brand_id
   const shop_idd:any = storeToRefs(frontStore).shop_id
   const {params:{brand_id,shop_id}} = useRoute()
   const cart:any = storeToRefs(frontStore).cart
+  const guest_id:any = storeToRefs(frontStore).guest_id
   const featured_products:any = ref()
+  const cart_total = storeToRefs(frontStore).cart_total
   const responsiveOptions = ref([
     {
         breakpoint: '1400px',
@@ -155,17 +163,31 @@ const getParsedImages = (images: string) => {
         id: shop_id
     }
     let featured_productss = await frontStore.getFeaturedProducts(featured_params).then((data) => {
-      console.log("datatata",data.data.products)
       featured_products.value = data.data.products
     })
-  })
+  if (guest_id.value === null) {
+      guest_id.value = createId()
+  }
+   let cart_params = {
+    shop_id: shop_id,
+    user_id: user_id.value,
+    guest_id: guest_id.value
+   }
+  let created_cart = await frontStore.createCart(cart_params).then((data) => {
+    cart.value = data.data.items
+    cart_total.value = data?.data?.cart_total
+    cart_id.value = data?.data?.id
+  }) 
+ })
   
-  const addToCart = (product_id: any) => {
+  const addToCart = async (product_id: any,price:any) => {
+    loading.value = true
   // Find the product in products
   const productIndex = products.value.findIndex((prod:any) => prod.id === product_id);
 
   if (productIndex === -1) {
     console.error('Product not found');
+    loading.value = false
     return;
   }
 
@@ -181,6 +203,7 @@ const getParsedImages = (images: string) => {
       life: 3000,
     });
     console.error('Product price not found');
+    loading.value = false
     return;
   }
   if (products.value[productIndex].details[0].quantity < 1) {
@@ -191,45 +214,46 @@ const getParsedImages = (images: string) => {
       group: 'br',
       life: 3000,
     });
+    loading.value = false
   }
 
   // Check if the product is already in the cart
-  const productInCart = cart.value.find((cartItem: any) => cartItem.id === product_id);
-
-  if (productInCart) {
-    // Increase the quantity if the product is already in the cart
-    productInCart.quantity += 1;
-    toast.add({
-      severity: 'info',
-      summary: 'Cart',
-      detail: 'Product quantity increased',
-      group: 'br',
-      life: 3000,
-    });
-  } else {
     // Add the product to the cart with quantity 1
-    cart.value.push({
-      id: product.id,
-      name: product.name,
-      description: product.description,
-      product_code: product.product_code,
-      images: product.images,
-      thumbnails: product.thumbnails,
-      price: productPrice,
-      quantity: 1,
-    });
-    toast.add({
-      severity: 'info',
-      summary: 'Cart',
-      detail: 'Product Added',
-      group: 'br',
-      life: 3000,
-    });
-  }
-
-  // Update the product quantity in products.value
- 
-  products.value[productIndex].details[0].quantity -= 1;
+    let qnty = 1
+    let cart_item = {
+    cart_id: cart_id.value,
+    product_id: product_id,
+    quantity: qnty,
+    unit_price: Number(price),
+    total_price: (qnty * price) 
+    }
+    let add_cart_item = await frontStore.addCartItem(cart_item).then( async (data) => {
+      if (data?.status === "success") {
+        loading.value = false
+        let new_cart = await frontStore.getCart().then((data) => {
+          cart.value = data.data.items
+          cart_total.value = data?.data?.cart_total
+        })
+        toast.add({
+          severity: 'info',
+          summary: 'Cart',
+          detail: 'Product Added',
+          group: 'br',
+          life: 3000,
+        });
+      } else {
+        toast.add({
+          severity: 'warn',
+          summary: 'Cart',
+          detail: 'Could not add product',
+          group: 'br',
+          life: 3000,
+        });
+        loading.value = false
+      }
+    })
+    
+    
 };
 
 
