@@ -8,6 +8,9 @@ export const useFrontStore = defineStore('front', {
         shop_id: null,
         brand_id: null,
         brand_featured_products: {},
+        cart_total: null,
+        cart_id: null,
+        guest_id: null,
         products: [],
         dummyProducts: [
             {   
@@ -397,9 +400,143 @@ export const useFrontStore = defineStore('front', {
         console.error('Error:', error);
         throw error;
       }
-    }
-    
-
+    },
+    async createCart(my_params: any) {
+      const url = `${SHOP_URL}/api/carts`;
+      const token = useCookie('token').value || "";
+      
+      const headers = {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      };
+      
+      const body = {
+        user_id: my_params.user_id,
+        guest_id: my_params.guest_id,
+        shop_id: my_params.shop_id,
+        
+      };
+      
+      try {
+        const response = await fetch(url, {
+          method: "POST",
+          headers,
+          body: JSON.stringify(body),
+        });
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error:', error);
+        throw error;
+      }
+    },
+    async addCartItem(my_params: any) {
+      const url = `${SHOP_URL}/api/cart-items`;
+      const token = useCookie('token').value || "";
+      
+      const headers = {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      };
+ 
+      const body = {
+        cart_id: my_params.cart_id,
+        product_id: my_params.product_id,
+        quantity: my_params.quantity,
+        unit_price: my_params.unit_price,
+        total_price: my_params.total_price
+      };
+      
+      try {
+        const response = await fetch(url, {
+          method: "POST",
+          headers,
+          body: JSON.stringify(body),
+        });
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error:', error);
+        throw error;
+      }
+    },
+    async editCartItem(my_params: any) {
+      const url = `${SHOP_URL}/api/cart-items/edit/${my_params.id}`;
+      const token = useCookie('token').value || "";
+      
+      const headers = {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      };
+ 
+      const body = {
+        cart_id: my_params.cart_id,
+        product_id: my_params.product_id,
+        quantity: my_params.quantity,
+        unit_price: my_params.unit_price,
+        total_price: my_params.total_price
+      };
+      
+      try {
+        const response = await fetch(url, {
+          method: "POST",
+          headers,
+          body: JSON.stringify(body),
+        });
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error:', error);
+        throw error;
+      }
+    },
+    async getCart() {
+      const url = `${SHOP_URL}/api/carts/${this.cart_id}`;
+      const token = useCookie('token').value || "";
+      
+      const headers = {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      };
+      
+      try {
+        const response = await fetch(url, {
+          method: "GET",
+          headers
+        });
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error:', error);
+        throw error;
+      }
+    },
+    async deleteCartItem(my_params:any) {
+      const url = `${SHOP_URL}/api/cart-items/${my_params.id}`;
+      const token = useCookie('token').value || "";
+      
+      const headers = {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      };
+      
+      try {
+        const response = await fetch(url, {
+          method: "DELETE",
+          headers
+        });
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error:', error);
+        throw error;
+      }
+    },
       
     }
    })
