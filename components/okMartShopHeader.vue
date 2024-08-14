@@ -25,7 +25,7 @@
         <InputGroupAddon>
             <i v-badge="getTotalItemsInCart()" @mouseenter="toggle" @click="toggle" class="pi pi-shopping-cart" style="font-size: 25px;" />
         </InputGroupAddon>
-        <InlineMessage severity="secondary">USD{{ cartTotal() }}</InlineMessage>
+        <InlineMessage severity="secondary">USD{{ cart_total }}</InlineMessage>
         <!-- <InputNumber v-model="cartTotal()" class="inputtotal" disabled placeholder="0.00" /> -->
         <Button @click="navigateTo(`checkout-${brand_id}-${shop_id}`)" label="Checkout" icon="pi pi-angle-right" iconPos="right" severity="warn" />
     </InputGroup>
@@ -48,28 +48,21 @@
                     <ul class="list-none p-0 m-0 flex flex-column gap-3">
                         <p v-if="cart.length === 0">No Items in Cart</p>
                         <li v-else v-for="(item, index) in cart" :key="item?.id" class="flex align-items-center gap-2">
-                <img :src="getParsedImages(item.thumbnails)" style="width: 32px" />
+                <img :src="getParsedImages(item?.product?.thumbnails)" style="width: 32px" />
                 <div class="col-4 flex align-items-center gap-2 text-color-secondary text-sm">
-                    <span class="font-medium">{{ item.name }}</span>
+                    <span class="font-medium">{{ item.product.name }}</span>
                 </div>
                 <div  class="col-2 flex align-items-center gap-2 text-color-secondary text-sm">
                     <span class="p-inputnumber p-component p-inputwrapper p-inputwrapper-filled p-inputnumber-buttons-horizontal border-1 surface-border border-round" data-pc-name="inputnumber" data-pc-section="root" spinnermode="horizontal">
                         <input class="p-inputtext p-component p-inputnumber-input w-2rem text-center py-2 px-1 border-transparent" v-model="cart[index].quantity" data-pc-name="inputtext" data-pc-section="input" role="spinbutton" aria-valuemin="0" aria-valuenow="1">
-                        <button @click="increment(index)" class="p-button p-component p-button-icon-only p-inputnumber-button p-inputnumber-button-up p-button-text text-600 hover:text-primary py-1 px-1" type="button" data-pc-name="button" data-pc-section="incrementbutton" tabindex="-1" aria-hidden="true" data-pd-ripple="true">
-                          <span class="pi pi-plus" data-pc-section=""></span>
-                          <span class="p-button-label" data-pc-section="label">&nbsp;</span>
-                          <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
-                        </button>
-                        <button :disabled="item.quantity === 1" @click="decrement(index)" class="p-button p-component p-button-icon-only p-inputnumber-button p-inputnumber-button-down p-button-text text-600 hover:text-primary py-1 px-1" type="button" data-pc-name="button" data-pc-section="decrementbutton" tabindex="-1" aria-hidden="true" data-pd-ripple="true">
-                          <span class="pi pi-minus" data-pc-section="decrementbuttonicon"></span>
-                          <span class="p-button-label" data-pc-section="label">&nbsp;</span>
-                          <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
-                        </button>
+                        <Button icon="pi pi-plus" :loading="loading" @click="increaseCartItem(item.id,item.product_id,cart[index].quantity,item.unit_price)" class="p-button p-component p-button-icon-only p-inputnumber-button p-inputnumber-button-up p-button-text text-600 hover:text-primary py-1 px-1" type="button" data-pc-name="button" data-pc-section="incrementbutton" tabindex="-1" aria-hidden="true" data-pd-ripple="true" />
+                        <Button icon="pi pi-minus" :loading="loading" @click="decreaseCartItem(item.id,item.product_id,cart[index].quantity,item.unit_price)" class="p-button p-component p-button-icon-only p-inputnumber-button p-inputnumber-button-down p-button-text text-600 hover:text-primary py-1 px-1" type="button" data-pc-name="button" data-pc-section="decrementbutton" tabindex="-1" aria-hidden="true" data-pd-ripple="true" />
+                        
                       </span>
                 </div>
                 <div class="flex align-items-center gap-2 text-color-secondary ml-auto text-sm">
-                    <span>USD{{ (lineTotal(item.price,item.quantity)).toFixed(2)}}</span>
-                    <i class="pi pi-trash" @click="removeFromCart(item.id)"></i>
+                    <span>USD{{ (lineTotal(item.unit_price,item.quantity)).toFixed(2)}}</span>
+                    <i  class="pi pi-trash" @click="removeFromCart(item.id)"></i>
                 </div>
                 </li>
                     </ul>
@@ -86,9 +79,13 @@
     const frontStore = useFrontStore()
     const cart:any = storeToRefs(frontStore).cart
     const op = ref();
+    const toast = useToast()
+    const loading = ref(false)
     const brand_id = storeToRefs(frontStore).brand_id
     const shop_id = storeToRefs(frontStore).shop_id
+    const cart_total = storeToRefs(frontStore).cart_total
     const selectedCurrency = ref("USD");
+    const cart_id = storeToRefs(frontStore).cart_id
     const currencies = ref([
         { name: 'USD', symbol: '$' },
         {name: 'ZIG', symbol: 'ZIG'}
@@ -240,9 +237,112 @@
         cart.value[index].quantity -= 1;
       }
     }
-    const removeFromCart = (productId:any) => {
+const decreaseCartItem = async (item_id:any,product_id: any,quantity:any,unit_price:any) => {
+    loading.value = true
+    let cart_item = {
+    id: item_id,
+    cart_id: cart_id.value,
+    product_id: product_id,
+    quantity: quantity-1,
+    unit_price: Number(unit_price),
+    total_price: (quantity * unit_price) 
+    }
+    let edit_cart_item = await frontStore.editCartItem(cart_item).then( async (data) => {
+      if (data?.status === "success") {
+        let new_cart = await frontStore.getCart().then((data) => {
+          cart.value = data.data.items
+          cart_total.value = data?.data?.cart_total
+        })
+        toast.add({
+          severity: 'info',
+          summary: 'Cart',
+          detail: 'Quantity Changed',
+          group: 'br',
+          life: 3000,
+        });
+        loading.value = false
+      } else {
+        toast.add({
+          severity: 'warn',
+          summary: 'Cart',
+          detail: 'Could not add product',
+          group: 'br',
+          life: 3000,
+        });
+        loading.value = false
+      }
+    })
+    
+    
+};
+const increaseCartItem = async (item_id:any,product_id: any,quantity:any,unit_price:any) => {
+    loading.value = true
+    let cart_item = {
+    id: item_id,
+    cart_id: cart_id.value,
+    product_id: product_id,
+    quantity: quantity+1,
+    unit_price: Number(unit_price),
+    total_price: (quantity * unit_price) 
+    }
+    let edit_cart_item = await frontStore.editCartItem(cart_item).then( async (data) => {
+      if (data?.status === "success") {
+        
+        let new_cart = await frontStore.getCart().then((data) => {
+          cart.value = data.data.items
+          cart_total.value = data?.data?.cart_total
+        })
+        toast.add({
+          severity: 'info',
+          summary: 'Cart',
+          detail: 'Quantity Changed',
+          group: 'br',
+          life: 3000,
+        });
+        loading.value = false
+      } else {
+        toast.add({
+          severity: 'warn',
+          summary: 'Cart',
+          detail: 'Could not add product',
+          group: 'br',
+          life: 3000,
+        });
+        loading.value = false
+      }
+    })
+    
+    
+};
+    const removeFromCart = async (itemId:any) => {
         //@ts-ignore
-      cart.value = cart.value.filter(item => item.id !== productId);
+      let my_params = {
+        id: itemId
+      }
+      let deleted_item = await frontStore.deleteCartItem(my_params).then( async (data) => {
+        console.log('dataaaaaa',data)
+        if(data?.status === 'success') {
+            toast.add({
+            severity: 'info',
+            summary: 'Cart Changed',
+            detail: 'Product Removed',
+            group: 'br',
+            life: 3000,
+            });
+            let new_cart = await frontStore.getCart().then((data) => {
+            cart.value = data.data.items
+            cart_total.value = data?.data?.cart_total
+            })
+        } else {
+            toast.add({
+            severity: 'warn',
+            summary: 'Cart',
+            detail: 'Could not remove product',
+            group: 'br',
+            life: 3000,
+            });
+        }
+      })
     }
     const cartTotal = () => {
         return cart.value.reduce((total:any, item:any) => {
