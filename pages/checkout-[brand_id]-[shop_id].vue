@@ -150,11 +150,11 @@
                     <i class="pi pi-shopping-cart text-xl mr-2"></i>Your Order  </span>
                 </div>
                 <div v-for="(item, index) in cart" :key="index" class="flex flex-column lg:flex-row flex-wrap lg:align-items-center py-3 my-3 border-bottom-1 surface-border">
-                  <img :src="getParsedImages(item.thumbnails)" class="w-8rem h-8rem flex-shrink-0 mb-3">
+                  <img :src="getParsedImages(item?.product?.thumbnails)" class="w-8rem h-8rem flex-shrink-0 mb-3">
                   <div class="flex-auto lg:ml-3">
                     <div class="flex align-items-center justify-content-between mb-3">
-                      <span class="text-900 font-medium">{{ item.name }}</span>
-                      <span class="text-900 font-bold">${{ (lineTotal(item.price,item.quantity)).toFixed(2)}}</span>
+                      <span class="text-900 font-medium">{{ item.product.name }}</span>
+                      <span class="text-900 font-bold">USD{{ (lineTotal(item.unit_price,item.quantity)).toFixed(2)}}</span>
                     </div>
                     <div class="flex flex-auto justify-content-between align-items-center">
                       <span class="p-inputnumber p-component p-inputwrapper p-inputwrapper-filled p-inputnumber-buttons-horizontal border-1 surface-border border-round" data-pc-name="inputnumber" data-pc-section="root" spinnermode="horizontal">
