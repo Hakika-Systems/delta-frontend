@@ -412,9 +412,9 @@ export const useFrontStore = defineStore('front', {
       };
       
       const body = {
-        user_id: my_params.user_id,
-        guest_id: my_params.guest_id,
-        shop_id: my_params.shop_id,
+        user_id: my_params.user_id ? my_params.user_id : "",
+        guest_id: my_params.guest_id ? my_params.guest_id : "",
+        shop_id: my_params.shop_id ? my_params.shop_id : "",
         
       };
       
