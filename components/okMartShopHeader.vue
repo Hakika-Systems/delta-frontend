@@ -42,7 +42,7 @@
          </div>
       </div>
       <OverlayPanel ref="op">
-            <div class="flex flex-column gap-3 w-33rem">
+            <div class="flex flex-column gap-3 w-50rem">
                 <div>
                     <span class="font-medium text-900 block mb-2">Cart Items</span>
                     <ul class="list-none p-0 m-0 flex flex-column gap-3">
