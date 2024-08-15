@@ -341,6 +341,32 @@ export const useFrontStore = defineStore('front', {
       } finally {
       }
     },
+    async getSearchResults(search_text:any) {
+      const url = new URL(`${SHOP_URL}/api/search`);
+      const params:any = {
+          search: `${search_text}`,
+      };
+      Object.keys(params).forEach((key) =>
+          url.searchParams.append(key, params[key])
+      );
+      const token = useCookie('token').value || ""
+      const headers = {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+      };
+  
+      try {
+          const response = await fetch(url, {
+              method: "GET",
+              headers,
+          });
+          const data = await response.json();
+          return data;
+      } finally {
+          
+      }
+  },
     async getAllCategories(my_params:any) {
       const url = new URL(`${SHOP_URL}/api/categories/parent`);
       const params:any = {
