@@ -14,64 +14,18 @@
             </div>
           </div>
           <div class="col-8 d-none d-lg-block">
-           
             <InputGroup class="w-full">
                         <IconField class="w-full" iconPosition="left">
-                        <InputText v-model="search_text"   class="searchinput p-inputtext p-component surface-section text-600 surface-border w-full"  placeholder="What are you looking for..."/>
+                        <InputText @keyup="searchProducts()" v-model="search_text"   class="searchinput p-inputtext p-component surface-section text-600 surface-border w-full"  placeholder="What are you looking for..."/>
                         <!-- <input @keydown="isKeyDown = true" @keyup="searchProducts()"  v-model="search_text" class="searchinput p-inputtext p-component surface-section text-600 surface-border w-full" data-pc-name="inputtext" data-pc-section="root" type="text" placeholder="Search Product | Category | Brand"> -->
                     </IconField>
                     <Button style="border-radius:0px 30px 30px 0px"   icon="pi pi-search seachbutton" severity="warning" />
             </InputGroup>
-                <div v-if="search_text" class="card p-3"  style="display: flex;flex-direction: column;pointer-events: auto;width: 60rem;border-radius: 10px;background-color: #f2f2f2;margin-top: 10px;"  >
-                        <DataTable v-if="isKeyDown" :value="products" :row="10">
-                        <Column field="code">
-                            <template #body>
-                                <Skeleton></Skeleton>
-                            </template>
-                        </Column>
-                        <Column field="name" >
-                            <template #body>
-                                <Skeleton></Skeleton>
-                            </template>
-                        </Column>
-                        <Column field="category">
-                            <template #body>
-                                <Skeleton></Skeleton>
-                            </template>
-                        </Column>
-                        <Column field="quantity">
-                            <template #body>
-                                <Skeleton></Skeleton>
-                            </template>
-                        </Column>
-                        </DataTable>
-                        <DataTable v-else :value="products"  resizableColumns columnResizeMode="expand" showGridlines rowGroupMode="subheader" groupRowsBy="Category" sortMode="single"
-        sortField="Category" :sortOrder="1" scrollable scrollHeight="400px">
-                        <Column field="Category" header="Category"></Column>
-                        <Column field="Product" header="Product">
-                            <template #body="slotProps">
-                                <div class="flex align-items-center gap-2">
-                                    <Avatar icon="pi pi-shopping-bag" style="background-color: #dee9fc; color: #1a2551" shape="circle" />
-                                    <span>{{ slotProps.data.Product }}</span>
-                                </div>
-                            </template>
-                        </Column>
-                        <Column v-for="shop in brands" :field="shop" :header="shop">
-                            <template #body="slotProps">
-                                <span v-if="slotProps?.data?.[shop] === '-'">-</span>
-                                <span v-else>USD {{ slotProps?.data?.[shop] }}</span>
-                            </template>
-                        </Column>
-                        <template #groupheader="slotProps">
-                            <div class="flex align-items-center gap-2">
-                                <Button icon="pi pi-folder-open" severity="secondary" text rounded outlined aria-label="Bookmark" />
-                                <span class="catheaders">{{ slotProps.data.Category }}</span>
-                            </div>
-                        </template>
-                        </DataTable>
-                      <!---->
-                      <span class="p-hidden-accessible p-hidden-focusable" tabindex="0" role="presentation" aria-hidden="true" data-p-hidden-accessible="true" data-p-hidden-focusable="true" data-pc-section="lastfocusableelement"></span>
-                </div>
+            <div class="results-box p-5" v-if="search_text">
+            <div id="searchResultsTable">
+
+            </div>
+    </div>
           </div>
           <div class="col-2">
             <div class="header-icons">
@@ -164,53 +118,113 @@
 </template>
 
 <script setup lang="ts">
-const shop_d = ref("okmart")
-const frontStore = useFrontStore()
-const brands:any = storeToRefs(frontStore).brands
-const select_shop = ref(false)
-const loading = ref(true)
-const shopBranch = ref()
-const branches = ref()
-const shopID = ref()
-const products = ref()
-const search_text = ref()
-const featured = ref()
-const shopLogo = ref()
-const isKeyDown = ref(false)
-const featuredProductsByBrand:any = storeToRefs(frontStore).brand_featured_products
-const shopName = ref()
+const frontStore = useFrontStore();
+const brands:any = storeToRefs(frontStore).brands;
+import $ from 'jquery';
+const select_shop = ref(false);
+const loading = ref(true);
+const shopBranch = ref();
+const branches = ref();
+const shopID = ref();
+const products = ref();
+const search_text = ref();
+const featured = ref();
+const shopLogo = ref();
+const isKeyDown = ref(false);
+const search_products = ref();
+const featuredProductsByBrand:any = storeToRefs(frontStore).brand_featured_products;
+const shopName = ref();
+const op = ref();
+const searchResultsTable = ref(null);  // Ref for the search results table
+
 const selectShop = async (shopIDD:any,logo:any,name:any) => {
-  select_shop.value = true
-  shopID.value = shopIDD
-  shopLogo.value = logo
-  await getShopsForBrand(shopIDD)
-  shopName.value = name
+  console.log("ddkdkd")
+  select_shop.value = true;
+  shopID.value = shopIDD;
+  shopLogo.value = logo;
+  await getShopsForBrand(shopIDD);
+  shopName.value = name;
 }
+//@ts-ignore
+
+const searchProducts = () => {
+  frontStore.getSearchResults(search_text.value).then(async (data) => {
+    console.log("Search Results:", data.data.products);
+    search_products.value = data?.data.products;
+    await displaySearchResults();
+  });
+}
+
+const displaySearchResults = async () => {
+  if (search_products.value && search_products.value.length > 0) {
+    
+    const searchResults = search_products.value;
+    let table = `<table>
+                   <thead>
+                     <tr>
+                       <th>Product</th>`;
+    // Add shop brand names as table headers with "Shop Now" buttons
+    searchResults[0].prices.forEach((priceObj: any) => {
+      table += `<th>
+                  ${priceObj.shop_brand.name}
+                  <button 
+                    class="shop-now-btn" 
+                    onclick="selectShop(${priceObj.shop_brand.id})">
+                    Shop Now
+                  </button>
+                </th>`;
+    });
+    table += `</tr></thead><tbody>`;
+    
+    // Add product names and prices as table rows
+    searchResults.forEach((product: any) => {
+      table += `<tr>
+                  <td>${product.name}</td>`;
+      product.prices.forEach((priceObj: any) => {
+        table += `<td>USD${priceObj.price}</td>`;
+      });
+      table += `</tr>`;
+    });
+    
+    table += `</tbody></table>`;
+
+    // Inject the table into the DOM using the jQuery ref
+    $("#searchResultsTable").html(table);
+  }
+}
+
+// Example showBrand function to handle the button click
+const showBrand = (brandId: any) => {
+  console.log("Brand ID:", brandId);
+  // Implement the logic for showing the brand, e.g., navigating to a shop page
+  navigateTo(`/shop/${brandId}`);
+};
+
+
 const getShopsForBrand = (brandId:any) => {
-  branches.value = null
+  branches.value = null;
   //@ts-ignore
   let branchess = brands.value.find(brand => brand.id === brandId);
-  branches.value = branchess?.shops
+  branches.value = branchess?.shops;
 }
+
 const goToShop = () => {
-     loading.value = true
-     navigateTo(`/shop-${shopID.value}-${shopBranch.value}`)
-     loading.value = false
+  loading.value = true;
+  navigateTo(`/shop-${shopID.value}-${shopBranch.value}`);
+  loading.value = false;
 }
+
 onMounted(async() => {
-  let result_one = await frontStore.getBrands().then( async(data) => {
-    console.log("djkds",data?.data?.shopbrands)
-    brands.value = data?.data?.shopbrands
-    await getAllBrandsFeaturedProducts()
-    loading.value = false
-  })
+  let result_one = await frontStore.getBrands().then(async (data) => {
+    console.log("Brands:", data?.data?.shopbrands);
+    brands.value = data?.data?.shopbrands;
+    await getAllBrandsFeaturedProducts();
+    loading.value = false;
+  });
 })
 
 const getAllBrandsFeaturedProducts = async () => {
-  const brandss:any = brands.value
-
-  // Create an object to store the featured products for each brand
-
+  const brandss:any = brands.value;
 
   // Loop through each brand and get featured products
   for (const brand of brands.value) {
@@ -219,23 +233,24 @@ const getAllBrandsFeaturedProducts = async () => {
   }
 
   // Now you have an object containing featured products for each brand
-  console.log(featuredProductsByBrand.value);
+  
 };
 
 const getFeaturedProducts = async (brand_id:any) => {
   let params = {
-        page: 1,
-        per_page: 10,
-        id: brand_id,
-        is_shop_brand: true
-    }
-    let productsd =  await frontStore.getFeaturedProducts(params).then((data) => {
-      featured.value = {}
-      featured.value = data?.data?.products
-    })
-    return featured.value
+    page: 1,
+    per_page: 10,
+    id: brand_id,
+    is_shop_brand: true
+  }
+  let productsd = await frontStore.getFeaturedProducts(params).then((data) => {
+    featured.value = {};
+    featured.value = data?.data?.products;
+  })
+  return featured.value;
 }
 </script>
+
 
 
 
@@ -270,6 +285,18 @@ input.p-inputtext.p-component.searchinput.p-inputtext.p-component.surface-sectio
     background-color: #f7941f;
     padding: 8px 40px;
     width: 63%;
+}
+.results-box {
+    position: absolute;
+    width: 1120px;
+    margin-top: 3px;
+    border: 1px solid #ccc;
+    /* border-top: none; */
+    border-radius: 0 0 4px 4px;
+    max-height: 350px;
+    overflow-y: auto;
+    background-color: #fff;
+    z-index: 1000;
 }
 img.h-3rem {
     border-radius: 32px;
