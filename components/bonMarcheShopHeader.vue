@@ -25,7 +25,7 @@
         <InputGroupAddon>
             <i v-badge="getTotalItemsInCart()" @mouseenter="toggle" @click="toggle" class="pi pi-shopping-cart" style="font-size: 25px;" />
         </InputGroupAddon>
-        <InlineMessage severity="secondary">USD{{ cartTotal() }}</InlineMessage>
+        <InlineMessage severity="secondary">USD{{ cart_total }}</InlineMessage>
         <!-- <InputNumber v-model="cartTotal()" class="inputtotal" disabled placeholder="0.00" /> -->
         <Button @click="navigateTo(`checkout-${brand_id}-${shop_id}`)" label="Checkout" icon="pi pi-angle-right" iconPos="right" severity="warn" />
     </InputGroup>
@@ -35,41 +35,34 @@
     <div class="foodloversheader bonmarcheheadertwo px-6 shadow-2 flex align-items-center justify-content-between relative lg:static">
       <div class="row col-12 flex">
          <div class="col-2">
-            <TieredMenu class="shopbyisle" :model="vertical_items" />
+            <TieredMenu class="shopbyisle" :model="categories" />
          </div>
          <div class="col-10">
-            <MegaMenu :model="items" />
+            <MegaMenu :model="product_brands" />
          </div>
       </div>
       <OverlayPanel ref="op">
-            <div class="flex flex-column gap-3 w-33rem">
+            <div class="flex flex-column gap-3 w-50rem">
                 <div>
                     <span class="font-medium text-900 block mb-2">Cart Items</span>
                     <ul class="list-none p-0 m-0 flex flex-column gap-3">
                         <p v-if="cart.length === 0">No Items in Cart</p>
                         <li v-else v-for="(item, index) in cart" :key="item?.id" class="flex align-items-center gap-2">
-                <img :src="getParsedImages(item.thumbnails)" style="width: 32px" />
+                <img :src="getParsedImages(item?.product?.thumbnails)" style="width: 32px" />
                 <div class="col-4 flex align-items-center gap-2 text-color-secondary text-sm">
-                    <span class="font-medium">{{ item.name }}</span>
+                    <span class="font-medium">{{ item.product.name }}</span>
                 </div>
                 <div  class="col-2 flex align-items-center gap-2 text-color-secondary text-sm">
                     <span class="p-inputnumber p-component p-inputwrapper p-inputwrapper-filled p-inputnumber-buttons-horizontal border-1 surface-border border-round" data-pc-name="inputnumber" data-pc-section="root" spinnermode="horizontal">
                         <input class="p-inputtext p-component p-inputnumber-input w-2rem text-center py-2 px-1 border-transparent" v-model="cart[index].quantity" data-pc-name="inputtext" data-pc-section="input" role="spinbutton" aria-valuemin="0" aria-valuenow="1">
-                        <button @click="increment(index)" class="p-button p-component p-button-icon-only p-inputnumber-button p-inputnumber-button-up p-button-text text-600 hover:text-primary py-1 px-1" type="button" data-pc-name="button" data-pc-section="incrementbutton" tabindex="-1" aria-hidden="true" data-pd-ripple="true">
-                          <span class="pi pi-plus" data-pc-section=""></span>
-                          <span class="p-button-label" data-pc-section="label">&nbsp;</span>
-                          <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
-                        </button>
-                        <button :disabled="item.quantity === 1" @click="decrement(index)" class="p-button p-component p-button-icon-only p-inputnumber-button p-inputnumber-button-down p-button-text text-600 hover:text-primary py-1 px-1" type="button" data-pc-name="button" data-pc-section="decrementbutton" tabindex="-1" aria-hidden="true" data-pd-ripple="true">
-                          <span class="pi pi-minus" data-pc-section="decrementbuttonicon"></span>
-                          <span class="p-button-label" data-pc-section="label">&nbsp;</span>
-                          <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
-                        </button>
+                        <Button icon="pi pi-plus" :loading="loading" @click="increaseCartItem(item.id,item.product_id,cart[index].quantity,item.unit_price)" class="p-button p-component p-button-icon-only p-inputnumber-button p-inputnumber-button-up p-button-text text-600 hover:text-primary py-1 px-1" type="button" data-pc-name="button" data-pc-section="incrementbutton" tabindex="-1" aria-hidden="true" data-pd-ripple="true" />
+                        <Button icon="pi pi-minus" :loading="loading" @click="decreaseCartItem(item.id,item.product_id,cart[index].quantity,item.unit_price)" class="p-button p-component p-button-icon-only p-inputnumber-button p-inputnumber-button-down p-button-text text-600 hover:text-primary py-1 px-1" type="button" data-pc-name="button" data-pc-section="decrementbutton" tabindex="-1" aria-hidden="true" data-pd-ripple="true" />
+                        
                       </span>
                 </div>
                 <div class="flex align-items-center gap-2 text-color-secondary ml-auto text-sm">
-                    <span>USD{{ (lineTotal(item.price,item.quantity)).toFixed(2)}}</span>
-                    <i class="pi pi-trash" @click="removeFromCart(item.id)"></i>
+                    <span>USD{{ (lineTotal(item.unit_price,item.quantity)).toFixed(2)}}</span>
+                    <i  class="pi pi-trash" @click="removeFromCart(item.id)"></i>
                 </div>
                 </li>
                     </ul>
@@ -82,209 +75,227 @@
       
     </div>
     </template>
-    <script setup lang="ts">
-    const frontStore = useFrontStore()
-    const cart:any = storeToRefs(frontStore).cart
-    const op = ref();
-    const brand_id = storeToRefs(frontStore).brand_id
-    const shop_id = storeToRefs(frontStore).shop_id
-    const selectedCurrency = ref("USD");
-    const currencies = ref([
-        { name: 'USD', symbol: '$' },
-        {name: 'ZIG', symbol: 'ZIG'}
-    ]);
-    const getTotalItemsInCart = () => {
-        //@ts-ignore
-    return cart.value.reduce((total, item) => total + item.quantity, 0);
-    };
-    const toggle = (event:any) => {
-        op.value.toggle(event);
-    }
-    const vertical_items = ref([
-        {
-            label: 'Shop By Aisle',
-            icon: 'pi pi-shopping-bag',
-            items: [
-                {
-                    label: 'Fruits & Vegetables',
-                    icon: 'pi pi-apples',
-                    items: [
-                        {
-                            label: 'Fruits',
-                            items: [{ label: 'Apples' }, { label: 'Bananas' }, { label: 'Oranges' }, { label: 'Grapes' }, { label: 'Berries' }]
-                        },
-                        {
-                            label: 'Vegetables',
-                            items: [{ label: 'Carrots' }, { label: 'Broccoli' }, { label: 'Spinach' }, { label: 'Tomatoes' }, { label: 'Peppers' }]
-                        }
-                    ]
-                },
-                {
-                    label: 'Dairy & Eggs',
-                    icon: 'pi pi-egg',
-                    items: [
-                        {
-                            label: 'Dairy',
-                            items: [{ label: 'Milk' }, { label: 'Cheese' }, { label: 'Butter' }, { label: 'Yogurt' }, { label: 'Cream' }]
-                        },
-                        {
-                            label: 'Eggs',
-                            items: [{ label: 'Chicken Eggs' }, { label: 'Duck Eggs' }, { label: 'Quail Eggs' }]
-                        }
-                    ]
-                },
-                {
-                    label: 'Meat & Seafood',
-                    icon: 'pi pi-meat',
-                    items: [
-                        {
-                            label: 'Meat',
-                            items: [{ label: 'Chicken' }, { label: 'Beef' }, { label: 'Pork' }, { label: 'Lamb' }, { label: 'Turkey' }]
-                        },
-                        {
-                            label: 'Seafood',
-                            items: [{ label: 'Fish' }, { label: 'Shrimp' }, { label: 'Crab' }, { label: 'Lobster' }, { label: 'Scallops' }]
-                        }
-                    ]
-                },
-                {
-                    label: 'Bakery',
-                    icon: 'pi pi-bread',
-                    items: [
-                        {
-                            label: 'Bread & Rolls',
-                            items: [{ label: 'White Bread' }, { label: 'Whole Wheat Bread' }, { label: 'Buns' }, { label: 'Bagels' }, { label: 'Croissants' }]
-                        },
-                        {
-                            label: 'Pastries',
-                            items: [{ label: 'Donuts' }, { label: 'Muffins' }, { label: 'Cakes' }, { label: 'Cookies' }, { label: 'Pies' }]
-                        }
-                    ]
-                },
-                {
-                    label: 'Pantry',
-                    icon: 'pi pi-boxs',
-                    items: [
-                        {
-                            label: 'Canned Goods',
-                            items: [{ label: 'Canned Beans' }, { label: 'Canned Tomatoes' }, { label: 'Canned Fruit' }, { label: 'Soup' }]
-                        },
-                        {
-                            label: 'Dry Goods',
-                            items: [{ label: 'Pasta' }, { label: 'Rice' }, { label: 'Cereal' }, { label: 'Flour' }, { label: 'Sugar' }]
-                        },
-                        {
-                            label: 'Condiments',
-                            items: [{ label: 'Ketchup' }, { label: 'Mustard' }, { label: 'Mayonnaise' }, { label: 'Soy Sauce' }, { label: 'Hot Sauce' }]
-                        }
-                    ]
-                },
-                {
-                    label: 'Beverages',
-                    icon: 'pi pi-cup',
-                    items: [
-                        {
-                            label: 'Non-Alcoholic',
-                            items: [{ label: 'Water' }, { label: 'Juice' }, { label: 'Soda' }, { label: 'Tea' }, { label: 'Coffee' }]
-                        },
-                        {
-                            label: 'Alcoholic',
-                            items: [{ label: 'Beer' }, { label: 'Wine' }, { label: 'Spirits' }, { label: 'Cocktails' }]
-                        }
-                    ]
-                },
-                {
-                    label: 'Snacks & Sweets',
-                    icon: 'pi pi-candy',
-                    items: [
-                        {
-                            label: 'Snacks',
-                            items: [{ label: 'Chips' }, { label: 'Pretzels' }, { label: 'Popcorn' }, { label: 'Nuts' }]
-                        },
-                        {
-                            label: 'Sweets',
-                            items: [{ label: 'Chocolate' }, { label: 'Candy' }, { label: 'Ice Cream' }, { label: 'Gummies' }, { label: 'Cookies' }]
-                        }
-                    ]
-                },
-                {
-                    label: 'Household Items',
-                    icon: 'pi pi-homel',
-                    items: [
-                        {
-                            label: 'Cleaning Supplies',
-                            items: [{ label: 'Detergent' }, { label: 'Dish Soap' }, { label: 'All-Purpose Cleaner' }, { label: 'Bleach' }]
-                        },
-                        {
-                            label: 'Paper Goods',
-                            items: [{ label: 'Toilet Paper' }, { label: 'Paper Towels' }, { label: 'Napkins' }, { label: 'Tissues' }]
-                        }
-                    ]
-                }
-            ]
-        }
-    ]);
-    const lineTotal = (price:any, quantity:any) => {
-       return (Number(price)) * (quantity).toFixed(2)
-    }
-
-    const increment = (index:any) => {
-        //@ts-ignore
-      cart.value[index].quantity += 1;
-
-    }
-    const decrement = (index:any) => {
+ <script setup lang="ts">
+ const frontStore = useFrontStore()
+ const cart:any = storeToRefs(frontStore).cart
+ const op = ref();
+ const toast = useToast()
+ const loading = ref(false)
+ const product_brands = ref()
+ const brand_id = storeToRefs(frontStore).brand_id
+ const shop_id = storeToRefs(frontStore).shop_id
+ const cart_total = storeToRefs(frontStore).cart_total
+ const selectedCurrency = ref("USD");
+ const cart_id = storeToRefs(frontStore).cart_id
+ const categories = ref()
+ const currencies = ref([
+     { name: 'USD', symbol: '$' },
+     {name: 'ZIG', symbol: 'ZIG'}
+ ]);
+ const getTotalItemsInCart = () => {
+     //@ts-ignore
+ return cart.value.reduce((total, item) => total + item.quantity, 0);
+ };
+ const toggle = (event:any) => {
+     op.value.toggle(event);
+ }
+ const lineTotal = (price:any, quantity:any) => {
+    return (Number(price)) * (quantity).toFixed(2)
+ }
+ const convertToMenuItems = (cat:any) => {
+ return cat
+ //@ts-ignore
+     .filter(category => category.is_parent ) 
+     //@ts-ignore
+     .map(parentCategory => ({
+         label: parentCategory.name,
+         command: () => {
+             navigateTo(`/category-${parentCategory.id}-${brand_id.value}-${shop_id.value}`);
+         },
+         icon: 'pi pi-category-icon',
+         items: Array.isArray(parentCategory.children) ? 
          //@ts-ignore
-      if (cart.value[index].quantity > 0) {
-         //@ts-ignore
-        cart.value[index].quantity -= 1;
-      }
-    }
-    const removeFromCart = (productId:any) => {
-        //@ts-ignore
-      cart.value = cart.value.filter(item => item.id !== productId);
-    }
-    const cartTotal = () => {
-        return cart.value.reduce((total:any, item:any) => {
-        return total + (item.price * item.quantity);
-      }, 0).toFixed(2);
-    }
-    const getParsedImages = (images: string) => {
-    try {
-        const parsedImages = JSON.parse(images);
-        const cleanedString = JSON.parse(parsedImages.replace(/\\/g, ''));
-        return cleanedString[0]
-    } catch (error) {
-        console.error('Error parsing images JSON:', error);
-    }
-    return null; // Return null if parsing fails or no images are found
-    };
-    const items = ref([
-    {
-        label: 'Bata',
-        icon: 'pi pi-shoe'
-    },
-    {
-        label: 'Capri',
-        icon: 'pi pi-cube'
-    },
-    {
-        label: 'KDV'
-    },
-    {
-        label: 'Heroes Special'
-    },
-    {
-        label: 'CEO\'s Specials'
-    },
-    {
-        label: 'Motor Vehicle'
-    }
+             parentCategory.children.map(child => ({
+                 label: child.name,
+                 command: () => {
+                     navigateTo(`/category-${child.id}-${brand_id.value}-${shop_id.value}`);
+                 },
+                 items: child.children ? convertToMenuItems(child.children) : []
+             })) : []
+     }));
+}
+onMounted( async() => {
+let params = {
+ page: 1,
+ per_page: 100
+}
+let brands = await frontStore.getProductBrands(params).then((data) => {
+ //@ts-ignore
+ product_brands.value = data?.data?.data.map(item => ({
+ label: item.name,
+ command: () => {
+     navigateTo(`/category-${item.id}-${shop_id}-5`);
+ }
+}));
+})
+
+let categoriess = await frontStore.getAllCategories(params).then(async (data) => {
+ console.log("hjhj",data?.data?.categories)
+ categories.value = [
+ {
+     label: 'Shop By Aisle',
+     icon: 'pi pi-shopping-bag',
+     items: await convertToMenuItems(data?.data?.categories)
+ }
+];
+})
+})
+
+     //@ts-ignore
+
+const decreaseCartItem = async (item_id:any,product_id: any,quantity:any,unit_price:any) => {
+ loading.value = true
+ let cart_item = {
+ id: item_id,
+ cart_id: cart_id.value,
+ product_id: product_id,
+ quantity: quantity-1,
+ unit_price: Number(unit_price),
+ total_price: (quantity * unit_price) 
+ }
+ let edit_cart_item = await frontStore.editCartItem(cart_item).then( async (data) => {
+   if (data?.status === "success") {
+     let new_cart = await frontStore.getCart().then((data) => {
+       cart.value = data.data.items
+       cart_total.value = data?.data?.cart_total
+     })
+     toast.add({
+       severity: 'info',
+       summary: 'Cart',
+       detail: 'Quantity Changed',
+       group: 'br',
+       life: 3000,
+     });
+     loading.value = false
+   } else {
+     toast.add({
+       severity: 'warn',
+       summary: 'Cart',
+       detail: 'Could not add product',
+       group: 'br',
+       life: 3000,
+     });
+     loading.value = false
+   }
+ })
+ 
+ 
+};
+const increaseCartItem = async (item_id:any,product_id: any,quantity:any,unit_price:any) => {
+ loading.value = true
+ let cart_item = {
+ id: item_id,
+ cart_id: cart_id.value,
+ product_id: product_id,
+ quantity: quantity+1,
+ unit_price: Number(unit_price),
+ total_price: (quantity * unit_price) 
+ }
+ let edit_cart_item = await frontStore.editCartItem(cart_item).then( async (data) => {
+   if (data?.status === "success") {
+     
+     let new_cart = await frontStore.getCart().then((data) => {
+       cart.value = data.data.items
+       cart_total.value = data?.data?.cart_total
+     })
+     toast.add({
+       severity: 'info',
+       summary: 'Cart',
+       detail: 'Quantity Changed',
+       group: 'br',
+       life: 3000,
+     });
+     loading.value = false
+   } else {
+     toast.add({
+       severity: 'warn',
+       summary: 'Cart',
+       detail: 'Could not add product',
+       group: 'br',
+       life: 3000,
+     });
+     loading.value = false
+   }
+ })
+ 
+ 
+};
+const removeFromCart = async (itemId:any) => {
+     //@ts-ignore
+   let my_params = {
+     id: itemId
+   }
+   let deleted_item = await frontStore.deleteCartItem(my_params).then( async (data) => {
+     console.log('dataaaaaa',data)
+     if(data?.status === 'success') {
+         toast.add({
+         severity: 'info',
+         summary: 'Cart Changed',
+         detail: 'Product Removed',
+         group: 'br',
+         life: 3000,
+         });
+         let new_cart = await frontStore.getCart().then((data) => {
+         cart.value = data.data.items
+         cart_total.value = data?.data?.cart_total
+         })
+     } else {
+         toast.add({
+         severity: 'warn',
+         summary: 'Cart',
+         detail: 'Could not remove product',
+         group: 'br',
+         life: 3000,
+         });
+     }
+   })
+}
+const getParsedImages = (images: string) => {
+ try {
+     const parsedImages = JSON.parse(images);
+     const cleanedString = JSON.parse(parsedImages.replace(/\\/g, ''));
+     return cleanedString[0]
+ } catch (error) {
+     console.error('Error parsing images JSON:', error);
+ }
+ return null; // Return null if parsing fails or no images are found
+};
+ const items = ref([
+ {
+     label: 'Bata',
+     icon: 'pi pi-shoe'
+ },
+ {
+     label: 'Capri',
+     icon: 'pi pi-cube'
+ },
+ {
+     label: 'KDV'
+ },
+ {
+     label: 'Heroes Special'
+ },
+ {
+     label: 'CEO\'s Specials'
+ },
+ {
+     label: 'Motor Vehicle'
+ }
 ]);
-    
-    
-    </script>
-    <style>
+ 
+ 
+ </script>
+<style>
       .search-container {
         max-width: 600px; /* Adjust max-width as needed */
       }
@@ -371,7 +382,7 @@
     width: 80px !important;
 }
     .p-tieredmenu .p-menuitem > .p-menuitem-content .p-menuitem-link span {
-        color: #ffffff;
+        color: #000000;
         /* padding: 0.5rem 0.75rem; */
         -webkit-user-select: none;
         -moz-user-select: none;
@@ -386,11 +397,12 @@
         background: #ecfdf500;
     }
     .p-tieredmenu .p-submenu-list {
-        padding: 0.25rem 0.25rem;
-        background: #000000;
-        border: none;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-        border-radius: 6px;
+    padding: 0.25rem 0.25rem;
+    background: #ffffff;
+    color: red !important;
+    border: none;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
     }
     .p-tieredmenu .p-menuitem > .p-menuitem-content .p-menuitem-link .p-submenu-icon {
         color: #ffffff;

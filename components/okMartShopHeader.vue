@@ -35,10 +35,10 @@
     <div class="foodloversheader okmartheader px-6 shadow-2 flex align-items-center justify-content-between relative lg:static">
       <div class="row col-12 flex">
          <div class="col-2">
-            <TieredMenu class="shopbyisle" :model="vertical_items" />
+            <TieredMenu class="shopbyisle" :model="categories" />
          </div>
          <div class="col-10">
-            <MegaMenu :model="items" />
+            <MegaMenu :model="product_brands" />
          </div>
       </div>
       <OverlayPanel ref="op">
@@ -81,11 +81,13 @@
     const op = ref();
     const toast = useToast()
     const loading = ref(false)
+    const product_brands = ref()
     const brand_id = storeToRefs(frontStore).brand_id
     const shop_id = storeToRefs(frontStore).shop_id
     const cart_total = storeToRefs(frontStore).cart_total
     const selectedCurrency = ref("USD");
     const cart_id = storeToRefs(frontStore).cart_id
+    const categories = ref()
     const currencies = ref([
         { name: 'USD', symbol: '$' },
         {name: 'ZIG', symbol: 'ZIG'}
@@ -97,146 +99,60 @@
     const toggle = (event:any) => {
         op.value.toggle(event);
     }
-    const vertical_items = ref([
-        {
-            label: 'Shop By Aisle',
-            icon: 'pi pi-shopping-bag',
-            items: [
-                {
-                    label: 'Fruits & Vegetables',
-                    icon: 'pi pi-apples',
-                    items: [
-                        {
-                            label: 'Fruits',
-                            items: [{ label: 'Apples' }, { label: 'Bananas' }, { label: 'Oranges' }, { label: 'Grapes' }, { label: 'Berries' }]
-                        },
-                        {
-                            label: 'Vegetables',
-                            items: [{ label: 'Carrots' }, { label: 'Broccoli' }, { label: 'Spinach' }, { label: 'Tomatoes' }, { label: 'Peppers' }]
-                        }
-                    ]
-                },
-                {
-                    label: 'Dairy & Eggs',
-                    icon: 'pi pi-egg',
-                    items: [
-                        {
-                            label: 'Dairy',
-                            items: [{ label: 'Milk' }, { label: 'Cheese' }, { label: 'Butter' }, { label: 'Yogurt' }, { label: 'Cream' }]
-                        },
-                        {
-                            label: 'Eggs',
-                            items: [{ label: 'Chicken Eggs' }, { label: 'Duck Eggs' }, { label: 'Quail Eggs' }]
-                        }
-                    ]
-                },
-                {
-                    label: 'Meat & Seafood',
-                    icon: 'pi pi-meat',
-                    items: [
-                        {
-                            label: 'Meat',
-                            items: [{ label: 'Chicken' }, { label: 'Beef' }, { label: 'Pork' }, { label: 'Lamb' }, { label: 'Turkey' }]
-                        },
-                        {
-                            label: 'Seafood',
-                            items: [{ label: 'Fish' }, { label: 'Shrimp' }, { label: 'Crab' }, { label: 'Lobster' }, { label: 'Scallops' }]
-                        }
-                    ]
-                },
-                {
-                    label: 'Bakery',
-                    icon: 'pi pi-bread',
-                    items: [
-                        {
-                            label: 'Bread & Rolls',
-                            items: [{ label: 'White Bread' }, { label: 'Whole Wheat Bread' }, { label: 'Buns' }, { label: 'Bagels' }, { label: 'Croissants' }]
-                        },
-                        {
-                            label: 'Pastries',
-                            items: [{ label: 'Donuts' }, { label: 'Muffins' }, { label: 'Cakes' }, { label: 'Cookies' }, { label: 'Pies' }]
-                        }
-                    ]
-                },
-                {
-                    label: 'Pantry',
-                    icon: 'pi pi-boxs',
-                    items: [
-                        {
-                            label: 'Canned Goods',
-                            items: [{ label: 'Canned Beans' }, { label: 'Canned Tomatoes' }, { label: 'Canned Fruit' }, { label: 'Soup' }]
-                        },
-                        {
-                            label: 'Dry Goods',
-                            items: [{ label: 'Pasta' }, { label: 'Rice' }, { label: 'Cereal' }, { label: 'Flour' }, { label: 'Sugar' }]
-                        },
-                        {
-                            label: 'Condiments',
-                            items: [{ label: 'Ketchup' }, { label: 'Mustard' }, { label: 'Mayonnaise' }, { label: 'Soy Sauce' }, { label: 'Hot Sauce' }]
-                        }
-                    ]
-                },
-                {
-                    label: 'Beverages',
-                    icon: 'pi pi-cup',
-                    items: [
-                        {
-                            label: 'Non-Alcoholic',
-                            items: [{ label: 'Water' }, { label: 'Juice' }, { label: 'Soda' }, { label: 'Tea' }, { label: 'Coffee' }]
-                        },
-                        {
-                            label: 'Alcoholic',
-                            items: [{ label: 'Beer' }, { label: 'Wine' }, { label: 'Spirits' }, { label: 'Cocktails' }]
-                        }
-                    ]
-                },
-                {
-                    label: 'Snacks & Sweets',
-                    icon: 'pi pi-candy',
-                    items: [
-                        {
-                            label: 'Snacks',
-                            items: [{ label: 'Chips' }, { label: 'Pretzels' }, { label: 'Popcorn' }, { label: 'Nuts' }]
-                        },
-                        {
-                            label: 'Sweets',
-                            items: [{ label: 'Chocolate' }, { label: 'Candy' }, { label: 'Ice Cream' }, { label: 'Gummies' }, { label: 'Cookies' }]
-                        }
-                    ]
-                },
-                {
-                    label: 'Household Items',
-                    icon: 'pi pi-homel',
-                    items: [
-                        {
-                            label: 'Cleaning Supplies',
-                            items: [{ label: 'Detergent' }, { label: 'Dish Soap' }, { label: 'All-Purpose Cleaner' }, { label: 'Bleach' }]
-                        },
-                        {
-                            label: 'Paper Goods',
-                            items: [{ label: 'Toilet Paper' }, { label: 'Paper Towels' }, { label: 'Napkins' }, { label: 'Tissues' }]
-                        }
-                    ]
-                }
-            ]
-        }
-    ]);
     const lineTotal = (price:any, quantity:any) => {
        return (Number(price)) * (quantity).toFixed(2)
     }
-
-    const increment = (index:any) => {
+    const convertToMenuItems = (cat:any) => {
+    return cat
+    //@ts-ignore
+        .filter(category => category.is_parent ) 
         //@ts-ignore
-      cart.value[index].quantity += 1;
+        .map(parentCategory => ({
+            label: parentCategory.name,
+            command: () => {
+                navigateTo(`/category-${parentCategory.id}-${brand_id.value}-${shop_id.value}`);
+            },
+            icon: 'pi pi-category-icon',
+            items: Array.isArray(parentCategory.children) ? 
+            //@ts-ignore
+                parentCategory.children.map(child => ({
+                    label: child.name,
+                    command: () => {
+                        navigateTo(`/category-${child.id}-${brand_id.value}-${shop_id.value}`);
+                    },
+                    items: child.children ? convertToMenuItems(child.children) : []
+                })) : []
+        }));
+}
+onMounted( async() => {
+let params = {
+    page: 1,
+    per_page: 100
+}
+let brands = await frontStore.getProductBrands(params).then((data) => {
+    //@ts-ignore
+    product_brands.value = data?.data?.data.map(item => ({
+    label: item.name,
+    command: () => {
+        navigateTo(`/category-${item.id}-${shop_id}-5`);
+    }
+   }));
+})
 
+let categoriess = await frontStore.getAllCategories(params).then(async (data) => {
+    console.log("hjhj",data?.data?.categories)
+    categories.value = [
+    {
+        label: 'Shop By Aisle',
+        icon: 'pi pi-shopping-bag',
+        items: await convertToMenuItems(data?.data?.categories)
     }
-    const decrement = (index:any) => {
-         //@ts-ignore
-      if (cart.value[index].quantity > 0) {
-         //@ts-ignore
-        cart.value[index].quantity -= 1;
-      }
-    }
+];
+})
+})
+   
+        //@ts-ignore
+
 const decreaseCartItem = async (item_id:any,product_id: any,quantity:any,unit_price:any) => {
     loading.value = true
     let cart_item = {
@@ -314,7 +230,7 @@ const increaseCartItem = async (item_id:any,product_id: any,quantity:any,unit_pr
     
     
 };
-    const removeFromCart = async (itemId:any) => {
+const removeFromCart = async (itemId:any) => {
         //@ts-ignore
       let my_params = {
         id: itemId
@@ -343,13 +259,8 @@ const increaseCartItem = async (item_id:any,product_id: any,quantity:any,unit_pr
             });
         }
       })
-    }
-    const cartTotal = () => {
-        return cart.value.reduce((total:any, item:any) => {
-        return total + (item.price * item.quantity);
-      }, 0).toFixed(2);
-    }
-    const getParsedImages = (images: string) => {
+}
+const getParsedImages = (images: string) => {
     try {
         const parsedImages = JSON.parse(images);
         const cleanedString = JSON.parse(parsedImages.replace(/\\/g, ''));
@@ -358,7 +269,7 @@ const increaseCartItem = async (item_id:any,product_id: any,quantity:any,unit_pr
         console.error('Error parsing images JSON:', error);
     }
     return null; // Return null if parsing fails or no images are found
-    };
+};
     const items = ref([
     {
         label: 'Bata',
@@ -468,7 +379,7 @@ const increaseCartItem = async (item_id:any,product_id: any,quantity:any,unit_pr
     width: 80px !important;
 }
     .p-tieredmenu .p-menuitem > .p-menuitem-content .p-menuitem-link span {
-        color: #ffffff;
+        color: #000000;
         /* padding: 0.5rem 0.75rem; */
         -webkit-user-select: none;
         -moz-user-select: none;
@@ -483,12 +394,13 @@ const increaseCartItem = async (item_id:any,product_id: any,quantity:any,unit_pr
         background: #ecfdf500;
     }
     .p-tieredmenu .p-submenu-list {
-        padding: 0.25rem 0.25rem;
-        background: #000000;
-        border: none;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-        border-radius: 6px;
-    }
+    padding: 0.25rem 0.25rem;
+    background: #ffffff;
+    color: red !important;
+    border: none;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+}
     .p-tieredmenu .p-menuitem > .p-menuitem-content .p-menuitem-link .p-submenu-icon {
         color: #ffffff;
     }

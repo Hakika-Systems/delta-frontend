@@ -315,6 +315,58 @@ export const useFrontStore = defineStore('front', {
       } finally {
       }
     },
+    async getProductBrands(my_params:any) {
+      const url = new URL(`${SHOP_URL}/api/product-brands`);
+      const params:any = {
+          per_page: `${my_params.per_page}`,
+          page:`${my_params.page}`
+      };
+      Object.keys(params).forEach((key) =>
+          url.searchParams.append(key, params[key])
+      );
+      const token = useCookie('token').value || ""
+      const headers = {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+      };
+  
+      try {
+          const response = await fetch(url, {
+              method: "GET",
+              headers,
+          });
+          const data = await response.json();
+          return data;
+      } finally {
+      }
+    },
+    async getAllCategories(my_params:any) {
+      const url = new URL(`${SHOP_URL}/api/categories/parent`);
+      const params:any = {
+          per_page: `${my_params.per_page}`,
+          page:`${my_params.page}`
+      };
+      Object.keys(params).forEach((key) =>
+          url.searchParams.append(key, params[key])
+      );
+      const token = useCookie('token').value || ""
+      const headers = {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+      };
+  
+      try {
+          const response = await fetch(url, {
+              method: "GET",
+              headers,
+          });
+          const data = await response.json();
+          return data;
+      } finally {
+      }
+    },
     async getFeaturedProducts(my_params:any) {
       const url = new URL(`${SHOP_URL}/api/featured-products/${my_params.id}`);
       const params:any = {
