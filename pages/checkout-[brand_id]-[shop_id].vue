@@ -110,8 +110,8 @@
                     <!---->
                   </div>
                 <div class="text-900 col-12 font-medium text-xl mt-4 lg:mt-0 mb-4 px-2"> Select Payment Method</div>
-                <div v-for="item in payment_options" class="col-3 p-3 d-flex justify-content-center align-items-center">
-                  <div class="flex flex-column border-round border-1 surface-border p-4 cursor-pointer hover:border-primary transition-duration-150 d-flex justify-content-center align-items-center">
+                <div v-for="item in payment_options" @click="toggleOptionCheckbox(item.id)" class="col-3 p-3 d-flex justify-content-center align-items-center">
+                  <div :class="{'border-top': item.id === current_payment_option}" class="payheight flex flex-column border-round border-1 surface-border p-4 cursor-pointer hover:border-primary transition-duration-150 d-flex justify-content-center align-items-center">
                     <img :src="item.logo" class="w-8rem" alt="Visa" >
                   </div>
                 </div>
@@ -220,6 +220,7 @@ const notes = ref('')
 const cart:any = storeToRefs(frontStore).cart
 const vat_total = ref(Number(0.00))
 const cart_total = ref()
+const current_payment_option = ref()
 const standard_delivery = ref(Number(1.50))
 const VAT_RATE = Number(0.15); // 14.5% VAT rate
 console.log(typeof VAT_RATE)
@@ -240,6 +241,9 @@ const lineTotal = (price:any, quantity:any) => {
     const removeFromCart = (productId:any) => {
         //@ts-ignore
       cart.value = cart.value.filter(item => item.id !== productId);
+    }
+    const toggleOptionCheckbox = (id:any) => {
+      current_payment_option.value = id
     }
     const cartTotal =  () => {
         if (delivery_option.value === 'Collection') {
@@ -318,6 +322,12 @@ const select_standard_delivery = ()=>{
 }
 
 </script>
-<style>
-
+<style scoped>
+.border-top {
+    /* border-style: solid; */
+    border: 5px solid #30c804 !important;
+}
+.payheight {
+    min-height: 150px !important;
+}
 </style>
