@@ -157,41 +157,70 @@ const searchProducts = () => {
 
 const displaySearchResults = async () => {
   if (search_products.value && search_products.value.length > 0) {
-    
     const searchResults = search_products.value;
-    let table = `<table>
-                   <thead>
-                     <tr>
-                       <th>Product</th>`;
-    // Add shop brand names as table headers with "Shop Now" buttons
-    searchResults[0].prices.forEach((priceObj: any) => {
-      table += `<th>
-                  ${priceObj.shop_brand.name}
-                  <button 
-                    class="shop-now-btn" 
-                    onclick="selectShop(${priceObj.shop_brand.id})">
-                    Shop Now
-                  </button>
-                </th>`;
-    });
-    table += `</tr></thead><tbody>`;
     
-    // Add product names and prices as table rows
-    searchResults.forEach((product: any) => {
-      table += `<tr>
-                  <td>${product.name}</td>`;
-      product.prices.forEach((priceObj: any) => {
-        table += `<td>USD${priceObj.price}</td>`;
-      });
-      table += `</tr>`;
-    });
-    
-    table += `</tbody></table>`;
+    // Create table elements
+    const table = document.createElement('table');
+    const thead = document.createElement('thead');
+    const tbody = document.createElement('tbody');
+    const headerRow = document.createElement('tr');
 
-    // Inject the table into the DOM using the jQuery ref
-    $("#searchResultsTable").html(table);
+    // Create and append table headers
+    const productHeader = document.createElement('th');
+    productHeader.textContent = 'Product';
+    headerRow.appendChild(productHeader);
+
+    searchResults[0].prices.forEach((priceObj: any) => {
+      const header = document.createElement('th');
+      header.innerHTML = `
+        ${priceObj.shop_brand.name}
+        <button 
+          class="shop-now-btn"
+          style="background-color: #f97316 !important;
+          padding: 5px !important;
+          color: white !important;
+          border-radius: 23px !important;
+          border: none !important;
+          font-size: 11px !important;"
+          onclick="window.location.href='/shop-${priceObj.shop_brand.id}-${priceObj?.shop?.id}'">
+          Shop Now
+        </button>
+      `;
+      headerRow.appendChild(header);
+    });
+
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    // Create and append table rows
+    searchResults.forEach((product: any) => {
+      const row = document.createElement('tr');
+
+      const productCell = document.createElement('td');
+      productCell.textContent = product.name;
+      row.appendChild(productCell);
+
+      product.prices.forEach((priceObj: any) => {
+        const priceCell = document.createElement('td');
+        priceCell.innerHTML = `<strong>USD</strong>${priceObj.price}`;
+        row.appendChild(priceCell);
+      });
+
+      tbody.appendChild(row);
+    });
+
+    table.appendChild(tbody);
+
+    // Inject the table into the DOM
+    const resultsContainer = document.getElementById('searchResultsTable');
+    if (resultsContainer) {
+      resultsContainer.innerHTML = ''; // Clear previous results
+      resultsContainer.appendChild(table);
+    }
   }
 }
+
+
 
 // Example showBrand function to handle the button click
 const showBrand = (brandId: any) => {
@@ -273,6 +302,14 @@ const getFeaturedProducts = async (brand_id:any) => {
 }
 input.p-inputtext.p-component.searchinput.p-inputtext.p-component.surface-section.text-600.surface-border.w-full {
     border-radius: 30px 0px 0px 30px;
+}
+button.shop-now-btn {
+    background-color: #f97316 !important;
+    padding: 5px !important;
+    color: white !important;
+    border-radius: 23px !important;
+    border: none !important;
+    font-size: 11px !important;
 }
 .menu-expand {
     display: inline-block;
