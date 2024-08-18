@@ -448,6 +448,32 @@ export const useFrontStore = defineStore('front', {
       } finally {
       }
     },
+    async getPaymentOptions(my_params:any) {
+      const url = new URL(`${SHOP_URL}/api/payment-methods`);
+      const params:any = {
+          per_page: `${my_params.per_page}`,
+          page:`${my_params.page}`
+      };
+      Object.keys(params).forEach((key) =>
+          url.searchParams.append(key, params[key])
+      );
+      const token = useCookie('token').value || ""
+      const headers = {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+      };
+  
+      try {
+          const response = await fetch(url, {
+              method: "GET",
+              headers,
+          });
+          const data = await response.json();
+          return data;
+      } finally {
+      }
+    },
     async individualRegistration(my_params: any) {
       const url = `${SHOP_URL}/api/auth/signup`;
       const token = useCookie('token').value || "";
