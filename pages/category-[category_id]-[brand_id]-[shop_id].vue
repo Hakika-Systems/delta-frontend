@@ -8,7 +8,7 @@
     <div class="surface-section px-4 py-8 md:px-6 lg:px-8">
       <div class="flex justify-content-between flex-wrap">
         <div class="flex align-items-center mb-4 md:mb-0">
-          <div class="text-900 font-bold text-3xl">All Products</div>
+          <div class="text-900 font-bold text-3xl">{{ category_name ? category_name : "All Products"}}</div>
         </div>
         <div>
           <button class="p-button p-component p-button-outlined p-button-secondary w-7rem p-2" type="button" aria-label="Sort By" data-pc-name="button" data-pc-section="root" data-pd-ripple="true">
@@ -41,9 +41,9 @@
                   <div class="mb-4">
                   </div>
                   <div class="flex justify-content-between align-items-center">
-                    <span class="font-bold text-900 ml-2">{{currency}}{{product.prices[0]?.price ? formatCurrency(product.prices[0]?.price) : formatCurrency(0)}}</span>
-                    <Button v-if="product?.details[0]?.quantity >= 1" :loading="current_id === product.id" @click="addToCart(product.id,product.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
-                      <Button v-else :loading="loading" @click="addToCart(product.id,product.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Out of Stock" class="ml-auto cart" disabled/>
+                    <span class="font-bold text-900 ml-2">{{currency}}{{product?.prices[0]?.price ? formatCurrency(product.prices[0]?.price) : formatCurrency(0)}}</span>
+                    <!-- <Button v-if="product?.details[0]?.quantity >= 1" :loading="current_id === product.id" @click="addToCart(product.id,product.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
+                      <Button v-else :loading="loading" @click="addToCart(product.id,product.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Out of Stock" class="ml-auto cart" disabled/> -->
                   </div>
                 </div>
               </div>
@@ -76,6 +76,7 @@
   const featured_products:any = ref()
   const current_id:any = ref()
   const cart_total = storeToRefs(frontStore).cart_total
+  const category_name = ref()
   const responsiveOptions = ref([
     {
         breakpoint: '1400px',
@@ -128,6 +129,11 @@ const getParsedImages = (images: string) => {
       shop_brand_id: brand_id,
       category_id: category_id
   }
+  await frontStore.getRelatedProducts(related_params).then((data) => {
+      console.log("related products:", data)
+      products.value = data?.data?.products
+      category_name.value = data?.data?.products[0]?.category?.name
+  })
   if (guest_id.value === null) {
       guest_id.value = createId()
   }
@@ -141,9 +147,7 @@ const getParsedImages = (images: string) => {
     cart_total.value = data?.data?.cart_total
     cart_id.value = data?.data?.id
   }) 
-  await frontStore.getRelatedProducts(related_params).then((data) => {
-      products.value = data?.data?.products
-  })
+  
  })
   
   const addToCart = async (product_id: any,price:any) => {
