@@ -84,6 +84,16 @@
       </div>
       </div>
     </div>
+    <Dialog @hide="checkAgain()" v-model:visible="visible" modal showHeader="false" header="Select Store" :style="{ width: '25rem' }">
+    <span class="p-text-secondary block mb-5">Pick Your Nearest Store</span>
+    <div class="flex align-items-center gap-3 mb-3">
+        <Dropdown placeholder="Select Store" v-model="selected_shop" :options="shops" optionValue="id" class="w-full" optionLabel="name" />
+    </div>
+    <div class="flex justify-content-end gap-2">
+        <Button @click="goToShop()" :disabled="!selected_shop" type="button" label="Continue Shopping"></Button>
+    </div>
+</Dialog>
+
   </template>
   <script setup lang="ts">
   import { storeToRefs } from 'pinia';
@@ -94,15 +104,19 @@
   const mytoken = useCookie('token');
   const name = useCookie('username');
   const user_id = useCookie('user_id');
+  const visible = ref(false)
   const loading = ref(false)
   const cart_id = storeToRefs(frontStore).cart_id
   const brand_idd:any = storeToRefs(frontStore).brand_id
   const shop_idd:any = storeToRefs(frontStore).shop_id
   const {params:{brand_id,shop_id}} = useRoute()
+  const selected_shop = ref()
   const cart:any = storeToRefs(frontStore).cart
   const guest_id:any = storeToRefs(frontStore).guest_id
   const featured_products:any = ref()
   const current_id:any = ref()
+  const brands = ref()
+  const shops = ref()
   const cart_total = storeToRefs(frontStore).cart_total
   const responsiveOptions = ref([
     {
@@ -137,17 +151,31 @@
     }
     return value.toLocaleString('en-US', { style: 'currency', currency: currency.value });
   };
-const getParsedImages = (images: string) => {
-  try {
-    const parsedImages = JSON.parse(images);
-    const cleanedString = JSON.parse(parsedImages.replace(/\\/g, ''));
-    return cleanedString[0]
-  } catch (error) {
-    console.error('Error parsing images JSON:', error);
+  const getParsedImages = (images: string) => {
+    try {
+      const parsedImages = JSON.parse(images);
+      const cleanedString = JSON.parse(parsedImages.replace(/\\/g, ''));
+      return cleanedString[0]
+    } catch (error) {
+      console.error('Error parsing images JSON:', error);
+    }
+    return null; // Return null if parsing fails or no images are found
+  };
+  const checkAgain = () => {
+    if (shop_id === "undefined") {
+      visible.value = true
+    }
   }
-  return null; // Return null if parsing fails or no images are found
-};
   onMounted( async() => {
+    console.log("dkdkd",shop_id)
+    if(shop_id === "undefined") {
+       visible.value = true;
+       let result_one = await frontStore.getBrands().then(async (data) => {
+        console.log("my branss are found",data?.data?.shopbrands)
+       let brands = data?.data?.shopbrands;
+        selectShopsByBrandId(brand_id,brands)
+      });
+    }
     brand_idd.value = brand_id
     shop_idd.value = shop_id
     let params = {
@@ -182,6 +210,24 @@ const getParsedImages = (images: string) => {
     cart_id.value = data?.data?.id
   }) 
  })
+ const goToShop = () => {
+  navigateTo(`shop-${brand_id}-${selected_shop.value}`)
+ }
+ const selectShopsByBrandId = (brandId:any,brandss:any) => {
+  console.log("brand id is ",brandId)
+  // Find the brand with the given ID
+  console.log("shopBrands",brandss)
+  const brand = brandss.find((b:any) => b.id === Number(brandId));
+  console.log("my brand",brand)
+  if (brand) {
+    // Return the shops of the found brand
+    shops.value = brand.shops
+    return brand.shops;
+  } else {
+    // Return an empty array if the brand is not found
+    return [];
+  }
+}
   
   const addToCart = async (product_id: any,price:any) => {
     current_id.value = product_id
