@@ -180,7 +180,7 @@
     shop_idd.value = shop_id
     let params = {
         page: 1,
-        per_page: 10,
+        per_page: 80,
         shop_brand_id: brand_id,
         shop_id: shop_id
     }
@@ -189,7 +189,7 @@
     })
     let featured_params = {
         page: 1,
-        per_page: 10,
+        per_page: 80,
         is_shop_brand: false,
         id: shop_id
     }
