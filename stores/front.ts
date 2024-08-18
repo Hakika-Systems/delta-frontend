@@ -9,6 +9,8 @@ export const useFrontStore = defineStore('front', {
         brand_id: null,
         brand_featured_products: {},
         cart_total: null,
+        currencies: null,
+        selected_currency: null,
         cart_id: null,
         guest_id: null,
         products: [],
@@ -426,7 +428,34 @@ export const useFrontStore = defineStore('front', {
           per_page: `${my_params.per_page}`,
           page:`${my_params.page}`,
           shop_brand_id: `${my_params.shop_brand_id}`,
+          shop_id: `${my_params.shop_id}`,
           category_id: `${my_params.category_id}`
+      };
+      Object.keys(params).forEach((key) =>
+          url.searchParams.append(key, params[key])
+      );
+      const token = useCookie('token').value || ""
+      const headers = {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+      };
+  
+      try {
+          const response = await fetch(url, {
+              method: "GET",
+              headers,
+          });
+          const data = await response.json();
+          return data;
+      } finally {
+      }
+    },
+    async getAllCurrencies(my_params:any) {
+      const url = new URL(`${SHOP_URL}/api/currencies`);
+      const params:any = {
+          per_page: `${my_params.per_page}`,
+          page:`${my_params.page}`
       };
       Object.keys(params).forEach((key) =>
           url.searchParams.append(key, params[key])
