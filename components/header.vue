@@ -13,7 +13,7 @@
               /></a>
             </div>
           </div>
-          <div class="col-8 d-none d-lg-block">
+          <div class="col-6 d-none d-lg-block">
             <InputGroup class="w-full">
                         <IconField class="w-full" iconPosition="left">
                         <InputText @keyup="searchProducts()" v-model="search_text"   class="searchinput p-inputtext p-component surface-section text-600 surface-border w-full"  placeholder="What are you looking for..."/>
@@ -26,6 +26,11 @@
 
             </div>
     </div>
+          </div>
+          <div class="col-2">
+            <div class="header-icons">
+              <Dropdown class="w-10 topcurrency" v-model="selected_currency" :options="currencies" optionLabel="iso_code" optionValue="id" placeholder="Select Currency" />
+            </div>
           </div>
           <div class="col-2">
             <div class="header-icons">
@@ -124,6 +129,8 @@ import $ from 'jquery';
 const select_shop = ref(false);
 const loading = ref(true);
 const shopBranch = ref();
+const currencies:any = storeToRefs(frontStore).currencies;
+const selected_currency = storeToRefs(frontStore).selected_currency;
 const branches = ref();
 const shopID = ref();
 const products = ref();
@@ -244,6 +251,15 @@ const goToShop = () => {
 }
 
 onMounted(async() => {
+  let currency_params = {
+    page: 1,
+    per_page: 100
+  }
+  let currenciess = await frontStore.getAllCurrencies(currency_params).then((data) => {
+    console.log("currencies",data)
+    currencies.value = data.data.currencies
+    selected_currency.value = data?.data?.currencies[0]?.id ? data?.data?.currencies[0]?.id : null
+  });
   let result_one = await frontStore.getBrands().then(async (data) => {
     console.log("Brands:", data?.data?.shopbrands);
     brands.value = data?.data?.shopbrands;
@@ -299,6 +315,9 @@ const getFeaturedProducts = async (brand_id:any) => {
 }
 .menu-top {
     border-bottom: 1px solid #d8caca;
+}
+.topcurrency {
+    border-radius: 35px !important;
 }
 input.p-inputtext.p-component.searchinput.p-inputtext.p-component.surface-section.text-600.surface-border.w-full {
     border-radius: 30px 0px 0px 30px;
