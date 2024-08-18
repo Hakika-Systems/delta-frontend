@@ -24,7 +24,7 @@
                           </button>
                       </span>
                       <div class="flex align-items-center flex-1 mt-3 sm:mt-0 ml-0 sm:ml-5">
-                          <Button @click="addToCart(product?.id)" class="p-button p-component flex-1 mr-5" label="Add to cart" />
+                          <Button :loading="loading" @click="addToCart(product?.id,product?.prices[0]?.price)" class="p-button p-component flex-1 mr-5" label="Add to cart" />
                       </div>
                   </div>
               </div>
@@ -91,8 +91,8 @@
                                   </div>
                                   <div @click="navigateTo(`/detail-${item.id}`)" class="mb-3 font-medium nametext cursor-pointer">{{ addEllipsis(item.name) }}</div>
                                   <div class="flex justify-content-between align-items-center">
-                                      <span class="font-bold text-900 ml-2">USD {{item.price ? formatCurrency(item.price) : formatCurrency(0)}}</span>
-                                      <Button @click="addToCartRelated(item.id)" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart" />
+                                      <span class="font-bold text-900 ml-2">USD {{item?.prices[0]?.price ? item?.prices[0]?.price : formatCurrency(0)}}</span>
+                                      <Button :loading="current_id === item.id" @click="addToCartRelated(item.id,item?.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart" />
                                   </div>
                               </div>
                           </div>
@@ -107,15 +107,22 @@
 <script setup lang="ts">
 const frontStore = useFrontStore()
 const products:any = storeToRefs(frontStore).products
+import { createId } from '@paralleldrive/cuid2';
 const cart:any = storeToRefs(frontStore).cart
 const {params:{id,brand_id,shop_id,category_id}} = useRoute()
 const toast = useToast()
 const brand_idd:any = storeToRefs(frontStore).brand_id
 const shop_idd:any = storeToRefs(frontStore).shop_id
+const guest_id:any = storeToRefs(frontStore).guest_id
+const user_id = useCookie('user_id');
+const cart_id = storeToRefs(frontStore).cart_id
+const loading = ref(false)
+const current_id:any = ref()
 const rating = ref()
 const quantity = ref(1)
+const cart_total = storeToRefs(frontStore).cart_total
 const related_products:any = ref([])
-const product = ref()
+const product:any = ref()
 
 onMounted(async () => {
   brand_idd.value = brand_id
@@ -127,7 +134,19 @@ onMounted(async () => {
       shop_brand_id: brand_id,
       shop_id: shop_id
   }
-
+  if (guest_id.value === null) {
+      guest_id.value = createId()
+  }
+   let cart_params = {
+    shop_id: shop_id,
+    user_id: user_id.value,
+    guest_id: guest_id.value
+   }
+  let created_cart = await frontStore.createCart(cart_params).then((data) => {
+    cart.value = data.data.items
+    cart_total.value = data?.data?.cart_total
+    cart_id.value = data?.data?.id
+  }) 
   const related_params = {
       page: 1,
       per_page: 10,
@@ -146,25 +165,64 @@ onMounted(async () => {
   product.value = await findProduct(id)
 })
 
-const addToCart = (product_id:any) => {
-  const product = products.value.find((prod:any) => prod.id === product_id)
+const addToCart = async (product_id: any,price:any) => {
+    current_id.value = product_id
+    loading.value = true
+  // Find the product in products
 
-  if (!product) {
-      console.error('Product not found')
-      return
+
+
+  if (!price) {
+    toast.add({
+      severity: 'warn',
+      summary: 'Not added',
+      detail: 'Product price not found',
+      group: 'br',
+      life: 3000,
+    });
+    console.error('Product price not found');
+    loading.value = false
+    return;
   }
-//@ts-ignore
-  const productInCart = cart.value.find(cartItem => cartItem.id === product_id)
-
-  if (productInCart) {
-      productInCart.quantity += quantity.value
-      toast.add({ severity: 'info', summary: 'Cart', detail: 'Product Quantity Updated', group: 'br', life: 3000 })
-  } else {
-      cart.value.push({ ...product, quantity: quantity.value })
-      toast.add({ severity: 'info', summary: 'Cart', detail: 'Product Added', group: 'br', life: 3000 })
-  }
-}
-
+  // Check if the product is already in the cart
+    // Add the product to the cart with quantity 1
+    let qnty = quantity.value
+    let cart_item = {
+    cart_id: cart_id.value,
+    product_id: product_id,
+    quantity: qnty,
+    unit_price: Number(price),
+    total_price: (qnty * price) 
+    }
+    let add_cart_item = await frontStore.addCartItem(cart_item).then( async (data) => {
+      if (data?.status === "success") {
+        loading.value = false
+        current_id.value = null
+        let new_cart = await frontStore.getCart().then((data) => {
+          cart.value = data.data.items
+          cart_total.value = data?.data?.cart_total
+        })
+        toast.add({
+          severity: 'info',
+          summary: 'Cart',
+          detail: 'Product Added',
+          group: 'br',
+          life: 3000,
+        });
+      } else {
+        toast.add({
+          severity: 'warn',
+          summary: 'Cart',
+          detail: 'Could not add product',
+          group: 'br',
+          life: 3000,
+        });
+        loading.value = false
+      }
+    })
+    
+    
+};
 const findProduct = (id:any) => {
   for (let i = 0; i < products.value.length; i++) {
       if (products.value[i].id === Number(id)) {
@@ -192,24 +250,63 @@ const navigateTo = (route: string) => {
   useRouter().push(route)
 }
 
-const addToCartRelated = (product_id:any) => {
-  const product = related_products.value.find((prod:any) => prod.id === product_id)
+const addToCartRelated = async (product_id: any,price:any) => {
+    current_id.value = product_id
+  // Find the product in products
 
-  if (!product) {
-      console.error('Product not found')
-      return
-  }
-//@ts-ignore
-  const productInCart = cart.value.find(cartItem => cartItem.id === product_id)
 
-  if (productInCart) {
-      productInCart.quantity += quantity.value
-      toast.add({ severity: 'info', summary: 'Cart', detail: 'Product Quantity Updated', group: 'br', life: 3000 })
-  } else {
-      cart.value.push({ ...product, quantity: quantity.value })
-      toast.add({ severity: 'info', summary: 'Cart', detail: 'Product Added', group: 'br', life: 3000 })
+
+  if (!price) {
+    toast.add({
+      severity: 'warn',
+      summary: 'Not added',
+      detail: 'Product price not found',
+      group: 'br',
+      life: 3000,
+    });
+    console.error('Product price not found');
+    current_id.value = null
+    return;
   }
-}
+  // Check if the product is already in the cart
+    // Add the product to the cart with quantity 1
+    let qnty = 1
+    let cart_item = {
+    cart_id: cart_id.value,
+    product_id: product_id,
+    quantity: qnty,
+    unit_price: Number(price),
+    total_price: (qnty * price) 
+    }
+    let add_cart_item = await frontStore.addCartItem(cart_item).then( async (data) => {
+      if (data?.status === "success") {
+        loading.value = false
+        current_id.value = null
+        let new_cart = await frontStore.getCart().then((data) => {
+          cart.value = data.data.items
+          cart_total.value = data?.data?.cart_total
+        })
+        toast.add({
+          severity: 'info',
+          summary: 'Cart',
+          detail: 'Product Added',
+          group: 'br',
+          life: 3000,
+        });
+      } else {
+        toast.add({
+          severity: 'warn',
+          summary: 'Cart',
+          detail: 'Could not add product',
+          group: 'br',
+          life: 3000,
+        });
+        loading.value = false
+      }
+    })
+    
+    
+};
 </script>
 <style scoped>
 img.product_image.w-full.border-round {
