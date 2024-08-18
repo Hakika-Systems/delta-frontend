@@ -110,26 +110,13 @@
                     <!---->
                   </div>
                 <div class="text-900 col-12 font-medium text-xl mt-4 lg:mt-0 mb-4 px-2"> Select Payment Method</div>
-                <div class="col-6 p-3 d-flex justify-content-center align-items-center">
+                <div v-for="item in payment_options" class="col-3 p-3 d-flex justify-content-center align-items-center">
                   <div class="flex flex-column border-round border-1 surface-border p-4 cursor-pointer hover:border-primary transition-duration-150 d-flex justify-content-center align-items-center">
-                    <img src="/images/shopEasy.png" class="w-8rem" alt="Visa" >
+                    <img :src="item.logo" class="w-8rem" alt="Visa" >
                   </div>
                 </div>
-                <div class="col-6 p-3 d-flex justify-content-center align-items-center">
-                  <div class="flex flex-column border-round border-1 surface-border p-4 cursor-pointer hover:border-primary transition-duration-150 d-flex justify-content-center align-items-center">
-                    <img src="/images/paynow1.png" class="w-8rem" alt="Visa">
-                  </div>
-                </div>
-                <div class="col-6 p-3 d-flex justify-content-center align-items-center">
-                  <div class="flex flex-column border-round border-1 surface-border p-4 cursor-pointer hover:border-primary transition-duration-150 d-flex justify-content-center align-items-center">
-                    <img src="/images/cod.jpg" class="w-8rem" alt="Visa">
-                  </div>
-                </div>
-                <div class="col-6 p-3 d-flex justify-content-center align-items-center">
-                  <div class="flex flex-column border-round border-1 surface-border p-4 cursor-pointer hover:border-primary transition-duration-150 d-flex justify-content-center align-items-center">
-                    <img src="/images/contipay.png" class="w-13rem" alt="Visa">
-                  </div>
-                </div>
+                
+               
                 
 
                 
@@ -228,7 +215,7 @@ const delivery_option = ref('')
 const delivery_type = ref('')
 const fast_delivery = ref(Number(7.00))
 const cart_id = storeToRefs(frontStore).cart_id
-const paymennt_options = ref()
+const payment_options = ref()
 const notes = ref('')
 const cart:any = storeToRefs(frontStore).cart
 const vat_total = ref(Number(0.00))
@@ -317,7 +304,7 @@ onMounted( async() => {
         page: 1,
         per_page: 10
   }
-  let payment_options = await frontStore.getPaymentOptions(payments_params).then((data) => {
+  let payment_optionss = await frontStore.getPaymentOptions(payments_params).then((data) => {
       console.log("payment data",data.data.paymentmethods)
       payment_options.value = data?.data?.paymentmethods
   })
