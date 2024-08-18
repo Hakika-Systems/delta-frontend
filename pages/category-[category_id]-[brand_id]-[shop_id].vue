@@ -42,8 +42,8 @@
                   </div>
                   <div class="flex justify-content-between align-items-center">
                     <span class="font-bold text-900 ml-2">{{currency}}{{product?.prices[0]?.price ? formatCurrency(product.prices[0]?.price) : formatCurrency(0)}}</span>
-                    <!-- <Button v-if="product?.details[0]?.quantity >= 1" :loading="current_id === product.id" @click="addToCart(product.id,product.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
-                      <Button v-else :loading="loading" @click="addToCart(product.id,product.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Out of Stock" class="ml-auto cart" disabled/> -->
+                    <Button v-if="product?.details[0]?.quantity >= 1" :loading="current_id === product.id" @click="addToCart(product.id,product.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
+                      <Button v-else  icon="pi pi-cart-arrow-down" label="Out of Stock" class="ml-auto cart" disabled/>
                   </div>
                 </div>
               </div>
@@ -127,6 +127,7 @@ const getParsedImages = (images: string) => {
       page: 1,
       per_page: 10,
       shop_brand_id: brand_id,
+      shop_id: shop_id,
       category_id: category_id
   }
   await frontStore.getRelatedProducts(related_params).then((data) => {

@@ -92,7 +92,8 @@
                                   <div @click="navigateTo(`/detail-${item.id}`)" class="mb-3 font-medium nametext cursor-pointer">{{ addEllipsis(item.name) }}</div>
                                   <div class="flex justify-content-between align-items-center">
                                       <span class="font-bold text-900 ml-2">USD {{item?.prices[0]?.price ? item?.prices[0]?.price : formatCurrency(0)}}</span>
-                                      <Button :loading="current_id === item.id" @click="addToCartRelated(item.id,item?.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart" />
+                                      <Button v-if="item?.details[0]?.quantity >= 1" :loading="current_id === item.id" @click="addToCartRelated(item.id,item.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
+                                      <Button v-else :loading="loading" @click="addToCart(product.id,product.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Out of Stock" class="ml-auto cart" disabled/>
                                   </div>
                               </div>
                           </div>
@@ -151,6 +152,7 @@ onMounted(async () => {
       page: 1,
       per_page: 10,
       shop_brand_id: brand_id,
+      shop_id: shop_id,
       category_id: category_id
   }
 
