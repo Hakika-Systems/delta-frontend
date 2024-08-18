@@ -55,7 +55,7 @@
                       </div>
                   </div>
                   <div class="font-bold text-900 mb-3">Brand</div>
-                  <div class="flex align-items-center mb-5 cursor-pointer">{{ product?.brand }}</div>
+                  <div v-if="product?.brand?.name" @click="navigateTo(`/brand`)" class="flex align-items-center mb-5 cursor-pointer">{{ product?.brand?.name }}</div>
                   <div class="font-bold text-900 mb-3">Category</div>
                   <div class="flex align-items-center cursor-pointer mb-5">{{ product?.category?.name }}</div>
                   <div class="font-bold text-900 mb-3">Description</div>
