@@ -315,6 +315,7 @@ const getParsedImages = (images: string) => {
     .okmartheader {
     background-color: red !important;
     }
+    
       .account-cart-container a {
         display: flex;
         align-items: center;
