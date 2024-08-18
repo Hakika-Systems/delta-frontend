@@ -192,19 +192,19 @@
                 <div class="py-2 mt-3 border-bottom-1 surface-border">
                   <div class="flex justify-content-between align-items-center mb-3">
                     <span class="text-900">Subtotal</span>
-                    <span class="text-900">${{ cartTotal() }}</span>
+                    <span class="text-900">${{ (cart_total - vat_total).toFixed(2) }}</span>
                   </div>
                   <div class="flex justify-content-between align-items-center mb-3">
                     <span class="text-900">Delivery</span>
-                    <span class="text-900"> {{delivery_type == 'Fast Delivery' ? ` $${fast_delivery}` :(delivery_type == 'Standard Delivery') ? `$${standard_delivery}`: "--"}}</span>
+                    <span class="text-900"> {{delivery_type == 'Fast Delivery' ? ` $${fast_delivery.toFixed(2)}` :(delivery_type == 'Standard Delivery') ? `$${standard_delivery.toFixed(2)}`: "--"}}</span>
                   </div>
                   <div class="flex justify-content-between align-items-center mb-3">
                     <span class="text-900">VAT</span>
-                    <span class="text-900">${{ (vatAmount).toFixed(2) }} </span>
+                    <span class="text-900">${{ vat_total }} </span>
                   </div>
                   <div class="flex justify-content-between align-items-center mb-3">
                     <span class="text-900">Total</span>
-                    <span class="text-900 font-bold">${{totalAmount}}</span>
+                    <span class="text-900 font-bold">${{  cartTotal() }}</span>
                   </div>
                 </div>
                 <button class="p-button p-component p-button-primary w-full mt-3" type="button" aria-label="Place Order" data-pc-name="button" data-pc-section="root" data-pd-ripple="true">
@@ -218,9 +218,7 @@
           </div>
         </div>
       </div>
-      <!---->
     </div>
-
 </template>
 <script setup lang="ts">
 const frontStore = useFrontStore()
@@ -228,10 +226,14 @@ import InputText from 'primevue/inputtext';
 
 const delivery_option = ref('')
 const delivery_type = ref('')
-const fast_delivery = Number(7.00)
+const fast_delivery = ref(Number(7.00))
+const cart_id = storeToRefs(frontStore).cart_id
+const paymennt_options = ref()
 const notes = ref('')
 const cart:any = storeToRefs(frontStore).cart
-const standard_delivery = Number(1.50)
+const vat_total = ref(Number(0.00))
+const cart_total = ref()
+const standard_delivery = ref(Number(1.50))
 const VAT_RATE = Number(0.15); // 14.5% VAT rate
 console.log(typeof VAT_RATE)
 const lineTotal = (price:any, quantity:any) => {
@@ -252,10 +254,23 @@ const lineTotal = (price:any, quantity:any) => {
         //@ts-ignore
       cart.value = cart.value.filter(item => item.id !== productId);
     }
-    const cartTotal = () => {
-        return cart.value.reduce((total:any, item:any) => {
-        return total + (item.price * item.quantity);
-      }, 0).toFixed(2);
+    const cartTotal =  () => {
+        if (delivery_option.value === 'Collection') {
+           let tot = cart_total.value
+           return tot
+        }
+        if (delivery_option.value === 'Delivery') {
+          if (delivery_type.value === 'Fast Delivery') {
+            let tot = Number(cart_total.value) + Number(fast_delivery.value)
+            return tot
+          }
+          if (delivery_type.value === 'Standard Delivery') {
+            let tot = Number(cart_total.value) + Number(standard_delivery.value);
+            return tot
+          } 
+          return cart_total.value
+        }
+        return cart_total.value
     }
 
     const getParsedImages = (images: string) => {
@@ -273,9 +288,9 @@ const subtotal = computed(() => {
   let products_total = Number(cartTotal())
   console.log('Initial products_total:', products_total);
   if (delivery_type.value === 'Fast Delivery') {
-    products_total += fast_delivery;
+    products_total += fast_delivery.value;
   } else if (delivery_type.value === 'Standard Delivery') {
-    products_total += standard_delivery;
+    products_total += standard_delivery.value;
   }
   
   
@@ -291,25 +306,30 @@ console.log("simba",typeof vatAmount.value)
 const formatPrice = (valueToFormat:any) => {
    return valueToFormat.toFixed(2)
 }
-
+onMounted( async() => {
+  console.log("cart id is",cart_id.value)
+  let results = frontStore.getCart().then((data) => {
+    cart.value = data.data.items
+    cart_total.value = data?.data?.cart_total
+    vat_total.value = data?.data?.vat_total
+  })
+  let payments_params = {
+        page: 1,
+        per_page: 10
+  }
+  let payment_options = await frontStore.getPaymentOptions(payments_params).then((data) => {
+      console.log("payment data",data.data.paymentmethods)
+      payment_options.value = data?.data?.paymentmethods
+  })
+})
 const select_fast_delivery = ()=>{
   delivery_type.value = "Fast Delivery"
-  console.log('sm',delivery_type.value)
 }
 
 const select_standard_delivery = ()=>{
   delivery_type.value = "Standard Delivery"
-  console.log('standrd',delivery_type.value)
 }
 
-
-
-const totalAmount = computed(() => {
-  let total:any = (subtotal.value + vatAmount.value);
- 
-
-  return Number(total.toFixed(2));
-});
 </script>
 <style>
 
