@@ -161,6 +161,15 @@ const searchProducts = () => {
     await displaySearchResults();
   });
 }
+const getParsedImages = (images: string) => {
+  try {
+      const parsedImages = JSON.parse(images)
+      const cleanedString = JSON.parse(parsedImages.replace(/\\/g, ''))
+      return cleanedString[0]
+  } catch (error) {
+      return images
+  }
+}
 
 const displaySearchResults = async () => {
   if (search_products.value && search_products.value.length > 0) {
@@ -173,10 +182,20 @@ const displaySearchResults = async () => {
     const headerRow = document.createElement('tr');
 
     // Create and append table headers
+    // Product Name Header
+    const imageHeader = document.createElement('th');
+    imageHeader.textContent = '#';
+    headerRow.appendChild(imageHeader);
+
+
     const productHeader = document.createElement('th');
     productHeader.textContent = 'Product';
     headerRow.appendChild(productHeader);
 
+    // Image Header
+    
+
+    // Dynamic Shop Headers with "Shop Now" button
     searchResults[0].prices.forEach((priceObj: any) => {
       const header = document.createElement('th');
       header.innerHTML = `
@@ -203,10 +222,24 @@ const displaySearchResults = async () => {
     searchResults.forEach((product: any) => {
       const row = document.createElement('tr');
 
+      // Product Name Cell
+      const imageCell = document.createElement('td');
+      const img = document.createElement('img');
+      img.src = getParsedImages(product.images); 
+      img.alt = product.name;
+      img.style.width = '100%'; 
+      img.style.height = '45px';
+      imageCell.appendChild(img);
+      row.appendChild(imageCell);
+
       const productCell = document.createElement('td');
       productCell.textContent = product.name;
       row.appendChild(productCell);
 
+      // Product Image Cell
+    
+
+      // Prices for each shop
       product.prices.forEach((priceObj: any) => {
         const priceCell = document.createElement('td');
         priceCell.innerHTML = `<strong>USD</strong>${priceObj.price}`;
@@ -225,8 +258,7 @@ const displaySearchResults = async () => {
       resultsContainer.appendChild(table);
     }
   }
-}
-
+};
 
 
 // Example showBrand function to handle the button click
