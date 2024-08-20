@@ -92,9 +92,20 @@
                                   <div @click="goToDetailPage(item)" class="mb-3 font-medium nametext cursor-pointer">{{ addEllipsis(item.name) }}</div>
                                   <div class="flex justify-content-between align-items-center">
                                       <span class="font-bold text-900 ml-2">{{ findCurrency() }} {{item?.prices[0]?.price ? item?.prices[0]?.price : formatCurrency(0)}}</span>
-                                      <Button v-if="item?.details[0]?.quantity >= 1" :loading="current_id === item.id" @click="addToCartRelated(item.id,item.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
-                                      <Button v-else :loading="loading" @click="addToCart(product.id,product.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Out of Stock" class="ml-auto cart" disabled/>
                                   </div>
+                                  <InputGroup class="w-full">
+                                  <InputGroupAddon class="firstinput">
+                                      <InputText :min="1" :max="100" style="border:none" v-model="quantities[product.id]" />
+                                  </InputGroupAddon>
+                                  <InputGroupAddon @click="decreaseQuantity(product.id)" class="addsub cursor-pointer">
+                                      <i  class="pi pi-minus"></i>
+                                  </InputGroupAddon>
+                                  <Button v-if="product?.details[0]?.quantity >= 1" :loading="current_id === product.id" @click="addToCartRelated(product.id,product.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Add" class="w-full  cart"/>
+                                    <Button v-else :loading="loading" icon="pi pi-cart-arrow-down" label="Out of Stock" class="w-full  cart" disabled/>
+                                  <InputGroupAddon @click="increaseQuantity(product.id)" class="addsub cursor-pointer">
+                                      <i  class="pi pi-plus"></i>
+                                  </InputGroupAddon>
+                              </InputGroup>
                               </div>
                           </div>
                       </div>
@@ -124,15 +135,24 @@ const currencies:any = storeToRefs(frontStore).currencies
 const selected_currency:any = storeToRefs(frontStore).selected_currency
 const rating = ref()
 const quantity = ref(1)
+const quantities:any = ref({})
 const cart_total = storeToRefs(frontStore).cart_total
 const related_products:any = ref([])
-
 const goToDetailPage = (productt:any) => {
     // product.value = productt
     sessionStorage.setItem('product_detail',JSON.stringify(productt))
     navigateTo(`/detail-${productt.id}-${brand_id}-${shop_id}-${productt.category.id}`)
+}
+const increaseQuantity = (productId:any) => {
+  if (quantities.value[productId] < 100) { // Assuming a max limit of 100
+    quantities.value[productId]++;
   }
-
+}
+const  decreaseQuantity = (productId:any) => {
+  if (quantities.value[productId] > 1) { // Assuming a min limit of 1
+    quantities.value[productId]--;
+  }
+}
 const findCurrency = () => {
     const currency = currencies.value.find((currency:any) => currency.id === selected_currency.value);
     return currency ? currency.iso_code : null;
@@ -173,11 +193,12 @@ onMounted(async () => {
   await frontStore.getProducts(params).then((data) => {
       products.value = data?.data?.products
   })
-
   await frontStore.getRelatedProducts(related_params).then((data) => {
       related_products.value = data?.data?.products
+      related_products.value.forEach((product:any) => {
+        quantities.value[product.id] = 1; // Initialize quantity for each product
+      });
   })
-  
 })
 
 const addToCart = async (product_id: any,price:any) => {
@@ -267,6 +288,7 @@ const navigateTo = (route: string) => {
 
 const addToCartRelated = async (product_id: any,price:any) => {
     current_id.value = product_id
+    console.log("quantity",quantities.value[product_id])
   // Find the product in products
 
 
@@ -285,11 +307,11 @@ const addToCartRelated = async (product_id: any,price:any) => {
   }
   // Check if the product is already in the cart
     // Add the product to the cart with quantity 1
-    let qnty = 1
+    let qnty = quantities.value[product_id]
     let cart_item = {
     cart_id: cart_id.value,
     product_id: product_id,
-    quantity: qnty,
+    quantity: quantities.value[product_id],
     unit_price: Number(price),
     total_price: (qnty * price) 
     }

@@ -43,8 +43,20 @@
                   <div class="flex justify-content-between align-items-center">
                     <span class="font-bold text-900 ml-2">{{findCurrency()}}{{product?.prices[0]?.price ? formatCurrency(product.prices[0]?.price) : formatCurrency(0)}}</span>
                   </div>
-                  <Button v-if="product?.details[0]?.quantity >= 1" :loading="current_id === product.id" @click="addToCart(product.id,product.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Add" class="mt-3 w-full cart"/>
-                  <Button v-else  icon="pi pi-cart-arrow-down" label="Out of Stock" class="mt-3 w-full cart" disabled/>
+                  <InputGroup v-if="product?.details[0]?.quantity >= 1" class="w-full">
+                                  <InputGroupAddon class="firstinput">
+                                      <InputText :min="1" :max="100" style="border:none" v-model="quantities[product.id]" />
+                                  </InputGroupAddon>
+                                  <InputGroupAddon @click="decreaseQuantity(product.id)" class="addsub cursor-pointer">
+                                      <i  class="pi pi-minus"></i>
+                                  </InputGroupAddon>
+                                  <Button  :loading="current_id === product.id" @click="addToCart(product.id,product.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Add" class="w-full  cart"/>
+                                    
+                                  <InputGroupAddon @click="increaseQuantity(product.id)" class="addsub cursor-pointer">
+                                      <i  class="pi pi-plus"></i>
+                                  </InputGroupAddon>
+                  </InputGroup>
+                  <Button v-else :loading="loading" icon="pi pi-cart-arrow-down" label="Out of Stock" class="w-full mt-1 cart" disabled/>
                 </div>
               </div>
             </div>
@@ -72,6 +84,7 @@
   const shop_idd:any = storeToRefs(frontStore).shop_id
   const {params:{category_id,brand_id,shop_id}} = useRoute()
   const cart:any = storeToRefs(frontStore).cart
+  const quantities:any = ref({})
   const guest_id:any = storeToRefs(frontStore).guest_id
   const currencies:any = storeToRefs(frontStore).currencies
   const selected_currency:any = storeToRefs(frontStore).selected_currency
@@ -131,6 +144,16 @@ const getParsedImages = (images: string) => {
   }
   return null; // Return null if parsing fails or no images are found
 };
+const increaseQuantity = (productId:any) => {
+  if (quantities.value[productId] < 100) { // Assuming a max limit of 100
+    quantities.value[productId]++;
+  }
+}
+const  decreaseQuantity = (productId:any) => {
+  if (quantities.value[productId] > 1) { // Assuming a min limit of 1
+    quantities.value[productId]--;
+  }
+}
   onMounted( async() => {
     brand_idd.value = brand_id
     shop_idd.value = shop_id
@@ -144,6 +167,9 @@ const getParsedImages = (images: string) => {
   await frontStore.getRelatedProducts(related_params).then((data) => {
       console.log("related products:", data)
       products.value = data?.data?.products
+      products.value.forEach((product:any) => {
+        quantities.value[product.id] = 1; // Initialize quantity for each product
+      });
       category_name.value = data?.data?.products[0]?.category?.name
   })
   if (guest_id.value === null) {
@@ -202,7 +228,7 @@ const getParsedImages = (images: string) => {
 
   // Check if the product is already in the cart
     // Add the product to the cart with quantity 1
-    let qnty = 1
+    let qnty = quantities.value[product_id]
     let cart_item = {
     cart_id: cart_id.value,
     product_id: product_id,

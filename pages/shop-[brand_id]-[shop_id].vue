@@ -27,6 +27,7 @@
         <div class="flex justify-content-between align-items-center">
           <span class="font-bold text-900 ml-2">{{findCurrency()}}{{data.prices[0]?.price ? formatCurrency(data.prices[0]?.price) : formatCurrency(0)}}</span>
         </div>
+        
         <Button v-if="data?.details[0]?.quantity >= 1" :loading="current_id === data.id"  @click="addToCart(data.id,data.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Add" class="w-full mt-3 cart"/>
           <Button v-else  icon="pi pi-cart-arrow-down"  label="OUT OF STOCK" class="w-full mt-3 cart" disabled/>
       </div>
@@ -71,9 +72,21 @@
                   <div class="flex justify-content-between align-items-center">
                     <span class="font-bold text-900 ml-2">{{findCurrency()}}{{product.prices[0]?.price ? formatCurrency(product.prices[0]?.price) : formatCurrency(0)}}</span>
                   </div>
-                  <Button v-if="product?.details[0]?.quantity >= 1" :loading="current_id === product.id" @click="addToCart(product.id,product.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Add" class="w-full mt-3 cart"/>
-                    <Button v-else :loading="loading" @click="addToCart(product.id,product.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Out of Stock" class="w-full mt-3 cart" disabled/>
-                </div>
+                  <InputGroup class="w-full">
+                    <InputGroupAddon class="firstinput">
+                        <InputText :min="1" :max="100" style="border:none" v-model="quantities[product.id]" />
+                    </InputGroupAddon>
+                    <InputGroupAddon @click="decreaseQuantity(product.id)" class="addsub cursor-pointer">
+                        <i  class="pi pi-minus"></i>
+                    </InputGroupAddon>
+                    <Button v-if="product?.details[0]?.quantity >= 1" :loading="current_id === product.id" @click="addToCart(product.id,product.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Add" class="w-full  cart"/>
+                      <Button v-else :loading="loading" @click="addToCart(product.id,product.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Out of Stock" class="w-full  cart" disabled/>
+                    <InputGroupAddon @click="increaseQuantity(product.id)" class="addsub cursor-pointer">
+                        <i  class="pi pi-plus"></i>
+                    </InputGroupAddon>
+                    
+                </InputGroup>
+                  </div>
               </div>
             </div>
             <div  class="col-8 md:col-6 lg:col-12">
@@ -99,6 +112,7 @@
   import { storeToRefs } from 'pinia';
   import { useFrontStore } from '~/stores/front';
   import { createId } from '@paralleldrive/cuid2';
+import InputText from 'primevue/inputtext';
   const toast = useToast()
   const frontStore = useFrontStore()
   const mytoken = useCookie('token');
@@ -112,10 +126,12 @@
   const shop_idd:any = storeToRefs(frontStore).shop_id
   const {params:{brand_id,shop_id}} = useRoute()
   const selected_shop = ref()
+  const quantity = ref(1)
   const cart:any = storeToRefs(frontStore).cart
   const guest_id:any = storeToRefs(frontStore).guest_id
   const featured_products:any = ref()
   const current_id:any = ref()
+  const quantities:any = ref({})
   const currencies:any = storeToRefs(frontStore).currencies
   const selected_currency:any = storeToRefs(frontStore).selected_currency
   const brands = ref()
@@ -143,6 +159,16 @@
         numScroll: 1
     }
   ]);
+  const increaseQuantity = (productId:any) => {
+    if (quantities.value[productId] < 100) { // Assuming a max limit of 100
+      quantities.value[productId]++;
+    }
+  }
+  const  decreaseQuantity = (productId:any) => {
+    if (quantities.value[productId] > 1) { // Assuming a min limit of 1
+      quantities.value[productId]--;
+    }
+  }
   const products:any = storeToRefs(frontStore).products
   const currency = ref("USD")
   const addEllipsis = (str:string) => {
@@ -180,7 +206,7 @@
     return currency ? currency.iso_code : null;
 }
   onMounted( async() => {
-    console.log("dkdkd",shop_id)
+    
     if(shop_id === "undefined") {
        visible.value = true;
        let result_one = await frontStore.getBrands().then(async (data) => {
@@ -199,6 +225,9 @@
     }
     let productsd =  await frontStore.getProducts(params).then((data) => {
       products.value = data?.data?.products
+      products.value.forEach((product:any) => {
+        quantities.value[product.id] = 1; // Initialize quantity for each product
+      });
     })
     let featured_params = {
         page: 1,
@@ -282,7 +311,7 @@
 
   // Check if the product is already in the cart
     // Add the product to the cart with quantity 1
-    let qnty = 1
+    let qnty = quantities.value[product_id]
     let cart_item = {
     cart_id: cart_id.value,
     product_id: product_id,
@@ -316,8 +345,6 @@
         loading.value = false
       }
     })
-    
-    
 };
 
 
@@ -332,7 +359,10 @@
   background-color: rgba(255, 255, 255, 0.7);
   pointer-events: none;
   }
-  
+  .p-inputgroup.w-full {
+    height: 40px;
+    margin-top: 3px;
+  }
   @keyframes ripple-effect {
   to {
     transform: scale(4);
@@ -347,6 +377,10 @@
     background: #003e95;
     color: #ffffff;
     text-transform: uppercase;
+  }
+  .p-inputgroup-addon.firstinput {
+    width: 188px !important;
+    padding: 1px !important;
   }
   button.p-button.p-component.p-button-icon-only.ml-2.cart {
     background-color: #003e95;
@@ -439,3 +473,11 @@
       margin-top: 12px;
   }
   </style>
+    <style scoped>
+    .p-inputtext {
+        border: none !important;
+    }
+    .p-inputtext:focus {
+        outline: none;
+    }
+    </style>

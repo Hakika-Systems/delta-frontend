@@ -2,7 +2,7 @@
     <div class="okmartheader fixedheader py-3 px-6 shadow-2 flex align-items-center justify-content-between relative">
       <!-- Logo -->
       <div class="flex items-center flex-grow-0">
-        <img src="/images/logos/okmart.jpg" alt="Image" height="90">
+        <img @click="goToHome()" src="/images/logos/okmart.jpg" alt="Image" class="cursor-pointer" height="90">
       </div>
       <!-- Search Input -->
       <div class="flex items-center col-6 flex-grow search-container">
@@ -88,6 +88,9 @@
     const currencies:any = storeToRefs(frontStore).currencies;
     const selected_currency = storeToRefs(frontStore).selected_currency;
     const categories = ref()
+    const goToHome = () => {
+        navigateTo(`/shop-${brand_id.value}-${shop_id.value}`)
+    }
     const dummyMenu = ref([
     {
         label: 'Propbrands',
