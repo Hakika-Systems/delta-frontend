@@ -7,7 +7,7 @@
             <div class="grid grid-nogutter lg:flex-column">
               <div class="col-12 lg:col-12 mb-5">
                 <div class="border-round surface-section p-4 shadow-2 flex align-items-center justify-content-center">
-                  <img :src="getParsedImages(product?.images)" class="product_image w-full border-round">
+                  <img :src="getParsedImages(product?.images)" class="product_image border-round">
                  </div>
               </div>
               <div class="col-12">

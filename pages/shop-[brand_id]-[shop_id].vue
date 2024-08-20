@@ -18,7 +18,7 @@
     <template #item="{ data }">
       <div class="border-1 surface-border border-round m-2 p-3">
         <div @click="goToDetailPage(data)" class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto cursor-pointer">
-          <img :src="getParsedImages(data.images)" class="w-full product_image object-cover">
+          <img :src="getParsedImages(data.images)" class="product_image object-cover">
         </div>
         <div @click="goToDetailPage(data)" class="mb-3 font-medium nametext cursor-pointer">{{ addEllipsis(data.name) }}</div>
         <div class="mb-4">
@@ -63,7 +63,7 @@
               <div class="p-2">
                 <div class="border-1 surface-border border-round m-2 p-3">
                   <div @click="goToDetailPage(product)" class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
-                    <img :src="getParsedImages(product.images)" class="w-full product_image object-cover">
+                    <img :src="getParsedImages(product.images)" class="product_image object-cover">
                   </div>
                   <div @click="goToDetailPage(product)" class="mb-3 font-medium nametext cursor-pointer">{{ addEllipsis(product.name) }}</div>
                   <div class="mb-4">
