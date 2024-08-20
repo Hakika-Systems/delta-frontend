@@ -19,15 +19,15 @@
               <div class="p-2">
                 <div class="border-1 surface-border border-round m-2 p-3">
                   <div  class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
-                    <img :src="getParsedImages(product.images)" class="w-full h-full object-cover">
+                    <img :src="getParsedImages(product.images)" class="w-full product_image object-cover">
                   </div>
                   <div  class="mb-3 font-medium nametext cursor-pointer">{{ addEllipsis(product.name) }}</div>
                   <div class="mb-4">
                   </div>
                   <div class="flex justify-content-between align-items-center">
                     <span class="font-bold text-900 ml-2">{{findCurrency()}}{{product.prices[0]?.price ? formatCurrency(product.prices[0]?.price) : formatCurrency(0)}}</span>
-                    <Button  @click="selectShop(brands[ok_index]?.id,brands[ok_index]?.logo,brands[ok_index]?.name)"   icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
                   </div>
+                  <Button  @click="selectShop(brands[ok_index]?.id,brands[ok_index]?.logo,brands[ok_index]?.name)"   icon="pi pi-cart-arrow-down" label="GO TO SHOP" class="cart mt-3 okaddtocart w-full"/>
                 </div>
               </div>
             </div>
@@ -51,15 +51,15 @@
               <div class="p-2">
                 <div class="border-1 surface-border border-round m-2 p-3">
                   <div  class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
-                    <img :src="getParsedImages(product.images)" class="w-full h-full object-cover">
+                    <img :src="getParsedImages(product.images)" class="w-full product_image object-cover">
                   </div>
                   <div  class="mb-3 font-medium nametext cursor-pointer">{{ addEllipsis(product.name) }}</div>
                   <div class="mb-4">
                   </div>
                   <div class="flex justify-content-between align-items-center">
                     <span class="font-bold text-900 ml-2">{{findCurrency()}}{{product.prices[0]?.price ? formatCurrency(product.prices[0]?.price) : formatCurrency(0)}}</span>
-                    <Button @click="selectShop(brands[bornemarche_index]?.id,brands[bornemarche_index]?.logo,brands[bornemarche_index]?.name)"  icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
                   </div>
+                  <Button  @click="selectShop(brands[ok_index]?.id,brands[ok_index]?.logo,brands[ok_index]?.name)"   icon="pi pi-cart-arrow-down" label="GO TO SHOP" class="cart mt-3 bonaddtocart w-full"/>
                 </div>
               </div>
             </div>
@@ -83,15 +83,15 @@
               <div class="p-2">
                 <div class="border-1 surface-border border-round m-2 p-3">
                   <div  class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
-                    <img :src="getParsedImages(product.images)" class="w-full h-full object-cover">
+                    <img :src="getParsedImages(product.images)" class="w-full product_image object-cover">
                   </div>
                   <div  class="mb-3 font-medium nametext cursor-pointer">{{ addEllipsis(product.name) }}</div>
                   <div class="mb-4">
                   </div>
                   <div class="flex justify-content-between align-items-center">
                     <span class="font-bold text-900 ml-2">{{findCurrency()}}{{product.prices[0]?.price ? formatCurrency(product.prices[0]?.price) : formatCurrency(0)}}</span>
-                    <Button @click="selectShop(brands[foodlovers_index]?.id,brands[foodlovers_index]?.logo,brands[foodlovers_index]?.name)"  icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
                   </div>
+                  <Button  @click="selectShop(brands[ok_index]?.id,brands[ok_index]?.logo,brands[ok_index]?.name)"   icon="pi pi-cart-arrow-down" label="GO TO SHOP" class="cart mt-3 foodaddtocart w-full"/>
                 </div>
               </div>
             </div>
@@ -116,15 +116,15 @@
               <div class="p-2">
                 <div class="border-1 surface-border border-round m-2 p-3">
                   <div  class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
-                    <img :src="getParsedImages(product.images)" class="w-full h-full object-cover">
+                    <img :src="getParsedImages(product.images)" class="w-full product_image object-cover">
                   </div>
                   <div  class="mb-3 font-medium nametext cursor-pointer">{{ addEllipsis(product.name) }}</div>
                   <div class="mb-4">
                   </div>
                   <div class="flex justify-content-between align-items-center">
                     <span class="font-bold text-900 ml-2">{{findCurrency()}}{{product.prices[0]?.price ? formatCurrency(product.prices[0]?.price) : formatCurrency(0)}}</span>
-                    <Button @click="selectShop(brands[okmart_index]?.id,brands[okmart_index]?.logo,brands[okmart_index]?.name)" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
                   </div>
+                  <Button  @click="selectShop(brands[ok_index]?.id,brands[ok_index]?.logo,brands[ok_index]?.name)"   icon="pi pi-cart-arrow-down" label="GO TO SHOP" class="cart mt-3 okaddtocart w-full"/>
                 </div>
               </div>
             </div>
@@ -274,6 +274,10 @@ button.p-button.p-component.p-button-icon-only.p-button-secondary.p-button-outli
     background-color: #d6200e;
     color: white;
 }
+.product_image {
+    width: auto !important;
+    height: 155px !important;
+}
 img.w-full.h-full.object-cover.border-round {
     height: 100px !important;
     width: auto !important;
@@ -281,6 +285,18 @@ img.w-full.h-full.object-cover.border-round {
 img.w-full.h-full.object-cover {
     width: auto !important;
     height: 155px !important;
+}
+.okaddtocart {
+  background-color: red;
+  border: none;
+}
+.bonaddtocart {
+    background-color: #a3c962;
+    border: none;
+}
+.foodaddtocart {
+    background-color: #01713f;
+    border: none;
 }
 img.w-12rem.flex-shrink-0.mx-auto.md\:mx-0 {
     border-radius: 21px;

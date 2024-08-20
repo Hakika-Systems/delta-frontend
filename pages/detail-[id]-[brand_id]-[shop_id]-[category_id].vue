@@ -39,7 +39,7 @@
               <div class="border-round surface-section p-4 shadow-2">
                   <div class="flex align-items-center text-xl font-medium text-900 mb-4">{{ product?.name }}</div>
                   <div class="flex align-items-center justify-content-between mb-5">
-                      <span class="text-900 font-medium text-3xl block">{{ findCurrency() }} {{product?.prices[0]?.price}}</span>
+                      <span class="text-900 font-medium text-3xl block">{{ findCurrency() }} {{product?.prices[0]?.price ? product?.prices[0]?.price : "0.00"}}</span>
                       <div class="flex align-items-center">
                           <span class="mr-3">
                               <i class="pi pi-star-fill text-yellow-500 mr-1"></i>
@@ -87,7 +87,7 @@
                           <div class="p-2">
                               <div class="border-1 surface-border border-round m-2 p-3">
                                   <div @click="goToDetailPage(item)" class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
-                                      <img :src="getParsedImages(item?.images)" class="w-full h-full object-cover">
+                                      <img :src="getParsedImages(item?.images)" class="w-full product_image object-cover">
                                   </div>
                                   <div @click="goToDetailPage(item)" class="mb-3 font-medium nametext cursor-pointer">{{ addEllipsis(item.name) }}</div>
                                   <div class="flex justify-content-between align-items-center">
@@ -327,5 +327,9 @@ const addToCartRelated = async (product_id: any,price:any) => {
 img.product_image.w-full.border-round {
     width: auto !important;
     height: 365px !important;
+}
+.product_image {
+    width: auto !important;
+    height: 155px !important;
 }
 </style>

@@ -14,21 +14,21 @@
       <div class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left" role="separator" aria-orientation="horizontal" data-pc-name="divider" data-pc-section="root" styleclass="w-full border-gray-200" style="justify-content: center;">
         <!---->
       </div>
-      <Carousel :value="featured_products" :numVisible="5" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="3000">
+      <Carousel :value="featured_products" :numVisible="5" :numScroll="1" :responsiveOptions="responsiveOptions"  :autoplayInterval="3000">
     <template #item="{ data }">
       <div class="border-1 surface-border border-round m-2 p-3">
-        <div @click="navigateTo(`/detail-${data.id}`)" class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto cursor-pointer">
-          <img :src="getParsedImages(data.images)" class="w-full h-full object-cover">
+        <div @click="goToDetailPage(data)" class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto cursor-pointer">
+          <img :src="getParsedImages(data.images)" class="w-full product_image object-cover">
         </div>
-        <div @click="navigateTo(`/detail-${data.id}`)" class="mb-3 font-medium nametext cursor-pointer">{{ addEllipsis(data.name) }}</div>
+        <div @click="goToDetailPage(data)" class="mb-3 font-medium nametext cursor-pointer">{{ addEllipsis(data.name) }}</div>
         <div class="mb-4">
           <!-- Additional details if needed -->
         </div>
         <div class="flex justify-content-between align-items-center">
           <span class="font-bold text-900 ml-2">{{findCurrency()}}{{data.prices[0]?.price ? formatCurrency(data.prices[0]?.price) : formatCurrency(0)}}</span>
-          <Button v-if="data?.details[0]?.quantity >= 1" :loading="current_id === data.id"  @click="addToCart(data.id,data.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
-            <Button v-else   icon="pi pi-cart-arrow-down" label="Out of Stock" class="ml-auto cart" disabled/>
         </div>
+        <Button v-if="data?.details[0]?.quantity >= 1" :loading="current_id === data.id"  @click="addToCart(data.id,data.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Add" class="w-full mt-3 cart"/>
+          <Button v-else  icon="pi pi-cart-arrow-down"  label="OUT OF STOCK" class="w-full mt-3 cart" disabled/>
       </div>
     </template>
   </Carousel>
@@ -63,16 +63,16 @@
               <div class="p-2">
                 <div class="border-1 surface-border border-round m-2 p-3">
                   <div @click="goToDetailPage(product)" class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
-                    <img :src="getParsedImages(product.images)" class="w-full h-full object-cover">
+                    <img :src="getParsedImages(product.images)" class="w-full product_image object-cover">
                   </div>
                   <div @click="goToDetailPage(product)" class="mb-3 font-medium nametext cursor-pointer">{{ addEllipsis(product.name) }}</div>
                   <div class="mb-4">
                   </div>
                   <div class="flex justify-content-between align-items-center">
                     <span class="font-bold text-900 ml-2">{{findCurrency()}}{{product.prices[0]?.price ? formatCurrency(product.prices[0]?.price) : formatCurrency(0)}}</span>
-                    <Button v-if="product?.details[0]?.quantity >= 1" :loading="current_id === product.id" @click="addToCart(product.id,product.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
-                      <Button v-else :loading="loading" @click="addToCart(product.id,product.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Out of Stock" class="ml-auto cart" disabled/>
                   </div>
+                  <Button v-if="product?.details[0]?.quantity >= 1" :loading="current_id === product.id" @click="addToCart(product.id,product.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Add" class="w-full mt-3 cart"/>
+                    <Button v-else :loading="loading" @click="addToCart(product.id,product.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Out of Stock" class="w-full mt-3 cart" disabled/>
                 </div>
               </div>
             </div>
@@ -124,17 +124,17 @@
   const responsiveOptions = ref([
     {
         breakpoint: '1400px',
-        numVisible: 2,
+        numVisible: 5,
         numScroll: 1
     },
     {
         breakpoint: '1199px',
-        numVisible: 3,
+        numVisible: 5,
         numScroll: 1
     },
     {
         breakpoint: '767px',
-        numVisible: 2,
+        numVisible: 5,
         numScroll: 1
     },
     {
@@ -166,8 +166,9 @@
   };
   const goToDetailPage = (productt:any) => {
     // product.value = productt
+    console.log("productss",productt)
     sessionStorage.setItem('product_detail',JSON.stringify(productt))
-    navigateTo(`/detail-${productt.id}-${brand_id}-${shop_id}-${productt.category.id}`)
+    navigateTo(`/detail-${productt?.id}-${brand_id}-${shop_id}-${productt?.category_id}`)
   }
   const checkAgain = () => {
     if (shop_id === "undefined") {
@@ -337,6 +338,10 @@
     transform: scale(4);
     opacity: 0;
   }
+  }
+  .product_image {
+    width: auto !important;
+    height: 155px !important;
   }
   .p-tag {
     background: #003e95;
