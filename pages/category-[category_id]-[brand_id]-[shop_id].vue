@@ -257,6 +257,10 @@ const getParsedImages = (images: string) => {
     background-color: #003e95;
     border-color: #003e95;
   }
+  .h-full {
+    width: auto !important;
+    height: 200px !important;
+}
   button.p-button.p-component.p-button-icon-only.p-button-secondary.p-button-outlined.whishlist {
     background-color: #d6200e;
     color: white;
