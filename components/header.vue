@@ -256,7 +256,6 @@ onMounted(async() => {
     per_page: 100
   }
   let currenciess = await frontStore.getAllCurrencies(currency_params).then((data) => {
-    console.log("currencies",data)
     currencies.value = data.data.currencies
     selected_currency.value = data?.data?.currencies[0]?.id ? data?.data?.currencies[0]?.id : null
   });
