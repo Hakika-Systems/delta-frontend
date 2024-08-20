@@ -4,7 +4,6 @@
       <div class="flex items-center flex-grow-0">
         <img src="/images/logos/okmart.jpg" alt="Image" height="90">
       </div>
-    
       <!-- Search Input -->
       <div class="flex items-center col-6 flex-grow search-container">
         <InputGroup class="w-full">
@@ -38,7 +37,7 @@
             <TieredMenu class="shopbyisle" :model="categories" />
          </div>
          <div class="col-10">
-            <MegaMenu :model="product_brands" />
+            <MegaMenu :model="dummyMenu" />
          </div>
       </div>
       <OverlayPanel ref="op">
@@ -57,8 +56,7 @@
                         <input class="p-inputtext p-component p-inputnumber-input w-2rem text-center py-2 px-1 border-transparent" v-model="cart[index].quantity" data-pc-name="inputtext" data-pc-section="input" role="spinbutton" aria-valuemin="0" aria-valuenow="1">
                         <Button icon="pi pi-plus" :loading="loading" @click="increaseCartItem(item.id,item.product_id,cart[index].quantity,item.unit_price)" class="p-button p-component p-button-icon-only p-inputnumber-button p-inputnumber-button-up p-button-text text-600 hover:text-primary py-1 px-1" type="button" data-pc-name="button" data-pc-section="incrementbutton" tabindex="-1" aria-hidden="true" data-pd-ripple="true" />
                         <Button icon="pi pi-minus" :loading="loading" @click="decreaseCartItem(item.id,item.product_id,cart[index].quantity,item.unit_price)" class="p-button p-component p-button-icon-only p-inputnumber-button p-inputnumber-button-down p-button-text text-600 hover:text-primary py-1 px-1" type="button" data-pc-name="button" data-pc-section="decrementbutton" tabindex="-1" aria-hidden="true" data-pd-ripple="true" />
-                        
-                      </span>
+                    </span>
                 </div>
                 <div class="flex align-items-center gap-2 text-color-secondary ml-auto text-sm">
                     <span>USD{{ (lineTotal(item.unit_price,item.quantity)).toFixed(2)}}</span>
@@ -88,6 +86,31 @@
     const selectedCurrency = ref("USD");
     const cart_id = storeToRefs(frontStore).cart_id
     const categories = ref()
+    const dummyMenu = ref([
+    {
+        label: 'Propbrands',
+        icon: 'pi pi-tagjhs',
+        command: () => {
+                navigateTo(`/brands-${brand_id.value}-${shop_id.value}-7`);
+        } 
+    },
+    {
+        label: 'CEO\'s Specials',
+        icon: 'pi pi-stakr'
+    },
+    {
+        label: 'GYM Clearance',
+        icon: 'pi pi-hjeart'
+    },
+    {
+        label: 'Motor Vehicle',
+        icon: 'pi pi-cjar'
+    },
+    {
+        label: 'Back to School',
+        icon: 'pi pi-bohjkok'
+    }
+])
     const currencies = ref([
         { name: 'USD', symbol: '$' },
         {name: 'ZIG', symbol: 'ZIG'}
