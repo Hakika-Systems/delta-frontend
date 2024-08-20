@@ -1,0 +1,13 @@
+services:
+  shopperschoice:
+    container_name: shop-front
+    build: .
+    ports:
+      - "3000:3000"  # Match the default Nuxt.js port
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      - HOST=0.0.0.0
+      - CHOKIDAR_USEPOLLING=true # Enables hot-reloading in Docker
+    command: npm run dev # Runs the dev server

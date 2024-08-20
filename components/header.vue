@@ -89,7 +89,7 @@
             <div v-else class="grid grid-nogutter align-items-center">
               <div v-for="brand in brands" :key="brand.id" 
                   class="col h-3rem text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors" 
-                  @click="selectShop(brand?.id,brand?.logo,brand?.name)">
+                  @click="selectShop(brand)">
                   <img :src="brand.logo" :alt="brand.name" class="h-3rem">
               </div>
             </div>
@@ -144,13 +144,14 @@ const shopName = ref();
 const op = ref();
 const searchResultsTable = ref(null);  // Ref for the search results table
 
-const selectShop = async (shopIDD:any,logo:any,name:any) => {
+const selectShop = async (brandd:any) => {
   console.log("ddkdkd")
   select_shop.value = true;
-  shopID.value = shopIDD;
-  shopLogo.value = logo;
-  await getShopsForBrand(shopIDD);
-  shopName.value = name;
+  shopID.value = brandd?.id;
+  shopLogo.value = brandd?.logo;
+  await getShopsForBrand( brandd?.id);
+  shopName.value = brandd?.name;
+  sessionStorage.setItem('active_brand', JSON.stringify(brandd))
 }
 //@ts-ignore
 
