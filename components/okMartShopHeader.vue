@@ -14,7 +14,7 @@
     
       <!-- Account and Cart Links -->
       <div class="flex items-center col-5 flex-grow-0 account-cart-container">
-        <Dropdown v-model="selectedCurrency" :options="currencies" optionValue="name" optionLabel="name" placeholder="Select Currency" class="w-50 md:w-7rem" />
+        <Dropdown v-model="selected_currency" :options="currencies" optionLabel="iso_code" optionValue="id" placeholder="Select Currency" class="w-50 md:w-7rem" />
      <a class="text-white font-medium inline-flex align-items-center cursor-pointer px-3 hover:text-gray-200 p-ripple" data-pd-ripple="true">
        <i class="pi pi-user mr-2 sm:mr-3 text-sm"></i>
        <span @click="navigateTo('/registration')">My Account<br><strong>Sign In</strong></span>
@@ -85,6 +85,8 @@
     const cart_total = storeToRefs(frontStore).cart_total
     const selectedCurrency = ref("USD");
     const cart_id = storeToRefs(frontStore).cart_id
+    const currencies:any = storeToRefs(frontStore).currencies;
+    const selected_currency = storeToRefs(frontStore).selected_currency;
     const categories = ref()
     const dummyMenu = ref([
     {
@@ -111,10 +113,7 @@
         icon: 'pi pi-bohjkok'
     }
 ])
-    const currencies = ref([
-        { name: 'USD', symbol: '$' },
-        {name: 'ZIG', symbol: 'ZIG'}
-    ]);
+
     const getTotalItemsInCart = () => {
         //@ts-ignore
     return cart.value.reduce((total, item) => total + item.quantity, 0);
@@ -148,6 +147,14 @@
         }));
 }
 onMounted( async() => {
+    let currency_params = {
+    page: 1,
+    per_page: 100
+  }
+  let currenciess = await frontStore.getAllCurrencies(currency_params).then((data) => {
+    currencies.value = data.data.currencies
+    selected_currency.value = data?.data?.currencies[0]?.id ? data?.data?.currencies[0]?.id : null
+  });
 let params = {
     page: 1,
     per_page: 100
