@@ -39,7 +39,7 @@
               <div class="border-round surface-section p-4 shadow-2">
                   <div class="flex align-items-center text-xl font-medium text-900 mb-4">{{ product?.name }}</div>
                   <div class="flex align-items-center justify-content-between mb-5">
-                      <span class="text-900 font-medium text-3xl block">USD {{product?.prices[0]?.price}}</span>
+                      <span class="text-900 font-medium text-3xl block">{{ findCurrency() }} {{product?.prices[0]?.price}}</span>
                       <div class="flex align-items-center">
                           <span class="mr-3">
                               <i class="pi pi-star-fill text-yellow-500 mr-1"></i>
@@ -55,7 +55,7 @@
                       </div>
                   </div>
                   <div class="font-bold text-900 mb-3">Brand</div>
-                  <div v-if="product?.brand?.name" @click="navigateTo(`/brand`)" class="flex align-items-center mb-5 cursor-pointer">{{ product?.brand?.name }}</div>
+                  <div v-if="product?.brand?.name" @click="navigateTo(`/brands-${brand_id}-${shop_id}-${product.brand.id}`)" class="flex align-items-center mb-5 cursor-pointer">{{ product?.brand?.name }}</div>
                   <div class="font-bold text-900 mb-3">Category</div>
                   <div class="flex align-items-center cursor-pointer mb-5">{{ product?.category?.name }}</div>
                   <div class="font-bold text-900 mb-3">Description</div>
@@ -86,12 +86,12 @@
                       <div v-for="item in related_products" :key="item.id" class="col-12 md:col-6 lg:col-3">
                           <div class="p-2">
                               <div class="border-1 surface-border border-round m-2 p-3">
-                                  <div @click="navigateTo(`/detail-${item.id}`)" class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
+                                  <div @click="goToDetailPage(item)" class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
                                       <img :src="getParsedImages(item?.images)" class="w-full h-full object-cover">
                                   </div>
-                                  <div @click="navigateTo(`/detail-${item.id}`)" class="mb-3 font-medium nametext cursor-pointer">{{ addEllipsis(item.name) }}</div>
+                                  <div @click="goToDetailPage(item)" class="mb-3 font-medium nametext cursor-pointer">{{ addEllipsis(item.name) }}</div>
                                   <div class="flex justify-content-between align-items-center">
-                                      <span class="font-bold text-900 ml-2">USD {{item?.prices[0]?.price ? item?.prices[0]?.price : formatCurrency(0)}}</span>
+                                      <span class="font-bold text-900 ml-2">{{ findCurrency() }} {{item?.prices[0]?.price ? item?.prices[0]?.price : formatCurrency(0)}}</span>
                                       <Button v-if="item?.details[0]?.quantity >= 1" :loading="current_id === item.id" @click="addToCartRelated(item.id,item.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
                                       <Button v-else :loading="loading" @click="addToCart(product.id,product.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Out of Stock" class="ml-auto cart" disabled/>
                                   </div>
@@ -119,13 +119,27 @@ const user_id = useCookie('user_id');
 const cart_id = storeToRefs(frontStore).cart_id
 const loading = ref(false)
 const current_id:any = ref()
+const product:any = storeToRefs(frontStore).product
+const currencies:any = storeToRefs(frontStore).currencies
+const selected_currency:any = storeToRefs(frontStore).selected_currency
 const rating = ref()
 const quantity = ref(1)
 const cart_total = storeToRefs(frontStore).cart_total
 const related_products:any = ref([])
-const product:any = ref()
 
+const goToDetailPage = (productt:any) => {
+    // product.value = productt
+    sessionStorage.setItem('product_detail',JSON.stringify(productt))
+    navigateTo(`/detail-${productt.id}-${brand_id}-${shop_id}-${productt.category.id}`)
+  }
+
+const findCurrency = () => {
+    const currency = currencies.value.find((currency:any) => currency.id === selected_currency.value);
+    return currency ? currency.iso_code : null;
+}
 onMounted(async () => {
+   //@ts-ignore
+  product.value = JSON.parse(sessionStorage.getItem("product_detail"))
   brand_idd.value = brand_id
   shop_idd.value = shop_id
 
@@ -163,8 +177,7 @@ onMounted(async () => {
   await frontStore.getRelatedProducts(related_params).then((data) => {
       related_products.value = data?.data?.products
   })
-
-  product.value = await findProduct(id)
+  
 })
 
 const addToCart = async (product_id: any,price:any) => {
