@@ -25,7 +25,7 @@
                   <div class="mb-4">
                   </div>
                   <div class="flex justify-content-between align-items-center">
-                    <span class="font-bold text-900 ml-2">{{currency}}{{product.prices[0]?.price ? formatCurrency(product.prices[0]?.price) : formatCurrency(0)}}</span>
+                    <span class="font-bold text-900 ml-2">{{findCurrency()}}{{product.prices[0]?.price ? formatCurrency(product.prices[0]?.price) : formatCurrency(0)}}</span>
                     <Button  @click="selectShop(brands[ok_index]?.id,brands[ok_index]?.logo,brands[ok_index]?.name)"   icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
                   </div>
                 </div>
@@ -57,7 +57,7 @@
                   <div class="mb-4">
                   </div>
                   <div class="flex justify-content-between align-items-center">
-                    <span class="font-bold text-900 ml-2">{{currency}}{{product.prices[0]?.price ? formatCurrency(product.prices[0]?.price) : formatCurrency(0)}}</span>
+                    <span class="font-bold text-900 ml-2">{{findCurrency()}}{{product.prices[0]?.price ? formatCurrency(product.prices[0]?.price) : formatCurrency(0)}}</span>
                     <Button @click="selectShop(brands[bornemarche_index]?.id,brands[bornemarche_index]?.logo,brands[bornemarche_index]?.name)"  icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
                   </div>
                 </div>
@@ -89,7 +89,7 @@
                   <div class="mb-4">
                   </div>
                   <div class="flex justify-content-between align-items-center">
-                    <span class="font-bold text-900 ml-2">{{currency}}{{product.prices[0]?.price ? formatCurrency(product.prices[0]?.price) : formatCurrency(0)}}</span>
+                    <span class="font-bold text-900 ml-2">{{findCurrency()}}{{product.prices[0]?.price ? formatCurrency(product.prices[0]?.price) : formatCurrency(0)}}</span>
                     <Button @click="selectShop(brands[foodlovers_index]?.id,brands[foodlovers_index]?.logo,brands[foodlovers_index]?.name)"  icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
                   </div>
                 </div>
@@ -122,7 +122,7 @@
                   <div class="mb-4">
                   </div>
                   <div class="flex justify-content-between align-items-center">
-                    <span class="font-bold text-900 ml-2">{{currency}}{{product.prices[0]?.price ? formatCurrency(product.prices[0]?.price) : formatCurrency(0)}}</span>
+                    <span class="font-bold text-900 ml-2">{{findCurrency()}}{{product.prices[0]?.price ? formatCurrency(product.prices[0]?.price) : formatCurrency(0)}}</span>
                     <Button @click="selectShop(brands[okmart_index]?.id,brands[okmart_index]?.logo,brands[okmart_index]?.name)" icon="pi pi-cart-arrow-down" label="Add" class="ml-auto cart"/>
                   </div>
                 </div>
@@ -159,6 +159,8 @@ const select_shop = ref(false)
 const brands:any = storeToRefs(frontStore).brands
 const featured_products:any = storeToRefs(frontStore).brand_featured_products
 const shopBranch = ref()
+const currencies:any = storeToRefs(frontStore).currencies
+const selected_currency:any = storeToRefs(frontStore).selected_currency
 const ok_index = ref()
 const bornemarche_index = ref()
 const foodlovers_index = ref()
@@ -169,18 +171,18 @@ const loading = ref(false)
 const shopLogo = ref()
 const shopName = ref()
 const okZimbabweProducts = computed(() => {
-    ok_index.value = brands.value.findIndex((brand:any) => brand.name === "OK ZIMBABWEE");
-    return featured_products.value["OK ZIMBABWEE"] || [];
+    ok_index.value = brands.value.findIndex((brand:any) => brand.name === "OK ZIMBABWE");
+    return featured_products.value["OK ZIMBABWE"] || [];
 })
 
 const bornemarcheProducts = computed(() => {
-    bornemarche_index.value = brands.value.findIndex((brand:any) => brand.name === "BORNE MARCH'E");
-    return featured_products.value["BORNE MARCH'E"] || [];
+    bornemarche_index.value = brands.value.findIndex((brand:any) => brand.name === "BON MARCHE");
+    return featured_products.value["BON MARCHE"] || [];
 })
 
 const okmartProducts = computed(() => {
-    okmart_index.value = brands.value.findIndex((brand:any) => brand.name === "OK MARTT");
-    return featured_products.value["OK MARTT"] || [];
+    okmart_index.value = brands.value.findIndex((brand:any) => brand.name === "OKMART");
+    return featured_products.value["OKMART"] || [];
 })
 
 const foodloversProducts = computed(() => {
@@ -204,6 +206,10 @@ const goToShop = () => {
      loading.value = true
      navigateTo(`/shop-${shopID.value}-${shopBranch.value}`)
      loading.value = false
+}
+const findCurrency = () => {
+    const currency = currencies.value.find((currency:any) => currency.id === selected_currency.value);
+    return currency ? currency.iso_code : null;
 }
 const getParsedImages = (images: string) => {
   try {
