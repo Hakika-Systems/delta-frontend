@@ -131,6 +131,12 @@
 //@ts-ignore
 const active_brand = ref(getBrandConfiguration())
 
+const buttonColor = active_brand?.value?.button_color;
+
+
+console.log('Button Color :',buttonColor);
+
+
     const getTotalItemsInCart = () => {
         //@ts-ignore
     return cart.value.reduce((total, item) => total + item.quantity, 0);
@@ -483,4 +489,10 @@ const getParsedImages = (images: string) => {
         background-color: #ff774c !important;
         color: #ffffff !important;
     }
+
+    /* .p-button {
+        color: #ffffff;
+        background: v-bind('buttonColor') !important;
+        border: 1px solid v-bind('buttonColor') !important;
+    } */
     </style>

@@ -21,44 +21,42 @@
                
                 <div class="col-12 lg:col-6 field mb-0">
                   <label for="name2" class="text-900 font-medium mb-3">Name</label>
-                  <InputText variant="filled" size="large" id="name2" type="text" class="p-inputtext w-full mb-3"/>
+                  <InputText variant="filled" size="large" id="name2" type="text" v-model="name" class="p-inputtext w-full mb-3"  placeholder="John"/>
 
                 </div>
                 
 
                 <div class="col-12 lg:col-6 field mb-0">
                   <label for="surname2" class="text-900 font-medium mb-3">Surname</label>
-                  <InputText id="surname2" variant="filled" size="large" type="text" class="p-inputtext w-full mb-3"/>
+                  <InputText id="surname2" variant="filled" size="large" type="email" v-model="surname" class="p-inputtext w-full mb-3"  placeholder="Doe"/>
                 </div>
                 <div class="col-12  lg:col-6 field mb-0">
                   <label for="phone" class="text-900 font-medium mb-3">Email</label>
-                  <InputText variant="filled" size="large" id="phone" type="text" class="p-inputtext w-full mb-3"/>
+                  <InputText variant="filled" size="large" id="email" type="text" v-model="email" class="p-inputtext w-full mb-3" placeholder="user@shopeasy.co.zw"/>
                 </div>
                 <div class="col-12  lg:col-6 field mb-0">
                   <label for="phone" class="text-900 font-medium mb-3">Phone Number</label>
-                  <InputText variant="filled" size="large" id="phone" type="text" class="p-inputtext w-full mb-3"/>
+                  <InputText variant="filled" size="large" id="phone" type="text" v-model="customer_mobile" class="p-inputtext w-full mb-3"  placeholder="263771008021"/>
                 </div>
                 <div class="col-12  lg:col-6 field mb-0">
                   <label for="phone" class="text-900 font-medium mb-3">Whatsapp Number</label>
-                  <InputText variant="filled" size="large" id="phone" type="text" class="p-inputtext w-full mb-3"/>
+                  <InputText variant="filled" size="large" id="whatsapp" type="text"  v-model="whatsapp_number" class="p-inputtext w-full mb-3"  placeholder="263771008021"/>
                 </div>
                 <div class="col-12 lg:col-6 field mb-0">
-                  <label for="address3" class="text-900 font-medium mb-3"> House Number & Street Address </label>
-                  <InputText variant="filled" size="large" id="address3" type="text" class="p-inputtext mb-3"/>
+                  <label for="address3" class="text-900 font-medium mb-3">  Address </label>
+                  <InputText variant="filled" size="large" id="address3" type="text" v-model="address" class="p-inputtext mb-3"  placeholder="No. 567 Mujoko Street"/>
                 </div>
                 <div class="col-12 lg:col-6 field mb-0">
-                  <label for="city2" class="text-900 font-medium mb-3">Surburb</label>
-                  <InputText variant="filled" size="large" type="text" class="p-inputtext w-full mb-3"/>
+                  <label for="city2" class="text-900 font-medium mb-3">Suburb</label>
+                  <InputText variant="filled" size="large" type="text" v-model="suburb" class="p-inputtext w-full mb-3" placeholder="Kambuzuma"/>
                 </div>
                 <div class="col-12 lg:col-6 field mb-0">
                   <label for="city2" class="text-900 font-medium mb-3">City/Town</label>
-                  <InputText variant="filled" size="large" type="text" class="p-inputtext w-full mb-3"/>
-                </div>
-              
-               
+                  <InputText variant="filled" size="large" id="city2" type="text" v-model="city" class="p-inputtext w-full mb-3" placeholder="Harare"/>
+                </div>  
                 <div class="col-12 field mb-0">
-                  <label for="country2" class="text-900 font-medium mb-3">Create account password</label>
-                  <InputText variant="filled" size="large"  id="country2" type="text" class="p-inputtext w-full mb-3"/>
+                  <label for="country2" class="text-900 font-medium mb-3">Country</label>
+                  <InputText variant="filled" size="large"  id="country2" type="text" v-model="country" class="p-inputtext w-full mb-3" placeholder="Zimbabwe"/>
                 </div>
                 <div class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left w-full px-2 mb-3" role="separator" aria-orientation="horizontal" data-pc-name="divider" data-pc-section="root" style="justify-content: center;">
                   <!---->
@@ -167,7 +165,7 @@
                 </div>
                 <div class="py-2 mt-3 border-bottom-1 surface-border">
                 <div class="p-inputgroup mb-3">
-                  <input class="p-inputtext p-component p-filled w-full" data-pc-name="inputtext" data-pc-section="root" type="text" placeholder="Promo code">
+                  <input class="p-inputtext p-component p-filled w-full" data-pc-name="inputtext" v-model="coupon_code" data-pc-section="root" type="text" placeholder="Promo code">
                   <button class="p-button p-component" type="button" aria-label="Apply" data-pc-name="button" data-pc-section="root" data-pd-ripple="true">
                     <!---->
                     <span class="p-button-label" data-pc-section="label">Apply</span>
@@ -210,7 +208,8 @@
 <script setup lang="ts">
 const frontStore = useFrontStore()
 import InputText from 'primevue/inputtext';
-
+const toast = useToast()
+const loading = ref(false)
 const delivery_option = ref('')
 const delivery_type = ref('')
 const fast_delivery = ref(Number(7.00))
@@ -223,6 +222,33 @@ const cart_total = ref()
 const current_payment_option = ref()
 const standard_delivery = ref(Number(1.50))
 const VAT_RATE = Number(0.15); // 14.5% VAT rate
+const coupon_code = ref('');
+const order_status_id = ref(1);
+const address = ref('');
+const name = ref('');
+const surname = ref('');
+const email = ref('');
+const customer_mobile = ref('');
+const whatsapp_number = ref('');
+const payment_method = ref('');
+const payment_methoid_id = ref('');
+const currency_id = ref();
+const currency = ref('');
+const total_amount = ref(0);
+const discount = ref(0);
+const city = ref('')
+const country = ref('')
+const suburb = ref()
+
+interface PaymentMethod {
+    id: number;
+    name: string;
+    logo: string;
+    is_active: boolean;
+    created_at:string;
+    updated_at:string;
+    deleted_at:string|null
+}
 console.log(typeof VAT_RATE)
 const lineTotal = (price:any, quantity:any) => {
        return (Number(price)) * (quantity).toFixed(2)
@@ -309,9 +335,14 @@ onMounted( async() => {
         per_page: 10
   }
   let payment_optionss = await frontStore.getPaymentOptions(payments_params).then((data) => {
-      console.log("payment data",data.data.paymentmethods)
-      payment_options.value = data?.data?.paymentmethods
-  })
+    console.log("payment data", data.data.paymentmethods);
+
+    const paymentMethods: PaymentMethod[] = data?.data?.paymentmethods || [];
+    const activePaymentMethods = paymentMethods.filter((method: PaymentMethod) => method.is_active);
+
+    payment_options.value = activePaymentMethods;
+});
+
 })
 const select_fast_delivery = ()=>{
   delivery_type.value = "Fast Delivery"
@@ -320,7 +351,39 @@ const select_fast_delivery = ()=>{
 const select_standard_delivery = ()=>{
   delivery_type.value = "Standard Delivery"
 }
-
+const  confirmOrder = async () => {
+    loading.value = true
+    const info = {
+        customer_name: name.value+' '+surname.value,
+        email: email.value,
+        whatsapp_number: whatsapp_number.value,
+        coupon_code : coupon_code.value,
+        customer_mobile: customer_mobile.value,
+        order_status_id: order_status_id.value,
+        billing_address: {
+          name: name.value+' '+surname.value,
+          address: address.value,
+          city: city.value,
+          country: country.value
+        },
+        delivery_address: {
+          name: name.value+' '+surname.value,
+          address: address.value,
+          city: city.value,
+          country: country.value
+        }
+ 
+    }
+    let result = await frontStore.individualRegistration(info).then((data)=> {
+        loading.value = false
+        if (data.status === "success") {
+            toast.add({ severity: 'success', summary: 'Success', detail: 'You have been registred', life: 3000 });
+            navigateTo('/signin')
+        } else {
+            toast.add({ severity: 'warn', summary: 'Failed', detail: data.errors, life: 3000 });
+        }
+    })
+}
 </script>
 <style scoped>
 .border-top {
@@ -328,6 +391,6 @@ const select_standard_delivery = ()=>{
     border: 5px solid #30c804 !important;
 }
 .payheight {
-    min-height: 150px !important;
+  height: 75px !important;
 }
 </style>

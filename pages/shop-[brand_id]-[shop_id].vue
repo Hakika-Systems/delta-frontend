@@ -156,6 +156,21 @@ import InputText from 'primevue/inputtext';
         numScroll: 1
     }
   ]);
+
+  const getBrandConfiguration = () => {
+    if (typeof window !== 'undefined') {
+        // Retrieve brand configuration from sessionStorage
+        const storedConfig = sessionStorage.getItem('active_brand');
+        return storedConfig ? JSON.parse(storedConfig) : null;
+    }
+    return null;
+}
+
+//@ts-ignore
+const active_brand = ref(getBrandConfiguration())
+
+const buttonColor = active_brand?.value?.button_color;
+
   const increaseQuantity = (productId:any) => {
     if (quantities.value[productId] < 100) { // Assuming a max limit of 100
       quantities.value[productId]++;
@@ -448,6 +463,7 @@ import InputText from 'primevue/inputtext';
     background-color: red ;
     border: none;
   }
+
   .foodlovers {
     background-color: red;
     padding: 10px;
@@ -477,4 +493,14 @@ import InputText from 'primevue/inputtext';
     .p-inputtext:focus {
         outline: none;
     }
+    .p-button {
+    color: #ffffff;
+    background: v-bind('buttonColor') !important;
+    border: 1px solid v-bind('buttonColor') !important;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s, outline-color 0.2s;
+    border-radius: 6px;
+    outline-color: transparent;
+}
     </style>
