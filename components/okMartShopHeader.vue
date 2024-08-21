@@ -2,7 +2,7 @@
     <div class="okmartheader fixedheader py-3 px-6 shadow-2 flex align-items-center justify-content-between relative">
       <!-- Logo -->
       <div class="flex items-center flex-grow-0">
-        <img @click="goToHome()" src="/images/logos/okmart.jpg" alt="Image" class="cursor-pointer" height="90">
+        <img :src="active_brand.logo" alt="Image" height="90"  @click="goToHome()">
       </div>
       <!-- Search Input -->
       <div class="flex items-center col-6 flex-grow search-container">
@@ -116,6 +116,9 @@
         icon: 'pi pi-bohjkok'
     }
 ])
+
+    //@ts-ignore
+    const active_brand = ref(JSON.parse(sessionStorage.getItem('active_brand')))
 
     const getTotalItemsInCart = () => {
         //@ts-ignore
@@ -346,9 +349,11 @@ const getParsedImages = (images: string) => {
         margin: auto;
     }
     .okmartheader {
-    background-color: red !important;
+    background-color: v-bind('active_brand.theme_color') !important;
     }
-    
+    .p-megamenu.p-megamenu-horizontal .p-megamenu-root-list > .p-menuitem > .p-menuitem-content .p-menuitem-link .p-menuitem-text {
+    color:  v-bind('active_brand.menu_font_color') !important;
+}
       .account-cart-container a {
         display: flex;
         align-items: center;
@@ -447,9 +452,7 @@ const getParsedImages = (images: string) => {
         background: none !important;
     }
     
-    .p-megamenu.p-megamenu-horizontal .p-megamenu-root-list > .p-menuitem > .p-menuitem-content .p-menuitem-link .p-menuitem-text {
-        color: #ffffff !important;
-    }
+  
       .searchbutton {
         border-radius: 0 25px 25px 0;
       }
