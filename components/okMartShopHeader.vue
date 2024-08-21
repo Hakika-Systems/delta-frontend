@@ -117,8 +117,19 @@
     }
 ])
 
-    //@ts-ignore
-    const active_brand = ref(JSON.parse(sessionStorage.getItem('active_brand')))
+
+    
+    const getBrandConfiguration = () => {
+    if (typeof window !== 'undefined') {
+        // Retrieve brand configuration from sessionStorage
+        const storedConfig = sessionStorage.getItem('active_brand');
+        return storedConfig ? JSON.parse(storedConfig) : null;
+    }
+    return null;
+}
+
+//@ts-ignore
+const active_brand = ref(getBrandConfiguration())
 
     const getTotalItemsInCart = () => {
         //@ts-ignore
