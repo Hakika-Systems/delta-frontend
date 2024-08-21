@@ -131,10 +131,11 @@
 //@ts-ignore
 const active_brand = ref(getBrandConfiguration())
 
-const buttonColor = active_brand?.value?.button_color;
+const buttonColor = active_brand?.value?.button_color??"#FF7043";
+
+const menuColor = active_brand?.value?.theme_color??"#000000";
 
 
-console.log('Button Color :',buttonColor);
 
 
     const getTotalItemsInCart = () => {
@@ -401,7 +402,7 @@ const getParsedImages = (images: string) => {
     }
     .p-tieredmenu {
         padding: 0.25rem 0.25rem;
-        background: #FF7043;
+        background: v-bind('buttonColor') !important;
         color: #ffffff;
         border: none;
         border-radius: 6px;
@@ -434,8 +435,8 @@ const getParsedImages = (images: string) => {
     span.p-inputnumber.p-component.p-inputwrapper.inputtotal {
     width: 80px !important;
 }
-    .p-tieredmenu .p-menuitem > .p-menuitem-content .p-menuitem-link span {
-        color: #000000;
+  .p-menuitem > .p-menuitem-content .p-menuitem-link span {
+        color: v-bind('menuColor') !important;
         /* padding: 0.5rem 0.75rem; */
         -webkit-user-select: none;
         -moz-user-select: none;
@@ -443,7 +444,7 @@ const getParsedImages = (images: string) => {
     }
     .p-tieredmenu .p-menuitem:not(.p-highlight):not(.p-disabled) > .p-menuitem-content:hover {
         color: #334155;
-        background: #f1f5f900;
+        background: #a0a3a7d1;               
     }
     .p-tieredmenu .p-menuitem.p-highlight > .p-menuitem-content {
         color: #047857;
@@ -451,7 +452,7 @@ const getParsedImages = (images: string) => {
     }
     .p-tieredmenu .p-submenu-list {
     padding: 0.25rem 0.25rem;
-    background: #ffffff;
+    background: v-bind('buttonColor') !important;
     color: red !important;
     border: none;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
@@ -462,7 +463,7 @@ const getParsedImages = (images: string) => {
     }
     .p-megamenu.p-megamenu-horizontal .p-megamenu-root-list > .p-menuitem:not(.p-highlight):not(.p-disabled) > .p-menuitem-content:hover {
         color: #334155;
-        background: #00000000 !important;
+        background: v-bind('menuColor') !important;
     }
     .p-megamenu .p-menuitem.p-highlight > .p-menuitem-content {
         color: #047857;
@@ -489,10 +490,26 @@ const getParsedImages = (images: string) => {
         background-color: #ff774c !important;
         color: #ffffff !important;
     }
+    .p-tieredmenu{
+        color: v-bind('menuColor') !important;
+    }
 
     /* .p-button {
         color: #ffffff;
         background: v-bind('buttonColor') !important;
         border: 1px solid v-bind('buttonColor') !important;
     } */
+    </style>
+<style scoped> 
+    .p-button {
+    color: #ffffff;
+    background: v-bind('buttonColor') !important;
+    border: 1px solid v-bind('buttonColor') !important;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s, outline-color 0.2s;
+    border-radius: 6px;
+    outline-color: transparent;
+}
+
     </style>

@@ -108,8 +108,8 @@
   <Dialog v-model:visible="select_shop" modal header="Shop Selection" :style="{ width: '25rem' }">
     <template #header>
         <div class="inline-flex align-items-center justify-content-center gap-2">
-            <Avatar :image="shopLogo" shape="circle" />
-            <span class="font-bold white-space-nowrap">Welcome to {{shopName}}</span>
+           
+            <span class="font-bold white-space-nowrap">Welcome to <img :src="shopLogo" :alt="shopName" class="h-3rem"></span>
         </div>
     </template>
     <span class="p-text-secondary block mb-5">Select Branch.</span>
@@ -117,7 +117,7 @@
       <Dropdown v-model="shopBranch" :options="branches" filter optionLabel="name" optionValue="id" placeholder="Select a Store" checkmark :highlightOnSelect="false" class="w-full" />
     </div>
     <template #footer>
-        <Button :loading="loading" label="Continue Shopping" outlined severity="secondary" :disabled="!shopBranch" @click="goToShop()" autofocus />
+        <Button :loading="loading" label="Shop Now" outlined severity="secondary" :disabled="!shopBranch" @click="goToShop()" autofocus />
     </template>
 </Dialog>
 </template>
@@ -394,6 +394,34 @@ button.p-button.p-component.my-account {
     color: black;
     border-radius: 30px;
     border-color: #d0d0d0;
+}
+select, .form-control, .form-select, textarea, input {
+    height: 50px !important;
+    padding: 0 25px 0 25px;
+    padding-right: 45px;
+    border: 1px solid transparent;
+    color: var(--body-color);
+    background-color: var(--smoke-color2);
+    border-radius: 27px;
+    font-size: 16px;
+    width: 100%;
+    font-family: var(--body-font);
+    -webkit-transition: 0.4s ease-in-out;
+    transition: 0.4s ease-in-out;
+}
+.p-button.p-button-icon-only {
+    width: 2.5rem;
+    padding: 1.5rem 0;
+}
+.p-button[data-v-37e9dcf2] {
+    color: #a81010;
+    background: #f97316 !important;
+    border: 1px solid #f97316 !important;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s, outline-color 0.2s;
+    border-radius: 6px;
+    outline-color: transparent;
 }
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css");
