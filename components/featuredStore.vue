@@ -27,7 +27,7 @@
                   <div class="flex justify-content-between align-items-center">
                     <span class="font-bold text-900 ml-2">{{findCurrency()}}{{product.prices[0]?.price ? formatCurrency(product.prices[0]?.price) : formatCurrency(0)}}</span>
                   </div>
-                  <Button  @click="selectShop(brands[ok_index]?.id,brands[ok_index]?.logo,brands[ok_index]?.name)"   icon="pi pi-cart-arrow-down" label="GO TO SHOP" class="cart mt-3 okaddtocart w-full"/>
+                  <Button  @click="selectShop(brands[ok_index])"   icon="pi pi-cart-arrow-down" label="GO TO SHOP" class="cart mt-3 okaddtocart w-full"/>
                 </div>
               </div>
             </div>
@@ -59,7 +59,7 @@
                   <div class="flex justify-content-between align-items-center">
                     <span class="font-bold text-900 ml-2">{{findCurrency()}}{{product.prices[0]?.price ? formatCurrency(product.prices[0]?.price) : formatCurrency(0)}}</span>
                   </div>
-                  <Button  @click="selectShop(brands[ok_index]?.id,brands[ok_index]?.logo,brands[ok_index]?.name)"   icon="pi pi-cart-arrow-down" label="GO TO SHOP" class="cart mt-3 bonaddtocart w-full"/>
+                  <Button  @click="selectShop(brands[bornemarche_index])"   icon="pi pi-cart-arrow-down" label="GO TO SHOP" class="cart mt-3 bonaddtocart w-full"/>
                 </div>
               </div>
             </div>
@@ -91,7 +91,7 @@
                   <div class="flex justify-content-between align-items-center">
                     <span class="font-bold text-900 ml-2">{{findCurrency()}}{{product.prices[0]?.price ? formatCurrency(product.prices[0]?.price) : formatCurrency(0)}}</span>
                   </div>
-                  <Button  @click="selectShop(brands[ok_index]?.id,brands[ok_index]?.logo,brands[ok_index]?.name)"   icon="pi pi-cart-arrow-down" label="GO TO SHOP" class="cart mt-3 foodaddtocart w-full"/>
+                  <Button  @click="selectShop(brands[foodlovers_index])"   icon="pi pi-cart-arrow-down" label="GO TO SHOP" class="cart mt-3 foodaddtocart w-full"/>
                 </div>
               </div>
             </div>
@@ -124,7 +124,7 @@
                   <div class="flex justify-content-between align-items-center">
                     <span class="font-bold text-900 ml-2">{{findCurrency()}}{{product.prices[0]?.price ? formatCurrency(product.prices[0]?.price) : formatCurrency(0)}}</span>
                   </div>
-                  <Button  @click="selectShop(brands[ok_index]?.id,brands[ok_index]?.logo,brands[ok_index]?.name)"   icon="pi pi-cart-arrow-down" label="GO TO SHOP" class="cart mt-3 okaddtocart w-full"/>
+                  <Button  @click="selectShop(brands[okmart_index])"   icon="pi pi-cart-arrow-down" label="GO TO SHOP" class="cart mt-3 okaddtocart w-full"/>
                 </div>
               </div>
             </div>
@@ -138,8 +138,8 @@
     <Dialog v-model:visible="select_shop" modal header="Shop Selection" :style="{ width: '25rem' }">
     <template #header>
         <div class="inline-flex align-items-center justify-content-center gap-2">
-            <Avatar :image="shopLogo" shape="circle" />
-            <span class="font-bold white-space-nowrap">Welcome to {{shopName}}</span>
+            <!-- <Avatar :image="shopLogo" shape="circle" /> -->
+            <span class="font-bold white-space-nowrap">Welcome to  <img :src="shopLogo" :alt="shopName" class="h-3rem"></span>
         </div>
     </template>
     <span class="p-text-secondary block mb-5">Select Branch.</span>
@@ -189,12 +189,15 @@ const foodloversProducts = computed(() => {
     foodlovers_index.value = brands.value.findIndex((brand:any) => brand.name === "FOODLOVERS");
     return featured_products.value.FOODLOVERS || [];
 })
-const selectShop = async (shopIDD:any,logo:any,name:any) => {
+const selectShop = async (brandd:any) => {
+  console.log("brandD :", brandd);
+  
   select_shop.value = true
-  shopID.value = shopIDD
-  shopLogo.value = logo
-  await getShopsForBrand(shopIDD)
-  shopName.value = name
+  shopID.value = brandd?.id
+  shopLogo.value = brandd?.logo
+  await getShopsForBrand(brandd?.id)
+  shopName.value = brandd?.name
+  sessionStorage.setItem('active_brand', JSON.stringify(brandd))
 }
 const getShopsForBrand = (brandId:any) => {
   branches.value = null
