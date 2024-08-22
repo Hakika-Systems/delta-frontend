@@ -2,7 +2,7 @@
     <div class="okmartheader fixedheader py-3 px-6 shadow-2 flex align-items-center justify-content-between relative">
       <!-- Logo -->
       <div class="flex items-center flex-grow-0">
-        <img :src="getLogo(active_brand)" alt="Image" height="90"  @click="goToHome()">
+        <img :src="active_brand?.logo" alt="Image" height="90"  @click="goToHome()">
       </div>
       <!-- Search Input -->
       <div class="flex items-center col-6 flex-grow search-container">
@@ -137,14 +137,6 @@ const buttonColor = active_brand?.value?.button_color??"#FF7043";
 const menuColor = active_brand?.value?.theme_color??"#000000";
 
 const navColor = active_brand?.value?.menu_font_color??"#fff";
-const getLogo = (mybrand: any) =>{
-    logo.value = mybrand?.logo??null;
-    if(!logo.value || logo.value === 'undefined'){
-       navigateTo('/')
-    }
-
-    return logo.value
-}
 
 
 
