@@ -16,17 +16,17 @@
       <div class="flex items-center col-5 flex-grow-0 account-cart-container">
         <Dropdown v-model="selected_currency" :options="currencies" optionLabel="iso_code" optionValue="id" placeholder="Select Currency" class="w-50 md:w-7rem" />
      <a class="text-white font-medium inline-flex align-items-center cursor-pointer px-3 hover:text-gray-200 p-ripple" data-pd-ripple="true">
-       <i class="pi pi-user mr-2 sm:mr-3 text-sm"></i>
-       <span @click="navigateTo('/registration')">My Account<br><strong>Sign In</strong></span>
+       <i class="pi pi-user mr-2 sm:mr-3 toptext text-sm"></i>
+       <span class="toptext" @click="navigateTo('/registration')">My Account<br><strong>Sign In</strong></span>
        <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
      </a>
      <InputGroup class="w-custom md:w-[30rem]">
         <InputGroupAddon>
-            <i v-badge="getTotalItemsInCart()" @mouseenter="toggle" @click="toggle" class="pi pi-shopping-cart" style="font-size: 25px;" />
+            <i v-badge="getTotalItemsInCart()" @mouseenter="toggle" @click="toggle" class="pi pi-shopping-cart totalbadge" style="font-size: 25px;" />
         </InputGroupAddon>
-        <InlineMessage severity="secondary">USD{{ cart_total }}</InlineMessage>
+        <InlineMessage severity="secondary">{{findCurrency()}}{{ cart_total }}</InlineMessage>
         <!-- <InputNumber v-model="cartTotal()" class="inputtotal" disabled placeholder="0.00" /> -->
-        <Button @click="navigateTo(`checkout-${brand_id}-${shop_id}`)" label="Checkout" icon="pi pi-angle-right" iconPos="right" severity="warn" />
+        <Button @click="navigateTo(`checkout-${brand_id}-${shop_id}`)" label="Checkout" class="checkoutbutton" icon="pi pi-angle-right" iconPos="right" severity="warn" />
     </InputGroup>
      <!-- <i v-badge.danger="'5'" class="pi pi-shopping-cart carticon" style="font-size: 1rem" /> -->
       </div>
@@ -67,7 +67,7 @@
                 </div>
             </div>
             <div>
-                <Button @click="navigateTo(`checkout-${brand_id}-${shop_id}`)" type="button" label="Checkout" class="w-full mt-2" />
+                <Button @click="navigateTo(`checkout-${brand_id}-${shop_id}`)" type="button" label="Checkout" class="w-full mt-2 overlaycheckoutbtn" />
         </div>
         </OverlayPanel>
       
@@ -128,7 +128,10 @@
     }
     return null;
 }
-
+const findCurrency = () => {
+    const currency = currencies.value.find((currency:any) => currency.id === selected_currency.value);
+    return currency ? currency.iso_code : null;
+}
 //@ts-ignore
 const active_brand = ref(getBrandConfiguration())
 
@@ -178,10 +181,16 @@ onMounted( async() => {
     page: 1,
     per_page: 100
   }
-  let currenciess = await frontStore.getAllCurrencies(currency_params).then((data) => {
-    currencies.value = data.data.currencies
-    selected_currency.value = data?.data?.currencies[0]?.id ? data?.data?.currencies[0]?.id : null
-  });
+    //@ts-ignore
+    let currenciess = sessionStorage.getItem('active_brand');
+    //@ts-ignore
+    let currency = JSON.parse(currenciess)
+    currencies.value = currency.currencies
+    if (!selected_currency.value) {
+        selected_currency.value = currencies.value[0]?.id ? currencies.value[0]?.id : null
+    }
+   
+
 let params = {
     page: 1,
     per_page: 100
@@ -350,7 +359,6 @@ const getParsedImages = (images: string) => {
     }
 ]);
     
-    
     </script>
     <style>
       .search-container {
@@ -358,11 +366,11 @@ const getParsedImages = (images: string) => {
       }
     
       .search-input {
-        border-radius: 25px 0 0 25px;
-        border: none;
-        height: 50px;
-        outline: none;
-    }
+    border-radius: 25px 0 0 25px;
+    border: 1px solid #cccccc !important;
+    height: 50px;
+    outline: none;
+}
     .p-inputgroup-addon {
     width: 65px;
     }
@@ -374,6 +382,17 @@ const getParsedImages = (images: string) => {
     }
     .p-megamenu.p-megamenu-horizontal .p-megamenu-root-list > .p-menuitem > .p-menuitem-content .p-menuitem-link .p-menuitem-text {
     color:  v-bind('navColor') !important;
+}
+button.p-button.p-component.w-full.mt-2.overlaycheckoutbtn {
+    background-color:  v-bind('buttonColor') !important;
+    border: none;
+}
+.checkoutbutton {
+    background-color: v-bind('buttonColor') !important;
+    border: none;
+}
+.p-badge {
+    background: v-bind('buttonColor') !important;
 }
       .account-cart-container a {
         display: flex;
@@ -461,6 +480,12 @@ const getParsedImages = (images: string) => {
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
     border-radius: 6px;
 }
+span.toptext {
+    color: #585858;
+}
+.toptext {
+    color: #232020;
+}
     .p-tieredmenu .p-menuitem > .p-menuitem-content .p-menuitem-link .p-submenu-icon {
         color: #ffffff;
     }
@@ -496,23 +521,16 @@ const getParsedImages = (images: string) => {
     .p-tieredmenu{
         color: v-bind('menuColor') !important;
     }
+    .searchbutton {
+    border-radius: 0px 5px 5px 0px !important;
+    height: 50px !important;
+    background-color: v-bind('buttonColor') !important;
+    border-color: v-bind('buttonColor') !important;
+}
 
     /* .p-button {
         color: #ffffff;
         background: v-bind('buttonColor') !important;
         border: 1px solid v-bind('buttonColor') !important;
     } */
-    </style>
-<style scoped> 
-    .p-button {
-    color: #ffffff;
-    background: v-bind('buttonColor') !important;
-    border: 1px solid v-bind('buttonColor') !important;
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s, outline-color 0.2s;
-    border-radius: 6px;
-    outline-color: transparent;
-}
-
     </style>

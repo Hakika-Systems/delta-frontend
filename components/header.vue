@@ -19,7 +19,7 @@
                         <InputText @keyup="searchProducts()" v-model="search_text"   class="searchinput p-inputtext p-component surface-section text-600 surface-border w-full"  placeholder="What are you looking for..."/>
                         <!-- <input @keydown="isKeyDown = true" @keyup="searchProducts()"  v-model="search_text" class="searchinput p-inputtext p-component surface-section text-600 surface-border w-full" data-pc-name="inputtext" data-pc-section="root" type="text" placeholder="Search Product | Category | Brand"> -->
                     </IconField>
-                    <Button style="border-radius:0px 30px 30px 0px"   icon="pi pi-search seachbutton" severity="warning" />
+                    <!-- <Button style="border-radius:0px 30px 30px 0px"   icon="pi pi-search seachbutton" severity="warning" /> -->
             </InputGroup>
             <div class="results-box p-5" v-if="search_text">
             <div id="searchResultsTable">
@@ -27,11 +27,11 @@
             </div>
     </div>
           </div>
-          <div class="col-2">
+          <!-- <div class="col-2">
             <div class="header-icons">
               <Dropdown class="w-10 topcurrency" v-model="selected_currency" :options="currencies" optionLabel="iso_code" optionValue="id" placeholder="Select Currency" />
             </div>
-          </div>
+          </div> -->
           <div class="col-2">
             <div class="header-icons">
               <Button type="button" @click="navigateTo('/signin')" label="My Account" icon="pi pi-user" class="my-account" />
@@ -351,9 +351,9 @@ const getFeaturedProducts = async (brand_id:any) => {
 .topcurrency {
     border-radius: 35px !important;
 }
-input.p-inputtext.p-component.searchinput.p-inputtext.p-component.surface-section.text-600.surface-border.w-full {
+/* input.p-inputtext.p-component.searchinput.p-inputtext.p-component.surface-section.text-600.surface-border.w-full {
     border-radius: 30px 0px 0px 30px;
-}
+} */
 button.shop-now-btn {
     background-color: #f97316 !important;
     padding: 5px !important;

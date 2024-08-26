@@ -700,6 +700,60 @@ export const useFrontStore = defineStore('front', {
         throw error;
       }
     },
+    async createOrder(my_params: any) {
+      const url = `${SHOP_URL}/api/orders`;
+      const token = useCookie('token').value || "";
       
+      const headers = {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      };
+      
+      const body = {
+        cart_id: my_params.cart_id,
+        coupon_code: my_params.coupon_code,
+        order_status_id: 1,
+        customer_name: my_params.customer_name,
+        email: my_params.email,
+        whatsapp_number: my_params.whatsapp_number,
+        customer_mobile: my_params.customer_mobile,
+        billing_address: {
+          name: my_params.billing_address.name,
+          address: my_params.billing_address.address,
+          city: my_params.billing_address.city,
+          country: my_params.billing_address.country,
+          phone: my_params.billing_address.phone
+        },
+        delivery_address: {
+          name: my_params.delivery_address.name,
+          address: my_params.delivery_address.address,
+          city: my_params.delivery_address.city,
+          country: my_params.delivery_address.country,
+          phone: my_params.delivery_address.phone
+        },
+        payment_method_id: my_params.payment_method_id,
+        delivery_option: my_params.delivery_option,
+        payment_method: my_params.payment_method,
+        currency_id: my_params.currency_id,
+        currency: my_params.currency,
+        discount: 0,
+        delivery_amount: my_params.delivery_amount,
+        total_amount: my_params.total_amount,
+      };
+      
+      try {
+        const response = await fetch(url, {
+          method: "POST",
+          headers,
+          body: JSON.stringify(body),
+        });
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error:', error);
+        throw error;
+      }
+    }
     }
    })

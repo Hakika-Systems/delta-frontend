@@ -36,7 +36,7 @@
                 </div>
                 <div class="col-12  lg:col-6 field mb-0">
                   <label for="phone" class="text-900 font-medium mb-3">Phone Number</label>
-                  <InputText variant="filled" size="large" id="phone" type="text" v-model="customer_mobile" class="p-inputtext w-full mb-3"  placeholder="263771008021"/>
+                  <InputText variant="filled" size="large" id="phone" type="tel" v-model="customer_mobile" class="p-inputtext w-full mb-3"  placeholder="263771008021"/>
                 </div>
                 <div class="col-12  lg:col-6 field mb-0">
                   <label for="phone" class="text-900 font-medium mb-3">Whatsapp Number</label>
@@ -108,7 +108,7 @@
                     <!---->
                   </div>
                 <div class="text-900 col-12 font-medium text-xl mt-4 lg:mt-0 mb-4 px-2"> Select Payment Method</div>
-                <div v-for="item in payment_options" @click="toggleOptionCheckbox(item.id)" class="col-3 p-3 d-flex justify-content-center align-items-center">
+                <div v-for="item in payment_options" @click="toggleOptionCheckbox(item.id,item.name)" class="col-3 p-3 d-flex justify-content-center align-items-center">
                   <div :class="{'border-top': item.id === current_payment_option}" class="payheight flex flex-column border-round border-1 surface-border p-4 cursor-pointer hover:border-primary transition-duration-150 d-flex justify-content-center align-items-center">
                     <img :src="item.logo" class="w-8rem" alt="Visa" >
                   </div>
@@ -165,7 +165,7 @@
                 </div>
                 <div class="py-2 mt-3 border-bottom-1 surface-border">
                 <div class="p-inputgroup mb-3">
-                  <input class="p-inputtext p-component p-filled w-full" data-pc-name="inputtext" v-model="coupon_code" data-pc-section="root" type="text" placeholder="Promo code">
+                  <input class="p-inputtext p-component p-filled w-full" data-pc-name="inputtext" v-model="coupon_code" data-pc-section="root" type="text" placeholder="Enter Promo code | Coupon code | Discount code">
                   <button class="p-button p-component" type="button" aria-label="Apply" data-pc-name="button" data-pc-section="root" data-pd-ripple="true">
                     <!---->
                     <span class="p-button-label" data-pc-section="label">Apply</span>
@@ -177,27 +177,26 @@
                 <div class="py-2 mt-3 border-bottom-1 surface-border">
                   <div class="flex justify-content-between align-items-center mb-3">
                     <span class="text-900">Subtotal</span>
-                    <span class="text-900">${{ (cart_total - vat_total).toFixed(2) }}</span>
+                    <span class="text-900">{{findCurrency()}}{{ (cart_total - vat_total).toFixed(2) }}</span>
                   </div>
                   <div class="flex justify-content-between align-items-center mb-3">
                     <span class="text-900">Delivery</span>
-                    <span class="text-900"> {{delivery_type == 'Fast Delivery' ? ` $${fast_delivery.toFixed(2)}` :(delivery_type == 'Standard Delivery') ? `$${standard_delivery.toFixed(2)}`: "--"}}</span>
+                    <span class="text-900">{{findCurrency()}}{{ calculateDeliveryCost() }}</span>
+                  </div>
+                  <div class="flex justify-content-between align-items-center mb-3">
+                    <span class="text-900">Discount</span>
+                    <span class="text-900">{{findCurrency()}}{{ calculateDeliveryCost() }}</span>
                   </div>
                   <div class="flex justify-content-between align-items-center mb-3">
                     <span class="text-900">VAT</span>
-                    <span class="text-900">${{ vat_total }} </span>
+                    <span class="text-900">{{findCurrency()}}{{ (Number(vat_total)).toFixed(2) }} </span>
                   </div>
                   <div class="flex justify-content-between align-items-center mb-3">
                     <span class="text-900">Total</span>
-                    <span class="text-900 font-bold">${{  cartTotal() }}</span>
+                    <span class="text-900 font-bold">{{findCurrency()}}{{  cartTotal() }}</span>
                   </div>
                 </div>
-                <button class="p-button p-component p-button-primary w-full mt-3" type="button" aria-label="Place Order" data-pc-name="button" data-pc-section="root" data-pd-ripple="true">
-                  <!---->
-                  <span class="p-button-label" data-pc-section="label">Place Order</span>
-                  <!---->
-                  <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
-                </button>
+                <Button :loading="loading" @click="confirmOrder()" class="p-button p-component p-button-primary w-full mt-3" label="Place Order" />
               </div>
             </div>
           </div>
@@ -218,8 +217,9 @@ const payment_options = ref()
 const notes = ref('')
 const cart:any = storeToRefs(frontStore).cart
 const vat_total = ref(Number(0.00))
-const cart_total = ref()
+const cart_total = ref(Number(0.00))
 const current_payment_option = ref()
+const current_payment_option_name = ref('')
 const standard_delivery = ref(Number(1.50))
 const VAT_RATE = Number(0.15); // 14.5% VAT rate
 const coupon_code = ref('');
@@ -233,6 +233,8 @@ const whatsapp_number = ref('');
 const payment_method = ref('');
 const payment_methoid_id = ref('');
 const currency_id = ref();
+const currencies:any = storeToRefs(frontStore).currencies
+const selected_currency:any = storeToRefs(frontStore).selected_currency
 const currency = ref('');
 const total_amount = ref(0);
 const discount = ref(0);
@@ -268,9 +270,21 @@ const lineTotal = (price:any, quantity:any) => {
         //@ts-ignore
       cart.value = cart.value.filter(item => item.id !== productId);
     }
-    const toggleOptionCheckbox = (id:any) => {
+    const toggleOptionCheckbox = (id:any,name:string) => {
       current_payment_option.value = id
+      current_payment_option_name.value = name
     }
+    const calculateDeliveryCost = () => {
+    if (delivery_option.value === 'Collection') {
+        return (0).toFixed(2);
+    } else {
+        return delivery_type.value === 'Fast Delivery'
+            ? (fast_delivery.value).toFixed(2)
+            : delivery_type.value === 'Standard Delivery'
+            ? (standard_delivery.value).toFixed(2)
+            : (0).toFixed(2);
+    }
+}
     const cartTotal =  () => {
         if (delivery_option.value === 'Collection') {
            let tot = cart_total.value
@@ -347,13 +361,18 @@ onMounted( async() => {
 const select_fast_delivery = ()=>{
   delivery_type.value = "Fast Delivery"
 }
-
+const findCurrency = () => {
+    const currency = currencies.value.find((currency:any) => currency.id === selected_currency.value);
+    return currency ? currency.iso_code : null;
+}
 const select_standard_delivery = ()=>{
   delivery_type.value = "Standard Delivery"
 }
 const  confirmOrder = async () => {
     loading.value = true
     const info = {
+        cart_id: cart_id.value,
+        coupon_code: coupon_code.value,
         customer_name: name.value+' '+surname.value,
         email: email.value,
         whatsapp_number: whatsapp_number.value,
@@ -362,25 +381,34 @@ const  confirmOrder = async () => {
         order_status_id: order_status_id.value,
         billing_address: {
           name: name.value+' '+surname.value,
+          phone: customer_mobile.value,
           address: address.value,
           city: city.value,
           country: country.value
         },
         delivery_address: {
           name: name.value+' '+surname.value,
+          phone: customer_mobile.value,
           address: address.value,
           city: city.value,
           country: country.value
-        }
- 
+        },
+        payment_method_id: current_payment_option.value,
+        delivery_option: delivery_option.value === 'Collection' ? "pickup" : 'delivery',
+        payment_method: current_payment_option_name.value,
+        currency_id: selected_currency.value,
+        currency: findCurrency(),
+        discount: 0,
+        delivery_amount: Number(calculateDeliveryCost()),
+        total_amount: Number(cartTotal())
     }
-    let result = await frontStore.individualRegistration(info).then((data)=> {
+    let result = await frontStore.createOrder(info).then((data)=> {
         loading.value = false
         if (data.status === "success") {
-            toast.add({ severity: 'success', summary: 'Success', detail: 'You have been registred', life: 3000 });
-            navigateTo('/signin')
+            toast.add({ severity: 'success', summary: 'Success', detail: 'You have succesfully order', life: 3000 });
+            navigateTo('/order_summary')
         } else {
-            toast.add({ severity: 'warn', summary: 'Failed', detail: data.errors, life: 3000 });
+            toast.add({ severity: 'warn', summary: 'Failed', detail: "Failed To Order, Contact Support", life: 3000 });
         }
     })
 }

@@ -354,7 +354,7 @@ const buttonColor = active_brand?.value?.button_color;
           group: 'br',
           life: 3000,
         });
-        loading.value = false
+        current_id.value = null
       }
     })
 };
