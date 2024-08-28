@@ -44,6 +44,10 @@ const signIn = async () => {
   
   let result = await authStore.login(info).then((data) => {
     console.log("dshdshj",data.data.message)
+    if(data?.success === false) {
+      toast.add({ severity: 'warn', summary: 'Sign In Failed', detail: data?.message, life: 3000 });
+      loading.value = false
+    }
     if(data.data.login.data.token) {
       toast.add({ severity: 'success', summary: 'Success', detail: 'Succesfull Signed In', life: 3000 });
       navigateTo('/myaccount')
