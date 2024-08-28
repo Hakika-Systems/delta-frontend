@@ -218,7 +218,10 @@ const buttonColor = active_brand?.value?.button_color;
     return currency ? currency.iso_code : null;
 }
   onMounted( async() => {
-    
+    console.log('my ids',shop_id,brand_id)
+    if (shop_id && brand_id === null) {
+  navigateTo('/');
+   }
     if(shop_id === "undefined") {
        visible.value = true;
        let result_one = await frontStore.getBrands().then(async (data) => {
@@ -259,7 +262,7 @@ const buttonColor = active_brand?.value?.button_color;
     guest_id: guest_id.value
    }
   let created_cart = await frontStore.createCart(cart_params).then((data) => {
-    cart.value = data.data.items
+    cart.value = data?.data?.items
     cart_total.value = data?.data?.cart_total
     cart_id.value = data?.data?.id
   }) 

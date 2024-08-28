@@ -17,7 +17,8 @@
         <Dropdown v-model="selected_currency" :options="currencies" optionLabel="iso_code" optionValue="id" placeholder="Select Currency" class="w-50 md:w-7rem" />
      <a class="text-white font-medium inline-flex align-items-center cursor-pointer px-3 hover:text-gray-200 p-ripple" data-pd-ripple="true">
        <i class="pi pi-user mr-2 sm:mr-3 toptext text-sm"></i>
-       <span class="toptext" @click="navigateTo('/registration')">My Account<br><strong>Sign In</strong></span>
+       <span v-if="mytoken" class="toptext" @click="navigateTo('/myaccount')">My Account</span>
+       <span v-else class="toptext" @click="navigateTo('/signin')">Sign In</span>
        <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
      </a>
      <InputGroup class="w-custom md:w-[30rem]">
@@ -80,6 +81,9 @@
     const logo = ref('')
     const toast = useToast()
     const loading = ref(false)
+    const mytoken = useCookie('token');
+const name = useCookie('username');
+const user_id = useCookie('user_id');
     const product_brands = ref()
     const brand_id = storeToRefs(frontStore).brand_id
     const shop_id = storeToRefs(frontStore).shop_id
@@ -90,7 +94,10 @@
     const selected_currency = storeToRefs(frontStore).selected_currency;
     const categories = ref()
     const goToHome = () => {
-        navigateTo(`/shop-${brand_id.value}-${shop_id.value}`)
+        const current_shop_id = sessionStorage.getItem('current_shop_id');
+        const current_shop_branch = sessionStorage.getItem('current_shop_branch');
+        //@ts-ignore
+        navigateTo(`/shop-${JSON.parse(current_shop_id)}-${JSON.parse(current_shop_branch)}`)
     }
     const dummyMenu = ref([
     {

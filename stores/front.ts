@@ -6,8 +6,10 @@ export const useFrontStore = defineStore('front', {
         cart: [],
         brands: [],
         shop_id: null,
+        current_template: "home",
         product: null,
         brand_id: null,
+        old_cart_id: null,
         brand_featured_products: {},
         cart_total: null,
         currencies: [],
@@ -507,6 +509,25 @@ export const useFrontStore = defineStore('front', {
       } finally {
       }
     },
+    async getAllAddressTypes() {
+      const url = new URL(`${SHOP_URL}/api/address-types`);
+      const token = useCookie('token').value || ""
+      const headers = {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+      };
+  
+      try {
+          const response = await fetch(url, {
+              method: "GET",
+              headers,
+          });
+          const data = await response.json();
+          return data;
+      } finally {
+      }
+    },
     async getPaymentOptions(my_params:any) {
       const url = new URL(`${SHOP_URL}/api/payment-methods`);
       const params:any = {
@@ -594,6 +615,38 @@ export const useFrontStore = defineStore('front', {
         throw error;
       }
     },
+    async createAddress(my_params: any) {
+      const url = `${SHOP_URL}/api/addresses`;
+      const token = useCookie('token').value || "";
+      
+      const headers = {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      };
+      
+      const body = {
+        name: my_params.name,
+        user_id: my_params.user_id,
+        address_type_id: my_params.address_type,
+        suburb: my_params.suburb,
+        street: my_params.street,
+        city: my_params.city
+      };
+      
+      try {
+        const response = await fetch(url, {
+          method: "POST",
+          headers,
+          body: JSON.stringify(body),
+        });
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error:', error);
+        throw error;
+      }
+    },
     async addCartItem(my_params: any) {
       const url = `${SHOP_URL}/api/cart-items`;
       const token = useCookie('token').value || "";
@@ -658,6 +711,28 @@ export const useFrontStore = defineStore('front', {
     },
     async getCart() {
       const url = `${SHOP_URL}/api/carts/${this.cart_id}`;
+      const token = useCookie('token').value || "";
+      
+      const headers = {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      };
+      
+      try {
+        const response = await fetch(url, {
+          method: "GET",
+          headers
+        });
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error:', error);
+        throw error;
+      }
+    },
+    async getOlderCart() {
+      const url = `${SHOP_URL}/api/carts/${this.old_cart_id}`;
       const token = useCookie('token').value || "";
       
       const headers = {

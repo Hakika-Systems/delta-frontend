@@ -21,7 +21,7 @@
                
                 <div class="col-12 lg:col-6 field mb-0">
                   <label for="name2" class="text-900 font-medium mb-3">Name</label>
-                  <InputText variant="filled" size="large" id="name2" type="text" v-model="name" class="p-inputtext w-full mb-3"  placeholder="John"/>
+                  <InputText variant="filled" size="large"  v-model="name" class="p-inputtext w-full mb-3"  placeholder="John"/>
 
                 </div>
                 
@@ -406,6 +406,8 @@ const  confirmOrder = async () => {
         loading.value = false
         if (data.status === "success") {
             toast.add({ severity: 'success', summary: 'Success', detail: 'You have succesfully order', life: 3000 });
+            let orderr =  data.data
+            sessionStorage.setItem('last_order', JSON.stringify(orderr))
             navigateTo('/order_summary')
         } else {
             toast.add({ severity: 'warn', summary: 'Failed', detail: "Failed To Order, Contact Support", life: 3000 });
