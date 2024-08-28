@@ -279,7 +279,10 @@ const getShopsForBrand = (brandId:any) => {
 
 const goToShop = () => {
   loading.value = true;
+  sessionStorage.setItem('current_shop_id', JSON.stringify(shopID.value))
+  sessionStorage.setItem('current_shop_branch', JSON.stringify(shopBranch.value))
   navigateTo(`/shop-${shopID.value}-${shopBranch.value}`);
+
   loading.value = false;
 }
 
