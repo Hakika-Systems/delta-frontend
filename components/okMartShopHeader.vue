@@ -1,8 +1,8 @@
 <template>
     <div class="toppheader px-4 lg:px-8 py-3 lg:py-3 flex flex-column sm:flex-row w-full justify-content-between align-items-center">
         <div>
-  <Button icon="pi pi-sync" class="mr-2 topbtn" label="Change Brand" outlined />
-  <Button icon="pi pi-shop" class="topbtn" label="Change Store" outlined/>
+  <Button @click="navigateTo('/')" icon="pi pi-home" class="topbtn mr-2" label="Home" outlined/>
+  <Button @click="select_brand = true" icon="pi pi-sync" class="mr-2 topbtn" label="Change Store" outlined />
 </div>
   <a tabindex="0" class="cursor-pointer h-full inline-flex align-items-center mt-3 sm:mt-0 md:py-0">
     <span class="text-0">You are currently shopping at {{ getActiveShopNameById() }}</span>
@@ -82,6 +82,36 @@
         </OverlayPanel>
       
     </div>
+    <Dialog v-model:visible="select_brand" modal header="Brand Selection" :style="{ width: '25rem' }">
+    <!-- <template #header>
+        <div class="inline-flex align-items-center justify-content-center gap-2">
+            
+            <span class="font-bold white-space-nowrap">Welcome to <img :src="shopLogo" :alt="shopName" class="h-3rem"></span>
+        </div>
+    </template> -->
+    <span class="p-text-secondary block mb-5">Select Brand.</span>
+    <div class="flex align-items-center gap-3 mb-3">
+      <Dropdown @change="getBrandById()" v-model="chosenBrand" :options="brands" filter optionLabel="name" optionValue="id" placeholder="Select a Brand" checkmark :highlightOnSelect="false" class="w-full" />
+    </div>
+    <template #footer>
+        <Button :loading="loading" label="Choose" @click="chooseShop()" severity="secondary" :disabled="!chosenBrand"  autofocus />
+    </template>
+</Dialog>
+<Dialog v-model:visible="select_shop" modal header="Shop Selection" :style="{ width: '25rem' }">
+    <template #header>
+        <div class="inline-flex align-items-center justify-content-center gap-2">
+           
+            <span class="font-bold white-space-nowrap">Welcome to <img :src="shopLogo" :alt="shopName" class="h-3rem"></span>
+        </div>
+    </template>
+    <span class="p-text-secondary block mb-5">Select Branch.</span>
+    <div class="flex align-items-center gap-3 mb-3">
+      <Dropdown v-model="shopBranch" :options="branches" filter optionLabel="name" optionValue="id" placeholder="Select a Store" checkmark :highlightOnSelect="false" class="w-full" />
+    </div>
+    <template #footer>
+        <Button :loading="loading" label="Shop Now" outlined severity="secondary" :disabled="!shopBranch" @click="goToShop()" autofocus />
+    </template>
+</Dialog>
     </template>
     <script setup lang="ts">
     const frontStore = useFrontStore()
@@ -90,10 +120,19 @@
     const op = ref();
     const logo = ref('')
     const toast = useToast()
+    const select_brand = ref(false)
+    const chosenBrand = ref()
+    const shopBranch = ref();
+    const branches = ref()
+    const select_shop = ref()
+    const shopLogo = ref();
+    const shopName = ref();
+    const brands = ref()
     const loading = ref(false)
     const mytoken = useCookie('token');
-const name = useCookie('username');
-const user_id = useCookie('user_id');
+    const name = useCookie('username');
+    const user_id = useCookie('user_id');
+    const currentBrand = ref()
     const product_brands = ref()
     const brand_id = storeToRefs(frontStore).brand_id
     const shop_id = storeToRefs(frontStore).shop_id
@@ -109,6 +148,30 @@ const user_id = useCookie('user_id');
         const current_shop_branch = sessionStorage.getItem('current_shop_branch');
         //@ts-ignore
         navigateTo(`/shop-${JSON.parse(current_shop_id)}-${JSON.parse(current_shop_branch)}`)
+    }
+    const chooseShop = async () => {
+     select_brand.value = false
+     select_shop.value = true
+     shopLogo.value = currentBrand.value?.logo;
+     shopName.value = currentBrand.value?.name;
+     await getShopsForBrand( currentBrand.value?.id);
+    }
+    const getBrandById = () => {
+    // Find the brand with the matching id
+    const foundBrand = brands.value.find((brand:any) => brand.id === chosenBrand.value);
+
+    // Assign the found brand to chosenBrand
+    if (foundBrand) {
+        currentBrand.value = foundBrand;
+    } else {
+        currentBrand.value = null; // Or handle the case when the brand is not found
+    }
+    }
+    const getShopsForBrand = (brandId:any) => {
+    branches.value = null;
+    //@ts-ignore
+    let branchess = brands.value.find(brand => brand.id === brandId);
+    branches.value = branchess?.shops;
     }
     const dummyMenu = ref([
     {
@@ -149,6 +212,15 @@ const user_id = useCookie('user_id');
 const findCurrency = () => {
     const currency = currencies.value.find((currency:any) => currency.id === selected_currency.value);
     return currency ? currency.iso_code : null;
+}
+const goToShop = () => {
+  loading.value = true;
+  sessionStorage.setItem('active_brand', JSON.stringify(currentBrand.value))
+  sessionStorage.setItem('current_shop_id', JSON.stringify(chosenBrand.value))
+  sessionStorage.setItem('current_shop_branch', JSON.stringify(shopBranch.value))
+  navigateTo(`/shop-${chosenBrand.value}-${shopBranch.value}`);
+
+  loading.value = false;
 }
 //@ts-ignore
 const active_brand = ref(getBrandConfiguration())
@@ -215,7 +287,11 @@ let params = {
     page: 1,
     per_page: 100
 }
-let brands = await frontStore.getProductBrands(params).then((data) => {
+let result_one = await frontStore.getBrands().then(async (data) => {
+    brands.value = data?.data?.shopbrands;
+
+});
+let brandss = await frontStore.getProductBrands(params).then((data) => {
     //@ts-ignore
     product_brands.value = data?.data?.data.map(item => ({
     label: item.name,
