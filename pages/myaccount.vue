@@ -203,8 +203,9 @@
         <Button :disabled="!address_name || !street || !suburb || !city || !selected_address_type" :loading="loading" @click="createAddress()" type="button" label="Save"></Button>
     </div>
 </Dialog>
-<ShopFooter />
+
    </NuxtLayout>
+   <ShopFooter />
 </template>
 <script setup lang="ts">
 const frontStore = useFrontStore()
