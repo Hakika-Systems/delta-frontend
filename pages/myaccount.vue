@@ -130,28 +130,16 @@
             <!---->
           </div><div class="surface-ground">
             <div class="grid flex-column lg:flex-row">
-  <div class="col p-3">
+  <div v-for="item in my_addresses" class="col-4 p-3">
     <div class="flex flex-column border-round border-1 surface-border p-4 cursor-pointer hover:border-primary transition-duration-150 border-primary">
       <div class="flex justify-content-between mb-3">
-        <span class="text-900 text-xl font-medium">Home</span>
+        <span class="text-900 text-xl font-medium">{{ item?.name }}</span>
         <span class="text-600 font-medium">
           <i class="pi pi-pencil mr-2"></i>Edit </span>
       </div>
-      <span class="inline-block text-600 mb-3">Jacob Obrechtstraat 5, 1071 KC Amsterdam The Netherlands</span>
+      <span class="inline-block text-600 mb-3">{{ item?.street }}, {{ item?.suburb }}, {{ item?.city }}</span>
       <span class="inline-block text-600">
-        <i class="pi pi-mobile mr-2"></i>+123456789 </span>
-    </div>
-  </div>
-  <div class="col p-3">
-    <div class="flex flex-column border-round border-1 surface-border p-4 cursor-pointer hover:border-primary transition-duration-150">
-      <div class="flex justify-content-between mb-3">
-        <span class="text-900 text-xl font-medium">Office</span>
-        <span class="text-600 font-medium">
-          <i class="pi pi-pencil mr-2"></i>Edit </span>
-      </div>
-      <span class="inline-block text-600 mb-3">Jacob Obrechtstraat 5, 1072 KC Amsterdam The Netherlands</span>
-      <span class="inline-block text-600">
-        <i class="pi pi-mobile mr-2"></i>+123456789 </span>
+        <i class="pi pi-home mr-2"></i>{{ item?.address_type?.name }}</span>
     </div>
   </div>
   <div @click="addAddress()" class="col-12 lg:col-3 p-3">
@@ -175,8 +163,29 @@
     </div>
     <div class="flex align-items-center gap-3 mb-5">
         <label for="email" class="font-semibold w-6rem">Type</label>
-        <Dropdown v-model="selected_address_type" class="w-6" placeholder="Select Address Type" :options="address_types" optionLabel="name" optionValue="id" />
+        <Dropdown v-model="selected_address_type" class="w-full md:w-14rem" placeholder="Select Address Type" :options="address_types" optionLabel="name" optionValue="id" />
     </div>
+    <div class="flex align-items-center gap-3 mb-5">
+        <label for="email" class="font-semibold w-6rem">Country</label>
+        <Dropdown v-model="selectedCountry" :options="countries" filter optionLabel="name" placeholder="Select a Country" class="w-full md:w-14rem">
+    <template #value="slotProps">
+        <div v-if="slotProps.value" class="flex align-items-center">
+            <img :alt="slotProps.value.label" src="https://primefaces.org/cdn/primevue/images/flag/flag_placeholder.png" :class="`mr-2 flag flag-${slotProps.value.code.toLowerCase()}`" style="width: 18px" />
+            <div>{{ slotProps.value.name }}</div>
+        </div>
+        <span v-else>
+            {{ slotProps.placeholder }}
+        </span>
+    </template>
+    <template #option="slotProps">
+        <div class="flex align-items-center">
+            <img :alt="slotProps.option.label" src="https://primefaces.org/cdn/primevue/images/flag/flag_placeholder.png" :class="`mr-2 flag flag-${slotProps.option.code.toLowerCase()}`" style="width: 18px" />
+            <div>{{ slotProps.option.name }}</div>
+        </div>
+    </template>
+</Dropdown>
+    </div>
+    
     <div class="flex align-items-center gap-3 mb-5">
         <label for="email" class="font-semibold w-6rem">City</label>
         <InputText v-model="city" placeholder="Harare" id="username" class="flex-auto" autocomplete="off" />
@@ -186,8 +195,8 @@
         <InputText v-model="suburb" placeholder="Mt Pleasant" id="username" class="flex-auto" autocomplete="off" />
     </div>
     <div class="flex align-items-center gap-3 mb-5">
-        <label for="email" class="font-semibold w-6rem">Street</label>
-        <InputText v-model="street" placeholder="Wilmar Drive" id="username" class="flex-auto" autocomplete="off" />
+        <label for="email" class="font-semibold w-6rem">Ho. Number & Street</label>
+        <InputText v-model="street" placeholder="8 Wilmar Drive" id="username" class="flex-auto" autocomplete="off" />
     </div>
     <div class="flex justify-content-end gap-2">
         <Button type="button" label="Cancel" severity="secondary" @click="add_address = false"></Button>
@@ -206,9 +215,208 @@ const address_types = ref()
 const address_name = ref()
 const city = ref()
 const suburb = ref()
+const selectedCountry = ref();
+const countries = ref([
+    { name: 'Afghanistan', code: 'AF' },
+    { name: 'Albania', code: 'AL' },
+    { name: 'Algeria', code: 'DZ' },
+    { name: 'Andorra', code: 'AD' },
+    { name: 'Angola', code: 'AO' },
+    { name: 'Antigua and Barbuda', code: 'AG' },
+    { name: 'Argentina', code: 'AR' },
+    { name: 'Armenia', code: 'AM' },
+    { name: 'Australia', code: 'AU' },
+    { name: 'Austria', code: 'AT' },
+    { name: 'Azerbaijan', code: 'AZ' },
+    { name: 'Bahamas', code: 'BS' },
+    { name: 'Bahrain', code: 'BH' },
+    { name: 'Bangladesh', code: 'BD' },
+    { name: 'Barbados', code: 'BB' },
+    { name: 'Belarus', code: 'BY' },
+    { name: 'Belgium', code: 'BE' },
+    { name: 'Belize', code: 'BZ' },
+    { name: 'Benin', code: 'BJ' },
+    { name: 'Bhutan', code: 'BT' },
+    { name: 'Bolivia', code: 'BO' },
+    { name: 'Bosnia and Herzegovina', code: 'BA' },
+    { name: 'Botswana', code: 'BW' },
+    { name: 'Brazil', code: 'BR' },
+    { name: 'Brunei', code: 'BN' },
+    { name: 'Bulgaria', code: 'BG' },
+    { name: 'Burkina Faso', code: 'BF' },
+    { name: 'Burundi', code: 'BI' },
+    { name: 'Cabo Verde', code: 'CV' },
+    { name: 'Cambodia', code: 'KH' },
+    { name: 'Cameroon', code: 'CM' },
+    { name: 'Canada', code: 'CA' },
+    { name: 'Central African Republic', code: 'CF' },
+    { name: 'Chad', code: 'TD' },
+    { name: 'Chile', code: 'CL' },
+    { name: 'China', code: 'CN' },
+    { name: 'Colombia', code: 'CO' },
+    { name: 'Comoros', code: 'KM' },
+    { name: 'Congo (Congo-Brazzaville)', code: 'CG' },
+    { name: 'Costa Rica', code: 'CR' },
+    { name: 'Croatia', code: 'HR' },
+    { name: 'Cuba', code: 'CU' },
+    { name: 'Cyprus', code: 'CY' },
+    { name: 'Czechia (Czech Republic)', code: 'CZ' },
+    { name: 'Denmark', code: 'DK' },
+    { name: 'Djibouti', code: 'DJ' },
+    { name: 'Dominica', code: 'DM' },
+    { name: 'Dominican Republic', code: 'DO' },
+    { name: 'Ecuador', code: 'EC' },
+    { name: 'Egypt', code: 'EG' },
+    { name: 'El Salvador', code: 'SV' },
+    { name: 'Equatorial Guinea', code: 'GQ' },
+    { name: 'Eritrea', code: 'ER' },
+    { name: 'Estonia', code: 'EE' },
+    { name: 'Eswatini', code: 'SZ' },
+    { name: 'Ethiopia', code: 'ET' },
+    { name: 'Fiji', code: 'FJ' },
+    { name: 'Finland', code: 'FI' },
+    { name: 'France', code: 'FR' },
+    { name: 'Gabon', code: 'GA' },
+    { name: 'Gambia', code: 'GM' },
+    { name: 'Georgia', code: 'GE' },
+    { name: 'Germany', code: 'DE' },
+    { name: 'Ghana', code: 'GH' },
+    { name: 'Greece', code: 'GR' },
+    { name: 'Grenada', code: 'GD' },
+    { name: 'Guatemala', code: 'GT' },
+    { name: 'Guinea', code: 'GN' },
+    { name: 'Guinea-Bissau', code: 'GW' },
+    { name: 'Guyana', code: 'GY' },
+    { name: 'Haiti', code: 'HT' },
+    { name: 'Honduras', code: 'HN' },
+    { name: 'Hungary', code: 'HU' },
+    { name: 'Iceland', code: 'IS' },
+    { name: 'India', code: 'IN' },
+    { name: 'Indonesia', code: 'ID' },
+    { name: 'Iran', code: 'IR' },
+    { name: 'Iraq', code: 'IQ' },
+    { name: 'Ireland', code: 'IE' },
+    { name: 'Israel', code: 'IL' },
+    { name: 'Italy', code: 'IT' },
+    { name: 'Jamaica', code: 'JM' },
+    { name: 'Japan', code: 'JP' },
+    { name: 'Jordan', code: 'JO' },
+    { name: 'Kazakhstan', code: 'KZ' },
+    { name: 'Kenya', code: 'KE' },
+    { name: 'Kiribati', code: 'KI' },
+    { name: 'Korea (North)', code: 'KP' },
+    { name: 'Korea (South)', code: 'KR' },
+    { name: 'Kosovo', code: 'XK' },
+    { name: 'Kuwait', code: 'KW' },
+    { name: 'Kyrgyzstan', code: 'KG' },
+    { name: 'Laos', code: 'LA' },
+    { name: 'Latvia', code: 'LV' },
+    { name: 'Lebanon', code: 'LB' },
+    { name: 'Lesotho', code: 'LS' },
+    { name: 'Liberia', code: 'LR' },
+    { name: 'Libya', code: 'LY' },
+    { name: 'Liechtenstein', code: 'LI' },
+    { name: 'Lithuania', code: 'LT' },
+    { name: 'Luxembourg', code: 'LU' },
+    { name: 'Madagascar', code: 'MG' },
+    { name: 'Malawi', code: 'MW' },
+    { name: 'Malaysia', code: 'MY' },
+    { name: 'Maldives', code: 'MV' },
+    { name: 'Mali', code: 'ML' },
+    { name: 'Malta', code: 'MT' },
+    { name: 'Marshall Islands', code: 'MH' },
+    { name: 'Mauritania', code: 'MR' },
+    { name: 'Mauritius', code: 'MU' },
+    { name: 'Mexico', code: 'MX' },
+    { name: 'Micronesia', code: 'FM' },
+    { name: 'Moldova', code: 'MD' },
+    { name: 'Monaco', code: 'MC' },
+    { name: 'Mongolia', code: 'MN' },
+    { name: 'Montenegro', code: 'ME' },
+    { name: 'Morocco', code: 'MA' },
+    { name: 'Mozambique', code: 'MZ' },
+    { name: 'Myanmar (formerly Burma)', code: 'MM' },
+    { name: 'Namibia', code: 'NA' },
+    { name: 'Nauru', code: 'NR' },
+    { name: 'Nepal', code: 'NP' },
+    { name: 'Netherlands', code: 'NL' },
+    { name: 'New Zealand', code: 'NZ' },
+    { name: 'Nicaragua', code: 'NI' },
+    { name: 'Niger', code: 'NE' },
+    { name: 'Nigeria', code: 'NG' },
+    { name: 'North Macedonia', code: 'MK' },
+    { name: 'Norway', code: 'NO' },
+    { name: 'Oman', code: 'OM' },
+    { name: 'Pakistan', code: 'PK' },
+    { name: 'Palau', code: 'PW' },
+    { name: 'Palestine State', code: 'PS' },
+    { name: 'Panama', code: 'PA' },
+    { name: 'Papua New Guinea', code: 'PG' },
+    { name: 'Paraguay', code: 'PY' },
+    { name: 'Peru', code: 'PE' },
+    { name: 'Philippines', code: 'PH' },
+    { name: 'Poland', code: 'PL' },
+    { name: 'Portugal', code: 'PT' },
+    { name: 'Qatar', code: 'QA' },
+    { name: 'Romania', code: 'RO' },
+    { name: 'Russia', code: 'RU' },
+    { name: 'Rwanda', code: 'RW' },
+    { name: 'Saint Kitts and Nevis', code: 'KN' },
+    { name: 'Saint Lucia', code: 'LC' },
+    { name: 'Saint Vincent and the Grenadines', code: 'VC' },
+    { name: 'Samoa', code: 'WS' },
+    { name: 'San Marino', code: 'SM' },
+    { name: 'Sao Tome and Principe', code: 'ST' },
+    { name: 'Saudi Arabia', code: 'SA' },
+    { name: 'Senegal', code: 'SN' },
+    { name: 'Serbia', code: 'RS' },
+    { name: 'Seychelles', code: 'SC' },
+    { name: 'Sierra Leone', code: 'SL' },
+    { name: 'Singapore', code: 'SG' },
+    { name: 'Slovakia', code: 'SK' },
+    { name: 'Slovenia', code: 'SI' },
+    { name: 'Solomon Islands', code: 'SB' },
+    { name: 'Somalia', code: 'SO' },
+    { name: 'South Africa', code: 'ZA' },
+    { name: 'South Sudan', code: 'SS' },
+    { name: 'Spain', code: 'ES' },
+    { name: 'Sri Lanka', code: 'LK' },
+    { name: 'Sudan', code: 'SD' },
+    { name: 'Suriname', code: 'SR' },
+    { name: 'Sweden', code: 'SE' },
+    { name: 'Switzerland', code: 'CH' },
+    { name: 'Syria', code: 'SY' },
+    { name: 'Tajikistan', code: 'TJ' },
+    { name: 'Tanzania', code: 'TZ' },
+    { name: 'Thailand', code: 'TH' },
+    { name: 'Timor-Leste', code: 'TL' },
+    { name: 'Togo', code: 'TG' },
+    { name: 'Tonga', code: 'TO' },
+    { name: 'Trinidad and Tobago', code: 'TT' },
+    { name: 'Tunisia', code: 'TN' },
+    { name: 'Turkey', code: 'TR' },
+    { name: 'Turkmenistan', code: 'TM' },
+    { name: 'Tuvalu', code: 'TV' },
+    { name: 'Uganda', code: 'UG' },
+    { name: 'Ukraine', code: 'UA' },
+    { name: 'United Arab Emirates', code: 'AE' },
+    { name: 'United Kingdom', code: 'GB' },
+    { name: 'United States', code: 'US' },
+    { name: 'Uruguay', code: 'UY' },
+    { name: 'Uzbekistan', code: 'UZ' },
+    { name: 'Vanuatu', code: 'VU' },
+    { name: 'Vatican City (Holy See)', code: 'VA' },
+    { name: 'Venezuela', code: 'VE' },
+    { name: 'Vietnam', code: 'VN' },
+    { name: 'Yemen', code: 'YE' },
+    { name: 'Zambia', code: 'ZM' },
+    { name: 'Zimbabwe', code: 'ZW' }
+]);
+
 const street = ref()
 const selected_address_type = ref()
 const current_template =  storeToRefs(frontStore).current_template
+const my_addresses = ref()
 const mytoken = useCookie('token');
 const name = useCookie('username');
 const user_id = useCookie('user_id');
@@ -236,6 +444,9 @@ const createAddress = () => {
       city.value = null
       suburb.value = null
       street.value = null
+      let my_addressess = frontStore.getMyAddresses(user_id.value).then((data) => {
+        my_addresses.value = data?.data?.data
+      })
     } else {
       loading.value = false
       toast.add({ severity: 'info', summary: 'Error', detail: 'Failed to Create Address', life: 3000 });
@@ -246,6 +457,9 @@ onMounted(() => {
   let all_addresses = frontStore.getAllAddressTypes().then((data) => {
     console.log("my address types",data.data.data)
     address_types.value = data?.data?.data
+  })
+  let my_addressess = frontStore.getMyAddresses(user_id.value).then((data) => {
+    my_addresses.value = data?.data?.data
   })
 })
 </script>
