@@ -753,6 +753,28 @@ export const useFrontStore = defineStore('front', {
         throw error;
       }
     },
+    async getMyAddresses(id:any) {
+      const url = `${SHOP_URL}/api/addresses/${id}`;
+      const token = useCookie('token').value || "";
+      
+      const headers = {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      };
+      
+      try {
+        const response = await fetch(url, {
+          method: "GET",
+          headers
+        });
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error:', error);
+        throw error;
+      }
+    },
     async deleteCartItem(my_params:any) {
       const url = `${SHOP_URL}/api/cart-items/${my_params.id}`;
       const token = useCookie('token').value || "";
