@@ -397,6 +397,7 @@
 
       </div>
     </div>
+    <ShopFooter />
   </template>
 <script setup lang="ts">
 

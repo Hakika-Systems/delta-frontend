@@ -100,6 +100,7 @@
       </div>
     </div>
   </div>
+  <ShopFooter />
 </template>
 <script lang="ts" setup>
 const order_details:any = ref()

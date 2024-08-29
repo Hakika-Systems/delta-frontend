@@ -27,6 +27,7 @@
       <Button :loading="loading" label="Sign In" @click="signIn()" class="w-full" /> 
     </div>
   </div>
+  <ShopFooter />
   </template>
 <script setup lang="ts">
 const authStore = useAuthStore()

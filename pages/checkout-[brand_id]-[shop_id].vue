@@ -203,6 +203,7 @@
         </div>
       </div>
     </div>
+    <ShopFooter />
 </template>
 <script setup lang="ts">
 const frontStore = useFrontStore()
