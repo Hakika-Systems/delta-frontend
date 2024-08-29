@@ -1,6 +1,9 @@
 <template>
     <div class="toppheader px-4 lg:px-8 py-3 lg:py-3 flex flex-column sm:flex-row w-full justify-content-between align-items-center">
-  <span class="text-0">Sign Up for 15% off your first order</span>
+        <div>
+  <Button icon="pi pi-sync" class="mr-2 topbtn" label="Change Brand" outlined />
+  <Button icon="pi pi-shop" class="topbtn" label="Change Store" outlined/>
+</div>
   <a tabindex="0" class="cursor-pointer h-full inline-flex align-items-center mt-3 sm:mt-0 md:py-0">
     <span class="text-0">You are currently shopping at {{ getActiveShopNameById() }}</span>
   </a>
@@ -482,6 +485,10 @@ button.p-button.p-component.w-full.mt-2.overlaycheckoutbtn {
     }
     .w-custom {
     width: 50% !important;
+    }
+    button.p-button.p-component.p-button-outlined.topbtn {
+    color: white !important;
+    border-color: white !important;
     }
     .fixedheader {
     position: fixed !important;
