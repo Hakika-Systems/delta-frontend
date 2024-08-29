@@ -219,6 +219,8 @@ const buttonColor = active_brand?.value?.button_color;
 }
   onMounted( async() => {
     console.log('my ids',shop_id,brand_id)
+    let gi:any  = sessionStorage.getItem('guest_id');
+    guest_id.value = JSON.parse(gi)
     if (shop_id && brand_id === null) {
   navigateTo('/');
    }
@@ -255,6 +257,8 @@ const buttonColor = active_brand?.value?.button_color;
     })
   if (guest_id.value === null) {
       guest_id.value = createId()
+      sessionStorage.setItem('guest_id', JSON.stringify(guest_id.value))
+
   }
    let cart_params = {
     shop_id: shop_id,

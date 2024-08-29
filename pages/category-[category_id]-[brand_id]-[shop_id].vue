@@ -153,6 +153,8 @@ const  decreaseQuantity = (productId:any) => {
 }
   onMounted( async() => {
     brand_idd.value = brand_id
+    let gi:any  = sessionStorage.getItem('guest_id');
+    guest_id.value = JSON.parse(gi)
     shop_idd.value = shop_id
     const related_params = {
       page: 1,
@@ -171,6 +173,7 @@ const  decreaseQuantity = (productId:any) => {
   })
   if (guest_id.value === null) {
       guest_id.value = createId()
+      sessionStorage.setItem('guest_id', JSON.stringify(guest_id.value))
   }
    let cart_params = {
     shop_id: shop_id,

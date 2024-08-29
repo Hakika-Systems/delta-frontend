@@ -131,6 +131,8 @@ return null; // Return null if parsing fails or no images are found
 onMounted( async() => {
   brand_idd.value = brand_id
   shop_idd.value = shop_id
+  let gi:any  = sessionStorage.getItem('guest_id');
+  guest_id.value = JSON.parse(gi)
   const related_params = {
     page: 1,
     per_page: 100,
@@ -144,8 +146,9 @@ await frontStore.getRelatedProductsByBrand(related_params).then((data) => {
     brand_name.value = data?.data?.products[0]?.brand?.name
 })
 if (guest_id.value === null) {
-    guest_id.value = createId()
-}
+      guest_id.value = createId()
+      sessionStorage.setItem('guest_id', JSON.stringify(guest_id.value))
+  }
  let cart_params = {
   shop_id: shop_id,
   user_id: user_id.value,
