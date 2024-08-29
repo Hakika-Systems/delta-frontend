@@ -77,6 +77,7 @@
     <script setup lang="ts">
     const frontStore = useFrontStore()
     const cart:any = storeToRefs(frontStore).cart
+    import { createId } from '@paralleldrive/cuid2';
     const op = ref();
     const logo = ref('')
     const toast = useToast()
@@ -88,6 +89,7 @@ const user_id = useCookie('user_id');
     const brand_id = storeToRefs(frontStore).brand_id
     const shop_id = storeToRefs(frontStore).shop_id
     const cart_total = storeToRefs(frontStore).cart_total
+    const guest_id = ref()
     const selectedCurrency = ref("USD");
     const cart_id = storeToRefs(frontStore).cart_id
     const currencies:any = storeToRefs(frontStore).currencies;
@@ -184,6 +186,8 @@ const navColor = active_brand?.value?.menu_font_color??"#fff";
         }));
 }
 onMounted( async() => {
+    let gi:any  = sessionStorage.getItem('guest_id');
+    guest_id.value = JSON.parse(gi)
     let currency_params = {
     page: 1,
     per_page: 100
@@ -211,6 +215,22 @@ let brands = await frontStore.getProductBrands(params).then((data) => {
     }
    }));
 })
+if (guest_id.value === null) {
+      guest_id.value = createId()
+      sessionStorage.setItem('guest_id', JSON.stringify(guest_id.value))
+  }
+  const current_shop_branch:any = sessionStorage.getItem('current_shop_branch');
+  const current_shop_id:any = sessionStorage.getItem('current_shop_id');
+ let cart_params = {
+  shop_id: JSON.parse(current_shop_branch),
+  user_id: user_id.value,
+  guest_id: guest_id.value
+ }
+let created_cart = await frontStore.createCart(cart_params).then((data) => {
+  cart.value = data.data.items
+  cart_total.value = data?.data?.cart_total
+  cart_id.value = data?.data?.id
+}) 
 
 let categoriess = await frontStore.getAllCategories(params).then(async (data) => {
     console.log("hjhj",data?.data?.categories)
