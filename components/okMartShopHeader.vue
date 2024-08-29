@@ -1,5 +1,11 @@
 <template>
-    <div class="okmartheader fixedheader py-3 px-6 shadow-2 flex align-items-center justify-content-between relative">
+    <div class="toppheader px-4 lg:px-8 py-3 lg:py-3 flex flex-column sm:flex-row w-full justify-content-between align-items-center">
+  <span class="text-0">Sign Up for 15% off your first order</span>
+  <a tabindex="0" class="cursor-pointer h-full inline-flex align-items-center mt-3 sm:mt-0 md:py-0">
+    <span class="text-0">You are currently shopping at {{ getActiveShopNameById() }}</span>
+  </a>
+</div>
+    <div class="okmartheader py-3 px-6  flex align-items-center justify-content-between relative">
       <!-- Logo -->
       <div class="flex items-center flex-grow-0">
         <img :src="active_brand?.logo" alt="Image" height="90"  @click="goToHome()">
@@ -32,7 +38,7 @@
      <!-- <i v-badge.danger="'5'" class="pi pi-shopping-cart carticon" style="font-size: 1rem" /> -->
       </div>
     </div>
-    <div class="foodloversheader okmartheader px-6 shadow-2 flex align-items-center justify-content-between relative lg:static">
+    <div class="belowheader okmartheader px-6  flex align-items-center justify-content-between relative lg:static">
       <div class="row col-12 flex">
          <div class="col-2">
             <TieredMenu class="shopbyisle" :model="categories" />
@@ -284,6 +290,7 @@ const decreaseCartItem = async (item_id:any,product_id: any,quantity:any,unit_pr
     
     
 };
+
 const increaseCartItem = async (item_id:any,product_id: any,quantity:any,unit_price:any) => {
     loading.value = true
     let cart_item = {
@@ -353,6 +360,19 @@ const removeFromCart = async (itemId:any) => {
         }
       })
 }
+const getActiveShopNameById = () => {
+    // Find the shop with the given ID
+    const current_shop_branch:any = sessionStorage.getItem('current_shop_branch');
+    const shop = active_brand.value.shops.find((shop:any) => shop.id === JSON.parse(current_shop_branch) );
+
+    // Check if the shop is found and is active
+    if (shop && shop.is_active === 1) {
+        return shop.name;
+    }
+
+    // Return a message if no active shop is found with the given ID
+    return `NO ACTIVE SHOP`;
+}
 const getParsedImages = (images: string) => {
     try {
         const parsedImages = JSON.parse(images);
@@ -409,6 +429,9 @@ const getParsedImages = (images: string) => {
     }
     .p-megamenu.p-megamenu-horizontal .p-megamenu-root-list > .p-menuitem > .p-menuitem-content .p-menuitem-link .p-menuitem-text {
     color:  v-bind('navColor') !important;
+}
+.toppheader {
+    background-color: v-bind('buttonColor') !important;
 }
 button.p-button.p-component.w-full.mt-2.overlaycheckoutbtn {
     background-color:  v-bind('buttonColor') !important;
@@ -512,6 +535,9 @@ span.toptext {
 }
 .toptext {
     color: #232020;
+}
+.okmartheader {
+    border-bottom: 1px solid #dedede !important;
 }
     .p-tieredmenu .p-menuitem > .p-menuitem-content .p-menuitem-link .p-submenu-icon {
         color: #ffffff;
