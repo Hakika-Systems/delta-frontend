@@ -2,62 +2,30 @@
   <header class="th-header header-layout3">
     <div class="menu-top">
       <div class="containerr">
-        <div class="row align-items-center justify-content-between">
+        <div class="row align-items-center justify-content-center" style="height: 75px;">
+    <a href="#">
+        <img
+            src="/images/mukuru.jpeg"
+            alt="OK shop easy"
+            style="width: 426px;height: 75px;margin: auto;object-fit:cover;"
+        />
+    </a>
+</div>
+      </div>
+    </div>
+    <div class="menu-top">
+      <div class="">
+        <div class="row align-items-center p-2 justify-content-between">
           <div class="col-2">
             <div class="header-logoo">
               <a href="#"
                 ><img
-                  src="/assets/img/okshop.jpg"
+                  src="/images/shopeasy_logo.png"
                   alt="OK shop easy"
                   style="height: auto;width:200px;"
               /></a>
             </div>
           </div>
-          <!-- <div class="col-6 d-none d-lg-block">
-            <InputGroup class="w-full">
-                        <IconField class="w-full" iconPosition="left">
-                        <InputText @keyup="searchProducts()" v-model="search_text"   class="searchinput p-inputtext p-component surface-section text-600 surface-border w-full"  placeholder="What are you looking for..."/>
-                      
-                    </IconField>
-                   
-            </InputGroup>
-            <div class="results-box p-5" v-if="search_text">
-            <div id="searchResultsTable">
-
-            </div>
-    </div>
-          </div> -->
-          <!-- <div class="col-2">
-            <div class="header-icons">
-              <Dropdown class="w-10 topcurrency" v-model="selected_currency" :options="currencies" optionLabel="iso_code" optionValue="id" placeholder="Select Currency" />
-            </div>
-          </div> -->
-          <div class="col-2">
-            <div class="header-icons">
-              <Button type="button" @click="navigateTo('/signin')" label="My Account" icon="pi pi-user" class="my-account" />
-              <!-- <a href="wishlist.html" class="icon-btn d-none d-sm-block">
-                <span class="badge">3</span>
-                <i class="far fa-heart"></i>
-              </a>
-              <button type="button" class="icon-btn sideMenuToggler">
-                <span class="badge">5</span>
-                <i class="far fa-cart-shopping"></i>
-              </button> -->
-              <!-- <button
-                type="button"
-                class="icon-btn sideMenuInfo d-none d-lg-block"
-              >
-                <i class="fal fa-grid"></i>
-              </button> -->
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="menu-top">
-      <div class="">
-        <div class="row align-items-center justify-content-between">
-        
           <!-- <div class="col-4 d-none d-lg-block">
             <form class="header-search">
               <input type="text" placeholder="Enter Keyword" />
