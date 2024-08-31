@@ -3,12 +3,13 @@
     <div class="block-content">
       <div class="">
         <div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
+          
           <div class="grid -mr-3 -ml-3">
             <div class="col-12 lg:col-6 p-4">
               <div class="surface-card grid formgrid p-fluid border-round shadow-2 p-4">
                 <div class="col-12 mb-4 flex flex-column lg:flex-row align-items-center justify-content-between">
-                  <div class="text-900 font-medium text-xl">Contact Information</div>
-                  <div class="mt-3 lg:mt-0">
+                  <div class="text-900 font-medium text-xl">Personal Details</div>
+                  <div v-if="!user_id" class="mt-3 lg:mt-0">
                     <span class="text-600 mr-2">If You Already have an account?</span>
                     <a tabindex="0" href="/signin" class="cursor-pointer text-900 hover:text-primary transition-duration-150">Login</a>
                   </div>
@@ -20,28 +21,31 @@
             
                
                 <div class="col-12 lg:col-6 field mb-0">
-                  <label for="name2" class="text-900 font-medium mb-3">Name</label>
-                  <InputText variant="filled" size="large"  v-model="name" class="p-inputtext w-full mb-3"  placeholder="John"/>
-
-                </div>
-                
-
-                <div class="col-12 lg:col-6 field mb-0">
-                  <label for="surname2" class="text-900 font-medium mb-3">Surname</label>
-                  <InputText id="surname2" variant="filled" size="large" type="email" v-model="surname" class="p-inputtext w-full mb-3"  placeholder="Doe"/>
+                  <label for="name2" class="text-900 font-medium mb-3">Full Name</label>
+                  <InputText variant="filled" size="large"  v-model="name" class="p-inputtext w-full mb-3"  placeholder="Brian Mhlanga"/>
                 </div>
                 <div class="col-12  lg:col-6 field mb-0">
                   <label for="phone" class="text-900 font-medium mb-3">Email</label>
-                  <InputText variant="filled" size="large" id="email" type="text" v-model="email" class="p-inputtext w-full mb-3" placeholder="user@shopeasy.co.zw"/>
+                  <InputText variant="filled" size="large" id="email" type="text" v-model="email" class="p-inputtext w-full mb-3" placeholder="yourname@youremail.tld"/>
+                  <div class="flex align-items-center">
+                  <Checkbox v-model="is_sent_promotions" :binary="true" />
+                  <label id="checkbox-1" class="text-900 ml-2">Email me with news, promotions and offers</label>
                 </div>
-                <div class="col-12  lg:col-6 field mb-0">
+                </div>
+                <div class="col-12 mt-3  lg:col-6 field mb-0">
                   <label for="phone" class="text-900 font-medium mb-3">Phone Number</label>
                   <InputText variant="filled" size="large" id="phone" type="tel" v-model="customer_mobile" class="p-inputtext w-full mb-3"  placeholder="263771008021"/>
                 </div>
-                <div class="col-12  lg:col-6 field mb-0">
+                <div class="col-12 mt-3 lg:col-6 field mb-0">
                   <label for="phone" class="text-900 font-medium mb-3">Whatsapp Number</label>
                   <InputText variant="filled" size="large" id="whatsapp" type="text"  v-model="whatsapp_number" class="p-inputtext w-full mb-3"  placeholder="263771008021"/>
                 </div>
+
+                <div class="col-12 mt-5 mb-4 flex flex-column lg:flex-row align-items-center justify-content-between">
+                  <div class="text-900 font-medium text-xl">Billing Address</div>
+                </div>
+
+
                 <div class="col-12 lg:col-6 field mb-0">
                   <label for="address3" class="text-900 font-medium mb-3">  Address </label>
                   <InputText variant="filled" size="large" id="address3" type="text" v-model="address" class="p-inputtext mb-3"  placeholder="No. 567 Mujoko Street"/>
@@ -50,6 +54,8 @@
                   <label for="city2" class="text-900 font-medium mb-3">Suburb</label>
                   <InputText variant="filled" size="large" type="text" v-model="suburb" class="p-inputtext w-full mb-3" placeholder="Kambuzuma"/>
                 </div>
+                 
+
                 <div class="col-12 lg:col-6 field mb-0">
                   <label for="city2" class="text-900 font-medium mb-3">City/Town</label>
                   <InputText variant="filled" size="large" id="city2" type="text" v-model="city" class="p-inputtext w-full mb-3" placeholder="Harare"/>
@@ -57,6 +63,10 @@
                 <div class="col-12 field mb-0">
                   <label for="country2" class="text-900 font-medium mb-3">Country</label>
                   <InputText variant="filled" size="large"  id="country2" type="text" v-model="country" class="p-inputtext w-full mb-3" placeholder="Zimbabwe"/>
+                </div>
+                <div class="flex mt-3 mb-3 align-items-center">
+                  <Checkbox v-model="use_address_for_delivery" :binary="true" />
+                  <label id="checkbox-1" class="text-900 ml-2">Same as Delivery Address</label>
                 </div>
                 <div class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left w-full px-2 mb-3" role="separator" aria-orientation="horizontal" data-pc-name="divider" data-pc-section="root" style="justify-content: center;">
                   <!---->
@@ -70,7 +80,7 @@
                       <label for="ingredient1" class="ml-2">Collection</label>
                     </div> 
                   </div>
-                  <div class="p-3 border-x-1 surface-border">
+                  <div class="p-3 border-1 mt-3 border-round-bottom surface-border">
                     <div class="flex items-center">
                       <RadioButton variant="filled" v-model="delivery_option" inputId="ingredient1" name="pizza" value="Delivery" />
                       <label for="ingredient1" class="ml-2">Delivery</label>
@@ -124,7 +134,7 @@
                   </div>
                   <div class="col-12 field mb-0">
                   <label for="holderName" class="text-900 font-medium mb-3">Order notes(optional)</label>
-                  <Textarea v-model="notes" variant="filled" rows="5" cols="30" placeholder="Notes about your order, e.g. special notes for delivey."/>
+                  <Textarea v-model="notes" variant="filled" rows="5" cols="30" placeholder="Notes about your order, e.g. Please hoot at the gate on arrival."/>
                 </div>
               </div>
             </div>
@@ -213,12 +223,14 @@ const loading = ref(false)
 const delivery_option = ref('')
 const delivery_type = ref('')
 const fast_delivery = ref(Number(7.00))
+const is_sent_promotions = ref(false)
 const cart_id = storeToRefs(frontStore).cart_id
 const payment_options = ref()
 const notes = ref('')
 const cart:any = storeToRefs(frontStore).cart
 const vat_total = ref(Number(0.00))
 const cart_total = ref(Number(0.00))
+const use_address_for_delivery = ref(true)
 const current_payment_option = ref()
 const current_payment_option_name = ref('')
 const standard_delivery = ref(Number(1.50))
@@ -230,6 +242,8 @@ const name = ref('');
 const surname = ref('');
 const email = ref('');
 const customer_mobile = ref('');
+const mytoken = useCookie('token');
+const user_id = useCookie('user_id');
 const whatsapp_number = ref('');
 const payment_method = ref('');
 const payment_methoid_id = ref('');
@@ -350,8 +364,6 @@ onMounted( async() => {
         per_page: 10
   }
   let payment_optionss = await frontStore.getPaymentOptions(payments_params).then((data) => {
-    console.log("payment data", data.data.paymentmethods);
-
     const paymentMethods: PaymentMethod[] = data?.data?.paymentmethods || [];
     const activePaymentMethods = paymentMethods.filter((method: PaymentMethod) => method.is_active);
 
@@ -374,7 +386,7 @@ const  confirmOrder = async () => {
     const info = {
         cart_id: cart_id.value,
         coupon_code: coupon_code.value,
-        customer_name: name.value+' '+surname.value,
+        customer_name: name.value,
         email: email.value,
         whatsapp_number: whatsapp_number.value,
         coupon_code : coupon_code.value,
@@ -388,7 +400,7 @@ const  confirmOrder = async () => {
           country: country.value
         },
         delivery_address: {
-          name: name.value+' '+surname.value,
+          name: name.value,
           phone: customer_mobile.value,
           address: address.value,
           city: city.value,
