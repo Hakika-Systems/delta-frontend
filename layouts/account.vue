@@ -61,6 +61,13 @@
               <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
             </a>
           </li>
+          <li @click="SignOut()">
+            <a class="flex align-items-center cursor-pointer p-3 border-round text-800 hover:surface-hover transition-duration-150 transition-colors p-ripple" data-pd-ripple="true">
+              <i class="pi pi-sign-out md:mr-2"></i>
+              <span class="font-medium hidden md:block">Log Out</span>
+              <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
+            </a>
+          </li>
         </ul>
        <slot/>
       </div>
@@ -71,8 +78,14 @@
 </template>
 <script setup lang="ts">
 const frontStore = useFrontStore()
+const authStore = useAuthStore()
 const current_template =  storeToRefs(frontStore).current_template
 //@ts-ignore
 const mytoken = useCookie('token');
 const name = useCookie('username');
+const SignOut = () => {
+  let logOut = authStore.logout().then((data) => {
+    console.log("datatata",data)
+  })
+}
 </script>
