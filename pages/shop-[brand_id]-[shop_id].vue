@@ -219,7 +219,10 @@ const buttonColor = active_brand?.value?.button_color;
 }
   onMounted( async() => {
     console.log('my ids',shop_id,brand_id)
-    let gi:any  = sessionStorage.getItem('guest_id');
+    let gi:any
+    if (typeof window !== 'undefined') {
+        gi  = sessionStorage.getItem('guest_id');
+    }
     guest_id.value = JSON.parse(gi)
     if (shop_id && brand_id === null) {
   navigateTo('/');
