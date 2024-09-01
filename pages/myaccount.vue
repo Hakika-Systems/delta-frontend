@@ -137,7 +137,7 @@
         <span class="text-600 font-medium">
           <i class="pi pi-pencil mr-2"></i>Edit </span>
       </div>
-      <span class="inline-block text-600 mb-3">{{ item?.street }}, {{ item?.suburb }}, {{ item?.city }}</span>
+      <span class="inline-block text-600 mb-3">{{ item?.street }}, {{ item?.suburb }}, {{ item?.city }}, {{ item?.country }}</span>
       <span class="inline-block text-600">
         <i class="pi pi-home mr-2"></i>{{ item?.address_type?.name }}</span>
     </div>
@@ -170,7 +170,7 @@
         <Dropdown v-model="selectedCountry" :options="countries" filter optionLabel="name" placeholder="Select a Country" class="w-full md:w-14rem">
     <template #value="slotProps">
         <div v-if="slotProps.value" class="flex align-items-center">
-            <img :alt="slotProps.value.label" src="https://primefaces.org/cdn/primevue/images/flag/flag_placeholder.png" :class="`mr-2 flag flag-${slotProps.value.code.toLowerCase()}`" style="width: 18px" />
+            <img :alt="slotProps.value.label" src="https://primefaces.org/cdn/primevue/images/flag/flag_placeholder.png" :class="`mr-2 flag flag-${slotProps?.value?.code.toLowerCase()}`" style="width: 18px" />
             <div>{{ slotProps.value.name }}</div>
         </div>
         <span v-else>
@@ -433,7 +433,8 @@ const createAddress = () => {
     address_type: selected_address_type.value,
     city: city.value,
     suburb: suburb.value,
-    street: street.value
+    street: street.value,
+    country: selectedCountry.value?.name
   }
   let new_address = frontStore.createAddress(params).then((data) => {
    
@@ -446,6 +447,7 @@ const createAddress = () => {
       city.value = null
       suburb.value = null
       street.value = null
+      selectedCountry.value = null
       let my_addressess = frontStore.getMyAddresses(user_id.value).then((data) => {
         my_addresses.value = data?.data?.data
       })
