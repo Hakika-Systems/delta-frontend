@@ -119,7 +119,11 @@ const getParsedImages = (images: string) => {
     return null; // Return null if parsing fails or no images are found
   };
 onMounted(async() => {
-  let last_order:any = sessionStorage.getItem('last_order');
+  let last_order:any
+    if (typeof window !== 'undefined') {
+      last_order = sessionStorage.getItem('last_order');
+    }
+  
   order_details.value = JSON.parse(last_order)
   console.log("my cart id is",order_details.cart_id)
   old_cart_id.value = order_details.value.cart_id
