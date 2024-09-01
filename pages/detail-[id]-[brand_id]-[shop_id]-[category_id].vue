@@ -160,8 +160,13 @@ const findCurrency = () => {
 }
 onMounted(async () => {
    //@ts-ignore
-  product.value = JSON.parse(sessionStorage.getItem("product_detail"))
-  let gi:any  = sessionStorage.getItem('guest_id');
+
+  let gi:any
+    if (typeof window !== 'undefined') {
+      //@ts-ignore
+      product.value = JSON.parse(sessionStorage.getItem("product_detail"))
+        gi  = sessionStorage.getItem('guest_id');
+    }
   guest_id.value = JSON.parse(gi)
   brand_idd.value = brand_id
   shop_idd.value = shop_id

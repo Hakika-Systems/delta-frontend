@@ -132,7 +132,10 @@ return null; // Return null if parsing fails or no images are found
 onMounted( async() => {
   brand_idd.value = brand_id
   shop_idd.value = shop_id
-  let gi:any  = sessionStorage.getItem('guest_id');
+  let gi:any
+    if (typeof window !== 'undefined') {
+        gi  = sessionStorage.getItem('guest_id');
+    }
   guest_id.value = JSON.parse(gi)
   const related_params = {
     page: 1,

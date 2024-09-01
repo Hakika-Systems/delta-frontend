@@ -145,10 +145,14 @@
     const selected_currency = storeToRefs(frontStore).selected_currency;
     const categories = ref()
     const goToHome = () => {
-        const current_shop_id = sessionStorage.getItem('current_shop_id');
-        const current_shop_branch = sessionStorage.getItem('current_shop_branch');
+        if (typeof window !== 'undefined') {
+            const current_shop_id:any = sessionStorage.getItem('current_shop_id');
+            const current_shop_branch:any = sessionStorage.getItem('current_shop_branch');
+            navigateTo(`/shop-${JSON.parse(current_shop_id)}-${JSON.parse(current_shop_branch)}`)
+        }
+        
         //@ts-ignore
-        navigateTo(`/shop-${JSON.parse(current_shop_id)}-${JSON.parse(current_shop_branch)}`)
+        
     }
     const chooseShop = async () => {
      select_brand.value = false
@@ -268,14 +272,20 @@ const navColor = active_brand?.value?.menu_font_color??"#fff";
         }));
 }
 onMounted( async() => {
-    let gi:any  = sessionStorage.getItem('guest_id');
+    let gi:any
+    if (typeof window !== 'undefined') {
+        gi  = sessionStorage.getItem('guest_id');
+    }
     guest_id.value = JSON.parse(gi)
     let currency_params = {
     page: 1,
     per_page: 100
   }
     //@ts-ignore
-    let currenciess = sessionStorage.getItem('active_brand');
+    let currenciess
+    if (typeof window !== 'undefined') {
+      currenciess  = sessionStorage.getItem('active_brand');
+    }
     //@ts-ignore
     let currency = JSON.parse(currenciess)
     currencies.value = currency.currencies
@@ -305,8 +315,13 @@ if (guest_id.value === null) {
       guest_id.value = createId()
       sessionStorage.setItem('guest_id', JSON.stringify(guest_id.value))
   }
-  const current_shop_branch:any = sessionStorage.getItem('current_shop_branch');
-  const current_shop_id:any = sessionStorage.getItem('current_shop_id');
+  let current_shop_branch:any
+  let current_shop_id:any
+  if (typeof window !== 'undefined') {
+    current_shop_branch = sessionStorage.getItem('current_shop_branch');
+    current_shop_id = sessionStorage.getItem('current_shop_id');
+}
+  
  let cart_params = {
   shop_id: JSON.parse(current_shop_branch),
   user_id: user_id.value,
@@ -442,8 +457,13 @@ const removeFromCart = async (itemId:any) => {
 }
 const getActiveShopNameById = () => {
     // Find the shop with the given ID
-    const current_shop_branch:any = sessionStorage.getItem('current_shop_branch');
-    const shop = active_brand.value.shops.find((shop:any) => shop.id === JSON.parse(current_shop_branch) );
+    let current_shop_branch:any
+    let shop:any
+    if (typeof window !== 'undefined') {
+    current_shop_branch = sessionStorage.getItem('current_shop_branch');
+    shop = active_brand.value.shops.find((shop:any) => shop.id === JSON.parse(current_shop_branch) );
+    }
+    
 
     // Check if the shop is found and is active
     if (shop && shop.is_active === 1) {
