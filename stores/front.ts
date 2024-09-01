@@ -631,7 +631,8 @@ export const useFrontStore = defineStore('front', {
         address_type_id: my_params.address_type,
         suburb: my_params.suburb,
         street: my_params.street,
-        city: my_params.city
+        city: my_params.city,
+        country: my_params.country
       };
       
       try {
