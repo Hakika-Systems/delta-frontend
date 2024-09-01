@@ -1,6 +1,6 @@
 <template>
   <header class="th-header header-layout3">
-    <div class="menu-top">
+    <!-- <div class="menu-top">
       <div class="containerr">
         <div class="row align-items-center justify-content-center" style="height: 75px;">
     <a href="#">
@@ -12,7 +12,7 @@
     </a>
 </div>
       </div>
-    </div>
+    </div> -->
     <div class="menu-top">
       <div class="">
         <div class="row align-items-center p-2 justify-content-between">
