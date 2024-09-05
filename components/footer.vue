@@ -18,7 +18,7 @@
                 </div>
                 <div class="info-box">
                   <p class="info-box_text">
-                    <a href="mailto:help24/7@frutin.com" class="info-box_link">Online@Okzim.Co.Zw</a>
+                    <a href="mailto:help24/7@frutin.com" class="info-box_link">online@okshopeasy.com</a>
                   </p>
                 </div>
               </div>
@@ -110,7 +110,7 @@
               </div>
               <div class="app-buttons">
                 <a href="" class="google-play">
-                  <img alt="app" data-src="https://okonline.co.zw/wp-content/uploads/2023/01/Untitled-1-1024x71-1.png" class=" lazyloaded" src="https://okonline.co.zw/wp-content/uploads/2023/01/Untitled-1-1024x71-1.png" loading="lazy">
+                
                 </a>
               </div>
             </div>
