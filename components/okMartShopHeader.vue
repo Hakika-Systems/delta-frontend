@@ -2,7 +2,7 @@
     <div class="toppheader px-4 lg:px-8 py-3 lg:py-3 flex flex-column sm:flex-row w-full justify-content-between align-items-center">
         <div>
   <Button @click="navigateTo('/')" icon="pi pi-home" class="topbtn mr-2" label="Home" outlined/>
-  <Button @click="select_brand = true" icon="pi pi-sync" class="mr-2 topbtn" label="Change Store" outlined />
+  <Button @click="select_brand = true" icon="pi pi-sync" class="mr-2 topbtn" label="Choose Store" outlined />
 </div>
   <a tabindex="0" class="cursor-pointer h-full inline-flex align-items-center mt-3 sm:mt-0 md:py-0">
     <span class="text-0">You are currently shopping at {{ getActiveShopNameById() }}</span>
