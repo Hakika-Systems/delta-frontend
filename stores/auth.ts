@@ -43,25 +43,45 @@ export const useAuthStore = defineStore('auth', {
       Swal.fire({
         icon: 'question',
         title: 'Log Out',
-        text: 'Do you want to log out',
-        showCancelButton: true
-      }).then(async (result)=>{
-        if(result.isConfirmed){  
-          // Reset Offline DB
-   
-          // Clear session
-          await $fetch('/auth/logout', { 
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-          }).then(()=>{
-            // Reload App
-            reloadNuxtApp();
-          }).catch((error)=>{
-            console.log(error);
-          });
+        text: 'Do you want to log out?',
+        showCancelButton: true,
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            // Reset Offline DB
+    
+            // Send logout request
+            const response = await $fetch('/auth/logout', {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+            });
+    
+            // Check if the response indicates success
+            if (response.success) {
+              // Reload the app to reset state and ensure a fresh session
+              reloadNuxtApp();
+            } else {
+              // Handle unsuccessful logout attempt
+              console.error('Logout failed:', response.message);
+              Swal.fire({
+                icon: 'error',
+                title: 'Logout Failed',
+                text: response.message || 'Error: Unable to log out. Please try again later.',
+              });
+            }
+          } catch (error) {
+            // Catch and log any network or unexpected errors
+            console.error('Network error during logout:', error);
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Error: Server Error. Please try again later.',
+            });
+          }
         }
       });
     }
+    
   }
 });
 

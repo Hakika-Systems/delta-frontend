@@ -567,6 +567,7 @@ export const useFrontStore = defineStore('front', {
       const body = {
         name: my_params.name,
         email: my_params.email,
+        contact_number: my_params.contact_number,
         whatsapp_number: my_params.whatsapp_number,
         password: my_params.password,
         password_confirmation: my_params.password_confirmation,
@@ -756,6 +757,28 @@ export const useFrontStore = defineStore('front', {
     },
     async getMyAddresses(id:any) {
       const url = `${SHOP_URL}/api/addresses/${id}`;
+      const token = useCookie('token').value || "";
+      
+      const headers = {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      };
+      
+      try {
+        const response = await fetch(url, {
+          method: "GET",
+          headers
+        });
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error:', error);
+        throw error;
+      }
+    },
+    async getUser(id:any) {
+      const url = `${SHOP_URL}/api/users/${id}`;
       const token = useCookie('token').value || "";
       
       const headers = {

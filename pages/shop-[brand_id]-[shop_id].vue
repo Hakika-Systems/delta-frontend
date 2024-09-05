@@ -1,6 +1,6 @@
 <template>
     <okMartShopHeader  />
-    <div class="surface-section h-30rem bg-no-repeat bg-cover bg-center flex align-items-center" style="background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url('/images/okgrand.png?w=1060');">
+    <div class="surface-section h-30rem bg-no-repeat bg-cover bg-center flex align-items-center" style="background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url('/images/se2.jpg?w=1060');">
     </div>
     <div class="surface-section px-4 py-8 md:px-6 lg:px-8">
       <div class="flex justify-content-between flex-wrap">

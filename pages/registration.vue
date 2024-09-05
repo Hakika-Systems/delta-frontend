@@ -61,7 +61,7 @@
           <div class="">
             <div class="surface-card p-4 shadow-2 border-round">
             <div class="grid formgrid p-fluid ">
-                <div class="field mb-4 col-12">
+                <div class="field mb-4 col-6">
                     <FloatLabel>
                         <InputText placeholder="Enter Full Name" id="username" v-model="name" size="large" />
                         <label for="username">Name</label>
@@ -75,7 +75,13 @@
                 </div>
                 <div class="field mb-4 col-6">
                     <FloatLabel>
-                        <InputText id="username" v-model="whatsapp_number" size="large" />
+                        <InputText placeholder="+263779698569" id="phone" v-model="contact_number" size="large" />
+                        <label for="username">Phone Number</label>
+                    </FloatLabel>
+                </div>
+                <div class="field mb-4 col-6">
+                    <FloatLabel>
+                        <InputText placeholder="263779698569" id="username" v-model="whatsapp_number" size="large" />
                         <label for="username">WhatsApp Number</label>
                     </FloatLabel>
                 </div>
@@ -408,6 +414,7 @@ const email = ref()
 const password = ref()
 const loading = ref(false)
 const password_confirmation = ref()
+const contact_number = ref()
 const whatsapp_number = ref()
 const value = ref()
 let mukando = ref(false)
@@ -460,6 +467,7 @@ const individualRegistration = async () => {
     const info = {
         name: name.value,
         email: email.value,
+        contact_number: contact_number.value,
         whatsapp_number: whatsapp_number.value,
         password: password.value,
         password_confirmation: password_confirmation.value

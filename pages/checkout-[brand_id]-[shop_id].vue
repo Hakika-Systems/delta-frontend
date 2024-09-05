@@ -40,12 +40,16 @@
                   <label for="phone" class="text-900 font-medium mb-3">Whatsapp Number</label>
                   <InputText variant="filled" size="large" id="whatsapp" type="text"  v-model="whatsapp_number" class="p-inputtext w-full mb-3"  placeholder="263771008021"/>
                 </div>
-
+                <div class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left w-full px-2 mb-3" role="separator" aria-orientation="horizontal" data-pc-name="divider" data-pc-section="root" style="justify-content: center;">
+                  <!---->
+                </div>
                 <div class="col-12 mt-5 mb-4 flex flex-column lg:flex-row align-items-center justify-content-between">
                   <div class="text-900 font-medium text-xl">Billing Address</div>
                 </div>
-
-
+                <div v-if="user_id" class="col-12 lg:col-12 mb-3 field mb-0">
+                  <label for="address3" class="text-900 font-medium mb-3">Saved Addresses</label>
+                  <Dropdown @change="pickSaved()" v-model="selectedBillingAddress" :options="addresses" optionLabel="name" placeholder="Select Saved Address" checkmark :highlightOnSelect="false" class="w-full md:w-14rem" />
+                </div>
                 <div class="col-12 lg:col-6 field mb-0">
                   <label for="address3" class="text-900 font-medium mb-3">  Address </label>
                   <InputText variant="filled" size="large" id="address3" type="text" v-model="address" class="p-inputtext mb-3"  placeholder="No. 567 Mujoko Street"/>
@@ -60,13 +64,9 @@
                   <label for="city2" class="text-900 font-medium mb-3">City/Town</label>
                   <InputText variant="filled" size="large" id="city2" type="text" v-model="city" class="p-inputtext w-full mb-3" placeholder="Harare"/>
                 </div>  
-                <div class="col-12 field mb-0">
+                <div class="col-12 lg:col-6 field mb-0">
                   <label for="country2" class="text-900 font-medium mb-3">Country</label>
                   <InputText variant="filled" size="large"  id="country2" type="text" v-model="country" class="p-inputtext w-full mb-3" placeholder="Zimbabwe"/>
-                </div>
-                <div class="flex mt-3 mb-3 align-items-center">
-                  <Checkbox v-model="use_address_for_delivery" :binary="true" />
-                  <label id="checkbox-1" class="text-900 ml-2">Same as Delivery Address</label>
                 </div>
                 <div class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left w-full px-2 mb-3" role="separator" aria-orientation="horizontal" data-pc-name="divider" data-pc-section="root" style="justify-content: center;">
                   <!---->
@@ -113,7 +113,34 @@
                       </div>
                     </div>
                   </div>
-                  <div v-else></div>
+                  <div v-if= "delivery_option == 'Delivery'" class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left w-full px-2 mb-3" role="separator" aria-orientation="horizontal" data-pc-name="divider" data-pc-section="root" style="justify-content: center;">
+                  <!---->
+                </div>
+                <div v-if= "delivery_option == 'Delivery'" class="col-12 mt-5 mb-4 flex flex-column lg:flex-row align-items-center justify-content-between">
+                  <div class="text-900 font-medium text-xl">Delivery Address</div>
+                </div>
+                <div v-if="user_id && delivery_option == 'Delivery' " class="col-12 lg:col-12 mb-3 field mb-0">
+                  <label for="address3" class="text-900 font-medium mb-3">Saved Addresses</label>
+                  <Dropdown @change="pickDeliverySaved()" v-model="selectedDeliveryAddress" :options="addresses" optionLabel="name" placeholder="Select Saved Address" checkmark :highlightOnSelect="false" class="w-full md:w-14rem" />
+                </div>
+                <div v-if= "delivery_option == 'Delivery'" class="col-12 lg:col-6 field mb-0">
+                  <label for="address3" class="text-900 font-medium mb-3">  Address </label>
+                  <InputText variant="filled" size="large" id="address3" type="text" v-model="delivery_address" class="p-inputtext mb-3"  placeholder="No. 567 Mujoko Street"/>
+                </div>
+                <div v-if= "delivery_option == 'Delivery'" class="col-12 lg:col-6 field mb-0">
+                  <label for="city2" class="text-900 font-medium mb-3">Suburb</label>
+                  <InputText variant="filled" size="large" type="text" v-model="delivery_suburb" class="p-inputtext w-full mb-3" placeholder="Kambuzuma"/>
+                </div>
+                 
+
+                <div v-if= "delivery_option == 'Delivery'" class="col-12 lg:col-6 field mb-0">
+                  <label for="city2" class="text-900 font-medium mb-3">City/Town</label>
+                  <InputText variant="filled" size="large" id="city2" type="text" v-model="delivery_city" class="p-inputtext w-full mb-3" placeholder="Harare"/>
+                </div>  
+                <div v-if= "delivery_option == 'Delivery'" class="col-12 lg:col-6 field mb-0">
+                  <label for="country2" class="text-900 font-medium mb-3">Country</label>
+                  <InputText variant="filled" size="large"  id="country2" type="text" v-model="delivery_country" class="p-inputtext w-full mb-3" placeholder="Zimbabwe"/>
+                </div>
                   <div class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left w-full px-2 mb-3" role="separator" aria-orientation="horizontal" data-pc-name="divider" data-pc-section="root" style="justify-content: center;">
                     <!---->
                   </div>
@@ -242,6 +269,9 @@ const name = ref('');
 const surname = ref('');
 const email = ref('');
 const customer_mobile = ref('');
+const selectedBillingAddress = ref()
+const selectedDeliveryAddress = ref()
+const addresses = ref()
 const mytoken = useCookie('token');
 const user_id = useCookie('user_id');
 const whatsapp_number = ref('');
@@ -254,9 +284,24 @@ const currency = ref('');
 const total_amount = ref(0);
 const discount = ref(0);
 const city = ref('')
+const delivery_city = ref()
+const delivery_country = ref()
+const delivery_suburb = ref()
+const delivery_address = ref()
 const country = ref('')
 const suburb = ref()
-
+const pickSaved = () => {
+  city.value = selectedBillingAddress.value.city
+  country.value = selectedBillingAddress.value.country
+  address.value = selectedBillingAddress.value.street
+  suburb.value = selectedBillingAddress.value.suburb
+}
+const pickDeliverySaved = () => {
+  delivery_city.value = selectedDeliveryAddress.value.city
+  delivery_country.value = selectedDeliveryAddress.value.country
+  delivery_address.value = selectedDeliveryAddress.value.street
+  delivery_suburb.value = selectedDeliveryAddress.value.suburb
+}
 interface PaymentMethod {
     id: number;
     name: string;
@@ -363,13 +408,22 @@ onMounted( async() => {
         page: 1,
         per_page: 10
   }
-  let payment_optionss = await frontStore.getPaymentOptions(payments_params).then((data) => {
+let payment_optionss = await frontStore.getPaymentOptions(payments_params).then((data) => {
     const paymentMethods: PaymentMethod[] = data?.data?.paymentmethods || [];
     const activePaymentMethods = paymentMethods.filter((method: PaymentMethod) => method.is_active);
 
     payment_options.value = activePaymentMethods;
 });
-
+let addressess = await frontStore.getMyAddresses(user_id.value).then((data) => {
+    addresses.value = data?.data?.data
+});
+let user_details = await frontStore.getUser(user_id.value).then((data) => {
+    console.log("userdata",data.data)
+    email.value = data?.data?.email
+    name.value = data?.data?.name
+    customer_mobile.value = data?.data?.contact_number
+    whatsapp_number.value = data?.data?.whatsapp_number
+});
 })
 const select_fast_delivery = ()=>{
   delivery_type.value = "Fast Delivery"
@@ -393,7 +447,7 @@ const  confirmOrder = async () => {
         customer_mobile: customer_mobile.value,
         order_status_id: order_status_id.value,
         billing_address: {
-          name: name.value+' '+surname.value,
+          name: name.value,
           phone: customer_mobile.value,
           address: address.value,
           city: city.value,
@@ -402,9 +456,9 @@ const  confirmOrder = async () => {
         delivery_address: {
           name: name.value,
           phone: customer_mobile.value,
-          address: address.value,
-          city: city.value,
-          country: country.value
+          address: delivery_address.value ? delivery_address.value : address.value,
+          city: delivery_city.value ? delivery_city.value : city.value,
+          country: delivery_country.value ? delivery_country.value : country.value
         },
         payment_method_id: current_payment_option.value,
         delivery_option: delivery_option.value === 'Collection' ? "pickup" : 'delivery',

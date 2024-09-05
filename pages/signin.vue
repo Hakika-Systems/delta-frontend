@@ -9,7 +9,7 @@
       <label for="email4" class="block text-900 font-medium mb-2">Email</label>
       <InputText class="p-inputtext p-component w-full mb-3 p-3" placeholder="Email Address" v-model="email" />
       <label for="password4" class="block text-900 font-medium mb-2">Password</label>
-      <Password class="w-full password mb-3" placeholder="Enter Password" v-model="password" />
+      <Password  class="w-full password mb-3" placeholder="Enter Password" v-model="password" />
       <div class="flex align-items-center justify-content-between mb-6">
         <div class="flex align-items-center">
           <div class="p-checkbox p-component mr-2" data-pc-name="checkbox" data-pc-section="root" id="rememberme4">
@@ -37,28 +37,59 @@ const password = ref()
 const toast = useToast()
 
 const signIn = async () => {
-  loading.value = true
-  const info = {
-    email: email.value,
-    password: password.value
-  }
+  loading.value = true;
+const info = {
+  email: email.value,
+  password: password.value,
+};
+
+try {
+  let response = await authStore.login(info);
   
-  let result = await authStore.login(info).then((data) => {
-    console.log("dshdshj",data.data.message)
-    if(data?.success === false) {
-      toast.add({ severity: 'warn', summary: 'Sign In Failed', detail: data?.message, life: 3000 });
-      loading.value = false
-    }
-    if(data.data.login.data.token) {
-      toast.add({ severity: 'success', summary: 'Success', detail: 'Succesfull Signed In', life: 3000 });
-      navigateTo('/myaccount')
-      loading.value = false
-    }
-    else {
-      toast.add({ severity: 'warn', summary: 'Sign In Failed', detail: data.data.message, life: 3000 });
-      loading.value = false
-    }
-  })
+  // Log the entire response to debug more effectively
+  console.log("Response:", response);
+
+  // Check if the request was successful
+  if (response.success === false) {
+    // Display warning toast if the success is false
+    toast.add({
+      severity: 'warn',
+      summary: 'Sign In Failed',
+      detail: response.message || 'An error occurred. Please try again later.',
+      life: 3000,
+    });
+  } else if (response.data?.login?.data?.token) {
+    // If login is successful, display success toast and navigate
+    toast.add({
+      severity: 'success',
+      summary: 'Success',
+      detail: 'Successfully Signed In',
+      life: 3000,
+    });
+    navigateTo('/myaccount');
+  } else {
+    // Catch all for unexpected response structures
+    toast.add({
+      severity: 'warn',
+      summary: 'Sign In Failed',
+      detail: response.data?.message || 'An unexpected error occurred.',
+      life: 3000,
+    });
+  }
+} catch (error) {
+  // Handle network or unexpected errors
+  console.error("Login error:", error);
+  toast.add({
+    severity: 'error',
+    summary: 'Error',
+    detail: 'Server Error. Please try again later.',
+    life: 3000,
+  });
+} finally {
+  // Ensure loading is set to false in all cases
+  loading.value = false;
+}
+
 }
 
 
