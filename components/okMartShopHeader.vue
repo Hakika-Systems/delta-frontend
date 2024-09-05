@@ -44,7 +44,8 @@
     <div class="belowheader okmartheader px-6  flex align-items-center justify-content-between relative lg:static">
       <div class="row col-12 flex">
          <div class="col-2">
-            <TieredMenu class="shopbyisle" :model="categories" />
+            <Skeleton v-if="categories_loading === true"  width="12rem" height="3rem" borderRadius="2px"></Skeleton>
+            <TieredMenu v-else class="shopbyisle" :model="categories" />
          </div>
          <div class="col-10">
             <MegaMenu :model="dummyMenu" />
@@ -139,6 +140,7 @@
     const shop_id = storeToRefs(frontStore).shop_id
     const cart_total = storeToRefs(frontStore).cart_total
     const guest_id = ref()
+    const categories_loading = ref(false)
     const selectedCurrency = ref("USD");
     const cart_id = storeToRefs(frontStore).cart_id
     const currencies:any = storeToRefs(frontStore).currencies;
@@ -269,9 +271,12 @@ const navColor = active_brand?.value?.menu_font_color??"#fff";
                     },
                     items: child.children ? convertToMenuItems(child.children) : []
                 })) : []
-        }));
+                
+        })
+    );
 }
 onMounted( async() => {
+    categories_loading.value = true;
     let gi:any
     if (typeof window !== 'undefined') {
         gi  = sessionStorage.getItem('guest_id');
@@ -334,14 +339,14 @@ let created_cart = await frontStore.createCart(cart_params).then((data) => {
 }) 
 
 let categoriess = await frontStore.getAllCategories(params).then(async (data) => {
-    console.log("hjhj",data?.data?.categories)
     categories.value = [
     {
-        label: 'Shop By Aisle',
+        label: 'Categories',
         icon: 'pi pi-shopping-bag',
         items: await convertToMenuItems(data?.data?.categories)
     }
 ];
+categories_loading.value = false
 })
 })
    
@@ -536,6 +541,11 @@ const getParsedImages = (images: string) => {
 button.p-button.p-component.w-full.mt-2.overlaycheckoutbtn {
     background-color:  v-bind('buttonColor') !important;
     border: none;
+}
+.p-overlaypanel .p-overlaypanel-content {
+    padding: 0.75rem;
+    max-height: 350px;
+    overflow-y: auto;
 }
 .checkoutbutton {
     background-color: v-bind('buttonColor') !important;
