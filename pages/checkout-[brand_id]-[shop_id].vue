@@ -443,7 +443,6 @@ const  confirmOrder = async () => {
         customer_name: name.value,
         email: email.value,
         whatsapp_number: whatsapp_number.value,
-        coupon_code : coupon_code.value,
         customer_mobile: customer_mobile.value,
         order_status_id: order_status_id.value,
         billing_address: {
