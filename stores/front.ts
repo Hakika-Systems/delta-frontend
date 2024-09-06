@@ -680,6 +680,43 @@ export const useFrontStore = defineStore('front', {
         throw error;
       }
     },
+    async initiatePayment(info: any) {
+      // Prepare the FormData object
+      console.log('inside payment initialization',info)
+      const formData = new FormData();
+      formData.append('order_id', info.order_id); // Assuming `info.id` contains the order ID
+      formData.append('payment_method', info.payment_method); // Assuming `info.payment_method` is the payment method
+    
+      // Define the configuration for the axios request
+      const config = {
+        method: 'post',
+        url: `${SHOP_URL}/api/payments`,
+        headers: {
+          'Accept': 'application/json',
+          'Cache-Control': 'no-cache',
+          'Content-Type': 'multipart/form-data',
+          // Add X-CSRF-TOKEN if required by the API
+          'X-CSRF-TOKEN': info.csrf_token || '',
+        },
+        data: formData, // Send the formData directly
+      };
+    
+      // Make the axios request
+      try {
+        const response = await axios(config);
+        console.log(JSON.stringify(response.data));
+        return {
+          data: response.data,
+          success: true,
+        };
+      } catch (error) {
+        console.log(error);
+        return {
+          success: false,
+        };
+      }
+    },
+    
     async editCartItem(my_params: any) {
       const url = `${SHOP_URL}/api/cart-items/edit/${my_params.id}`;
       const token = useCookie('token').value || "";
@@ -834,7 +871,6 @@ export const useFrontStore = defineStore('front', {
       const body = {
         cart_id: my_params.cart_id,
         coupon_code: my_params.coupon_code,
-        order_status_id: 1,
         customer_name: my_params.customer_name,
         email: my_params.email,
         whatsapp_number: my_params.whatsapp_number,

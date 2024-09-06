@@ -43,6 +43,47 @@
                 <div class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left w-full px-2 mb-3" role="separator" aria-orientation="horizontal" data-pc-name="divider" data-pc-section="root" style="justify-content: center;">
                   <!---->
                 </div>
+                <div class="text-600 font-bold text-xl mt-4 lg:mt-0 mb-4 px-2">Select Delivery or Collection</div>
+                <div class="col-12 mb-4">
+                  <div class="p-3 border-1 border-round-top surface-border ">
+                    <div class="flex items-center">
+                      <RadioButton @change="clearPayments()" variant="filled" v-model="delivery_option" inputId="ingredient1" name="pizza" value="Collection" />
+                      <label for="ingredient1" class="ml-2">Collection</label>
+                    </div> 
+                  </div>
+                  <div class="p-3 border-1 mt-3 border-round-bottom surface-border">
+                    <div class="flex items-center">
+                      <RadioButton @change="clearPayments()" variant="filled" v-model="delivery_option" inputId="ingredient1" name="pizza" value="Delivery" />
+                      <label for="ingredient1" class="ml-2">Delivery</label>
+                    </div> 
+                  </div>
+                </div>
+      
+                <div  v-if= "delivery_option == 'Delivery'" class="col-12 flex flex-column lg:flex-row field">
+                    <div @click="select_fast_delivery()"  :class="{'border-top': delivery_type === 'Fast Delivery'}" class="flex justify-content-between p-3 border-round border-1 surface-border w-full mr-3 hover:border-primary cursor-pointer">
+                      <div class="mr-3 lg:mr-0">
+                        <div class="text-900 font-bold mb-2">Fast Delivery</div>
+                      </div>
+                      <div class="flex justify-content-between align-items-center">
+                        <span class="text-primary mr-2 font-medium">$7.00</span>
+                        <div class="flex items-center">
+                        
+                       </div> 
+                      </div>
+                    </div>
+                    <div @click="select_standard_delivery" :class="{'border-top': delivery_type === 'Standard Delivery'}" class="flex justify-content-between p-3 mt-3 lg:mt-0 border-round border-1 surface-border w-full hover:border-primary cursor-pointer">
+                      <div class="mr-3 lg:mr-0">
+                        <div class="text-900 font-bold mb-2">Standard Delivery</div>
+                        
+                      </div>
+                      <div  class="flex justify-content-between align-items-center">
+                        <span class="text-primary mr-2 font-medium">$1.50</span>
+                        <div class="flex items-center">
+                       
+                      </div> 
+                      </div>
+                    </div>
+                  </div>
                 <div class="col-12 mt-5 mb-4 flex flex-column lg:flex-row align-items-center justify-content-between">
                   <div class="text-900 font-medium text-xl">Billing Address</div>
                 </div>
@@ -58,86 +99,43 @@
                   <label for="city2" class="text-900 font-medium mb-3">Suburb</label>
                   <InputText variant="filled" size="large" type="text" v-model="suburb" class="p-inputtext w-full mb-3" placeholder="Kambuzuma"/>
                 </div>
-                 
-
                 <div class="col-12 lg:col-6 field mb-0">
                   <label for="city2" class="text-900 font-medium mb-3">City/Town</label>
                   <InputText variant="filled" size="large" id="city2" type="text" v-model="city" class="p-inputtext w-full mb-3" placeholder="Harare"/>
-                </div>  
+                </div>
                 <div class="col-12 lg:col-6 field mb-0">
                   <label for="country2" class="text-900 font-medium mb-3">Country</label>
                   <InputText variant="filled" size="large"  id="country2" type="text" v-model="country" class="p-inputtext w-full mb-3" placeholder="Zimbabwe"/>
                 </div>
+                <div v-if= "delivery_option == 'Delivery'" class="flex align-items-center">
+                  <Checkbox v-model="use_as_delivery_address" :binary="true" />
+                  <label id="checkbox-1" class="text-900 ml-2">use same address as Delivery Address</label>
+                </div>
                 <div class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left w-full px-2 mb-3" role="separator" aria-orientation="horizontal" data-pc-name="divider" data-pc-section="root" style="justify-content: center;">
                   <!---->
                 </div>
-                
-                <div class="text-600 font-bold text-xl mt-4 lg:mt-0 mb-4 px-2">Select Delivery or Collection</div>
-                <div class="col-12 mb-4">
-                  <div class="p-3 border-1 border-round-top surface-border ">
-                    <div class="flex items-center">
-                      <RadioButton variant="filled" v-model="delivery_option" inputId="ingredient1" name="pizza" value="Collection" />
-                      <label for="ingredient1" class="ml-2">Collection</label>
-                    </div> 
-                  </div>
-                  <div class="p-3 border-1 mt-3 border-round-bottom surface-border">
-                    <div class="flex items-center">
-                      <RadioButton variant="filled" v-model="delivery_option" inputId="ingredient1" name="pizza" value="Delivery" />
-                      <label for="ingredient1" class="ml-2">Delivery</label>
-                    </div> 
-                  </div>
-                </div>
-      
-                <div  v-if= "delivery_option == 'Delivery'" class="col-12 flex flex-column lg:flex-row field">
-                    <div @click="select_fast_delivery()"  class="flex justify-content-between p-3 border-round border-1 surface-border w-full mr-3 hover:border-primary cursor-pointer">
-                      <div class="mr-3 lg:mr-0">
-                        <div class="text-900 font-bold mb-2">Fast Delivery</div>
-                      </div>
-                      <div class="flex justify-content-between align-items-center">
-                        <span class="text-primary mr-2 font-medium">$7.00</span>
-                        <div class="flex items-center">
-                        
-                       </div> 
-                      </div>
-                    </div>
-                    <div @click="select_standard_delivery" class="flex justify-content-between p-3 mt-3 lg:mt-0 border-round border-1 surface-border w-full hover:border-primary cursor-pointer">
-                      <div class="mr-3 lg:mr-0">
-                        <div class="text-900 font-bold mb-2">Standard Delivery</div>
-                        
-                      </div>
-                      <div  class="flex justify-content-between align-items-center">
-                        <span class="text-primary mr-2 font-medium">$1.50</span>
-                        <div class="flex items-center">
-                       
-                      </div> 
-                      </div>
-                    </div>
-                  </div>
-                  <div v-if= "delivery_option == 'Delivery'" class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left w-full px-2 mb-3" role="separator" aria-orientation="horizontal" data-pc-name="divider" data-pc-section="root" style="justify-content: center;">
-                  <!---->
-                </div>
-                <div v-if= "delivery_option == 'Delivery'" class="col-12 mt-5 mb-4 flex flex-column lg:flex-row align-items-center justify-content-between">
+                <div v-if= "delivery_option == 'Delivery' && use_as_delivery_address === false" class="col-12 mt-5 mb-4 flex flex-column lg:flex-row align-items-center justify-content-between">
                   <div class="text-900 font-medium text-xl">Delivery Address</div>
                 </div>
-                <div v-if="user_id && delivery_option == 'Delivery' " class="col-12 lg:col-12 mb-3 field mb-0">
+                <div v-if="user_id && delivery_option == 'Delivery' && use_as_delivery_address === false" class="col-12 lg:col-12 mb-3 field mb-0">
                   <label for="address3" class="text-900 font-medium mb-3">Saved Addresses</label>
                   <Dropdown @change="pickDeliverySaved()" v-model="selectedDeliveryAddress" :options="addresses" optionLabel="name" placeholder="Select Saved Address" checkmark :highlightOnSelect="false" class="w-full md:w-14rem" />
                 </div>
-                <div v-if= "delivery_option == 'Delivery'" class="col-12 lg:col-6 field mb-0">
+                <div v-if= "delivery_option == 'Delivery' && use_as_delivery_address === false" class="col-12 lg:col-6 field mb-0">
                   <label for="address3" class="text-900 font-medium mb-3">  Address </label>
                   <InputText variant="filled" size="large" id="address3" type="text" v-model="delivery_address" class="p-inputtext mb-3"  placeholder="No. 567 Mujoko Street"/>
                 </div>
-                <div v-if= "delivery_option == 'Delivery'" class="col-12 lg:col-6 field mb-0">
+                <div v-if= "delivery_option == 'Delivery' && use_as_delivery_address === false" class="col-12 lg:col-6 field mb-0">
                   <label for="city2" class="text-900 font-medium mb-3">Suburb</label>
                   <InputText variant="filled" size="large" type="text" v-model="delivery_suburb" class="p-inputtext w-full mb-3" placeholder="Kambuzuma"/>
                 </div>
                  
 
-                <div v-if= "delivery_option == 'Delivery'" class="col-12 lg:col-6 field mb-0">
+                <div v-if= "delivery_option == 'Delivery' && use_as_delivery_address === false" class="col-12 lg:col-6 field mb-0">
                   <label for="city2" class="text-900 font-medium mb-3">City/Town</label>
                   <InputText variant="filled" size="large" id="city2" type="text" v-model="delivery_city" class="p-inputtext w-full mb-3" placeholder="Harare"/>
                 </div>  
-                <div v-if= "delivery_option == 'Delivery'" class="col-12 lg:col-6 field mb-0">
+                <div v-if= "delivery_option == 'Delivery' && use_as_delivery_address === false" class="col-12 lg:col-6 field mb-0">
                   <label for="country2" class="text-900 font-medium mb-3">Country</label>
                   <InputText variant="filled" size="large"  id="country2" type="text" v-model="delivery_country" class="p-inputtext w-full mb-3" placeholder="Zimbabwe"/>
                 </div>
@@ -145,17 +143,16 @@
                     <!---->
                   </div>
                 <div class="text-900 col-12 font-medium text-xl mt-4 lg:mt-0 mb-4 px-2"> Select Payment Method</div>
-                <div v-for="item in payment_options" @click="toggleOptionCheckbox(item.id,item.name)" class="col-3 p-3 d-flex justify-content-center align-items-center">
-                  <div :class="{'border-top': item.id === current_payment_option}" class="payheight flex flex-column border-round border-1 surface-border p-4 cursor-pointer hover:border-primary transition-duration-150 d-flex justify-content-center align-items-center">
-                    <img :src="item.logo" class="w-8rem" alt="Visa" >
+                <div :disabled="loading" v-if="delivery_option === 'Collection'"  @click="toggleOptionCheckbox(payment_options[0].id,payment_options[0].name)" class="col-3 p-3 d-flex justify-content-center align-items-center">
+                  <div :class="{'border-top': payment_options[0].id === current_payment_option}" class="payheight flex flex-column border-round border-1 surface-border p-4 cursor-pointer hover:border-primary transition-duration-150 d-flex justify-content-center align-items-center">
+                    <img :src="payment_options[0].logo" class="w-8rem" alt="Visa" >
                   </div>
                 </div>
-                
-               
-                
-
-                
-              
+                <div  :disabled="loading" @click="toggleOptionCheckbox(payment_options[1].id,payment_options[1].name)" class="col-3 p-3 d-flex justify-content-center align-items-center">
+                  <div :class="{'border-top': payment_options[1].id === current_payment_option}" class="payheight flex flex-column border-round border-1 surface-border p-4 cursor-pointer hover:border-primary transition-duration-150 d-flex justify-content-center align-items-center">
+                    <img :src="payment_options[1].logo" class="w-8rem" alt="Visa" >
+                  </div>
+                </div>
                 <div class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left w-full px-2 mb-3" role="separator" aria-orientation="horizontal" data-pc-name="divider" data-pc-section="root" style="justify-content: center;">
                     <!---->
                   </div>
@@ -233,7 +230,7 @@
                     <span class="text-900 font-bold">{{findCurrency()}}{{  cartTotal() }}</span>
                   </div>
                 </div>
-                <Button :loading="loading" @click="confirmOrder()" class="p-button p-component p-button-primary w-full mt-3" label="Place Order" />
+                <Button :disabled="isButtonDisabled" :loading="loading" @click="confirmOrder()" class="p-button p-component p-button-primary w-full mt-3" label="Place Order" />
               </div>
             </div>
           </div>
@@ -251,8 +248,28 @@ const delivery_option = ref('')
 const delivery_type = ref('')
 const fast_delivery = ref(Number(7.00))
 const is_sent_promotions = ref(false)
+const use_as_delivery_address = ref(true)
 const cart_id = storeToRefs(frontStore).cart_id
-const payment_options = ref()
+const payment_options = ref([
+    {
+        "id": 1,
+        "name": "Cash On Collection",
+        "logo": "https:\/\/api.hakikasystems.co.zw\/paymentmethods\/logos\/1723974984.png",
+        "is_active": 1,
+        "deleted_at": null,
+        "created_at": "2024-08-18T09:56:24.000000Z",
+        "updated_at": "2024-08-18T09:56:24.000000Z"
+    },
+    {
+        "id": 4,
+        "name": "Paynow",
+        "logo": "/images/paynow1.png",
+        "is_active": 1,
+        "deleted_at": null,
+        "created_at": "2024-08-18T10:24:33.000000Z",
+        "updated_at": "2024-08-18T10:24:33.000000Z"
+    }
+])
 const notes = ref('')
 const cart:any = storeToRefs(frontStore).cart
 const vat_total = ref(Number(0.00))
@@ -302,6 +319,9 @@ const pickDeliverySaved = () => {
   delivery_address.value = selectedDeliveryAddress.value.street
   delivery_suburb.value = selectedDeliveryAddress.value.suburb
 }
+const clearPayments = () => {
+  current_payment_option.value = null
+}
 interface PaymentMethod {
     id: number;
     name: string;
@@ -326,6 +346,45 @@ const lineTotal = (price:any, quantity:any) => {
         cart.value[index].quantity -= 1;
       }
     }
+    const isButtonDisabled = computed(() => {
+  // Basic conditions
+  if (
+    !name.value ||
+    !email.value ||
+    !customer_mobile.value ||
+    !delivery_option.value ||
+    !address.value ||
+    !suburb.value ||
+    !city.value ||
+    !country.value ||
+    !current_payment_option.value ||
+    cart.value.length === 0
+  ) {
+    return true
+  }
+
+  // If delivery_option is "Delivery", check additional fields
+  if (delivery_option.value === 'Delivery') {
+    // Ensure delivery_type is not null
+    if (!delivery_type.value) {
+      return true
+    }
+
+    // If use_as_delivery_address is false, check additional delivery address fields
+    if (!use_as_delivery_address.value) {
+      if (
+        !delivery_address.value ||
+        !delivery_suburb.value ||
+        !delivery_city.value ||
+        !delivery_country.value
+      ) {
+        return true
+      }
+    }
+  }
+
+  return false
+})
     const removeFromCart = (productId:any) => {
         //@ts-ignore
       cart.value = cart.value.filter(item => item.id !== productId);
@@ -408,12 +467,12 @@ onMounted( async() => {
         page: 1,
         per_page: 10
   }
-let payment_optionss = await frontStore.getPaymentOptions(payments_params).then((data) => {
-    const paymentMethods: PaymentMethod[] = data?.data?.paymentmethods || [];
-    const activePaymentMethods = paymentMethods.filter((method: PaymentMethod) => method.is_active);
+// let payment_optionss = await frontStore.getPaymentOptions(payments_params).then((data) => {
+//     const paymentMethods: PaymentMethod[] = data?.data?.paymentmethods || [];
+//     const activePaymentMethods = paymentMethods.filter((method: PaymentMethod) => method.is_active);
 
-    payment_options.value = activePaymentMethods;
-});
+//     payment_options.value = activePaymentMethods;
+// });
 let addressess = await frontStore.getMyAddresses(user_id.value).then((data) => {
     addresses.value = data?.data?.data
 });
@@ -444,7 +503,6 @@ const  confirmOrder = async () => {
         email: email.value,
         whatsapp_number: whatsapp_number.value,
         customer_mobile: customer_mobile.value,
-        order_status_id: order_status_id.value,
         billing_address: {
           name: name.value,
           phone: customer_mobile.value,
@@ -468,14 +526,37 @@ const  confirmOrder = async () => {
         delivery_amount: Number(calculateDeliveryCost()),
         total_amount: Number(cartTotal())
     }
-    let result = await frontStore.createOrder(info).then((data)=> {
-        loading.value = false
+    let result = await frontStore.createOrder(info).then(async(data)=> {
         if (data.status === "success") {
-            toast.add({ severity: 'success', summary: 'Success', detail: 'You have succesfully order', life: 3000 });
             let orderr =  data.data
             sessionStorage.setItem('last_order', JSON.stringify(orderr))
-            navigateTo('/order_summary')
+            let payment_params = {
+              order_id: orderr?.id,
+              payment_method: current_payment_option_name.value 
+            }
+            let payment_initiation = await frontStore.initiatePayment(payment_params).then(async(data) => {
+              if(data?.data?.success) {
+                  if(data?.data?.redirect === false) {
+                    loading.value = false
+                     navigateTo('/order_summary')
+                  } else if (data?.data?.redirect === true){
+                    toast.add({ severity: 'info', summary: 'Redirecting', detail: "Redirecting To Paynow", life: 3000 });
+                    await navigateTo(`${data.data.redirect_url}`, {
+                      external: true
+                    })
+                  } else {
+                    loading.value = false
+                    toast.add({ severity: 'warn', summary: 'Failed', detail: "Failed To Complete Transaction, Contact Support", life: 3000 });
+                  }
+              } else {
+                loading.value = false
+                toast.add({ severity: 'warn', summary: 'Failed', detail: "Failed To Order, Contact Support", life: 3000 });
+              }
+              
+            })
+           
         } else {
+            loading.value = false
             toast.add({ severity: 'warn', summary: 'Failed', detail: "Failed To Order, Contact Support", life: 3000 });
         }
     })

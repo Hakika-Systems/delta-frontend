@@ -1,12 +1,6 @@
 <template>
   <OkMartShopHeader />
-  <div class="layout-content">
-    <div>
-      <!-- <div class="block-category-title">Order Summary</div>
-  -->
-      <div class="block-section">
-        <div class="block-content">
-          <div class="">
+    <div class="col-12">
             <div class="surface-section px-4 py-8 md:px-6 lg:px-8">
               <span class="text-700 text-xl">Thank you for ordering!</span>
               <div class="text-900 font-bold text-4xl my-2">Successful Order 🚀</div>
@@ -94,12 +88,7 @@
                 </div>
               </div>
             </div>
-          </div>
-          <!---->
-        </div>
-      </div>
     </div>
-  </div>
   <ShopFooter />
 </template>
 <script lang="ts" setup>
