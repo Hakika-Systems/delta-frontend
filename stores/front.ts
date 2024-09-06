@@ -347,32 +347,28 @@ export const useFrontStore = defineStore('front', {
       } finally {
       }
     },
-    async getSearchResults(search_text:any) {
-      const url = new URL(`${SHOP_URL}/api/search`);
-      const params:any = {
-          search: `${search_text}`,
-      };
-      Object.keys(params).forEach((key) =>
-          url.searchParams.append(key, params[key])
-      );
-      const token = useCookie('token').value || ""
-      const headers = {
-          "Authorization": `Bearer ${token}`,
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-      };
-  
+    async getSearchResults(search_params: any) {
+      const url = `${SHOP_URL}/api/search`;
+    
       try {
-          const response = await fetch(url, {
-              method: "GET",
-              headers,
-          });
-          const data = await response.json();
-          return data;
-      } finally {
-          
+        const response = await axios.get(url, {
+          params: {
+            shop_id: search_params?.shop_id, // Defaulting to shop_id 8 if not provided
+            search: search_params?.search_text, // Default search query if not provided
+          },
+          headers: {
+            'accept': '*/*',
+            'X-CSRF-TOKEN': '',  // Add CSRF token if required
+          },
+        });
+    
+        console.log(response.data); // Log the response data
+        return response.data; // Return the data if needed
+      } catch (error) {
+        console.error('Error fetching search results:', error);
+        throw error; // Re-throw the error to handle it in the calling function
       }
-  },
+    },
     async getAllCategories(my_params:any) {
       const url = new URL(`${SHOP_URL}/api/categories/parent`);
       const params:any = {

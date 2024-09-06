@@ -16,12 +16,44 @@
       <!-- Search Input -->
       <div class="flex items-center col-6 flex-grow search-container">
         <InputGroup class="w-full">
-        <InputText id="input"  type="text" placeholder="Search Products" class="search-input px-4 py-2 w-full" autofocus />
-        <Button icon="pi pi-search" class="searchbutton" severity="warning" />
-    </InputGroup>
+        <InputText @keyup="searchProducts()" v-model="search_text" id="input"  type="text" placeholder="Search Products" class="search-input px-4 py-2 w-full" autofocus />
+       </InputGroup>
+       <div class="results-box p-5" v-if="search_text">
+        <DataTable :value="search_products" showGridlines tableStyle="min-width: 50rem">
+            <Column header="Thumbnail" style="width: 5%" >
+        <template #body="slotProps">
+            <img :src="getParsedImages(slotProps?.data?.product?.thumbnails)" :alt="slotProps?.data?.product?.name" class="imgt border-round" />
+        </template>
+    </Column>
+    <Column field="price" header="Product Name" style="width: 20%">
+        <template #body="slotProps">
+            {{ slotProps?.data?.product?.name }}
+        </template>
+    </Column>
+    <Column field="price" header="Category" style="width: 15%">
+        <template #body="slotProps">
+            {{ slotProps?.data?.product?.categories[0]?.name }}
+        </template>
+    </Column>
+    <Column field="price" header="Price" style="width: 10%">
+        <template #body="slotProps">
+            {{findCurrency()}}{{ slotProps?.data?.product?.prices[0]?.price }}
+        </template>
+    </Column>
+    <Column field="price" header="Shop" style="width: 10%">
+        <template #body="slotProps">
+            <Button :loading="current_id === slotProps?.data?.product?.id" @click="addToCart(slotProps?.data?.product,slotProps?.data?.quantity)" icon="pi pi-shopping-cart" aria-label="Submit" />
+        </template>
+    </Column>
+   
+    <!-- <Column field="price" header="Brand">
+        <template #body="slotProps">
+            {{ slotProps?.data?.product?.brand?.name }}
+        </template>
+    </Column> -->
+</DataTable>
+       </div>
       </div>
-    
-      <!-- Account and Cart Links -->
       <div class="flex items-center col-5 flex-grow-0 account-cart-container">
         <Dropdown v-model="selected_currency" :options="currencies" optionLabel="iso_code" optionValue="id" placeholder="Select Currency" class="w-50 md:w-7rem" />
      <a class="text-white font-medium inline-flex align-items-center cursor-pointer px-3 hover:text-gray-200 p-ripple" data-pd-ripple="true">
@@ -130,12 +162,15 @@
     const shopLogo = ref();
     const shopName = ref();
     const brands = ref()
+    const search_products = ref()
     const loading = ref(false)
     const mytoken = useCookie('token');
     const name = useCookie('username');
     const user_id = useCookie('user_id');
     const currentBrand = ref()
+    const current_id = ref()
     const product_brands = ref()
+    const search_text = ref();
     const brand_id = storeToRefs(frontStore).brand_id
     const shop_id = storeToRefs(frontStore).shop_id
     const cart_total = storeToRefs(frontStore).cart_total
@@ -180,6 +215,75 @@
     let branchess = brands.value.find(brand => brand.id === brandId);
     branches.value = branchess?.shops;
     }
+    const addToCart = async (productt:any,quantityy:any) => {
+    current_id.value = productt?.id
+    loading.value = true
+  // Find the product in products
+    
+
+  const product = productt;
+  const productPrice = product.prices.length > 0 ? product.prices[0].price : null;
+
+  if (!productPrice) {
+    toast.add({
+      severity: 'warn',
+      summary: 'Not added',
+      detail: 'Product price not found',
+      group: 'br',
+      life: 3000,
+    });
+    console.error('Product price not found');
+    loading.value = false
+    return;
+  }
+  if (quantityy < 1) {
+    toast.add({
+      severity: 'warn',
+      summary: 'Not added',
+      detail: 'Product out of stock',
+      group: 'br',
+      life: 3000,
+    });
+    loading.value = false
+  }
+
+  // Check if the product is already in the cart
+    // Add the product to the cart with quantity 1
+    let qnty = 1
+    let cart_item = {
+    cart_id: cart_id.value,
+    product_id: productt?.id,
+    quantity: qnty,
+    unit_price: Number(productPrice),
+    total_price: (qnty * productPrice) 
+    }
+    let add_cart_item = await frontStore.addCartItem(cart_item).then( async (data) => {
+      if (data?.status === "success") {
+        loading.value = false
+        current_id.value = null
+        let new_cart = await frontStore.getCart().then((data) => {
+          cart.value = data.data.items
+          cart_total.value = data?.data?.cart_total
+        })
+        toast.add({
+          severity: 'info',
+          summary: 'Cart',
+          detail: 'Product Added',
+          group: 'br',
+          life: 3000,
+        });
+      } else {
+        toast.add({
+          severity: 'warn',
+          summary: 'Cart',
+          detail: 'Could not add product',
+          group: 'br',
+          life: 3000,
+        });
+        current_id.value = null
+      }
+    })
+};
     const dummyMenu = ref([
     {
         label: 'Propbrands',
@@ -460,6 +564,16 @@ const removeFromCart = async (itemId:any) => {
         }
       })
 }
+const searchProducts = () => {
+  search_products.value = null
+  let search_params = {
+    search_text: search_text.value,
+    shop_id: shop_id.value
+  }
+  frontStore.getSearchResults(search_params).then(async (data) => {
+    search_products.value = data?.data.products;
+  });
+}
 const getActiveShopNameById = () => {
     // Find the shop with the given ID
     let current_shop_branch:any
@@ -518,9 +632,9 @@ const getParsedImages = (images: string) => {
       }
     
       .search-input {
-    border-radius: 25px 0 0 25px;
+    border-radius: 35px;
     border: 1px solid #cccccc !important;
-    height: 50px;
+    height: 40px;
     outline: none;
 }
     .p-inputgroup-addon {
@@ -537,6 +651,22 @@ const getParsedImages = (images: string) => {
 }
 .toppheader {
     background-color: v-bind('buttonColor') !important;
+}
+img.imgt {
+    height: 40px;
+    width: auto;
+}
+.results-box {
+    position: absolute;
+    width: 50%;
+    margin-top: 50px;
+    border: 1px solid #ccc;
+    /* border-top: none; */
+    border-radius: 0 0 4px 4px;
+    max-height: 350px;
+    overflow-y: auto;
+    background-color: #fff;
+    z-index: 1000;
 }
 button.p-button.p-component.w-full.mt-2.overlaycheckoutbtn {
     background-color:  v-bind('buttonColor') !important;
