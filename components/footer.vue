@@ -160,6 +160,9 @@ const getParsedImages = (images: string) => {
 .text-900 {
   color: white;
 }
+h3.text-0 {
+    font-size: 20px;
+}
 .search-container {
         max-width: 600px; /* Adjust max-width as needed */
       }
