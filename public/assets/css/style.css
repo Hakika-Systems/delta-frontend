@@ -6545,7 +6545,7 @@ ol.wp-block-rss {
 
 .footer-layout3 {
   --body-color: white;
-  background-color: var(--gray-color);
+  background-color: #FF8C00;
 }
 
 .footer-layout3 .th-social a {
@@ -6561,7 +6561,7 @@ ol.wp-block-rss {
 }
 
 .footer-layout3 .widget_title {
-  color: #f7941f;
+  color: black;
 }
 
 .footer-layout3 .info-box_icon {
