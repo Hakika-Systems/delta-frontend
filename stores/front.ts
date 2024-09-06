@@ -288,6 +288,7 @@ export const useFrontStore = defineStore('front', {
                 headers,
             });
             const data = await response.json();
+            
             return data;
         } finally {
         }
