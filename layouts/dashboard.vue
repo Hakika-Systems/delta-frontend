@@ -161,22 +161,7 @@ export default defineNuxtComponent({
         },
         {
           src: "/assets/js/main.js",
-        },
-        {
-          src: "/js/pdfmake.min.js",
-        },
-        {
-          src: "/js/vfs_fonts.js",
-        },
-        {
-          src: "/js/buttons.html5.min.js",
-        },
-        {
-          src: "/js/buttons.print.min.js",
-        },
-        {
-          src: "/js/main.js",
-        },
+        }
       ],
     };
   },

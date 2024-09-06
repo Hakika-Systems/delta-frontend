@@ -35,7 +35,7 @@
 </ul>
 </div>
 <FeaturedStore />
-</NuxtLayout>
+  </NuxtLayout>
 </template>
 <script setup></script>
 <style>
