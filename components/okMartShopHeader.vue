@@ -1,7 +1,7 @@
 <template>
     <div class="toppheader px-4 lg:px-8 py-3 lg:py-3 flex flex-column sm:flex-row w-full justify-content-between align-items-center">
         <div>
-  <Button @click="navigateTo('/')" icon="pi pi-home" class="topbtn mr-2" label="Home" outlined/>
+  <Button @click="goToLanding()" icon="pi pi-home" class="topbtn mr-2" label="Home" outlined/>
   <Button @click="select_brand = true" icon="pi pi-sync" class="mr-2 topbtn" label="Choose Store" outlined />
 </div>
   <a tabindex="0" class="cursor-pointer h-full inline-flex align-items-center mt-3 sm:mt-0 md:py-0">
@@ -181,6 +181,9 @@
     const currencies:any = storeToRefs(frontStore).currencies;
     const selected_currency = storeToRefs(frontStore).selected_currency;
     const categories = ref()
+    const goToLanding = async () => {
+     await navigateTo('/',{external: true})
+    }
     const goToHome = () => {
         if (typeof window !== 'undefined') {
             const current_shop_id:any = sessionStorage.getItem('current_shop_id');
@@ -220,7 +223,6 @@
     loading.value = true
   // Find the product in products
     
-
   const product = productt;
   const productPrice = product.prices.length > 0 ? product.prices[0].price : null;
 
