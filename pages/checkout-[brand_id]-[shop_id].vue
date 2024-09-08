@@ -178,22 +178,10 @@
                     <div class="flex flex-auto justify-content-between align-items-center">
                       <span class="p-inputnumber p-component p-inputwrapper p-inputwrapper-filled p-inputnumber-buttons-horizontal border-1 surface-border border-round" data-pc-name="inputnumber" data-pc-section="root" spinnermode="horizontal">
                         <input class="p-inputtext p-component p-inputnumber-input w-2rem text-center py-2 px-1 border-transparent" v-model="cart[index].quantity" data-pc-name="inputtext" data-pc-section="input" role="spinbutton" aria-valuemin="0" aria-valuenow="1">
-                        <button @click="increment(index)" class="p-button p-component p-button-icon-only p-inputnumber-button p-inputnumber-button-up p-button-text text-600 hover:text-primary py-1 px-1" type="button" data-pc-name="button" data-pc-section="incrementbutton" tabindex="-1" aria-hidden="true" data-pd-ripple="true">
-                          <span class="pi pi-plus" data-pc-section=""></span>
-                          <span class="p-button-label" data-pc-section="label">&nbsp;</span>
-                          <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
-                        </button>
-                        <button :disabled="item.quantity === 1" @click="decrement(index)" class="p-button p-component p-button-icon-only p-inputnumber-button p-inputnumber-button-down p-button-text text-600 hover:text-primary py-1 px-1" type="button" data-pc-name="button" data-pc-section="decrementbutton" tabindex="-1" aria-hidden="true" data-pd-ripple="true">
-                          <span class="pi pi-minus" data-pc-section="decrementbuttonicon"></span>
-                          <span class="p-button-label" data-pc-section="label">&nbsp;</span>
-                          <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
-                        </button>
+                        <Button :loading="item.id === current_loading" icon="pi pi-plus" @click="increaseCartItem(item.id,item.product_id,cart[index].quantity,item.unit_price)" class="p-button p-component p-button-icon-only p-inputnumber-button p-inputnumber-button-up p-button-text text-600 hover:text-primary py-1 px-1" />
+                        <Button :loading="item.id === current_loading" :disabled="item.quantity === 1" icon="pi pi-minus" @click="decreaseCartItem(item.id,item.product_id,cart[index].quantity,item.unit_price)" class="p-button p-component p-button-icon-only p-inputnumber-button p-inputnumber-button-down p-button-text text-600 hover:text-primary py-1 px-1" />
                       </span>
-                      <button @click="removeFromCart(item.id)" class="p-button p-component p-button-icon-only text-600 p-button-text p-button-rounded" type="button" data-pc-name="button" data-pc-section="root" data-pd-ripple="true">
-                        <span class="p-button-icon pi pi-trash" data-pc-section="icon"></span>
-                        <span class="p-button-label" data-pc-section="label">&nbsp;</span>
-                        <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
-                      </button>
+                      <Button @click="removeFromCart(item.id)" icon="pi pi-trash" class="p-button p-component p-button-icon-only text-600 p-button-text p-button-rounded" />
                     </div>
                   </div>
                 </div>
@@ -305,6 +293,7 @@ const delivery_city = ref()
 const delivery_country = ref()
 const delivery_suburb = ref()
 const delivery_address = ref()
+const current_loading = ref()
 const country = ref('')
 const suburb = ref()
 const pickSaved = () => {
@@ -313,6 +302,84 @@ const pickSaved = () => {
   address.value = selectedBillingAddress.value.street
   suburb.value = selectedBillingAddress.value.suburb
 }
+const decreaseCartItem = async (item_id:any,product_id: any,quantity:any,unit_price:any) => {
+    current_loading.value = item_id
+    let cart_item = {
+    id: item_id,
+    cart_id: cart_id.value,
+    product_id: product_id,
+    quantity: quantity-1,
+    unit_price: Number(unit_price),
+    total_price: (quantity * unit_price) 
+    }
+    let edit_cart_item = await frontStore.editCartItem(cart_item).then( async (data) => {
+      if (data?.status === "success") {
+        let new_cart = await frontStore.getCart().then((data) => {
+          cart.value = data.data.items
+          cart_total.value = data?.data?.cart_total
+        })
+        toast.add({
+          severity: 'info',
+          summary: 'Cart',
+          detail: 'Quantity Changed',
+          group: 'br',
+          life: 3000,
+        });
+        current_loading.value = null
+      } else {
+        toast.add({
+          severity: 'warn',
+          summary: 'Cart',
+          detail: 'Could not add product',
+          group: 'br',
+          life: 3000,
+        });
+        current_loading.value = null
+      }
+    })
+    
+    
+};
+
+const increaseCartItem = async (item_id:any,product_id: any,quantity:any,unit_price:any) => {
+    current_loading.value = item_id
+    let cart_item = {
+    id: item_id,
+    cart_id: cart_id.value,
+    product_id: product_id,
+    quantity: quantity+1,
+    unit_price: Number(unit_price),
+    total_price: (quantity * unit_price) 
+    }
+    let edit_cart_item = await frontStore.editCartItem(cart_item).then( async (data) => {
+      if (data?.status === "success") {
+        
+        let new_cart = await frontStore.getCart().then((data) => {
+          cart.value = data.data.items
+          cart_total.value = data?.data?.cart_total
+        })
+        toast.add({
+          severity: 'info',
+          summary: 'Cart',
+          detail: 'Quantity Changed',
+          group: 'br',
+          life: 3000,
+        });
+        current_loading.value = null
+      } else {
+        toast.add({
+          severity: 'warn',
+          summary: 'Cart',
+          detail: 'Could not add product',
+          group: 'br',
+          life: 3000,
+        });
+        current_loading.value = null
+      }
+    })
+    
+    
+};
 const pickDeliverySaved = () => {
   delivery_city.value = selectedDeliveryAddress.value.city
   delivery_country.value = selectedDeliveryAddress.value.country
@@ -385,10 +452,35 @@ const lineTotal = (price:any, quantity:any) => {
 
   return false
 })
-    const removeFromCart = (productId:any) => {
+const removeFromCart = async (itemId:any) => {
         //@ts-ignore
-      cart.value = cart.value.filter(item => item.id !== productId);
-    }
+      let my_params = {
+        id: itemId
+      }
+      let deleted_item = await frontStore.deleteCartItem(my_params).then( async (data) => {
+        if(data?.status === 'success') {
+            toast.add({
+            severity: 'info',
+            summary: 'Cart Changed',
+            detail: 'Product Removed',
+            group: 'br',
+            life: 3000,
+            });
+            let new_cart = await frontStore.getCart().then((data) => {
+            cart.value = data.data.items
+            cart_total.value = data?.data?.cart_total
+            })
+        } else {
+            toast.add({
+            severity: 'warn',
+            summary: 'Cart',
+            detail: 'Could not remove product',
+            group: 'br',
+            life: 3000,
+            });
+        }
+      })
+}
     const toggleOptionCheckbox = (id:any,name:string) => {
       current_payment_option.value = id
       current_payment_option_name.value = name
