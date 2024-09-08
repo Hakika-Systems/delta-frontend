@@ -2,17 +2,17 @@
  <div style="background-color: #2e2e2e;"class=" py-6 lg:py-4 md:px-6 lg:px-8 flex flex-column lg:flex-row justify-content-between align-items-center">
   <ul class="list-none p-0 mb-0 flex flex-column md:flex-row flex-order-1 lg:flex-order-0 mt-4 lg:mt-0">
     <li class="mr-6 mt-3 lg:mt-0">
-      <h3 class=" text-0">Email SUPPORT</h3>
-      <a tabindex="0" class="cursor-pointer text-0">help@online@okshopeasy.com </a>
+      <h3 class=" text-0">EMAIL SUPPORT</h3>
+      <a tabindex="0" class="cursor-pointer text-0">online@okshopeasy.com </a>
     </li>
     <li class="mr-4 mt-3 lg:mt-0">
       <h3 class=" text-0">PHONE SUPPORT</h3>
-      <a tabindex="0" class="cursor-pointer text-0">078 279 3499, 073 607 5123</a>
+      <a tabindex="0" class="cursor-pointer text-0">078 279 3499</a>
       
     </li>
     <li class="mr-4 mt-3 lg:mt-0">
       <h3 class=" text-0">WHATSAPP</h3>
-      <a tabindex="0" class="cursor-pointer text-0">078 279 3499, 073 607 5123</a>
+      <a tabindex="0" class="cursor-pointer text-0">078 279 3499</a>
       
     </li>
     <li class="mr-4 mt-3 lg:mt-0">
@@ -124,7 +124,7 @@
 <div class=" py-6 lg:py-4 md:px-6 lg:px-8 flex flex-column lg:flex-row justify-content-center align-items-center">
   <ul class="list-none p-0 mb-0 flex flex-column md:flex-row justify-content-center text-center mt-4 lg:mt-0">
     <li class="mr-4 mt-3 lg:mt-0">
-      <a tabindex="0" class="cursor-pointer text-0">Copyright © 2024  online@okshopeasy.com  All rights reserved</a>
+      <a tabindex="0" class="cursor-pointer text-0">Copyright © 2024 online@okshopeasy.com All rights reserved change this to Copyright © 2024 Shopeasy Zimbabwe | Powered by Elixr Technologies</a>
     </li>
   </ul>
 </div>
