@@ -1,5 +1,5 @@
 <template>
- <div style="background-color: #2e2e2e;"class=" py-6 lg:py-4 md:px-6 lg:px-8 flex flex-column lg:flex-row justify-content-between align-items-center">
+ <div style="background-color: #f7921e;"class=" py-6 lg:py-4 md:px-6 lg:px-8 flex flex-column lg:flex-row justify-content-between align-items-center">
   <ul class="list-none p-0 mb-0 flex flex-column md:flex-row flex-order-1 lg:flex-order-0 mt-4 lg:mt-0">
     <li class="mr-6 mt-3 lg:mt-0">
       <h3 class=" text-0">EMAIL SUPPORT</h3>
@@ -40,19 +40,19 @@
       <span style="color: white;" class=" text-2xl block">Company</span>
       <ul class="list-none p-0">
         <li>
-          <a tabindex="0" style="color: white;" class=" hover:text-900 transition-duration-150 cursor-pointer mt-3 block">About Us</a>
+          <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">About Us</a>
         </li>
         <li>
-          <a tabindex="0" style="color: white;" class=" hover:text-900 transition-duration-150 cursor-pointer mt-3 block">Careers</a>
+          <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Careers</a>
         </li>
         <li>
-          <a tabindex="0" style="color: white;" class=" hover:text-900 transition-duration-150 cursor-pointer mt-3 block">Terms And Conditions</a>
+          <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Terms And Conditions</a>
         </li>
         <li>
-          <a tabindex="0" style="color: white;" class=" hover:text-900 transition-duration-150 cursor-pointer mt-3 block">Privacy Policy</a>
+          <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Privacy Policy</a>
         </li>
         <li>
-          <a tabindex="0" style="color: white;" class=" hover:text-900 transition-duration-150 cursor-pointer mt-3 block">Returns And Refund Policy</a>
+          <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Returns And Refund Policy</a>
         </li>
       </ul>
     </div>
@@ -60,22 +60,22 @@
       <span style="color: white;" class=" text-2xl block">Help</span>
       <ul class="list-none p-0">
         <li>
-          <a tabindex="0" style="color: white;" class=" hover:text-900 transition-duration-150 cursor-pointer mt-3 block">Contact Us</a>
+          <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Contact Us</a>
         </li>
         <li>
-          <a tabindex="0" style="color: white;" class=" hover:text-900 transition-duration-150 cursor-pointer mt-3 block">Suggest A Product</a>
+          <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Suggest A Product</a>
         </li>
         <li>
-          <a tabindex="0" style="color: white;" class=" hover:text-900 transition-duration-150 cursor-pointer mt-3 block">Returns</a>
+          <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Returns</a>
         </li>
         <li>
-          <a tabindex="0" style="color: white;" class=" hover:text-900 transition-duration-150 cursor-pointer mt-3 block">Sell on ShopEasy</a>
+          <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Sell on ShopEasy</a>
         </li>
         <li>
-          <a tabindex="0" style="color: white;" class=" hover:text-900 transition-duration-150 cursor-pointer mt-3 block">Our Branches</a>
+          <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Our Branches</a>
         </li>
         <li>
-          <a tabindex="0" style="color: white;" class=" hover:text-900 transition-duration-150 cursor-pointer mt-3 block">Advertise on ShopEasy</a>
+          <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Advertise on ShopEasy</a>
         </li>
       </ul>
     </div>
@@ -83,16 +83,16 @@
       <span style="color: white;" class=" text-2xl block">Account</span>
       <ul class="list-none p-0">
         <li>
-          <a tabindex="0" style="color: white;" class=" hover:text-900 transition-duration-150 cursor-pointer mt-3 block">Manage Account</a>
+          <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Manage Account</a>
         </li>
         <li>
-          <a tabindex="0" style="color: white;" class=" hover:text-900 transition-duration-150 cursor-pointer mt-3 block">Track Order</a>
+          <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Track Order</a>
         </li>
         <li>
-          <a tabindex="0" style="color: white;" class=" hover:text-900 transition-duration-150 cursor-pointer mt-3 block">Subscriptions</a>
+          <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Subscriptions</a>
         </li>
         <li>
-          <a tabindex="0" style="color: white;" class=" hover:text-900 transition-duration-150 cursor-pointer mt-3 block">Invoices</a>
+          <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Invoices</a>
         </li>
       
       </ul>
@@ -124,7 +124,7 @@
 <div class=" py-6 lg:py-4 md:px-6 lg:px-8 flex flex-column lg:flex-row justify-content-center align-items-center">
   <ul class="list-none p-0 mb-0 flex flex-column md:flex-row justify-content-center text-center mt-4 lg:mt-0">
     <li class="mr-4 mt-3 lg:mt-0">
-      <a tabindex="0" class="cursor-pointer text-0">Copyright © 2024 online@okshopeasy.com All rights reserved change this to Copyright © 2024 Shopeasy Zimbabwe | Powered by Elixr Technologies</a>
+      <a tabindex="0" class="cursor-pointer text-0">Copyright © 2024 Shopeasy Zimbabwe | Powered by Elixr Technologies</a>
     </li>
   </ul>
 </div>
