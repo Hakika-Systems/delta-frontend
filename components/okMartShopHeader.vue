@@ -382,6 +382,7 @@ const navColor = active_brand?.value?.menu_font_color??"#fff";
     );
 }
 onMounted( async() => {
+    
     categories_loading.value = true;
     let gi:any
     if (typeof window !== 'undefined') {

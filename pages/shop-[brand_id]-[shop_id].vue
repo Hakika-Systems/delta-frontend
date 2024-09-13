@@ -214,9 +214,15 @@ const buttonColor = active_brand?.value?.button_color;
     }
   }
   const findCurrency = () => {
-    const currency = currencies.value.find((currency:any) => currency.id === selected_currency.value);
-    return currency ? currency.iso_code : null;
-}
+   console.log("findCurrency", currencies.value);
+
+   if (!currencies.value || !Array.isArray(currencies.value) || !selected_currency.value) {
+     return null; // Return null if currencies or selected currency is not defined
+   }
+
+   const currency = currencies.value.find((currency:any) => currency.id === selected_currency.value);
+   return currency ? currency.iso_code : null;
+  };
   onMounted( async() => {
     console.log('my ids',shop_id,brand_id)
     let gi:any
