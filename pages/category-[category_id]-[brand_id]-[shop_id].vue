@@ -152,6 +152,19 @@ const  decreaseQuantity = (productId:any) => {
     quantities.value[productId]--;
   }
 }
+const getBrandConfiguration = () => {
+    if (typeof window !== 'undefined') {
+        // Retrieve brand configuration from sessionStorage
+        const storedConfig = sessionStorage.getItem('active_brand');
+        return storedConfig ? JSON.parse(storedConfig) : null;
+    }
+    return null;
+}
+
+//@ts-ignore
+const active_brand = ref(getBrandConfiguration())
+
+const buttonColor = active_brand?.value?.button_color;
   onMounted( async() => {
     brand_idd.value = brand_id
     let gi:any
@@ -273,124 +286,145 @@ const  decreaseQuantity = (productId:any) => {
 
   
   </script>
-  <style>
-  .ripple {
-  position: absolute;
-  border-radius: 50%;
-  transform: scale(0);
-  animation: ripple-effect 0.6s linear;
-  background-color: rgba(255, 255, 255, 0.7);
-  pointer-events: none;
-  }
-  
-  @keyframes ripple-effect {
-  to {
-    transform: scale(4);
-    opacity: 0;
-  }
-  }
+ <style>
+ .ripple {
+ position: absolute;
+ border-radius: 50%;
+ transform: scale(0);
+ animation: ripple-effect 0.6s linear;
+ background-color: rgba(255, 255, 255, 0.7);
+ pointer-events: none;
+ }
+ .p-inputgroup.w-full {
+   height: 40px;
+   margin-top: 3px;
+ }
+ @keyframes ripple-effect {
+ to {
+   transform: scale(4);
+   opacity: 0;
+ }
+ }
+ .product_image {
+   width: auto !important;
+   height: 155px !important;
+ }
+ .p-tag {
+   background: #003e95;
+   color: #ffffff;
+   text-transform: uppercase;
+ }
+ .p-inputgroup-addon.firstinput {
+   width: 188px !important;
+   padding: 1px !important;
+ }
+ button.p-button.p-component.p-button-icon-only.ml-2.cart {
+   background-color: #003e95;
+   border-color: #003e95;
+ }
+ button.p-button.p-component.p-button-icon-only.p-button-secondary.p-button-outlined.whishlist {
+   background-color: #d6200e;
+   color: white;
+ }
+ img.w-full.h-full.object-cover.border-round {
+   height: 100px !important;
+   width: auto !important;
+ }
+ .banner{
+   width: 100% !important;
+   height: 100% !important
+   ;
+ }
+ img.w-12rem.flex-shrink-0.mx-auto.md\:mx-0 {
+   border-radius: 21px;
+ }
+ ul.p-carousel-indicators.p-reset {
+   display: none;
+ }
+ .card.border-featured {
+   border-radius: 10px !important;
+ }
+ img.shop_logo {
+   width: auto;
+   height: 43px;
+ }
+ button.p-button.p-component.ml-2.cart.tagee {
+   background-image: linear-gradient(to right, #cb1400, #F44336) !important;
+   border: none;
+ }
+ button.p-button.p-component.shopnow.feat {
+   background-color: #dadada;
+   border-radius: 30px;
+   border: none;
+   color: black;
+ }
+ .border-1.surface-border.border-round.p-3 {
+   box-shadow: 0 5px 10px 0 rgba(41, 61, 102, .2) !important;
+ }
+ .okzimbabwe {
+   background-color: red;
+   padding: 10px;
+   border-radius: 25px;
+   color: white !important;
+   font-weight: 900 !important;
+   font-size: 25px !important;
+ }
+ button.p-button.p-component.ml-auto.cart {
+   background-color: #f7941f;
+   border: none;
+   border-radius: 33px;
+ }
+ .bonmarche {
+   background-color: red;
+   padding: 10px;
+   border-radius: 25px;
+   color: white !important;
+   font-weight: 900 !important;
+   font-size: 25px !important;
+ }
+ button.p-button.p-component.ok.addtocart.w-full {
+   border-radius: 20px;
+   background-color: red ;
+   border: none;
+ }
 
-  .p-tag {
-    background: #003e95;
-    color: #ffffff;
-    text-transform: uppercase;
-  }
-  button.p-button.p-component.p-button-icon-only.ml-2.cart {
-    background-color: #003e95;
-    border-color: #003e95;
-  }
-  .h-full {
-    width: auto !important;
-    height: 200px !important;
+ .foodlovers {
+   background-color: red;
+   padding: 10px;
+   border-radius: 25px;
+   color: white !important;
+   font-weight: 900 !important;
+   font-size: 25px !important;
+ }
+ .okmart {
+   background-color: red;
+   padding: 10px;
+   border-radius: 25px;
+   color: white !important;
+   font-weight: 900 !important;
+   font-size: 25px !important;
+ }
+ .side-banner {
+     
+     
+     margin-top: 12px;
+ }
+ </style>
+   <style scoped>
+   .p-inputtext {
+       border: none !important;
+   }
+   .p-inputtext:focus {
+       outline: none;
+   }
+   .p-button {
+   color: #ffffff;
+   background: v-bind('buttonColor') !important;
+   border: 1px solid v-bind('buttonColor') !important;
+   padding: 0.5rem 1rem;
+   font-size: 1rem;
+   transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s, outline-color 0.2s;
+   border-radius: 6px;
+   outline-color: transparent;
 }
-  button.p-button.p-component.p-button-icon-only.p-button-secondary.p-button-outlined.whishlist {
-    background-color: #d6200e;
-    color: white;
-  }
-  .product_image {
-    width: auto !important;
-    height: 155px !important;
-}
-  img.w-full.h-full.object-cover.border-round {
-    height: 100px !important;
-    width: auto !important;
-  }
-  .banner{
-    width: 100% !important;
-    height: 100% !important
-    ;
-  }
-  img.w-12rem.flex-shrink-0.mx-auto.md\:mx-0 {
-    border-radius: 21px;
-  }
-  ul.p-carousel-indicators.p-reset {
-    display: none;
-  }
-  .card.border-featured {
-    border-radius: 10px !important;
-  }
-  img.shop_logo {
-    width: auto;
-    height: 43px;
-  }
-  button.p-button.p-component.ml-2.cart.tagee {
-    background-image: linear-gradient(to right, #cb1400, #F44336) !important;
-    border: none;
-  }
-  button.p-button.p-component.shopnow.feat {
-    background-color: #dadada;
-    border-radius: 30px;
-    border: none;
-    color: black;
-  }
-  .border-1.surface-border.border-round.p-3 {
-    box-shadow: 0 5px 10px 0 rgba(41, 61, 102, .2) !important;
-  }
-  .okzimbabwe {
-    background-color: red;
-    padding: 10px;
-    border-radius: 25px;
-    color: white !important;
-    font-weight: 900 !important;
-    font-size: 25px !important;
-  }
-  button.p-button.p-component.ml-auto.cart {
-    background-color: #f7941f;
-    border: none;
-    border-radius: 33px;
-  }
-  .bonmarche {
-    background-color: red;
-    padding: 10px;
-    border-radius: 25px;
-    color: white !important;
-    font-weight: 900 !important;
-    font-size: 25px !important;
-  }
-  button.p-button.p-component.ok.addtocart.w-full {
-    border-radius: 20px;
-    background-color: red ;
-    border: none;
-  }
-  .foodlovers {
-    background-color: red;
-    padding: 10px;
-    border-radius: 25px;
-    color: white !important;
-    font-weight: 900 !important;
-    font-size: 25px !important;
-  }
-  .okmart {
-    background-color: red;
-    padding: 10px;
-    border-radius: 25px;
-    color: white !important;
-    font-weight: 900 !important;
-    font-size: 25px !important;
-  }
-  .side-banner {
-      
-      
-      margin-top: 12px;
-  }
-  </style>
+   </style>
