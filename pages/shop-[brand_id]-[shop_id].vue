@@ -214,8 +214,6 @@ const buttonColor = active_brand?.value?.button_color;
     }
   }
   const findCurrency = () => {
-   console.log("findCurrency", currencies.value);
-
    if (!currencies.value || !Array.isArray(currencies.value) || !selected_currency.value) {
      return null; // Return null if currencies or selected currency is not defined
    }
