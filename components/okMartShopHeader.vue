@@ -1590,7 +1590,7 @@ ul.flat-unstyled li > ul > li > a {
     padding: 27px 7px 27px 0;
     position: absolute;
     top: -1px;
-    left: 270px;
+    left: 200px;
     width: 875px;
     border: solid 1px #7c7c7c33;
     border-radius: 10px;
