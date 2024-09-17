@@ -207,7 +207,7 @@
                   </div>
                   <div class="flex justify-content-between align-items-center mb-3">
                     <span class="text-900">Discount</span>
-                    <span class="text-900">{{findCurrency()}}{{ calculateDeliveryCost() }}</span>
+                    <span class="text-900">{{findCurrency()}}0.00</span>
                   </div>
                   <div class="flex justify-content-between align-items-center mb-3">
                     <span class="text-900">VAT</span>
@@ -627,10 +627,12 @@ const  confirmOrder = async () => {
               payment_method: current_payment_option_name.value 
             }
             let payment_initiation = await frontStore.initiatePayment(payment_params).then(async(data) => {
+              let paymentt = data?.data?.payment
+              sessionStorage.setItem('payment_details', JSON.stringify(paymentt))
               if(data?.data?.success) {
                   if(data?.data?.redirect === false) {
                     loading.value = false
-                     navigateTo('/order_summary')
+                     navigateTo('/coc_order_summary')
                   } else if (data?.data?.redirect === true){
                     toast.add({ severity: 'info', summary: 'Redirecting', detail: "Redirecting To Paynow", life: 3000 });
                     await navigateTo(`${data.data.redirect_url}`, {
