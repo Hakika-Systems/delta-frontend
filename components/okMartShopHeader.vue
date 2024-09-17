@@ -1520,9 +1520,8 @@ ul.flat-unstyled li > ul > li > a {
     position: relative;
     z-index: 90;
     background-color: #fff;
-    border: 1px solid #c2c2c2;
+    border: solid 1px #7c7c7c33;
     border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
     top: -40px;
     opacity: 0;
     visibility: hidden;
@@ -1587,13 +1586,13 @@ ul.flat-unstyled li > ul > li > a {
     transform: translateX(-10%);
     opacity: 0;
     visibility: hidden;
-    padding: 27px 7px 27px 0;
+    padding: 0px 7px 27px 0;
     position: absolute;
     top: -1px;
-    left: 200px;
+    left: 199px;
     width: 875px;
     border: solid 1px #7c7c7c33;
-    border-radius: 10px;
+    border-radius: 0px 10px 10px 0px;
     z-index: -1;
     height: 475px;
     overflow-y: auto;
@@ -3948,8 +3947,9 @@ ul.menu li.column-1 .submenu > li > a i {
 	
 }
 .banner-container {
-  width: 100%; /* Adjust the width as needed */
-  overflow: hidden; /* Ensures the image doesn't overflow */
+    width: auto;
+    height: 430px;
+    overflow: hidden;
 }
 
 .banner-image {
