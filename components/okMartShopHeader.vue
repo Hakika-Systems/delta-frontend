@@ -113,10 +113,10 @@
          <!-- <div class="col-2">
             <Skeleton v-if="categories_loading === true"  width="12rem" height="3rem" borderRadius="2px"></Skeleton>
             <TieredMenu v-else class="shopbyisle" :model="categories" />
-            
          </div> -->
          <div class="col-10">
-            <MegaMenu :model="dummyMenu" />
+			<Skeleton v-if="dummyMenu.length < 1" height="2rem" class="mb-2"></Skeleton>
+            <MegaMenu v-else :model="dummyMenu" />
          </div>
       </div>
       <OverlayPanel ref="op">
@@ -325,31 +325,7 @@
       }
     })
 };
-    const dummyMenu = ref([
-    {
-        label: 'Propbrands',
-        icon: 'pi pi-tagjhs',
-        command: () => {
-                navigateTo(`/brands-${brand_id.value}-${shop_id.value}-7`);
-        } 
-    },
-    {
-        label: 'CEO\'s Specials',
-        icon: 'pi pi-stakr'
-    },
-    {
-        label: 'GYM Clearance',
-        icon: 'pi pi-hjeart'
-    },
-    {
-        label: 'Motor Vehicle',
-        icon: 'pi pi-cjar'
-    },
-    {
-        label: 'Back to School',
-        icon: 'pi pi-bohjkok'
-    }
-])
+const dummyMenu = ref([])
 const  transformMenu = (data:any) => {
     // Helper function to convert adverts into banners
     function convertAdvertsToBanners(adverts:any) {
@@ -525,9 +501,29 @@ await transformMenu(data)
 console.log("ctegories",menuItems.value)
 categories_loading.value = false
 })
+let par:any  = sessionStorage.getItem('current_shop_id');
+let f_menus = await frontStore.getFeaturedMenus(JSON.parse(par)).then(async (data) => {
+console.log("dataaaaaaaa",data?.data)
+dummyMenu.value = await convertDataToMenuItems(data?.data)
+})
 })
         //@ts-ignore
-
+const convertDataToMenuItems = (data) => {
+	// @ts-ignore
+    return data.map(item => {
+        const { referenceable, referenceable_id, is_brand } = item;
+        return {
+            label: referenceable.name,
+            icon: 'pi pi-tagjhs', // You can adjust the icon as needed
+            command: () => {
+                const url = is_brand 
+                    ? `/brands-${brand_id.value}-${shop_id.value}-${referenceable_id}` 
+                    : `/category-${referenceable_id}-${brand_id.value}-${shop_id.value}`;
+                navigateTo(url);
+            }
+        };
+    });
+}
 const decreaseCartItem = async (item_id:any,product_id: any,quantity:any,unit_price:any) => {
     loading.value = true
     let cart_item = {
