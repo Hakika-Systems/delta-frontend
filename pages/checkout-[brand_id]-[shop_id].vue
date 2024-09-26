@@ -317,6 +317,7 @@ const decreaseCartItem = async (item_id:any,product_id: any,quantity:any,unit_pr
         let new_cart = await frontStore.getCart().then((data) => {
           cart.value = data.data.items
           cart_total.value = data?.data?.cart_total
+          vat_total.value = data?.data?.vat_total
         })
         toast.add({
           severity: 'info',
@@ -357,6 +358,7 @@ const increaseCartItem = async (item_id:any,product_id: any,quantity:any,unit_pr
         let new_cart = await frontStore.getCart().then((data) => {
           cart.value = data.data.items
           cart_total.value = data?.data?.cart_total
+          vat_total.value = data?.data?.vat_total
         })
         toast.add({
           severity: 'info',
@@ -469,6 +471,7 @@ const removeFromCart = async (itemId:any) => {
             let new_cart = await frontStore.getCart().then((data) => {
             cart.value = data.data.items
             cart_total.value = data?.data?.cart_total
+            vat_total.value = data?.data?.vat_total
             })
         } else {
             toast.add({
