@@ -422,6 +422,25 @@ export const useFrontStore = defineStore('front', {
       } finally {
       }
     },
+    async getFeaturedMenus(id:any) {
+      const url = new URL(`${SHOP_URL}/api/featured-menus/${id}`);
+      const token = useCookie('token').value || ""
+      const headers = {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+      };
+  
+      try {
+          const response = await fetch(url, {
+              method: "GET",
+              headers,
+          });
+          const data = await response.json();
+          return data;
+      } finally {
+      }
+    },
     async getRelatedProducts(my_params:any) {
       const url = new URL(`${SHOP_URL}/api/products/related`);
       const params:any = {
