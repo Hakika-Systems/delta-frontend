@@ -20,7 +20,7 @@
        </InputGroup>
        <div class="results-box p-5" v-if="search_text">
         <DataTable :value="search_products" showGridlines tableStyle="min-width: 50rem">
-            <Column header="Thumbnail" style="width: 5%" >
+            <Column  style="width: 5%" >
         <template #body="slotProps">
             <img :src="getParsedImages(slotProps?.data?.product?.thumbnails)" :alt="slotProps?.data?.product?.name" class="imgt border-round" />
         </template>
@@ -30,11 +30,11 @@
             {{ slotProps?.data?.product?.name }}
         </template>
     </Column>
-    <Column field="price" header="Category" style="width: 15%">
+    <!-- <Column field="price" header="Category" style="width: 15%">
         <template #body="slotProps">
             {{ slotProps?.data?.product?.categories[0]?.name }}
         </template>
-    </Column>
+    </Column> -->
     <Column field="price" header="Price" style="width: 10%">
         <template #body="slotProps">
             {{findCurrency()}}{{ slotProps?.data?.product?.prices[0]?.price }}
@@ -330,9 +330,11 @@ const  transformMenu = (data:any) => {
     // Helper function to convert adverts into banners
     function convertAdvertsToBanners(adverts:any) {
         //@ts-ignore
-        return adverts.map(advert => ({
-            title: advert.name,
-            image: advert.file
+		let ads:any = []
+		ads = adverts
+        return ads.map((ad:any) => ({
+            title: ad.name,
+            image: ad.file
         }));
     }
 
@@ -491,19 +493,10 @@ let created_cart = await frontStore.createCart(cart_params).then((data) => {
 
 let categoriess = await frontStore.getAllCategories(params).then(async (data) => {
 await transformMenu(data)
-//     categories.value = [
-//     {
-//         label: 'Categories',
-//         icon: 'pi pi-shopping-bag',
-//         items: await convertToMenuItems(data?.data?.categories)
-//     }
-// ];
-console.log("ctegories",menuItems.value)
 categories_loading.value = false
 })
 let par:any  = sessionStorage.getItem('current_shop_id');
 let f_menus = await frontStore.getFeaturedMenus(JSON.parse(par)).then(async (data) => {
-console.log("dataaaaaaaa",data?.data)
 dummyMenu.value = await convertDataToMenuItems(data?.data)
 })
 })
