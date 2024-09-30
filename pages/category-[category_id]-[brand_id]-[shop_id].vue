@@ -1,19 +1,16 @@
 <template>
      <okMartShopHeader  />
-    <div class="surface-section h-30rem bg-no-repeat bg-cover bg-center flex align-items-center" style="background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url('/images/se2.jpg?w=1060');">
+     <div class="px-4 py-4 md:px-6 lg:px-8">
+      <div class="surface-section bg-no-repeat bg-cover bg-center flex align-items-center"
+     style="background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url('https://directory.maz.co.zw/wp-content/uploads/2023/02/Irvines-Additional-Billboards-CMYK-3mm-Bleed-Cropmarks-JC-Decaux-Site-Size-3m-h-x-12m-Print-27.05.22MM-1024x271.jpg'); background-size: contain; height: 220px; margin-top: 20px; padding: 0 20px;">
     </div>
+     </div>
+    
+
     <div class="surface-section px-4 py-8 md:px-6 lg:px-8">
       <div class="flex justify-content-between flex-wrap">
         <div class="flex align-items-center mb-4 md:mb-0">
           <div class="text-900 font-bold text-3xl">{{ category_name ? category_name : "All Products"}}</div>
-        </div>
-        <div>
-          <button class="p-button p-component p-button-outlined p-button-secondary w-7rem p-2" type="button" aria-label="Sort By" data-pc-name="button" data-pc-section="root" data-pd-ripple="true">
-            <span class="p-button-icon p-button-icon-right pi pi-sort-alt" data-pc-section="icon"></span>
-            <span class="p-button-label" data-pc-section="label">Sort By</span>
-            <!---->
-            <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
-          </button>
         </div>
       </div>
       <div class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left" role="separator" aria-orientation="horizontal" data-pc-name="divider" data-pc-section="root" styleclass="w-full border-gray-200" style="justify-content: center;">
