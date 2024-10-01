@@ -101,7 +101,7 @@
     <!-- Banner Section -->
     <div class="col-4">
       <div class="banner-container">
-        <img src="https://media.takealot.com/b/2/cms/original_images/98c067b6546b752e233222f177df153194e9b167.png" alt="Banner Image" class="banner-image">
+        <img :src="getMenuBannerUrl(item?.banners)" alt="Banner Image" class="banner-image">
       </div>
     </div>
   </div>
@@ -220,6 +220,20 @@
     const goToLanding = async () => {
      await navigateTo('/',{external: true})
     }
+	const getMenuBannerUrl = (ban:any) => {
+		console.log("banners",ban);
+    // Loop through the array of banners
+    for (let i = 0; i < ban.length; i++) {
+        // Check if the position is "menu"
+        if (ban[i].position === "menu") {
+            // Return the URL of the first matching banner
+			console.log("got one")
+            return ban[i].image;
+        }
+    }
+    // Return null if no banner with position "menu" is found
+    return null;
+   }
     const goToHome = () => {
         if (typeof window !== 'undefined') {
             const current_shop_id:any = sessionStorage.getItem('current_shop_id');
@@ -334,7 +348,8 @@ const  transformMenu = (data:any) => {
 		ads = adverts
         return ads.map((ad:any) => ({
             title: ad.name,
-            image: ad.file
+            image: ad.file,
+			position: ad.display_position
         }));
     }
 
