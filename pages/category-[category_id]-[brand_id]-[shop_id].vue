@@ -1,5 +1,8 @@
 <template>
      <okMartShopHeader  />
+     <div class="px-6">
+      <MegaMenu class="jjmenu" :model="dummyMenu" />
+     </div>
      <div class="px-4 py-4 md:px-6 lg:px-8">
       <div class="surface-section bg-no-repeat bg-cover bg-center flex align-items-center"
      style="background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url('https://directory.maz.co.zw/wp-content/uploads/2023/02/Irvines-Additional-Billboards-CMYK-3mm-Bleed-Cropmarks-JC-Decaux-Site-Size-3m-h-x-12m-Print-27.05.22MM-1024x271.jpg'); background-size: contain; height: 220px; margin-top: 20px; padding: 0 20px;">
@@ -73,6 +76,7 @@
   const mytoken = useCookie('token');
   const name = useCookie('username');
   const user_id = useCookie('user_id');
+  const dummyMenu = ref([])
   const loading = ref(false)
   const cart_id = storeToRefs(frontStore).cart_id
   const brand_idd:any = storeToRefs(frontStore).brand_id
@@ -149,6 +153,19 @@ const  decreaseQuantity = (productId:any) => {
     quantities.value[productId]--;
   }
 }
+const convertDataToMenuItems = (data:any) => {
+	// @ts-ignore
+  dummyMenu.value = data.map(item => {
+        return {
+            label: item.name,
+            icon: 'pi pi-tagdjdjd', // Adjust the icon as needed
+            command: () => {
+                const url = `/category-${item.id}-${brand_id}-${shop_id}`; // Construct the URL using category ID
+                navigateTo(url); // Assuming navigateTo is defined
+            }
+        };
+    });
+}
 const getBrandConfiguration = () => {
     if (typeof window !== 'undefined') {
         // Retrieve brand configuration from sessionStorage
@@ -184,6 +201,9 @@ const buttonColor = active_brand?.value?.button_color;
         quantities.value[product.id] = 1; // Initialize quantity for each product
       });
       category_name.value = data?.data?.products[0]?.category?.name
+  })
+  await frontStore.getChildrenCategories(category_id).then(async (data) => {
+      await convertDataToMenuItems(data?.data?.children)
   })
   if (guest_id.value === null) {
       guest_id.value = createId()
@@ -406,6 +426,10 @@ const buttonColor = active_brand?.value?.button_color;
      
      margin-top: 12px;
  }
+ .p-megamenu.p-component.p-megamenu-horizontal.jjmenu {
+    display: flex;
+    justify-content: flex-start !important;
+}
  </style>
    <style scoped>
    .p-inputtext {
