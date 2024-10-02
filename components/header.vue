@@ -85,7 +85,7 @@
       <Dropdown v-model="shopBranch" :options="branches" filter optionLabel="name" optionValue="id" placeholder="Select a Store" checkmark :highlightOnSelect="false" class="w-full" />
     </div>
     <template #footer>
-        <Button :loading="loading" label="Shop Now" outlined severity="secondary" :disabled="!shopBranch" @click="goToShop()" autofocus />
+        <Button :loading="loading" label="Shop Now" outlined severity="secondary" :disabled="!shopBranch" @click="goToShop()" />
     </template>
 </Dialog>
 </template>
@@ -245,13 +245,15 @@ const getShopsForBrand = (brandId:any) => {
   branches.value = branchess?.shops;
 }
 
-const goToShop = () => {
+const goToShop = async () => {
   loading.value = true;
   sessionStorage.setItem('current_shop_id', JSON.stringify(shopID.value))
   sessionStorage.setItem('current_shop_branch', JSON.stringify(shopBranch.value))
-  navigateTo(`/shop-${shopID.value}-${shopBranch.value}`);
-
   loading.value = false;
+  await navigateTo(`/shop-${shopID.value}-${shopBranch.value}`,{external: true})
+  // navigateTo(`/shop-${shopID.value}-${shopBranch.value}`);
+
+  select_shop.value = false
 }
 
 onMounted(async() => {

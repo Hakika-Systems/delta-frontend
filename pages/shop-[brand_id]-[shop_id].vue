@@ -103,7 +103,7 @@
         <Button @click="goToShop()" :disabled="!selected_shop" type="button" label="Continue Shopping"></Button>
     </div>
 </Dialog>
-<ShopFooter />
+<Footer />
   </template>
   <script setup lang="ts">
   import { storeToRefs } from 'pinia';

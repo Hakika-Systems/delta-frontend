@@ -11,7 +11,7 @@
     <div class="okmartheader py-3 px-6  flex align-items-center justify-content-between relative">
       <!-- Logo -->
       <div class="flex items-center flex-grow-0">
-        <img :src="active_brand?.logo" alt="Image" height="90"  @click="goToHome()">
+        <img :src='mylogo' alt="Image" height="90"  @click="goToHome()">
       </div>
       <!-- Search Input -->
       <div class="flex items-center col-6 flex-grow search-container">
@@ -178,7 +178,7 @@
     </div>
     <template #footer>
         <Button  label="Back" outlined severity="secondary" :disabled="!shopBranch" @click="select_shop = false,select_brand = true" autofocus />
-        <Button :loading="loading" label="Shop Now" outlined severity="secondary" :disabled="!shopBranch" @click="goToShop()" autofocus />
+        <Button :loading="loading" label="Shop Now" outlined severity="secondary" :disabled="!shopBranch" @click="goToShop()" />
     </template>
 </Dialog>
     </template>
@@ -206,6 +206,7 @@
     const menuItems = ref()
     const current_id = ref()
     const product_brands = ref()
+	const mylogo = ref()
     const search_text = ref();
     const brand_id = storeToRefs(frontStore).brand_id
     const shop_id = storeToRefs(frontStore).shop_id
@@ -254,6 +255,14 @@
      shopName.value = currentBrand.value?.name;
      await getShopsForBrand( currentBrand.value?.id);
     }
+	const getLogo = () => {
+      // Ensure it's running on the client
+        let active_brandd: any = sessionStorage.getItem('active_brand');
+        let ab = JSON.parse(active_brandd);
+        mylogo.value = ab?.logo;
+     // Return fallback during SSR
+   };
+
     const getBrandById = () => {
     // Find the brand with the matching id
     const foundBrand = brands.value.find((brand:any) => brand.id === chosenBrand.value);
@@ -391,14 +400,15 @@ const findCurrency = () => {
     const currency = currencies.value.find((currency:any) => currency.id === selected_currency.value);
     return currency ? currency.iso_code : null;
 }
-const goToShop = () => {
-  loading.value = true;
-  sessionStorage.setItem('active_brand', JSON.stringify(currentBrand.value))
-  sessionStorage.setItem('current_shop_id', JSON.stringify(chosenBrand.value))
-  sessionStorage.setItem('current_shop_branch', JSON.stringify(shopBranch.value))
-  navigateTo(`/shop-${chosenBrand.value}-${shopBranch.value}`);
-
-  loading.value = false;
+const goToShop = async () => {
+//   loading.value = true;
+//   sessionStorage.setItem('active_brand', JSON.stringify(currentBrand.value))
+//   sessionStorage.setItem('current_shop_id', JSON.stringify(chosenBrand.value))
+//   sessionStorage.setItem('current_shop_branch', JSON.stringify(shopBranch.value))
+//   select_shop.value = false
+//   loading.value = false;
+  await navigateTo(`/shop-${chosenBrand.value}-${shopBranch.value}`);
+  
 }
 //@ts-ignore
 const active_brand = ref(getBrandConfiguration())
@@ -484,6 +494,7 @@ let brandss = await frontStore.getProductBrands(params).then((data) => {
     }
    }));
 })
+await getLogo()
 if (guest_id.value === null) {
       guest_id.value = createId()
       sessionStorage.setItem('guest_id', JSON.stringify(guest_id.value))

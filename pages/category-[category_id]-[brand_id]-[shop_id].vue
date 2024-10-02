@@ -65,7 +65,7 @@
       </div>
       </div>
     </div>
-    <ShopFooter />
+    <Footer />
   </template>
   <script setup lang="ts">
   import { storeToRefs } from 'pinia';
