@@ -3468,7 +3468,10 @@ ul.menu li.column-1 .submenu > li > a i {
 	.header-middle .grid-right {
 		width:100%;margin-left:0px;text-align:center;
 	}
-
+	.cat-title.cursor-pointer {
+    font-weight: 600;
+    margin-top: 10px;
+    }
 	.header-middle .grid-right .flat-unstyled.style1 {
 		float:none;line-height:50px;
 	}

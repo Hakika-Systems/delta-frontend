@@ -602,12 +602,14 @@ const  confirmOrder = async () => {
           name: name.value,
           phone: customer_mobile.value,
           address: address.value,
+          suburb: suburb.value,
           city: city.value,
           country: country.value
         },
         delivery_address: {
           name: name.value,
           phone: customer_mobile.value,
+          suburb: delivery_suburb.value ? delivery_suburb.value : suburb.value,
           address: delivery_address.value ? delivery_address.value : address.value,
           city: delivery_city.value ? delivery_city.value : city.value,
           country: delivery_country.value ? delivery_country.value : country.value

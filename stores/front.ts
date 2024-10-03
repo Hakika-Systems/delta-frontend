@@ -933,6 +933,7 @@ export const useFrontStore = defineStore('front', {
         customer_mobile: my_params.customer_mobile,
         billing_address: {
           name: my_params.billing_address.name,
+          suburb: my_params.billing_address.suburb,
           address: my_params.billing_address.address,
           city: my_params.billing_address.city,
           country: my_params.billing_address.country,
@@ -940,6 +941,7 @@ export const useFrontStore = defineStore('front', {
         },
         delivery_address: {
           name: my_params.delivery_address.name,
+          suburb: my_params.delivery_address.suburb,
           address: my_params.delivery_address.address,
           city: my_params.delivery_address.city,
           country: my_params.delivery_address.country,
