@@ -68,7 +68,7 @@
         </InputGroupAddon>
         <InlineMessage severity="secondary">{{findCurrency()}}{{ cart_total }}</InlineMessage>
         <!-- <InputNumber v-model="cartTotal()" class="inputtotal" disabled placeholder="0.00" /> -->
-        <Button @click="navigateTo(`checkout-${brand_id}-${shop_id}`)" label="Checkout" class="checkoutbutton" icon="pi pi-angle-right" iconPos="right" severity="warn" />
+        <Button @click="goToCheckout()" label="Checkout" class="checkoutbutton" icon="pi pi-angle-right" iconPos="right" severity="warn" />
     </InputGroup>
      <!-- <i v-badge.danger="'5'" class="pi pi-shopping-cart carticon" style="font-size: 1rem" /> -->
       </div>
@@ -221,6 +221,9 @@
     const goToLanding = async () => {
      await navigateTo('/',{external: true})
     }
+	const goToCheckout = async () => {
+		await navigateTo(`checkout-${brand_id.value}-${shop_id.value}`,{external: true})
+	}
 	const getMenuBannerUrl = (ban:any) => {
 		console.log("banners",ban);
     // Loop through the array of banners
@@ -693,6 +696,10 @@ const getParsedImages = (images: string) => {
     
     </script>
     <style>
+	.cat-title.cursor-pointer {
+    font-weight: 600 !important;
+    margin-top: 15px !important;
+}
   
       .search-container {
         max-width: 600px; /* Adjust max-width as needed */
