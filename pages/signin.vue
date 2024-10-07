@@ -66,7 +66,7 @@ try {
       detail: 'Successfully Signed In',
       life: 3000,
     });
-    navigateTo('/myaccount');
+    navigateTo('/myaccount',{external: true});
   } else {
     // Catch all for unexpected response structures
     toast.add({

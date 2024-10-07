@@ -36,14 +36,6 @@
         <div class="flex align-items-center mb-4 md:mb-0">
           <div class="text-900 font-bold text-3xl">All Products</div>
         </div>
-        <div>
-          <button class="p-button p-component p-button-outlined p-button-secondary w-7rem p-2" type="button" aria-label="Sort By" data-pc-name="button" data-pc-section="root" data-pd-ripple="true">
-            <span class="p-button-icon p-button-icon-right pi pi-sort-alt" data-pc-section="icon"></span>
-            <span class="p-button-label" data-pc-section="label">Sort By</span>
-            <!---->
-            <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
-          </button>
-        </div>
       </div>
       <div class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left" role="separator" aria-orientation="horizontal" data-pc-name="divider" data-pc-section="root" styleclass="w-full border-gray-200" style="justify-content: center;">
         <!---->
@@ -193,20 +185,25 @@ const buttonColor = active_brand?.value?.button_color;
     return value.toLocaleString('en-US', { style: 'currency', currency: currency.value });
   };
   const getParsedImages = (images: string) => {
-    try {
-      const parsedImages = JSON.parse(images);
+  try {
+    const parsedImages = JSON.parse(images);
+    
+    // Check if parsedImages is not null or undefined before calling replace
+    if (parsedImages) {
       const cleanedString = JSON.parse(parsedImages.replace(/\\/g, ''));
-      return cleanedString[0]
-    } catch (error) {
-      console.error('Error parsing images JSON:', error);
+      return cleanedString[0];
     }
-    return null; // Return null if parsing fails or no images are found
-  };
+  } catch (error) {
+    console.error('Error parsing images JSON:', error);
+  }
+
+  return '/images/placeholder.png'; // Return null if parsing fails or if parsedImages is null
+};
   const goToDetailPage = (productt:any) => {
     // product.value = productt
     console.log("productss",productt)
     sessionStorage.setItem('product_detail',JSON.stringify(productt))
-    navigateTo(`/detail-${productt?.id}-${brand_id}-${shop_id}-${productt?.category_id}`)
+    navigateTo(`/detail-${productt?.id}-${brand_id}-${shop_id}-${productt?.category_id}`,{external:true})
   }
   const checkAgain = () => {
     if (shop_id === "undefined") {
@@ -229,7 +226,7 @@ const buttonColor = active_brand?.value?.button_color;
     }
     guest_id.value = JSON.parse(gi)
     if (shop_id && brand_id === null) {
-  navigateTo('/');
+  navigateTo('/',{external:true});
    }
     if(shop_id === "undefined") {
        visible.value = true;
@@ -279,7 +276,7 @@ const buttonColor = active_brand?.value?.button_color;
   }) 
  })
  const goToShop = () => {
-  navigateTo(`shop-${brand_id}-${selected_shop.value}`)
+  navigateTo(`shop-${brand_id}-${selected_shop.value}`,{external:true})
  }
  const selectShopsByBrandId = (brandId:any,brandss:any) => {
   console.log("brand id is ",brandId)

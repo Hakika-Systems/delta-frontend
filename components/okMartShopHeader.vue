@@ -58,8 +58,8 @@
         <Dropdown v-model="selected_currency" :options="currencies" optionLabel="iso_code" optionValue="id" placeholder="Select Currency" class="w-50 md:w-7rem" />
      <a class="text-white font-medium inline-flex align-items-center cursor-pointer px-3 hover:text-gray-200 p-ripple" data-pd-ripple="true">
        <i class="pi pi-user mr-2 sm:mr-3 toptext text-sm"></i>
-       <span v-if="mytoken" class="toptext" @click="navigateTo('/myaccount')">My Account</span>
-       <span v-else class="toptext" @click="navigateTo('/signin')">Sign In</span>
+       <span v-if="mytoken" class="toptext" @click="navigateTo('/myaccount',{external:true})">My Account</span>
+       <span v-else class="toptext" @click="navigateTo('/signin',{external:true})">Sign In</span>
        <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
      </a>
      <InputGroup class="w-custom md:w-[30rem]">
@@ -146,7 +146,7 @@
                 </div>
             </div>
             <div>
-                <Button @click="navigateTo(`checkout-${brand_id}-${shop_id}`)" type="button" label="Checkout" class="w-full mt-2 overlaycheckoutbtn" />
+                <Button @click="navigateTo(`checkout-${brand_id}-${shop_id}`,{external: true})" type="button" label="Checkout" class="w-full mt-2 overlaycheckoutbtn" />
         </div>
         </OverlayPanel>
     </div>
@@ -238,18 +238,18 @@
     // Return null if no banner with position "menu" is found
     return null;
    }
-    const goToHome = () => {
+    const goToHome = async () => {
         if (typeof window !== 'undefined') {
             const current_shop_id:any = sessionStorage.getItem('current_shop_id');
             const current_shop_branch:any = sessionStorage.getItem('current_shop_branch');
-            navigateTo(`/shop-${JSON.parse(current_shop_id)}-${JSON.parse(current_shop_branch)}`)
+           await  navigateTo(`/shop-${JSON.parse(current_shop_id)}-${JSON.parse(current_shop_branch)}`,{external:true})
         }
         
         //@ts-ignore
         
     }
     const goToCategory = (id:any) => {
-        navigateTo(`/category-${id}-${brand_id.value}-${shop_id.value}`);
+        navigateTo(`/category-${id}-${brand_id.value}-${shop_id.value}`,{external:true});
     }
     const chooseShop = async () => {
      select_brand.value = false
@@ -410,7 +410,7 @@ const goToShop = async () => {
 //   sessionStorage.setItem('current_shop_branch', JSON.stringify(shopBranch.value))
 //   select_shop.value = false
 //   loading.value = false;
-  await navigateTo(`/shop-${chosenBrand.value}-${shopBranch.value}`);
+  await navigateTo(`/shop-${chosenBrand.value}-${shopBranch.value}`,{external:true});
   
 }
 //@ts-ignore
@@ -443,7 +443,7 @@ const navColor = active_brand?.value?.menu_font_color??"#fff";
         .map(parentCategory => ({
             label: parentCategory.name,
             command: () => {
-                navigateTo(`/category-${parentCategory.id}-${brand_id.value}-${shop_id.value}`);
+                navigateTo(`/category-${parentCategory.id}-${brand_id.value}-${shop_id.value}`,{external: true});
             },
             icon: 'pi pi-category-icon',
             items: Array.isArray(parentCategory.children) ? 
@@ -451,7 +451,7 @@ const navColor = active_brand?.value?.menu_font_color??"#fff";
                 parentCategory.children.map(child => ({
                     label: child.name,
                     command: () => {
-                        navigateTo(`/category-${child.id}-${brand_id.value}-${shop_id.value}`);
+                        navigateTo(`/category-${child.id}-${brand_id.value}-${shop_id.value}`,{external:true});
                     },
                     items: child.children ? convertToMenuItems(child.children) : []
                 })) : []
@@ -493,7 +493,7 @@ let brandss = await frontStore.getProductBrands(params).then((data) => {
     product_brands.value = data?.data?.data.map(item => ({
     label: item.name,
     command: () => {
-        navigateTo(`/category-${item.id}-${shop_id}-5`);
+        navigateTo(`/category-${item.id}-${shop_id}-5`,{external: true});
     }
    }));
 })
@@ -515,7 +515,7 @@ if (guest_id.value === null) {
   guest_id: guest_id.value
  }
 let created_cart = await frontStore.createCart(cart_params).then((data) => {
-  cart.value = data.data.items
+  cart.value = data.data?.items
   cart_total.value = data?.data?.cart_total
   cart_id.value = data?.data?.id
 }) 
@@ -541,7 +541,7 @@ const convertDataToMenuItems = (data) => {
                 const url = is_brand 
                     ? `/brands-${brand_id.value}-${shop_id.value}-${referenceable_id}` 
                     : `/category-${referenceable_id}-${brand_id.value}-${shop_id.value}`;
-                navigateTo(url);
+                navigateTo(url,{external:true});
             }
         };
     });
@@ -683,14 +683,19 @@ const getActiveShopNameById = () => {
     return `NO ACTIVE SHOP`;
 }
 const getParsedImages = (images: string) => {
-    try {
-        const parsedImages = JSON.parse(images);
-        const cleanedString = JSON.parse(parsedImages.replace(/\\/g, ''));
-        return cleanedString[0]
-    } catch (error) {
-        console.error('Error parsing images JSON:', error);
+  try {
+    const parsedImages = JSON.parse(images);
+    
+    // Check if parsedImages is not null or undefined before calling replace
+    if (parsedImages) {
+      const cleanedString = JSON.parse(parsedImages.replace(/\\/g, ''));
+      return cleanedString[0];
     }
-    return null; // Return null if parsing fails or no images are found
+  } catch (error) {
+    console.error('Error parsing images JSON:', error);
+  }
+
+  return '/images/placeholder.png'; // Return null if parsing fails or if parsedImages is null
 };
 
     

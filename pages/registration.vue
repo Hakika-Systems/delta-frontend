@@ -476,7 +476,7 @@ const individualRegistration = async () => {
         loading.value = false
         if (data.status === "success") {
             toast.add({ severity: 'success', summary: 'Success', detail: 'You have been registred', life: 3000 });
-            navigateTo('/signin')
+            navigateTo('/signin',{external:true})
         } else {
             toast.add({ severity: 'warn', summary: 'Failed', detail: data.errors, life: 3000 });
         }

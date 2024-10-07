@@ -120,7 +120,7 @@
    const goToDetailPage = (productt:any) => {
     // product.value = productt
     sessionStorage.setItem('product_detail',JSON.stringify(productt))
-    navigateTo(`/detail-${productt.id}-${brand_id}-${shop_id}-${productt.category.id}`)
+    navigateTo(`/detail-${productt.id}-${brand_id}-${shop_id}-${productt.category.id}`,{external:true})
   }
   const products:any = storeToRefs(frontStore).products
   const currency = ref("USD")
@@ -133,15 +133,20 @@
     }
     return value.toLocaleString('en-US', { style: 'currency', currency: currency.value });
   };
-const getParsedImages = (images: string) => {
+  const getParsedImages = (images: string) => {
   try {
     const parsedImages = JSON.parse(images);
-    const cleanedString = JSON.parse(parsedImages.replace(/\\/g, ''));
-    return cleanedString[0]
+    
+    // Check if parsedImages is not null or undefined before calling replace
+    if (parsedImages) {
+      const cleanedString = JSON.parse(parsedImages.replace(/\\/g, ''));
+      return cleanedString[0];
+    }
   } catch (error) {
     console.error('Error parsing images JSON:', error);
   }
-  return null; // Return null if parsing fails or no images are found
+
+  return '/images/placeholder.png'; // Return null if parsing fails or if parsedImages is null
 };
 const increaseQuantity = (productId:any) => {
   if (quantities.value[productId] < 100) { // Assuming a max limit of 100
@@ -161,7 +166,7 @@ const convertDataToMenuItems = (data:any) => {
             icon: 'pi pi-tagdjdjd', // Adjust the icon as needed
             command: () => {
                 const url = `/category-${item.id}-${brand_id}-${shop_id}`; // Construct the URL using category ID
-                navigateTo(url); // Assuming navigateTo is defined
+                navigateTo(url,{external:true}); // Assuming navigateTo is defined
             }
         };
     });

@@ -7,14 +7,6 @@
       <div class="flex align-items-center mb-4 md:mb-0">
         <div class="text-900 font-bold text-3xl">{{ brand_name ? brand_name : "All Products"}}</div>
       </div>
-      <div>
-        <button class="p-button p-component p-button-outlined p-button-secondary w-7rem p-2" type="button" aria-label="Sort By" data-pc-name="button" data-pc-section="root" data-pd-ripple="true">
-          <span class="p-button-icon p-button-icon-right pi pi-sort-alt" data-pc-section="icon"></span>
-          <span class="p-button-label" data-pc-section="label">Sort By</span>
-          <!---->
-          <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
-        </button>
-      </div>
     </div>
     <div class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left" role="separator" aria-orientation="horizontal" data-pc-name="divider" data-pc-section="root" styleclass="w-full border-gray-200" style="justify-content: center;">
       <!---->
@@ -106,7 +98,7 @@ const findCurrency = () => {
 const goToDetailPage = (productt:any) => {
     // product.value = productt
     sessionStorage.setItem('product_detail',JSON.stringify(productt))
-    navigateTo(`/detail-${productt.id}-${brand_id}-${shop_id}-${productt.category.id}`)
+    navigateTo(`/detail-${productt.id}-${brand_id}-${shop_id}-${productt.category.id}`,{external:true})
   }
 const products:any = storeToRefs(frontStore).products
 const currency = ref("USD")
@@ -120,14 +112,19 @@ const formatCurrency = (value:any) => {
   return value.toLocaleString('en-US', { style: 'currency', currency: currency.value });
 };
 const getParsedImages = (images: string) => {
-try {
-  const parsedImages = JSON.parse(images);
-  const cleanedString = JSON.parse(parsedImages.replace(/\\/g, ''));
-  return cleanedString[0]
-} catch (error) {
-  console.error('Error parsing images JSON:', error);
-}
-return null; // Return null if parsing fails or no images are found
+  try {
+    const parsedImages = JSON.parse(images);
+    
+    // Check if parsedImages is not null or undefined before calling replace
+    if (parsedImages) {
+      const cleanedString = JSON.parse(parsedImages.replace(/\\/g, ''));
+      return cleanedString[0];
+    }
+  } catch (error) {
+    console.error('Error parsing images JSON:', error);
+  }
+
+  return '/images/placeholder.png'; // Return null if parsing fails or if parsedImages is null
 };
 const getBrandConfiguration = () => {
     if (typeof window !== 'undefined') {

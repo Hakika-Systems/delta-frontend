@@ -205,9 +205,9 @@ const getShopsForBrand = (brandId:any) => {
   let branchess = brands.value.find(brand => brand.id === brandId);
   branches.value = branchess?.shops
 }
-const goToShop = () => {
+const goToShop = async () => {
      loading.value = true
-     navigateTo(`/shop-${shopID.value}-${shopBranch.value}`)
+     await navigateTo(`/shop-${shopID.value}-${shopBranch.value}`,{external: true})
      loading.value = false
 }
 const findCurrency = () => {
@@ -217,12 +217,17 @@ const findCurrency = () => {
 const getParsedImages = (images: string) => {
   try {
     const parsedImages = JSON.parse(images);
-    const cleanedString = JSON.parse(parsedImages.replace(/\\/g, ''));
-    return cleanedString[0]
+    
+    // Check if parsedImages is not null or undefined before calling replace
+    if (parsedImages) {
+      const cleanedString = JSON.parse(parsedImages.replace(/\\/g, ''));
+      return cleanedString[0];
+    }
   } catch (error) {
     console.error('Error parsing images JSON:', error);
   }
-  return null; // Return null if parsing fails or no images are found
+
+  return '/images/placeholder.png'; // Return null if parsing fails or if parsedImages is null
 };
 
 // Set the products to dummyProducts

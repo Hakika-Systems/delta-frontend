@@ -519,15 +519,20 @@ const removeFromCart = async (itemId:any) => {
     }
 
     const getParsedImages = (images: string) => {
-    try {
-        const parsedImages = JSON.parse(images);
-        const cleanedString = JSON.parse(parsedImages.replace(/\\/g, ''));
-        return cleanedString[0]
-    } catch (error) {
-        console.error('Error parsing images JSON:', error);
+  try {
+    const parsedImages = JSON.parse(images);
+    
+    // Check if parsedImages is not null or undefined before calling replace
+    if (parsedImages) {
+      const cleanedString = JSON.parse(parsedImages.replace(/\\/g, ''));
+      return cleanedString[0];
     }
-    return null; // Return null if parsing fails or no images are found
-    };
+  } catch (error) {
+    console.error('Error parsing images JSON:', error);
+  }
+
+  return '/images/placeholder.png'; // Return null if parsing fails or if parsedImages is null
+};
 
 const subtotal = computed(() => {
   let products_total = Number(cartTotal())
@@ -553,8 +558,9 @@ const formatPrice = (valueToFormat:any) => {
 }
 onMounted( async() => {
   console.log("cart id is",cart_id.value)
-  let results = frontStore.getCart().then((data) => {
-    cart.value = data.data.items
+  let results = await frontStore.getCart().then((data) => {
+    console.log("dataaaaaa reoacheckout",data)
+    cart.value = data.data?.items
     cart_total.value = data?.data?.cart_total
     vat_total.value = data?.data?.vat_total
   })
@@ -637,7 +643,7 @@ const  confirmOrder = async () => {
               if(data?.data?.success) {
                   if(data?.data?.redirect === false) {
                     loading.value = false
-                     navigateTo('/coc_order_summary')
+                     navigateTo('/coc_order_summary',{external: true})
                   } else if (data?.data?.redirect === true){
                     toast.add({ severity: 'info', summary: 'Redirecting', detail: "Redirecting To Paynow", life: 3000 });
                     await navigateTo(`${data.data.redirect_url}`, {

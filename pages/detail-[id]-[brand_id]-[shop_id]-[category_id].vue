@@ -55,7 +55,7 @@
                       </div>
                   </div>
                   <div class="font-bold text-900 mb-3">Brand</div>
-                  <div v-if="product?.brand?.name" @click="navigateTo(`/brands-${brand_id}-${shop_id}-${product.brand.id}`)" class="flex align-items-center mb-5 cursor-pointer">{{ product?.brand?.name }}</div>
+                  <div v-if="product?.brand?.name" @click="navigateTo(`/brands-${brand_id}-${shop_id}-${product.brand.id}`,{external:true})" class="flex align-items-center mb-5 cursor-pointer">{{ product?.brand?.name }}</div>
                   <div class="font-bold text-900 mb-3">Category</div>
                   <div class="flex align-items-center cursor-pointer mb-5">{{ product?.category?.name }}</div>
                   <div class="font-bold text-900 mb-3">Description</div>
@@ -78,7 +78,7 @@
               <div class="border-round surface-section p-4">
                   <div class="flex justify-content-between flex-wrap mb-4">
                       <div class="text-900 font-bold text-3xl">Related Products</div>
-                      <Button class="p-button p-component p-button-outlined p-button-secondary w-7rem p-2" label="Sort By" />
+                     
                   </div>
                   <div class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left" styleclass="w-full border-gray-200"></div>
                   <div v-if="related_products.length === 0">No Related Products</div>
@@ -139,10 +139,10 @@ const quantity = ref(1)
 const quantities:any = ref({})
 const cart_total = storeToRefs(frontStore).cart_total
 const related_products:any = ref([])
-const goToDetailPage = (productt:any) => {
+const goToDetailPage = async (productt:any) => {
     // product.value = productt
     sessionStorage.setItem('product_detail',JSON.stringify(productt))
-    navigateTo(`/detail-${productt.id}-${brand_id}-${shop_id}-${productt.category.id}`)
+   await navigateTo(`/detail-${productt.id}-${brand_id}-${shop_id}-${productt.category.id}`,{external:true})
 }
 const increaseQuantity = (productId:any) => {
   if (quantities.value[productId] < 100) { // Assuming a max limit of 100
@@ -281,20 +281,24 @@ const findProduct = (id:any) => {
 
 const getParsedImages = (images: string) => {
   try {
-      const parsedImages = JSON.parse(images)
-      const cleanedString = JSON.parse(parsedImages.replace(/\\/g, ''))
-      return cleanedString[0]
+    const parsedImages = JSON.parse(images);
+    
+    // Check if parsedImages is not null or undefined before calling replace
+    if (parsedImages) {
+      const cleanedString = JSON.parse(parsedImages.replace(/\\/g, ''));
+      return cleanedString[0];
+    }
   } catch (error) {
-      return images
+    console.error('Error parsing images JSON:', error);
   }
-}
+
+  return '/images/placeholder.png'; // Return null if parsing fails or if parsedImages is null
+};
 
 const addEllipsis = (str: string) => str.length > 25 ? str.slice(0, 25) + '...' : str
 const formatCurrency = (amount: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount)
 
-const navigateTo = (route: string) => {
-  useRouter().push(route)
-}
+
 
 const addToCartRelated = async (product_id: any,price:any) => {
     current_id.value = product_id

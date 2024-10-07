@@ -98,15 +98,20 @@
   const old_cart_id = storeToRefs(frontStore).old_cart_id
   
   const getParsedImages = (images: string) => {
-      try {
-        const parsedImages = JSON.parse(images);
-        const cleanedString = JSON.parse(parsedImages.replace(/\\/g, ''));
-        return cleanedString[0]
-      } catch (error) {
-        console.error('Error parsing images JSON:', error);
-      }
-      return null; // Return null if parsing fails or no images are found
-    };
+  try {
+    const parsedImages = JSON.parse(images);
+    
+    // Check if parsedImages is not null or undefined before calling replace
+    if (parsedImages) {
+      const cleanedString = JSON.parse(parsedImages.replace(/\\/g, ''));
+      return cleanedString[0];
+    }
+  } catch (error) {
+    console.error('Error parsing images JSON:', error);
+  }
+
+  return '/images/placeholder.png'; // Return null if parsing fails or if parsedImages is null
+};
   onMounted(async() => {
     let last_order:any
       if (typeof window !== 'undefined') {

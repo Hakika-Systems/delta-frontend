@@ -147,13 +147,17 @@ onMounted(async() => {
 const getParsedImages = (images: string) => {
   try {
     const parsedImages = JSON.parse(images);
-    const cleanedString = JSON.parse(parsedImages.replace(/\\/g, ''));
-    console.log('mbililimbi',cleanedString)
-    return cleanedString[0]
+    
+    // Check if parsedImages is not null or undefined before calling replace
+    if (parsedImages) {
+      const cleanedString = JSON.parse(parsedImages.replace(/\\/g, ''));
+      return cleanedString[0];
+    }
   } catch (error) {
     console.error('Error parsing images JSON:', error);
   }
-  return null; // Return null if parsing fails or no images are found
+
+  return '/images/placeholder.png'; // Return null if parsing fails or if parsedImages is null
 };
 </script>
 <style>

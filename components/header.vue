@@ -132,13 +132,19 @@ const searchProducts = () => {
 }
 const getParsedImages = (images: string) => {
   try {
-      const parsedImages = JSON.parse(images)
-      const cleanedString = JSON.parse(parsedImages.replace(/\\/g, ''))
-      return cleanedString[0]
+    const parsedImages = JSON.parse(images);
+    
+    // Check if parsedImages is not null or undefined before calling replace
+    if (parsedImages) {
+      const cleanedString = JSON.parse(parsedImages.replace(/\\/g, ''));
+      return cleanedString[0];
+    }
   } catch (error) {
-      return images
+    console.error('Error parsing images JSON:', error);
   }
-}
+
+  return '/images/placeholder.png'; // Return null if parsing fails or if parsedImages is null
+};
 
 const displaySearchResults = async () => {
   if (search_products.value && search_products.value.length > 0) {
@@ -231,10 +237,9 @@ const displaySearchResults = async () => {
 
 
 // Example showBrand function to handle the button click
-const showBrand = (brandId: any) => {
-  console.log("Brand ID:", brandId);
+const showBrand = async (brandId: any) => {
   // Implement the logic for showing the brand, e.g., navigating to a shop page
-  navigateTo(`/shop/${brandId}`);
+  await navigateTo(`/shop-${brandId.value}`,{external: true})
 };
 
 
