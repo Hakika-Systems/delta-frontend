@@ -15,8 +15,6 @@
                     >
                             <template #header>
                                 <div class="flex justify-content-between">
-                                    <Button type="button" icon="pi pi-filter-slash" label="Clear" class="p-button-outlined" @click="clearFilter1()"/>
-                                    <Button icon="pi pi-external-link" label="Table Export" @click="exportCSV($event)" />
                                     <IconField iconPosition="left" >
                                         <InputIcon class="pi pi-search" > </InputIcon>
                                         <InputText v-model="filters['global'].value" placeholder="Keyword Search" />
@@ -68,17 +66,6 @@
                         
                         
                         </DataTable>
-                                        
-                        <Paginator @page="onPage($event)"
-                            :template="{
-                                '640px': 'PrevPageLink CurrentPageReport NextPageLink',
-                                '960px': 'FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink',
-                                '1300px': 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink',
-                                default: 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink JumpToPageDropdown JumpToPageInput'
-                            }"
-                            :rows="10"
-                            :totalRecords="120">
-                        </Paginator>
                     </div>
                 </div>
             </div>
@@ -205,6 +192,7 @@
 
  const trackOrder = (order_ref:any) => {
     let result = frontStore.trackOrderByRef(order_ref).then((data) => {
+      //@ts-ignore
      my_current_stage.value = data.data.stages.find(stage => stage.current === 1).status
      
    })
@@ -263,9 +251,9 @@
      address_types.value = data?.data?.data
    })
    let delivery = frontStore.getAllOrderStages().then((data) => {
-    
+    //@ts-ignore
      delivery_stages.value = data.data.data.filter(order => order.delivery_option === "delivery").sort((a, b) => a.sequence - b.sequence).map(order => order.stage)
-    
+    //@ts-ignore
      collection_stages.value = data.data.data.filter(order => order.delivery_option === "pickup") .sort((a, b) => a.sequence - b.sequence).map(order => order.stage)
    })
   
