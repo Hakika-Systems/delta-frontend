@@ -302,7 +302,6 @@ const formatCurrency = (amount: number) => new Intl.NumberFormat('en-US', { styl
 
 const addToCartRelated = async (product_id: any,price:any) => {
     current_id.value = product_id
-    console.log("quantity",quantities.value[product_id])
   // Find the product in products
 
 

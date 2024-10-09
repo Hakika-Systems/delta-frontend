@@ -200,7 +200,6 @@ const buttonColor = active_brand?.value?.button_color;
       category_id: category_id
   }
   await frontStore.getRelatedProducts(related_params).then((data) => {
-      console.log("related products:", data)
       products.value = data?.data?.products
       products.value.forEach((product:any) => {
         quantities.value[product.id] = 1; // Initialize quantity for each product

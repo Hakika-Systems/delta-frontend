@@ -362,7 +362,6 @@ export const useFrontStore = defineStore('front', {
           },
         });
     
-        console.log(response.data); // Log the response data
         return response.data; // Return the data if needed
       } catch (error) {
         console.error('Error fetching search results:', error);
@@ -698,7 +697,6 @@ export const useFrontStore = defineStore('front', {
     },
     async initiatePayment(info: any) {
       // Prepare the FormData object
-      console.log('inside payment initialization',info)
       const formData = new FormData();
       formData.append('order_id', info.order_id); // Assuming `info.id` contains the order ID
       formData.append('payment_method', info.payment_method); // Assuming `info.payment_method` is the payment method
@@ -720,13 +718,11 @@ export const useFrontStore = defineStore('front', {
       // Make the axios request
       try {
         const response = await axios(config);
-        console.log(JSON.stringify(response.data));
         return {
           data: response.data,
           success: true,
         };
       } catch (error) {
-        console.log(error);
         return {
           success: false,
         };
@@ -766,6 +762,28 @@ export const useFrontStore = defineStore('front', {
     },
     async getCart() {
       const url = `${SHOP_URL}/api/carts/${this.cart_id}`;
+      const token = useCookie('token').value || "";
+      
+      const headers = {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      };
+      
+      try {
+        const response = await fetch(url, {
+          method: "GET",
+          headers
+        });
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error:', error);
+        throw error;
+      }
+    },
+    async getCartTwo(id:any) {
+      const url = `${SHOP_URL}/api/carts/${id}`;
       const token = useCookie('token').value || "";
       
       const headers = {
@@ -952,6 +970,7 @@ export const useFrontStore = defineStore('front', {
         payment_method: my_params.payment_method,
         currency_id: my_params.currency_id,
         currency: my_params.currency,
+        notes: my_params.notes,
         discount: 0,
         delivery_amount: my_params.delivery_amount,
         total_amount: my_params.total_amount,

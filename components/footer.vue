@@ -133,11 +133,9 @@
 <script setup lang="ts">
 const frontStore = useFrontStore();
 const brands:any = storeToRefs(frontStore).brands;
-console.log('jj',brands.value)
 onMounted(async() => {
  
   let result_one = await frontStore.getBrands().then(async (data) => {
-    console.log("Brandsxx:",data?.data?.shopbrands[0].logo);
     brands.value = data?.data?.shopbrands;
     
    
@@ -171,12 +169,7 @@ h3.text-0 {
         max-width: 600px; /* Adjust max-width as needed */
       }
     
-      .search-input {
-    border-radius: 25px 0 0 25px;
-    border: 1px solid #cccccc !important;
-    height: 50px;
-    outline: none;
-}
+
     .p-inputgroup-addon {
     width: 65px;
     }

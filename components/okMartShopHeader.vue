@@ -1,5 +1,6 @@
 <template>
-    <div class="toppheader px-4 lg:px-8 py-3 lg:py-3 flex flex-column sm:flex-row w-full justify-content-between align-items-center">
+<Skeleton v-if="skeleton_loader" height="4rem" class="mb-2"></Skeleton>
+    <div v-else class="toppheader px-4 lg:px-8 py-3 lg:py-3 flex flex-column sm:flex-row w-full justify-content-between align-items-center">
         <div>
   <Button @click="goToLanding()" icon="pi pi-home" class="topbtn mr-2" label="Home" outlined/>
   <Button @click="select_brand = true" icon="pi pi-sync" class="mr-2 topbtn" label="Choose Store" outlined />
@@ -11,12 +12,14 @@
     <div class="okmartheader py-3 px-6  flex align-items-center justify-content-between relative">
       <!-- Logo -->
       <div class="flex items-center flex-grow-0">
-        <img :src='mylogo' alt="Image" height="90"  @click="goToHome()">
+		<Skeleton v-if="skeleton_loader" width="10rem" height="4rem"></Skeleton>
+        <img v-else :src='mylogo' alt="Image" height="90"  @click="goToHome()">
       </div>
       <!-- Search Input -->
       <div class="flex items-center col-6 flex-grow search-container">
         <InputGroup class="w-full">
-        <InputText @keyup="searchProducts()" v-model="search_text" id="input"  type="text" placeholder="Search Products" class="search-input px-4 py-2 w-full" autofocus />
+		<Skeleton v-if="skeleton_loader" height="2rem" class="mb-2" borderRadius="16px"></Skeleton>
+        <InputText v-else @keyup="searchProducts()" v-model="search_text" id="input"  type="text" placeholder="Search Products" class="search-input px-4 py-2 w-full" autofocus />
        </InputGroup>
        <div class="results-box p-5" v-if="search_text">
         <DataTable :value="search_products" showGridlines tableStyle="min-width: 50rem">
@@ -55,14 +58,17 @@
        </div>
       </div>
       <div class="flex items-center col-5 flex-grow-0 account-cart-container">
-        <Dropdown v-model="selected_currency" :options="currencies" optionLabel="iso_code" optionValue="id" placeholder="Select Currency" class="w-50 md:w-7rem" />
-     <a class="text-white font-medium inline-flex align-items-center cursor-pointer px-3 hover:text-gray-200 p-ripple" data-pd-ripple="true">
+		<Skeleton v-if="skeleton_loader" height="2rem" width="5rem" class="mb-2"></Skeleton>
+        <Dropdown v-else v-model="selected_currency" :options="currencies" optionLabel="iso_code" optionValue="id" placeholder="Select Currency" class="w-50 md:w-7rem" />
+		<Skeleton v-if="skeleton_loader" height="2rem" width="5rem" class="mb-2 ml-2"></Skeleton>
+     <a v-else class="text-white font-medium inline-flex align-items-center cursor-pointer px-3 hover:text-gray-200 p-ripple" data-pd-ripple="true">
        <i class="pi pi-user mr-2 sm:mr-3 toptext text-sm"></i>
        <span v-if="mytoken" class="toptext" @click="navigateTo('/myaccount',{external:true})">My Account</span>
        <span v-else class="toptext" @click="navigateTo('/signin',{external:true})">Sign In</span>
        <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
      </a>
-     <InputGroup class="w-custom md:w-[30rem]">
+	 <Skeleton v-if="skeleton_loader" height="2rem" width="8rem" class="mb-2 ml-2"></Skeleton>
+     <InputGroup v-else class="w-custom md:w-[30rem]">
         <InputGroupAddon>
             <i v-badge="getTotalItemsInCart()" @mouseenter="toggle" @click="toggle" class="pi pi-shopping-cart totalbadge" style="font-size: 25px;" />
         </InputGroupAddon>
@@ -76,7 +82,8 @@
     <div class="belowheader okmartheader px-6  flex align-items-center justify-content-between relative lg:static">
       <div class="row col-12 flex">
         <div class="col-md-3 col-2">
-<div id="mega-menu">
+			<Skeleton v-if="skeleton_loader" height="4rem" width="6rem" class="mb-2 ml-2"></Skeleton>
+<div v-else id="mega-menu">
 <div class="btn-mega"><span class="pi pi-shopping-bag textt"></span>ALL CATEGORIES</div>
 <ul class="menu">
   <li v-for="(item, index) in menuItems" :key="index">
@@ -92,7 +99,7 @@
           <div @click="goToCategory(category.id)" class="cat-title cursor-pointer">{{ category.title }}</div>
           <ul>
             <li v-for="(subcategory, subIndex) in category.subcategories" :key="subIndex">
-              <a href="#" title="">{{ subcategory }}</a>
+              <a @click="goToCategory(subcategory.id)" class="cursor-pointer" title="">{{ subcategory?.name }}</a>
             </li>
           </ul>
         </div>
@@ -186,6 +193,7 @@
     const frontStore = useFrontStore()
     const cart:any = storeToRefs(frontStore).cart
     import { createId } from '@paralleldrive/cuid2';
+	const router = useRouter()
     const op = ref();
     const logo = ref('')
     const toast = useToast()
@@ -208,30 +216,106 @@
     const product_brands = ref()
 	const mylogo = ref()
     const search_text = ref();
-    const brand_id = storeToRefs(frontStore).brand_id
-    const shop_id = storeToRefs(frontStore).shop_id
-    const cart_total = storeToRefs(frontStore).cart_total
+    const brand_id = ref()
+    const shop_id = ref()
+    const cart_total = ref()
     const guest_id = ref()
     const categories_loading = ref(false)
+	const skeleton_loader = ref(true)
     const selectedCurrency = ref("USD");
     const cart_id = storeToRefs(frontStore).cart_id
     const currencies:any = storeToRefs(frontStore).currencies;
     const selected_currency = storeToRefs(frontStore).selected_currency;
     const categories = ref()
+	onMounted( async() => {
+    skeleton_loader.value = true
+    categories_loading.value = true;
+    let gi:any
+    if (typeof window !== 'undefined') {
+        gi  = sessionStorage.getItem('guest_id');
+    }
+    guest_id.value = JSON.parse(gi)
+    //@ts-ignore
+    let currenciess
+    if (typeof window !== 'undefined') {
+      currenciess  = sessionStorage.getItem('active_brand');
+    }
+    //@ts-ignore
+    let currency = JSON.parse(currenciess)
+    currencies.value = currency.currencies
+    if (!selected_currency.value) {
+        selected_currency.value = currencies.value[0]?.id ? currencies.value[0]?.id : null
+    }
+   
+
+let params = {
+    page: 1,
+    per_page: 100
+}
+let result_one = await frontStore.getBrands().then(async (data) => {
+    brands.value = data?.data?.shopbrands;
+
+});
+let brandss = await frontStore.getProductBrands(params).then((data) => {
+    //@ts-ignore
+    product_brands.value = data?.data?.data.map(item => ({
+    label: item.name,
+    command: () => {
+        navigateTo(`/category-${item.id}-${shop_id}-5`,{external: true});
+    }
+   }));
+})
+await getLogo()
+if (guest_id.value === null) {
+      guest_id.value = createId()
+      sessionStorage.setItem('guest_id', JSON.stringify(guest_id.value))
+  }
+  let current_shop_branch:any
+  let current_shop_id:any
+  if (typeof window !== 'undefined') {
+    current_shop_branch = sessionStorage.getItem('current_shop_branch');
+    current_shop_id = sessionStorage.getItem('current_shop_id');
+}
+  
+ let cart_params = {
+  shop_id: JSON.parse(current_shop_branch),
+  user_id: user_id.value,
+  guest_id: guest_id.value
+ }
+let created_cart = await frontStore.createCart(cart_params).then((data) => {
+	cart.value = data?.data?.items
+	cart_total.value = data?.data?.cart_total
+  cart_id.value = data?.data?.id
+}) 
+
+let categoriess = await frontStore.getAllCategories(params).then(async (data) => {
+await transformMenu(data)
+categories_loading.value = false
+})
+let par:any  = sessionStorage.getItem('current_shop_id');
+let f_menus = await frontStore.getFeaturedMenus(JSON.parse(par)).then(async (data) => {
+dummyMenu.value = await convertDataToMenuItems(data?.data)
+})
+skeleton_loader.value = false
+})
     const goToLanding = async () => {
      await navigateTo('/',{external: true})
     }
 	const goToCheckout = async () => {
-		await navigateTo(`checkout-${brand_id.value}-${shop_id.value}`,{external: true})
+		if (typeof window !== 'undefined') {
+            const current_shop_id:any = sessionStorage.getItem('current_shop_id');
+            const current_shop_branch:any = sessionStorage.getItem('current_shop_branch');
+			await navigateTo(`checkout-${cart_id.value}-${JSON.parse(current_shop_id)}-${JSON.parse(current_shop_branch)}`,{external: true})
+        //    await  navigateTo(`/shop-${JSON.parse(current_shop_id)}-${JSON.parse(current_shop_branch)}`,{external:true})
+        }
+		
 	}
 	const getMenuBannerUrl = (ban:any) => {
-		console.log("banners",ban);
     // Loop through the array of banners
     for (let i = 0; i < ban.length; i++) {
         // Check if the position is "menu"
         if (ban[i].position === "menu") {
             // Return the URL of the first matching banner
-			console.log("got one")
             return ban[i].image;
         }
     }
@@ -248,8 +332,14 @@
         //@ts-ignore
         
     }
-    const goToCategory = (id:any) => {
-        navigateTo(`/category-${id}-${brand_id.value}-${shop_id.value}`,{external:true});
+    const goToCategory = async (id:any) => {
+		if (typeof window !== 'undefined') {
+            const current_shop_id:any = sessionStorage.getItem('current_shop_id');
+            const current_shop_branch:any = sessionStorage.getItem('current_shop_branch');
+			await navigateTo(`/category-${id}-${JSON.parse(current_shop_id)}-${JSON.parse(current_shop_branch)}`,{external:true});
+            // await  navigateTo(`/shop-${JSON.parse(current_shop_id)}-${JSON.parse(current_shop_branch)}`,{external:true})
+        } 
+       
     }
     const chooseShop = async () => {
      select_brand.value = false
@@ -366,16 +456,18 @@ const  transformMenu = (data:any) => {
     }
 
     // Helper function to convert categories
-    function convertCategories(categories:any) {
-        //@ts-ignore
-        return categories.map(category => ({
-            id: category.id,
-            title: category.name,
-            //@ts-ignore
-            subcategories: category.children.map(child => child.name),
-            banners: convertAdvertsToBanners(category.adverts)
-        }));
-    }
+    function convertCategories(categories: any) {
+  //@ts-ignore
+  return categories.map(category => ({
+    id: category.id,
+    title: category.name,
+    subcategories: category.children.map((child: any) => ({
+      id: child.id,
+      name: child.name
+    })),
+    banners: convertAdvertsToBanners(category.adverts)
+  }));
+}
 
     // Main transformation
     //@ts-ignore
@@ -418,7 +510,7 @@ const active_brand = ref(getBrandConfiguration())
 
 const buttonColor = active_brand?.value?.button_color??"#FF7043";
 
-const menuColor = active_brand?.value?.theme_color??"#000000";
+const menuColor = active_brand?.value?.theme_color??"#fff";
 
 const navColor = active_brand?.value?.menu_font_color??"#fff";
 
@@ -459,76 +551,7 @@ const navColor = active_brand?.value?.menu_font_color??"#fff";
         })
     );
 }
-onMounted( async() => {
-    
-    categories_loading.value = true;
-    let gi:any
-    if (typeof window !== 'undefined') {
-        gi  = sessionStorage.getItem('guest_id');
-    }
-    guest_id.value = JSON.parse(gi)
-    //@ts-ignore
-    let currenciess
-    if (typeof window !== 'undefined') {
-      currenciess  = sessionStorage.getItem('active_brand');
-    }
-    //@ts-ignore
-    let currency = JSON.parse(currenciess)
-    currencies.value = currency.currencies
-    if (!selected_currency.value) {
-        selected_currency.value = currencies.value[0]?.id ? currencies.value[0]?.id : null
-    }
-   
 
-let params = {
-    page: 1,
-    per_page: 100
-}
-let result_one = await frontStore.getBrands().then(async (data) => {
-    brands.value = data?.data?.shopbrands;
-
-});
-let brandss = await frontStore.getProductBrands(params).then((data) => {
-    //@ts-ignore
-    product_brands.value = data?.data?.data.map(item => ({
-    label: item.name,
-    command: () => {
-        navigateTo(`/category-${item.id}-${shop_id}-5`,{external: true});
-    }
-   }));
-})
-await getLogo()
-if (guest_id.value === null) {
-      guest_id.value = createId()
-      sessionStorage.setItem('guest_id', JSON.stringify(guest_id.value))
-  }
-  let current_shop_branch:any
-  let current_shop_id:any
-  if (typeof window !== 'undefined') {
-    current_shop_branch = sessionStorage.getItem('current_shop_branch');
-    current_shop_id = sessionStorage.getItem('current_shop_id');
-}
-  
- let cart_params = {
-  shop_id: JSON.parse(current_shop_branch),
-  user_id: user_id.value,
-  guest_id: guest_id.value
- }
-let created_cart = await frontStore.createCart(cart_params).then((data) => {
-  cart.value = data.data?.items
-  cart_total.value = data?.data?.cart_total
-  cart_id.value = data?.data?.id
-}) 
-
-let categoriess = await frontStore.getAllCategories(params).then(async (data) => {
-await transformMenu(data)
-categories_loading.value = false
-})
-let par:any  = sessionStorage.getItem('current_shop_id');
-let f_menus = await frontStore.getFeaturedMenus(JSON.parse(par)).then(async (data) => {
-dummyMenu.value = await convertDataToMenuItems(data?.data)
-})
-})
         //@ts-ignore
 const convertDataToMenuItems = (data) => {
 	// @ts-ignore
@@ -630,7 +653,6 @@ const removeFromCart = async (itemId:any) => {
         id: itemId
       }
       let deleted_item = await frontStore.deleteCartItem(my_params).then( async (data) => {
-        console.log('dataaaaaa',data)
         if(data?.status === 'success') {
             toast.add({
             severity: 'info',
@@ -655,10 +677,14 @@ const removeFromCart = async (itemId:any) => {
       })
 }
 const searchProducts = () => {
+	let current_shop_id:any
+  if (typeof window !== 'undefined') {
+    current_shop_id = sessionStorage.getItem('current_shop_branch');
+}
   search_products.value = null
   let search_params = {
     search_text: search_text.value,
-    shop_id: shop_id.value
+    shop_id: current_shop_id
   }
   frontStore.getSearchResults(search_params).then(async (data) => {
     search_products.value = data?.data.products;

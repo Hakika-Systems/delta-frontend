@@ -113,7 +113,6 @@ const op = ref();
 const searchResultsTable = ref(null);  // Ref for the search results table
 
 const selectShop = async (brandd:any) => {
-  console.log("ddkdkd")
   select_shop.value = true;
   shopID.value = brandd?.id;
   shopLogo.value = brandd?.logo;
@@ -125,7 +124,6 @@ const selectShop = async (brandd:any) => {
 
 const searchProducts = () => {
   frontStore.getSearchResults(search_text.value).then(async (data) => {
-    console.log("Search Results:", data.data.products);
     search_products.value = data?.data.products;
     await displaySearchResults();
   });
@@ -271,7 +269,6 @@ onMounted(async() => {
     selected_currency.value = data?.data?.currencies[0]?.id ? data?.data?.currencies[0]?.id : null
   });
   let result_one = await frontStore.getBrands().then(async (data) => {
-    console.log("Brands:", data?.data?.shopbrands);
     brands.value = data?.data?.shopbrands;
     await getAllBrandsFeaturedProducts();
     loading.value = false;

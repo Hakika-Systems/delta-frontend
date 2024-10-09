@@ -119,7 +119,6 @@
       }
     
     order_details.value = JSON.parse(last_order)
-    console.log("my cart id is",order_details.cart_id)
     old_cart_id.value = order_details.value.cart_id
     let cart = await frontStore.getOlderCart().then((data) => {
       order_items.value = data?.data?.items

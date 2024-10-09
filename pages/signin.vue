@@ -47,8 +47,6 @@ try {
   let response = await authStore.login(info);
   
   // Log the entire response to debug more effectively
-  console.log("Response:", response);
-
   // Check if the request was successful
   if (response.success === false) {
     // Display warning toast if the success is false

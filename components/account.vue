@@ -4,7 +4,7 @@
   <div class="">
     <div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
       <div class="p-fluid flex flex-column lg:flex-row">
-        <ul v-if="name" class="list-none m-0 p-0 flex flex-row lg:flex-column justify-content-evenly md:justify-content-between lg:justify-content-start mb-5 lg:pr-8 lg:mb-0">
+        <ul class="list-none m-0 p-0 flex flex-row lg:flex-column justify-content-evenly md:justify-content-between lg:justify-content-start mb-5 lg:pr-8 lg:mb-0">
             <li @click="current_template = 'home'">
             <a class="flex align-items-center cursor-pointer p-3 border-round text-800 hover:surface-hover transition-duration-150 transition-colors p-ripple" data-pd-ripple="true">
               <i class="pi pi-home md:mr-2"></i>

@@ -173,7 +173,7 @@
                   <div class="flex-auto lg:ml-3">
                     <div class="flex align-items-center justify-content-between mb-3">
                       <span class="text-900 font-medium">{{ item.product.name }}</span>
-                      <span class="text-900 font-bold">USD{{ (lineTotal(item.unit_price,item.quantity)).toFixed(2)}}</span>
+                      <span class="text-900 font-bold">USD{{ (lineTotal(item.unit_price,item.quantity))}}</span>
                     </div>
                     <div class="flex flex-auto justify-content-between align-items-center">
                       <span class="p-inputnumber p-component p-inputwrapper p-inputwrapper-filled p-inputnumber-buttons-horizontal border-1 surface-border border-round" data-pc-name="inputnumber" data-pc-section="root" spinnermode="horizontal">
@@ -233,11 +233,11 @@ import InputText from 'primevue/inputtext';
 const toast = useToast()
 const loading = ref(false)
 const delivery_option = ref('')
+const {params:{cart_id,brand_id,shop_id}} = useRoute()
 const delivery_type = ref('')
 const fast_delivery = ref(Number(7.00))
 const is_sent_promotions = ref(false)
 const use_as_delivery_address = ref(true)
-const cart_id = storeToRefs(frontStore).cart_id
 const payment_options = ref([
     {
         "id": 1,
@@ -296,6 +296,32 @@ const delivery_address = ref()
 const current_loading = ref()
 const country = ref('')
 const suburb = ref()
+onMounted( async() => {
+  let results = await frontStore.getCartTwo(cart_id).then((data) => {
+    cart.value = data.data?.items
+    cart_total.value = data?.data?.cart_total
+    vat_total.value = data?.data?.vat_total
+  })
+  let payments_params = {
+        page: 1,
+        per_page: 10
+  }
+// let payment_optionss = await frontStore.getPaymentOptions(payments_params).then((data) => {
+//     const paymentMethods: PaymentMethod[] = data?.data?.paymentmethods || [];
+//     const activePaymentMethods = paymentMethods.filter((method: PaymentMethod) => method.is_active);
+
+//     payment_options.value = activePaymentMethods;
+// });
+let addressess = await frontStore.getMyAddresses(user_id.value).then((data) => {
+    addresses.value = data?.data?.data
+});
+let user_details = await frontStore.getUser(user_id.value).then((data) => {
+    email.value = data?.data?.email
+    name.value = data?.data?.name
+    customer_mobile.value = data?.data?.contact_number
+    whatsapp_number.value = data?.data?.whatsapp_number
+});
+})
 const pickSaved = () => {
   city.value = selectedBillingAddress.value.city
   country.value = selectedBillingAddress.value.country
@@ -306,7 +332,7 @@ const decreaseCartItem = async (item_id:any,product_id: any,quantity:any,unit_pr
     current_loading.value = item_id
     let cart_item = {
     id: item_id,
-    cart_id: cart_id.value,
+    cart_id: cart_id,
     product_id: product_id,
     quantity: quantity-1,
     unit_price: Number(unit_price),
@@ -346,7 +372,7 @@ const increaseCartItem = async (item_id:any,product_id: any,quantity:any,unit_pr
     current_loading.value = item_id
     let cart_item = {
     id: item_id,
-    cart_id: cart_id.value,
+    cart_id: cart_id,
     product_id: product_id,
     quantity: quantity+1,
     unit_price: Number(unit_price),
@@ -400,9 +426,8 @@ interface PaymentMethod {
     updated_at:string;
     deleted_at:string|null
 }
-console.log(typeof VAT_RATE)
 const lineTotal = (price:any, quantity:any) => {
-       return (Number(price)) * (quantity).toFixed(2)
+       return (Number(price) * quantity).toFixed(2)
     }
     const increment = (index:any) => {
         //@ts-ignore
@@ -536,7 +561,6 @@ const removeFromCart = async (itemId:any) => {
 
 const subtotal = computed(() => {
   let products_total = Number(cartTotal())
-  console.log('Initial products_total:', products_total);
   if (delivery_type.value === 'Fast Delivery') {
     products_total += fast_delivery.value;
   } else if (delivery_type.value === 'Standard Delivery') {
@@ -544,47 +568,17 @@ const subtotal = computed(() => {
   }
   
   
-  console.log('Final products_total:', products_total);
   return Number(products_total);
 });
 
-console.log(typeof subtotal.value)
 
 const vatAmount = computed(() => Number((subtotal.value) * VAT_RATE));
-console.log("simba",typeof vatAmount.value)
+
 
 const formatPrice = (valueToFormat:any) => {
    return valueToFormat.toFixed(2)
 }
-onMounted( async() => {
-  console.log("cart id is",cart_id.value)
-  let results = await frontStore.getCart().then((data) => {
-    console.log("dataaaaaa reoacheckout",data)
-    cart.value = data.data?.items
-    cart_total.value = data?.data?.cart_total
-    vat_total.value = data?.data?.vat_total
-  })
-  let payments_params = {
-        page: 1,
-        per_page: 10
-  }
-// let payment_optionss = await frontStore.getPaymentOptions(payments_params).then((data) => {
-//     const paymentMethods: PaymentMethod[] = data?.data?.paymentmethods || [];
-//     const activePaymentMethods = paymentMethods.filter((method: PaymentMethod) => method.is_active);
 
-//     payment_options.value = activePaymentMethods;
-// });
-let addressess = await frontStore.getMyAddresses(user_id.value).then((data) => {
-    addresses.value = data?.data?.data
-});
-let user_details = await frontStore.getUser(user_id.value).then((data) => {
-    console.log("userdata",data.data)
-    email.value = data?.data?.email
-    name.value = data?.data?.name
-    customer_mobile.value = data?.data?.contact_number
-    whatsapp_number.value = data?.data?.whatsapp_number
-});
-})
 const select_fast_delivery = ()=>{
   delivery_type.value = "Fast Delivery"
 }
@@ -598,7 +592,7 @@ const select_standard_delivery = ()=>{
 const  confirmOrder = async () => {
     loading.value = true
     const info = {
-        cart_id: cart_id.value,
+        cart_id: cart_id,
         coupon_code: coupon_code.value,
         customer_name: name.value,
         email: email.value,
@@ -624,6 +618,7 @@ const  confirmOrder = async () => {
         delivery_option: delivery_option.value === 'Collection' ? "pickup" : 'delivery',
         payment_method: current_payment_option_name.value,
         currency_id: selected_currency.value,
+        notes: notes.value,
         currency: findCurrency(),
         discount: 0,
         delivery_amount: Number(calculateDeliveryCost()),

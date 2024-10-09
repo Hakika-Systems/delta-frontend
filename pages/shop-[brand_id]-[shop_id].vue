@@ -201,7 +201,6 @@ const buttonColor = active_brand?.value?.button_color;
 };
   const goToDetailPage = (productt:any) => {
     // product.value = productt
-    console.log("productss",productt)
     sessionStorage.setItem('product_detail',JSON.stringify(productt))
     navigateTo(`/detail-${productt?.id}-${brand_id}-${shop_id}-${productt?.category_id}`,{external:true})
   }
@@ -219,7 +218,6 @@ const buttonColor = active_brand?.value?.button_color;
    return currency ? currency.iso_code : null;
   };
   onMounted( async() => {
-    console.log('my ids',shop_id,brand_id)
     let gi:any
     if (typeof window !== 'undefined') {
         gi  = sessionStorage.getItem('guest_id');
@@ -231,7 +229,6 @@ const buttonColor = active_brand?.value?.button_color;
     if(shop_id === "undefined") {
        visible.value = true;
        let result_one = await frontStore.getBrands().then(async (data) => {
-        console.log("my branss are found",data?.data?.shopbrands)
        let brands = data?.data?.shopbrands;
         selectShopsByBrandId(brand_id,brands)
       });
@@ -279,11 +276,8 @@ const buttonColor = active_brand?.value?.button_color;
   navigateTo(`shop-${brand_id}-${selected_shop.value}`,{external:true})
  }
  const selectShopsByBrandId = (brandId:any,brandss:any) => {
-  console.log("brand id is ",brandId)
   // Find the brand with the given ID
-  console.log("shopBrands",brandss)
   const brand = brandss.find((b:any) => b.id === Number(brandId));
-  console.log("my brand",brand)
   if (brand) {
     // Return the shops of the found brand
     shops.value = brand.shops

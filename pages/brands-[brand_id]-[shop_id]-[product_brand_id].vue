@@ -155,7 +155,6 @@ onMounted( async() => {
     brand_id: product_brand_id
 }
 await frontStore.getRelatedProductsByBrand(related_params).then((data) => {
-    console.log("related products:", data)
     products.value = data?.data?.products
     brand_name.value = data?.data?.products[0]?.brand?.name
 })

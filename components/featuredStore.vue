@@ -190,8 +190,6 @@ const foodloversProducts = computed(() => {
     return featured_products.value.FOODLOVERS || [];
 })
 const selectShop = async (brandd:any) => {
-  console.log("brandD :", brandd);
-  
   select_shop.value = true
   shopID.value = brandd?.id
   shopLogo.value = brandd?.logo
