@@ -543,6 +543,25 @@ export const useFrontStore = defineStore('front', {
       } finally {
       }
     },
+    async getAllOrderStages() {
+      const url = new URL(`${SHOP_URL}/api/order-stages`);
+      const token = useCookie('token').value || ""
+      const headers = {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+      };
+  
+      try {
+          const response = await fetch(url, {
+              method: "GET",
+              headers,
+          });
+          const data = await response.json();
+          return data;
+      } finally {
+      }
+    },
     async getPaymentOptions(my_params:any) {
       const url = new URL(`${SHOP_URL}/api/payment-methods`);
       const params:any = {
@@ -840,6 +859,53 @@ export const useFrontStore = defineStore('front', {
         const response = await fetch(url, {
           method: "GET",
           headers
+        });
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error:', error);
+        throw error;
+      }
+    },
+    async getMyOrders(id:any) {
+      const url = `${SHOP_URL}/api/orders/user/${id}`;
+      const token = useCookie('token').value || "";
+      
+      const headers = {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      };
+      
+      try {
+        const response = await fetch(url, {
+          method: "GET",
+          headers
+        });
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error:', error);
+        throw error;
+      }
+    },
+    async trackOrderByRef(order_ref:any) {
+      const url = `${SHOP_URL}/api/track-order/track?order_ref=${order_ref}`;
+      const token = useCookie('token').value || "";
+      
+      const headers = {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      };
+    
+      
+      
+      try {
+        const response = await fetch(url, {
+          method: "GET",
+          headers,
+         
         });
         const data = await response.json();
         return data;

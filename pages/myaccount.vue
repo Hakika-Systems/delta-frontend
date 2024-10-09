@@ -35,13 +35,13 @@
             <!---->
           </div><div class="surface-ground">
   <div class="grid">
-    <div class="col-12 lg:col-4 p-3">
-      <div class="p-3 border-round shadow-2 flex align-items-center surface-card">
+    <div  class="col-12 lg:col-4 p-3">
+      <div  @click="navigateTo('/myorder')" class="p-3 border-round shadow-2 flex align-items-center surface-card">
         <div class="bg-teal-100 inline-flex align-items-center justify-content-center mr-3" style="width: 88px; height: 88px; border-radius: 10px;">
           <i class="pi pi-shield text-teal-600 text-3xl"></i>
         </div>
         <div>
-          <span class="text-900 text-xl font-medium mb-2">My Orders</span>
+          <span  @click="navigateTo('/myorder')" class="text-900 text-xl font-medium mb-2">My Orders</span>
           
         </div>
         <div class="ml-auto">
