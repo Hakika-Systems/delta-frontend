@@ -218,6 +218,7 @@
                     <span class="text-900 font-bold">{{findCurrency()}}{{  cartTotal() }}</span>
                   </div>
                 </div>
+                <InlineMessage class="w-12 mt-5" v-if="cartTotal() < minimum_order" severity="info">Please note the minumum order is {{findCurrency()}}{{ minimum_order }} </InlineMessage>
                 <Button :disabled="isButtonDisabled" :loading="loading" @click="confirmOrder()" class="p-button p-component p-button-primary w-full mt-3" label="Place Order" />
               </div>
             </div>
@@ -287,6 +288,7 @@ const currencies:any = storeToRefs(frontStore).currencies
 const selected_currency:any = storeToRefs(frontStore).selected_currency
 const currency = ref('');
 const total_amount = ref(0);
+const minimum_order = ref(0)
 const discount = ref(0);
 const city = ref('')
 const delivery_city = ref()
@@ -314,6 +316,9 @@ onMounted( async() => {
 // });
 let addressess = await frontStore.getMyAddresses(user_id.value).then((data) => {
     addresses.value = data?.data?.data
+});
+let mimumum_order_settings = await frontStore.getMimimumOrderSettings().then((data) => {
+    minimum_order.value = data?.minimum_order_value
 });
 let user_details = await frontStore.getUser(user_id.value).then((data) => {
     email.value = data?.data?.email
@@ -446,6 +451,7 @@ const lineTotal = (price:any, quantity:any) => {
     !name.value ||
     !email.value ||
     !customer_mobile.value ||
+    cartTotal() < minimum_order.value ||
     !delivery_option.value ||
     !address.value ||
     !suburb.value ||
