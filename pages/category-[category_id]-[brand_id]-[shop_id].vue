@@ -57,9 +57,6 @@
                 </div>
               </div>
             </div>
-            <div  class="col-8 md:col-6 lg:col-12">
-              <img src="/images/middle_banner.jpg" alt="Side Banner" class="w-full"  >
-            </div>
           </div>
         </div>
       </div>
