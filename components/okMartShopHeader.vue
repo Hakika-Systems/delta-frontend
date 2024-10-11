@@ -153,7 +153,7 @@
                 </div>
             </div>
             <div>
-                <Button @click="navigateTo(`checkout-${brand_id}-${shop_id}`,{external: true})" type="button" label="Checkout" class="w-full mt-2 overlaycheckoutbtn" />
+                <Button @click="goToCheckout()" type="button" label="Checkout" class="w-full mt-2 overlaycheckoutbtn" />
         </div>
         </OverlayPanel>
     </div>
@@ -218,7 +218,7 @@
     const search_text = ref();
     const brand_id = ref()
     const shop_id = ref()
-    const cart_total = ref()
+    const cart_total = storeToRefs(frontStore).cart_total
     const guest_id = ref()
     const categories_loading = ref(false)
 	const skeleton_loader = ref(true)
@@ -773,10 +773,7 @@ img.imgt {
     background-color: #fff;
     z-index: 1000;
 }
-button.p-button.p-component.w-full.mt-2.overlaycheckoutbtn {
-    background-color:  v-bind('buttonColor') !important;
-    border: none;
-}
+
 .p-overlaypanel .p-overlaypanel-content {
     padding: 0.75rem;
     max-height: 350px;
