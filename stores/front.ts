@@ -867,6 +867,28 @@ export const useFrontStore = defineStore('front', {
         throw error;
       }
     },
+    async getMimimumOrderSettings() {
+      const url = `${SHOP_URL}/api/minimum-orders`;
+      const token = useCookie('token').value || "";
+      
+      const headers = {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      };
+      
+      try {
+        const response = await fetch(url, {
+          method: "GET",
+          headers
+        });
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error:', error);
+        throw error;
+      }
+    },
     async getMyOrders(id:any) {
       const url = `${SHOP_URL}/api/orders/user/${id}`;
       const token = useCookie('token').value || "";
