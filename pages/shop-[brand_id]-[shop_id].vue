@@ -237,7 +237,7 @@ const buttonColor = active_brand?.value?.button_color;
     shop_idd.value = shop_id
     let params = {
         page: 1,
-        per_page: 80,
+        per_page: 10,
         shop_brand_id: brand_id,
         shop_id: shop_id
     }
