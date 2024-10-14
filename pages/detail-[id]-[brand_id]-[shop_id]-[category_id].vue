@@ -111,6 +111,7 @@
                       </div>
                   </div>
               </div>
+              <Paginator @page="pageChange" :rows="20" :totalRecords="totalItemCount" template="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink" currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" />
           </div>
       </div>
   </div>
@@ -135,10 +136,34 @@ const product:any = storeToRefs(frontStore).product
 const currencies:any = storeToRefs(frontStore).currencies
 const selected_currency:any = storeToRefs(frontStore).selected_currency
 const rating = ref()
+const totalItemCount = ref()
+const currentPage = ref()
+const totalPages = ref()
 const quantity = ref(1)
 const quantities:any = ref({})
 const cart_total = storeToRefs(frontStore).cart_total
 const related_products:any = ref([])
+const pageChange = async (event:any) => {
+    const { page, rows } = event;
+
+  currentPage.value = page + 1; // Paginator is 0-indexed, adjust it to 1-indexed
+    let params = {
+        page: currentPage.value,
+        per_page: 60,
+        shop_brand_id: brand_id,
+        shop_id: shop_id,
+        category_id: category_id
+    }
+    let productsd =  await frontStore.getRelatedProducts(params).then((data) => {
+      totalItemCount.value = data?.data?.totalItemCount,
+      currentPage.value = data?.data?.currentPage,
+      totalPages.value = data?.data?.totalPages
+      related_products.value = data?.data?.products
+      related_products.value.forEach((product:any) => {
+        quantities.value[product.id] = 1; // Initialize quantity for each product
+      });
+    })
+}
 const goToDetailPage = async (productt:any) => {
     // product.value = productt
     sessionStorage.setItem('product_detail',JSON.stringify(productt))
@@ -204,6 +229,9 @@ onMounted(async () => {
       products.value = data?.data?.products
   })
   await frontStore.getRelatedProducts(related_params).then((data) => {
+    totalItemCount.value = data?.data?.totalItemCount,
+      currentPage.value = data?.data?.currentPage,
+      totalPages.value = data?.data?.totalPages
       related_products.value = data?.data?.products
       related_products.value.forEach((product:any) => {
         quantities.value[product.id] = 1; // Initialize quantity for each product

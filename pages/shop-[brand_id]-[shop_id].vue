@@ -49,39 +49,66 @@
         <div class="col-12 grid grid-nogutter align-items-center">
         <div class="col-12">
           <div class="grid">
-            <div v-for="product in products" :key="product.id" class="col-12 md:col-6 lg:col-3">
-              <div class="p-2">
-                <div class="border-1 surface-border border-round m-2 p-3">
-                  <div @click="goToDetailPage(product)" class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
-                    <img :src="getParsedImages(product.images)" class="product_image object-cover">
-                  </div>
-                  <div @click="goToDetailPage(product)" class="mb-3 font-medium nametext cursor-pointer">{{ addEllipsis(product.name) }}</div>
-                  <div class="mb-4">
-                  </div>
-                  <div class="flex justify-content-between align-items-center">
-                    <span class="font-bold text-900 ml-2">{{findCurrency()}}{{product.prices[0]?.price ? formatCurrency(product.prices[0]?.price) : formatCurrency(0)}}</span>
-                  </div>
-                  <InputGroup class="w-full">
-                    <InputGroupAddon class="firstinput">
-                        <InputText :min="1" :max="100" style="border:none" v-model="quantities[product.id]" />
-                    </InputGroupAddon>
-                    <InputGroupAddon @click="decreaseQuantity(product.id)" class="addsub cursor-pointer">
-                        <i  class="pi pi-minus"></i>
-                    </InputGroupAddon>
-                    <Button v-if="product?.details[0]?.quantity >= 1" :loading="current_id === product.id" @click="addToCart(product.id,product.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Add" class="w-full  cart"/>
-                      <Button v-else :loading="loading" @click="addToCart(product.id,product.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Out of Stock" class="w-full  cart" disabled/>
-                    <InputGroupAddon @click="increaseQuantity(product.id)" class="addsub cursor-pointer">
-                        <i  class="pi pi-plus"></i>
-                    </InputGroupAddon>
-                    
-                </InputGroup>
-                  </div>
-              </div>
-            </div>
-            <div  class="col-8 md:col-6 lg:col-12">
-              <img src="/images/middle_banner.jpg" alt="Side Banner" class="w-full"  >
-            </div>
+            <div class="myprods">
+  <template v-for="(product, index) in products">
+    <!-- Product Card -->
+    <div class="col-12 md:col-6 lg:col-3">
+      <div class="p-2">
+        <div class="border-1 surface-border border-round m-2 p-3">
+          <div @click="goToDetailPage(product)" class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
+            <img :src="getParsedImages(product.images)" class="product_image object-cover" />
           </div>
+          <div @click="goToDetailPage(product)" class="mb-3 font-medium nametext cursor-pointer">
+            {{ addEllipsis(product.name) }}
+          </div>
+          <div class="mb-4"></div>
+          <div class="flex justify-content-between align-items-center">
+            <span class="font-bold text-900 ml-2">
+              {{ findCurrency() }}{{ product.prices[0]?.price ? formatCurrency(product.prices[0]?.price) : formatCurrency(0) }}
+            </span>
+          </div>
+          <InputGroup class="w-full">
+            <InputGroupAddon class="firstinput">
+              <InputText :min="1" :max="100" style="border:none" v-model="quantities[product.id]" />
+            </InputGroupAddon>
+            <InputGroupAddon @click="decreaseQuantity(product.id)" class="addsub cursor-pointer">
+              <i class="pi pi-minus"></i>
+            </InputGroupAddon>
+            <Button 
+              v-if="product?.details[0]?.quantity >= 1"
+              :loading="current_id === product.id"
+              @click="addToCart(product.id, product.prices[0]?.price)" 
+              icon="pi pi-cart-arrow-down" 
+              label="Add" 
+              class="w-full cart" 
+            />
+            <Button 
+              v-else 
+              :loading="loading" 
+              @click="addToCart(product.id, product.prices[0]?.price)" 
+              icon="pi pi-cart-arrow-down" 
+              label="Out of Stock" 
+              class="w-full cart" 
+              disabled 
+            />
+            <InputGroupAddon @click="increaseQuantity(product.id)" class="addsub cursor-pointer">
+              <i class="pi pi-plus"></i>
+            </InputGroupAddon>
+          </InputGroup>
+        </div>
+      </div>
+    </div>
+
+    <!-- Banner after every 8 products -->
+    <div v-if="(index + 1) % 12 === 0" :key="'banner-' + index" class="col-12">
+      <img src="/images/middle_banner.jpg" alt="Side Banner" class="w-full" />
+    </div>
+  </template>
+</div>
+
+
+          </div>
+          <Paginator @page="pageChange" :rows="20" :totalRecords="totalItemCount" template="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink" currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" />
         </div>
       </div>
       </div>
@@ -101,11 +128,15 @@
   import { storeToRefs } from 'pinia';
   import { useFrontStore } from '~/stores/front';
   import { createId } from '@paralleldrive/cuid2';
-import InputText from 'primevue/inputtext';
   const toast = useToast()
   const frontStore = useFrontStore()
   const mytoken = useCookie('token');
   const name = useCookie('username');
+  const rows = ref(20)
+  const totalItemCount = ref()
+  const currentPage = ref()
+  const totalPages = ref()
+  const first = ref(0);
   const user_id = useCookie('user_id');
   const visible = ref(false)
   const loading = ref(false)
@@ -217,6 +248,27 @@ const buttonColor = active_brand?.value?.button_color;
    const currency = currencies.value.find((currency:any) => currency.id === selected_currency.value);
    return currency ? currency.iso_code : null;
   };
+
+  const pageChange = async (event:any) => {
+    const { page, rows } = event;
+
+  currentPage.value = page + 1; // Paginator is 0-indexed, adjust it to 1-indexed
+    let params = {
+        page: currentPage.value,
+        per_page: 60,
+        shop_brand_id: brand_id,
+        shop_id: shop_id
+    }
+    let productsd =  await frontStore.getProducts(params).then((data) => {
+      totalItemCount.value = data?.data?.totalItemCount,
+      currentPage.value = data?.data?.currentPage,
+      totalPages.value = data?.data?.totalPages
+      products.value = data?.data?.products
+      products.value.forEach((product:any) => {
+        quantities.value[product.id] = 1; // Initialize quantity for each product
+      });
+    })
+  }
   onMounted( async() => {
     let gi:any
     if (typeof window !== 'undefined') {
@@ -237,11 +289,14 @@ const buttonColor = active_brand?.value?.button_color;
     shop_idd.value = shop_id
     let params = {
         page: 1,
-        per_page: 10,
+        per_page: 60,
         shop_brand_id: brand_id,
         shop_id: shop_id
     }
     let productsd =  await frontStore.getProducts(params).then((data) => {
+      totalItemCount.value = data?.data?.totalItemCount,
+      currentPage.value = data?.data?.currentPage,
+      totalPages.value = data?.data?.totalPages
       products.value = data?.data?.products
       products.value.forEach((product:any) => {
         quantities.value[product.id] = 1; // Initialize quantity for each product
@@ -406,6 +461,9 @@ const buttonColor = active_brand?.value?.button_color;
   button.p-button.p-component.p-button-icon-only.p-button-secondary.p-button-outlined.whishlist {
     background-color: #d6200e;
     color: white;
+  }
+  .myprods {
+    display: contents !important;
   }
   img.w-full.h-full.object-cover.border-round {
     height: 100px !important;

@@ -4,7 +4,7 @@
     <div class="w-full lg:w-6 p-4 lg:p-7 m-auto shadow-2 surface-card">
       <div class="flex align-items-center justify-content-between mb-7">
         <span class="text-2xl font-medium text-900">Sign In</span>
-        <span class="mr-3 text-900">Dont have an Account? <NuxtLink to="/registration" class="font-medium text-blue-500 hover:text-blue-700 cursor-pointer transition-colors transition-duration-150">  Sign Up</NuxtLink></span>
+        <span class="mr-3 text-900">Don't have an account? <NuxtLink @click="navigateTo('/registration',{external:true})" class="font-medium text-blue-500 hover:text-blue-700 cursor-pointer transition-colors transition-duration-150">  Sign Up</NuxtLink></span>
       </div>
       <label for="email4" class="block text-900 font-medium mb-2">Email</label>
       <InputText class="p-inputtext p-component w-full mb-3 p-3" placeholder="Email Address" v-model="email" />

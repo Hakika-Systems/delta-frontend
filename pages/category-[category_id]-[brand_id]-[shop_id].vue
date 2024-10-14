@@ -58,6 +58,7 @@
               </div>
             </div>
           </div>
+          <Paginator @page="pageChange" :rows="20" :totalRecords="totalItemCount" template="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink" currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" />
         </div>
       </div>
       </div>
@@ -80,6 +81,9 @@
   const shop_idd:any = storeToRefs(frontStore).shop_id
   const {params:{category_id,brand_id,shop_id}} = useRoute()
   const cart:any = storeToRefs(frontStore).cart
+  const totalItemCount = ref()
+  const currentPage = ref()
+  const totalPages = ref()
   const quantities:any = ref({})
   const guest_id:any = storeToRefs(frontStore).guest_id
   const currencies:any = storeToRefs(frontStore).currencies
@@ -88,6 +92,27 @@
   const current_id:any = ref()
   const cart_total = storeToRefs(frontStore).cart_total
   const category_name = ref()
+  const pageChange = async (event:any) => {
+    const { page, rows } = event;
+
+  currentPage.value = page + 1; // Paginator is 0-indexed, adjust it to 1-indexed
+    let params = {
+        page: currentPage.value,
+        per_page: 60,
+        shop_brand_id: brand_id,
+        shop_id: shop_id,
+        category_id: category_id
+    }
+    let productsd =  await frontStore.getRelatedProducts(params).then((data) => {
+      totalItemCount.value = data?.data?.totalItemCount,
+      currentPage.value = data?.data?.currentPage,
+      totalPages.value = data?.data?.totalPages
+      products.value = data?.data?.products
+      products.value.forEach((product:any) => {
+        quantities.value[product.id] = 1; // Initialize quantity for each product
+      });
+    })
+  }
   const responsiveOptions = ref([
     {
         breakpoint: '1400px',
@@ -191,12 +216,16 @@ const buttonColor = active_brand?.value?.button_color;
     shop_idd.value = shop_id
     const related_params = {
       page: 1,
-      per_page: 10,
+      per_page: 60,
       shop_brand_id: brand_id,
       shop_id: shop_id,
       category_id: category_id
   }
+
   await frontStore.getRelatedProducts(related_params).then((data) => {
+      totalItemCount.value = data?.data?.totalItemCount,
+      currentPage.value = data?.data?.currentPage,
+      totalPages.value = data?.data?.totalPages
       products.value = data?.data?.products
       products.value.forEach((product:any) => {
         quantities.value[product.id] = 1; // Initialize quantity for each product
