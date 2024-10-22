@@ -4,7 +4,7 @@
       <div class="text-900 font-medium text-3xl mb-2">Register an account</div>
       <div class="text-700 line-height-3 mb-4">Already have an account? <a href="/signin" class="text-primary">Login</a></div>
       
-      <div class="flex justify-content-center mb-4">
+      <!-- <div class="flex justify-content-center mb-4">
         <ul class="p-2 m-0 list-none flex overflow-x-auto select-none">
             <li @click="Individual_account()"  class="px-3">
             <a class="cursor-pointer px-4 py-3 flex align-items-center hover:surface-100 border-round transition-colors transition-duration-150 p-ripple text-700 hover:bg-primary" data-pd-ripple="true">
@@ -56,11 +56,14 @@
          
          
         </ul>
-      </div>
-      <div v-if="Individual == true" class="flex justify-content-center mb-4">
+      </div> -->
+      <div  class="flex justify-content-center mb-4">
           <div class="">
+            
             <div class="surface-card p-4 shadow-2 border-round">
-            <div class="grid formgrid p-fluid ">
+                <label>Account Type</label>
+                <Dropdown v-model="selectedBusinessType" :options="businessTypes" placeholder="Select Business Type" class="w-full mb-5" />
+                <div v-if="selectedBusinessType === 'INDIVIDUAL'" class="grid formgrid p-fluid ">
                 <div class="field mb-4 col-6">
                     <FloatLabel>
                         <InputText placeholder="Enter Full Name" id="username" v-model="name" size="large" />
@@ -106,7 +109,7 @@
         </div>
 
       </div>
-      <div v-else-if="mukando == true" class="flex justify-content-center mb-4">
+      <!-- <div v-else-if="mukando == true" class="flex justify-content-center mb-4">
           <div class="">
             <div class="surface-card p-4 shadow-2 border-round">
             <div class="grid formgrid p-fluid ">
@@ -219,7 +222,7 @@
                         <label for="username">Phone Number of Representative</label>
                     </FloatLabel>
                 </div> -->
-                <div class="field mb-4 col-6">
+                <!-- <div class="field mb-4 col-6">
                     <FloatLabel>
                         <InputText id="username" size="large" v-model="value" />
                         <label for="username">Email</label>
@@ -250,158 +253,7 @@
           </div>
         </div>
 
-      </div>
-      <div v-else-if="business == true" class="flex justify-content-center mb-4">
-          <div class="">
-            <div class="surface-card p-4 shadow-2 border-round">
-            <div class="grid formgrid p-fluid ">
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">Name of Business</label>
-                    </FloatLabel>
-                </div>
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">Address</label>
-                    </FloatLabel>
-                </div>
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">Contact Number</label>
-                    </FloatLabel>
-                </div>
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">Whatsapp Phone Number</label>
-                    </FloatLabel>
-                </div>
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">Business Type e.g Bank / Mine</label>
-                    </FloatLabel>
-                </div>
-                
-                
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">Name of Representative</label>
-                    </FloatLabel>
-                </div>
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">Designation</label>
-                    </FloatLabel>
-                </div>
-                <!-- <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">Phone Number of Representative</label>
-                    </FloatLabel>
-                </div> -->
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">Email</label>
-                    </FloatLabel>
-                </div>
-                <div class="field mb-4 col-6">
-                    <FileUpload name="demo[]" url="/api/upload"  :multiple="true" accept="image/*" :maxFileSize="1000000">
-                        <template #empty>
-                            <span style="">Drag and drop files to here to upload Tax Clearance.</span>
-                        </template>
-                    </FileUpload>
-                </div>
-                <div class="field mb-4 col-6">
-                    <FileUpload name="demo[]" url="/api/upload"  :multiple="true" accept="image/*" :maxFileSize="1000000">
-                        <template #empty>
-                            <span style="">Drag and drop files to here to upload VAT Certificate.</span>
-                        </template>
-                    </FileUpload>
-                </div>
-                <div class="surface-border border-top-1  mb-4 col-12 "></div>
-                <div class="field mb-4 col-3">
-                    <Button label="Send Details" severity="success" />
-                </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-      <div v-else-if="Institution == true" class="flex justify-content-center mb-4">
-          <div class="">
-            <div class="surface-card p-4 shadow-2 border-round">
-            <div class="grid formgrid p-fluid ">
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">Name of Institution</label>
-                    </FloatLabel>
-                </div>
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">Address</label>
-                    </FloatLabel>
-                </div>
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">Phone Number</label>
-                    </FloatLabel>
-                </div>
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">Whatsapp Phone Number</label>
-                    </FloatLabel>
-                </div>
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">Email</label>
-                    </FloatLabel>
-                </div>
-                
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">Name of Representative</label>
-                    </FloatLabel>
-                </div>
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">Designation</label>
-                    </FloatLabel>
-                </div>
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">Phone Number </label>
-                    </FloatLabel>
-                </div>
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">Email</label>
-                    </FloatLabel>
-                </div>
-                <div class="surface-border border-top-1  mb-4 col-12 "></div>
-                <div class="field mb-4 col-3">
-                    <Button label="Send Details" severity="success" />
-                </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
+      </div> -->
     </div>
     <Footer />
   </template>
@@ -412,6 +264,8 @@ const toast = useToast()
 const name = ref()
 const email = ref()
 const password = ref()
+const selectedBusinessType = ref('INDIVIDUAL')
+const businessTypes = ref(['MUKANDO','TRADER','BUSINESS','INSTITUTION','INDIVIDUAL'])
 const loading = ref(false)
 const password_confirmation = ref()
 const contact_number = ref()
