@@ -22,7 +22,8 @@
         <InputText v-else @keyup="searchProducts()" v-model="search_text" id="input"  type="text" placeholder="Search Products" class="search-input px-4 py-2 w-full" autofocus />
        </InputGroup>
        <div class="results-box p-5" v-if="search_text">
-        <DataTable :value="search_products" showGridlines tableStyle="min-width: 50rem">
+		<p v-if="search_products.length  < 1">No products from the searched keys</p>
+        <DataTable v-else :value="search_products" showGridlines tableStyle="min-width: 50rem">
             <Column  style="width: 5%" >
         <template #body="slotProps">
             <img :src="getParsedImages(slotProps?.data?.product?.thumbnails)" :alt="slotProps?.data?.product?.name" class="imgt border-round" />
@@ -54,7 +55,7 @@
             {{ slotProps?.data?.product?.brand?.name }}
         </template>
     </Column> -->
-</DataTable>
+        </DataTable>
        </div>
       </div>
       <div class="flex items-center col-5 flex-grow-0 account-cart-container">
@@ -205,7 +206,7 @@
     const shopLogo = ref();
     const shopName = ref();
     const brands = ref()
-    const search_products = ref()
+    const search_products = ref([])
     const loading = ref(false)
     const mytoken = useCookie('token');
     const name = useCookie('username');
@@ -681,7 +682,7 @@ const searchProducts = () => {
   if (typeof window !== 'undefined') {
     current_shop_id = sessionStorage.getItem('current_shop_branch');
 }
-  search_products.value = null
+  search_products.value = []
   let search_params = {
     search_text: search_text.value,
     shop_id: current_shop_id
