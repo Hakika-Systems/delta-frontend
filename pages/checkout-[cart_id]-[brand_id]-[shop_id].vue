@@ -23,10 +23,12 @@
                 <div class="col-12 lg:col-6 field mb-0">
                   <label for="name2" class="text-900 font-medium mb-3">Full Name</label>
                   <InputText variant="filled" size="large"  v-model="name" class="p-inputtext w-full mb-3"  placeholder="Brian Mhlanga"/>
+                  <small v-if="!name" style="color: red;">Required</small>
                 </div>
                 <div class="col-12  lg:col-6 field mb-0">
                   <label for="phone" class="text-900 font-medium mb-3">Email</label>
                   <InputText variant="filled" size="large" id="email" type="text" v-model="email" class="p-inputtext w-full mb-3" placeholder="yourname@youremail.tld"/>
+                  <small v-if="!email" style="color: red;">Required</small>
                   <div class="flex align-items-center">
                   <Checkbox v-model="is_sent_promotions" :binary="true" />
                   <label id="checkbox-1" class="text-900 ml-2">Email me with news, promotions and offers</label>
@@ -35,10 +37,12 @@
                 <div class="col-12 mt-3  lg:col-6 field mb-0">
                   <label for="phone" class="text-900 font-medium mb-3">Phone Number</label>
                   <InputText variant="filled" size="large" id="phone" type="tel" v-model="customer_mobile" class="p-inputtext w-full mb-3"  placeholder="263771008021"/>
+                  <small v-if="!customer_mobile" style="color: red;">Required</small>
                 </div>
                 <div class="col-12 mt-3 lg:col-6 field mb-0">
                   <label for="phone" class="text-900 font-medium mb-3">Whatsapp Number</label>
                   <InputText variant="filled" size="large" id="whatsapp" type="text"  v-model="whatsapp_number" class="p-inputtext w-full mb-3"  placeholder="263771008021"/>
+                  <small v-if="!whatsapp_number" style="color: red;">Required</small>
                 </div>
                 <div class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left w-full px-2 mb-3" role="separator" aria-orientation="horizontal" data-pc-name="divider" data-pc-section="root" style="justify-content: center;">
                   <!---->
@@ -49,12 +53,14 @@
                     <div class="flex items-center">
                       <RadioButton @change="clearPayments()" variant="filled" v-model="delivery_option" inputId="ingredient1" name="pizza" value="Collection" />
                       <label for="ingredient1" class="ml-2">Collection</label>
+                      <small v-if="!delivery_option" style="color: red;">Required</small>
                     </div> 
                   </div>
                   <div class="p-3 border-1 mt-3 border-round-bottom surface-border">
                     <div class="flex items-center">
                       <RadioButton @change="clearPayments()" variant="filled" v-model="delivery_option" inputId="ingredient1" name="pizza" value="Delivery" />
                       <label for="ingredient1" class="ml-2">Delivery</label>
+                      <small v-if="!delivery_option" style="color: red;">Required</small>
                     </div> 
                   </div>
                 </div>
@@ -63,6 +69,7 @@
                     <div @click="select_fast_delivery()"  :class="{'border-top': delivery_type === 'Fast Delivery'}" class="flex justify-content-between p-3 border-round border-1 surface-border w-full mr-3 hover:border-primary cursor-pointer">
                       <div class="mr-3 lg:mr-0">
                         <div class="text-900 font-bold mb-2">Fast Delivery</div>
+                        <small v-if="!delivery_type" style="color: red;">Required</small>
                       </div>
                       <div class="flex justify-content-between align-items-center">
                         <span class="text-primary mr-2 font-medium">$7.00</span>
@@ -74,7 +81,7 @@
                     <div @click="select_standard_delivery" :class="{'border-top': delivery_type === 'Standard Delivery'}" class="flex justify-content-between p-3 mt-3 lg:mt-0 border-round border-1 surface-border w-full hover:border-primary cursor-pointer">
                       <div class="mr-3 lg:mr-0">
                         <div class="text-900 font-bold mb-2">Standard Delivery</div>
-                        
+                        <small v-if="!delivery_type" style="color: red;">Required</small>
                       </div>
                       <div  class="flex justify-content-between align-items-center">
                         <span class="text-primary mr-2 font-medium">$1.50</span>
@@ -94,18 +101,22 @@
                 <div class="col-12 lg:col-6 field mb-0">
                   <label for="address3" class="text-900 font-medium mb-3">  Address </label>
                   <InputText variant="filled" size="large" id="address3" type="text" v-model="address" class="p-inputtext mb-3"  placeholder="No. 567 Mujoko Street"/>
+                  <small v-if="!address" style="color: red;">Required</small>
                 </div>
                 <div class="col-12 lg:col-6 field mb-0">
                   <label for="city2" class="text-900 font-medium mb-3">Suburb</label>
                   <InputText variant="filled" size="large" type="text" v-model="suburb" class="p-inputtext w-full mb-3" placeholder="Kambuzuma"/>
+                  <small v-if="!suburb" style="color: red;">Required</small>
                 </div>
                 <div class="col-12 lg:col-6 field mb-0">
                   <label for="city2" class="text-900 font-medium mb-3">City/Town</label>
                   <InputText variant="filled" size="large" id="city2" type="text" v-model="city" class="p-inputtext w-full mb-3" placeholder="Harare"/>
+                  <small v-if="!city" style="color: red;">Required</small>
                 </div>
                 <div class="col-12 lg:col-6 field mb-0">
                   <label for="country2" class="text-900 font-medium mb-3">Country</label>
                   <InputText variant="filled" size="large"  id="country2" type="text" v-model="country" class="p-inputtext w-full mb-3" placeholder="Zimbabwe"/>
+                  <small v-if="!country" style="color: red;">Required</small>
                 </div>
                 <div v-if= "delivery_option == 'Delivery'" class="flex align-items-center">
                   <Checkbox v-model="use_as_delivery_address" :binary="true" />
@@ -124,20 +135,24 @@
                 <div v-if= "delivery_option == 'Delivery' && use_as_delivery_address === false" class="col-12 lg:col-6 field mb-0">
                   <label for="address3" class="text-900 font-medium mb-3">  Address </label>
                   <InputText variant="filled" size="large" id="address3" type="text" v-model="delivery_address" class="p-inputtext mb-3"  placeholder="No. 567 Mujoko Street"/>
+                  <small v-if="!delivery_address" style="color: red;">Required</small>
                 </div>
                 <div v-if= "delivery_option == 'Delivery' && use_as_delivery_address === false" class="col-12 lg:col-6 field mb-0">
                   <label for="city2" class="text-900 font-medium mb-3">Suburb</label>
                   <InputText variant="filled" size="large" type="text" v-model="delivery_suburb" class="p-inputtext w-full mb-3" placeholder="Kambuzuma"/>
+                  <small v-if="!delivery_suburb" style="color: red;">Required</small>
                 </div>
                  
 
                 <div v-if= "delivery_option == 'Delivery' && use_as_delivery_address === false" class="col-12 lg:col-6 field mb-0">
                   <label for="city2" class="text-900 font-medium mb-3">City/Town</label>
                   <InputText variant="filled" size="large" id="city2" type="text" v-model="delivery_city" class="p-inputtext w-full mb-3" placeholder="Harare"/>
+                  <small v-if="!delivery_city" style="color: red;">Required</small>
                 </div>  
                 <div v-if= "delivery_option == 'Delivery' && use_as_delivery_address === false" class="col-12 lg:col-6 field mb-0">
                   <label for="country2" class="text-900 font-medium mb-3">Country</label>
                   <InputText variant="filled" size="large"  id="country2" type="text" v-model="delivery_country" class="p-inputtext w-full mb-3" placeholder="Zimbabwe"/>
+                  <small v-if="!delivery_country" style="color: red;">Required</small>
                 </div>
                   <div class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left w-full px-2 mb-3" role="separator" aria-orientation="horizontal" data-pc-name="divider" data-pc-section="root" style="justify-content: center;">
                     <!---->
@@ -146,12 +161,15 @@
                 <div :disabled="loading" v-if="delivery_option === 'Collection'"  @click="toggleOptionCheckbox(payment_options[0].id,payment_options[0].name)" class="col-3 p-3 d-flex justify-content-center align-items-center">
                   <div :class="{'border-top': payment_options[0].id === current_payment_option}" class="payheight flex flex-column border-round border-1 surface-border p-4 cursor-pointer hover:border-primary transition-duration-150 d-flex justify-content-center align-items-center">
                     <img :src="payment_options[0].logo" class="w-8rem" alt="Visa" >
+                    
                   </div>
+                  <small v-if="!current_payment_option" style="color: red;">Required</small>
                 </div>
                 <div  :disabled="loading" @click="toggleOptionCheckbox(payment_options[1].id,payment_options[1].name)" class="col-3 p-3 d-flex justify-content-center align-items-center">
                   <div :class="{'border-top': payment_options[1].id === current_payment_option}" class="payheight flex flex-column border-round border-1 surface-border p-4 cursor-pointer hover:border-primary transition-duration-150 d-flex justify-content-center align-items-center">
                     <img :src="payment_options[1].logo" class="w-8rem" alt="Visa" >
                   </div>
+                  <small v-if="!current_payment_option" style="color: red;">Required</small>
                 </div>
                 <div class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left w-full px-2 mb-3" role="separator" aria-orientation="horizontal" data-pc-name="divider" data-pc-section="root" style="justify-content: center;">
                     <!---->
