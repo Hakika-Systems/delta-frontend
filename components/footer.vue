@@ -85,7 +85,7 @@
         <li>
           <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Manage Account</a>
         </li>
-        <li  @click="navigateTo('/myorder')">
+        <li  @click="navigateTo('/myaccount',{external: true})">
           <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Track Order</a>
         </li>
         <li>

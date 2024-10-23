@@ -4,10 +4,12 @@
         <div>
   <Button @click="goToLanding()" icon="pi pi-home" class="topbtn mr-2" label="Home" outlined/>
   <Button @click="select_brand = true" icon="pi pi-sync" class="mr-2 topbtn" label="Choose Store" outlined />
+  <Button @click="track_order = true" icon="pi pi-map-marker" class="mr-2 topbtn" label="Track Order" outlined />
 </div>
   <a tabindex="0" class="cursor-pointer h-full inline-flex align-items-center mt-3 sm:mt-0 md:py-0">
     <span class="text-0">You are currently shopping at {{ getActiveShopNameById() }}</span>
   </a>
+  
 </div>
     <div class="okmartheader py-3 px-6  flex align-items-center justify-content-between relative">
       <!-- Logo -->
@@ -173,6 +175,16 @@
         <Button :loading="loading" label="Choose" @click="chooseShop()" severity="secondary" :disabled="!chosenBrand"  autofocus />
     </template>
 </Dialog>
+<Dialog v-model:visible="track_order" modal header="Track Order" :style="{ width: '25rem' }">
+    <span class="p-text-secondary block mb-5">Enter Tracking ID Below</span>
+    <div class="flex align-items-center gap-3 mb-5">
+        <label for="email" class="font-semibold w-6rem">Tracking ID</label>
+        <InputText id="email" class="flex-auto" autocomplete="off" />
+    </div>
+    <div class="flex justify-content-end gap-2">
+        <Button type="button" label="Track Order"></Button>
+    </div>
+</Dialog>
 <Dialog v-model:visible="select_shop" modal header="Shop Selection" :style="{ width: '25rem' }">
     <template #header>
         <div class="inline-flex align-items-center justify-content-center gap-2">
@@ -207,6 +219,7 @@
     const shopName = ref();
     const brands = ref()
     const search_products = ref([])
+	const track_order = ref(false)
     const loading = ref(false)
     const mytoken = useCookie('token');
     const name = useCookie('username');

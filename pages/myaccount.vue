@@ -29,19 +29,19 @@
   </div>
 
 <div v-else>
-  <div v-if="current_template === 'home'" class="surface-card p-5 shadow-2 border-round flex-auto">
+  <div v-if="current_template === 'home'" class="surface-card p-5  flex-auto">
           <div v-if="name" class="text-900 text-center font-bold text-3xl mb-4">Hi, {{ name }}</div>
           <div class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left" role="separator" aria-orientation="horizontal" data-pc-name="divider" data-pc-section="root" style="justify-content: center;">
             <!---->
           </div><div class="surface-ground">
   <div class="grid">
-    <div  class="col-12 lg:col-4 p-3">
-      <div  @click="navigateTo('/myorder')" class="p-3 border-round shadow-2 flex align-items-center surface-card">
+    <div  @click="current_template = 'orders'"  class="col-12 lg:col-4 p-3 cursor-pointer">
+      <div  @click="current_template = 'orders'" class="p-3 border-round shadow-2 flex align-items-center surface-card">
         <div class="bg-teal-100 inline-flex align-items-center justify-content-center mr-3" style="width: 88px; height: 88px; border-radius: 10px;">
           <i class="pi pi-shield text-teal-600 text-3xl"></i>
         </div>
         <div>
-          <span  @click="navigateTo('/myorder')" class="text-900 text-xl font-medium mb-2">My Orders</span>
+          <span  @click="current_template = 'orders'" class="text-900 text-xl font-medium mb-2">My Orders</span>
           
         </div>
         <div class="ml-auto">
@@ -54,7 +54,7 @@
         </div>
       </div>
     </div>
-    <div class="col-12 lg:col-4 p-3">
+    <div @click="current_template = 'shopping_carts'" class="col-12 lg:col-4 p-3 cursor-pointer">
       <div class="p-3 border-round shadow-2 flex align-items-center surface-card">
         <div class="bg-pink-100 inline-flex align-items-center justify-content-center mr-3" style="width: 88px; height: 88px; border-radius: 10px;">
           <i class="pi pi-cart-arrow-down text-pink-600 text-3xl"></i>
@@ -73,7 +73,7 @@
         </div>
       </div>
     </div>
-    <div class="col-12 lg:col-4 p-3">
+    <div @click="current_template = 'loyalty_points'" class="col-12 lg:col-4 p-3 cursor-pointer">
       <div class="p-3 border-round shadow-2 flex align-items-center surface-card">
         <div class="bg-orange-100 inline-flex align-items-center justify-content-center mr-3" style="width: 88px; height: 88px; border-radius: 10px;">
           <i class="pi pi-ticket text-orange-600 text-3xl"></i>
@@ -92,7 +92,7 @@
         </div>
       </div>
     </div>
-    <div class="col-12 lg:col-4 p-3">
+    <div @click="current_template = 'shopeasy_savings_club'" class="col-12 lg:col-4 p-3 cursor-pointer">
       <div class="p-3 border-round shadow-2 flex align-items-center surface-card">
         <div class="bg-teal-100 inline-flex align-items-center justify-content-center mr-3" style="width: 88px; height: 88px; border-radius: 10px;">
           <i class="pi pi-wallet text-teal-600 text-3xl"></i>
@@ -111,7 +111,7 @@
         </div>
       </div>
     </div>
-    <div class="col-12 lg:col-4 p-3">
+    <div @click="current_template = 'subscriptions'" class="col-12 lg:col-4 p-3 cursor-pointer">
       <div class="p-3 border-round shadow-2 flex align-items-center surface-card">
         <div class="bg-pink-100 inline-flex align-items-center justify-content-center mr-3" style="width: 88px; height: 88px; border-radius: 10px;">
           <i class="pi pi-users text-pink-600 text-3xl"></i>
@@ -130,7 +130,7 @@
         </div>
       </div>
     </div>
-    <div class="col-12 lg:col-4 p-3">
+    <div @click="current_template = 'addresses'" class="col-12 lg:col-4 p-3 cursor-pointer">
       <div class="p-3 border-round shadow-2 flex align-items-center surface-card">
         <div class="bg-orange-100 inline-flex align-items-center justify-content-center mr-3" style="width: 88px; height: 88px; border-radius: 10px;">
           <i class="pi pi-map-marker text-orange-600 text-3xl"></i>
@@ -154,7 +154,7 @@
           
     </div>
     <div v-if="current_template === 'addresses'" class="surface-card p-5 shadow-2 border-round flex-auto">
-          <div v-if="name" class="text-900 text-center font-bold text-3xl mb-4">My Addresses</div>
+          <div  class="text-900 text-center font-bold text-3xl mb-4">My Addresses</div>
           <div class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left" role="separator" aria-orientation="horizontal" data-pc-name="divider" data-pc-section="root" style="justify-content: center;">
             <!---->
           </div><div class="surface-ground">
@@ -184,6 +184,132 @@
 
           
     </div>
+    <div v-if="current_template === 'remittances'" class="surface-card p-5  flex-auto">
+          <div  class="text-900 text-center font-bold text-3xl mb-4">Remittances</div>
+          <div class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left" role="separator" aria-orientation="horizontal" data-pc-name="divider" data-pc-section="root" style="justify-content: center;">
+            <!---->
+          </div><div class="surface-ground">
+            <p>Coming soon</p>
+            
+</div>
+
+          
+    </div>
+    <div v-if="current_template === 'subscriptions'" class="surface-card p-5  flex-auto">
+          <div  class="text-900 text-center font-bold text-3xl mb-4">Subscriptions</div>
+          <div class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left" role="separator" aria-orientation="horizontal" data-pc-name="divider" data-pc-section="root" style="justify-content: center;">
+            <!---->
+          </div><div class="surface-ground">
+            <p>Coming soon</p>
+            
+</div>
+
+          
+    </div>
+    <div v-if="current_template === 'shopeasy_savings_club'" class="surface-card p-5  flex-auto">
+    <div  class="text-900 text-center font-bold text-3xl mb-4">Shop Easy Savings Club</div>
+    <div class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left" role="separator" aria-orientation="horizontal" data-pc-name="divider" data-pc-section="root" style="justify-content: center;">
+            <!---->
+          </div><div class="surface-ground">
+            <p>Coming soon</p>
+            
+</div>
+
+          
+    </div>
+    <div v-if="current_template === 'loyalty_points'" class="surface-card p-5  flex-auto">
+    <div  class="text-900 text-center font-bold text-3xl mb-4">Loyalty Points</div>
+    <div class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left" role="separator" aria-orientation="horizontal" data-pc-name="divider" data-pc-section="root" style="justify-content: center;">
+            <!---->
+          </div><div class="surface-ground">
+            <p>Coming soon</p>
+            
+</div>
+
+          
+    </div>
+    <div v-if="current_template === 'shopping_carts'" class="surface-card p-5  flex-auto">
+    <div  class="text-900 text-center font-bold text-3xl mb-4">My Shopping List</div>
+    <div class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left" role="separator" aria-orientation="horizontal" data-pc-name="divider" data-pc-section="root" style="justify-content: center;">
+            <!---->
+          </div><div class="surface-ground">
+            <p>Coming soon</p>
+            
+</div>
+
+          
+    </div>
+    <div v-if="current_template === 'orders'" class="surface-card p-5 shadow-2 border-round flex-auto">
+           <div  class="text-900 text-center font-bold text-3xl mb-4">Your Orders</div>
+           
+           <div class="surface-ground">
+                <div class="grid">
+                    
+                    <div  class="field mb-4 col-12 md:col-12"> 
+                                        
+                        <DataTable :value="my_orders" ref="dt"  class="p-datatable-customers" showGridlines :rows="10"
+                    dataKey="id" v-model:filters="filters" filterDisplay="menu" :loading="loading" responsiveLayout="scroll"
+                    >
+                            <template #header>
+                                <div class="flex justify-content-between">
+                                    <IconField iconPosition="left" >
+                                        <InputIcon class="pi pi-search" > </InputIcon>
+                                        <InputText v-model="filters['global'].value" placeholder="Keyword Search" />
+                                    </IconField>
+                                </div>
+                            </template>
+                            <template #empty>
+                                No orders found.
+                            </template>
+                            <template #loading>s
+                                Loading orders data. Please wait.
+                            </template>
+                            <Column  frozen field="name" header="Order Ref" style="min-width:12rem">
+                                <template #body="{data}">
+                                    {{data.order_ref}}
+                                </template>
+                            </Column>
+                            
+                        
+                            <!-- <Column  frozen field="name" header="Delivery Address" style="min-width:12rem">
+                                <template #body="{data}">
+                                    {{getCityAndAddress(data.delivery_address)}}
+                                </template>
+                            </Column>
+                            <Column  frozen field="name" header="Order Status" style="min-width:12rem">
+                                <template #body="{data}">
+                                <Tag :value="data.status?.name" :severity="getSeverity(data.status.name)"</Tag>
+                                </template>
+                            </Column>
+                                -->
+                            <Column frozen  field="description" header="Total Amount" style="min-width:12rem">
+                                <template #body="{data}">
+                                    {{data.total_incl_tax}}
+                                </template>
+                            </Column>
+                            
+                            
+                            <Column frozen  field="category.name" header="Date Created" style="min-width:12rem">
+                                <template #body="{data}">
+                                    {{formatDate(data.created_at)}}
+                                </template>
+                            </Column>
+                            <Column frozen  field="created_at" header="Track Order" style="min-width:12rem">
+                                <template #body="{data}">
+                                    <Button  icon="pi pi-truck" @click="trackOrderModal(data)" label="Track Order" severity="info" text rounded aria-label="Cancel" />
+                                </template>
+                            </Column>
+                                
+                        
+                        
+                        </DataTable>
+                    </div>
+                </div>
+            </div>
+ 
+           
+     </div>
+    
 </div>
 
 
@@ -235,16 +361,38 @@
         <Button :disabled="!address_name || !street || !suburb || !city || !selected_address_type" :loading="loading" @click="createAddress()" type="button" label="Save"></Button>
     </div>
 </Dialog>
-
+<Dialog v-model:visible="addLineItem"  modal header="Order Tracking" :style="{ width: '50rem' }">
+     <span class="p-text-secondary block mb-5">Order Ref# {{ myref }}</span>
+    
+    
+        <Timeline v-if="delivery_option == 'delivery'" :value="delivery_stages" layout="horizontal" align="top">
+            <template #content="slotProps">
+              <span :class="{'current-stage': my_current_stage === slotProps.item}">
+                {{ slotProps.item }}
+            </span>
+            </template>
+        </Timeline>
+        <Timeline v-else  :value="collection_stages" layout="horizontal" align="top">
+            <template #content="slotProps">
+              <span :class="{'current-stage': my_current_stage === slotProps.item}">
+                {{ slotProps.item }}
+            </span>
+            </template>
+        </Timeline>
+   
+ </Dialog>
    </NuxtLayout>
    <Footer />
 </template>
 <script setup lang="ts">
 const frontStore = useFrontStore()
 const authStore = useAuthStore()
+import { FilterMatchMode } from 'primevue/api';
 //@ts-ignore
 const add_address = ref(false)
 const toast = useToast()
+const delivery_stages = ref()
+const collection_stages = ref()
 const loading = ref(false)
 const email = ref()
 const password = ref()
@@ -252,6 +400,10 @@ const address_types = ref()
 const address_name = ref()
 const city = ref()
 const suburb = ref()
+const myref = ref()
+const addLineItem = ref(false)
+const delivery_option = ref()
+const my_current_stage = ref()
 const selectedCountry = ref();
 const countries = ref([
     { name: 'Afghanistan', code: 'AF' },
@@ -449,6 +601,54 @@ const countries = ref([
     { name: 'Zambia', code: 'ZM' },
     { name: 'Zimbabwe', code: 'ZW' }
 ]);
+const trackOrderModal = async(data:any) => {
+  addLineItem.value = true
+  myref.value = data.order_ref
+  delivery_option.value = data.delivery_option
+  trackOrder(data.order_ref)
+   
+  
+ }
+
+ const trackOrder = (order_ref:any) => {
+    let result = frontStore.trackOrderByRef(order_ref).then((data) => {
+      //@ts-ignore
+     my_current_stage.value = data.data.stages.find(stage => stage.current === 1).status
+     
+   })
+
+ }
+const formatDate = (value:any) => {
+        const date = new Date(value);
+        const options = {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            timeZoneName: 'short'
+        };
+        //@ts-ignore
+        return date.toLocaleString('en-US', options);
+};
+  
+const filters = ref({
+        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    });
+
+    const dt = ref();
+
+    const initFilters = () => {
+        filters.value = {
+            'global': {value: null, matchMode: FilterMatchMode.CONTAINS},
+        }
+    };
+
+    const clearFilter1 = () => {
+
+        initFilters();
+    };
 const signIn = async () => {
   loading.value = true;
 const info = {
@@ -505,6 +705,7 @@ try {
 const street = ref()
 const selected_address_type = ref()
 const current_template =  storeToRefs(frontStore).current_template
+const my_orders = ref()
 const my_addresses = ref()
 const mytoken = useCookie('token');
 const name = useCookie('username');
@@ -551,5 +752,18 @@ onMounted(() => {
   let my_addressess = frontStore.getMyAddresses(user_id.value).then((data) => {
     my_addresses.value = data?.data?.data
   })
+  let delivery = frontStore.getAllOrderStages().then((data) => {
+    //@ts-ignore
+     delivery_stages.value = data.data.data.filter(order => order.delivery_option === "delivery").sort((a, b) => a.sequence - b.sequence).map(order => order.stage)
+    //@ts-ignore
+     collection_stages.value = data.data.data.filter(order => order.delivery_option === "pickup") .sort((a, b) => a.sequence - b.sequence).map(order => order.stage)
+   })
+   let orders = frontStore.getMyOrders(user_id.value).then((data) => {
+    console.log('orders',data.data.orders)
+     my_orders.value = data?.data?.orders
+   })
 })
+const isCurrentStage = (stage:any) => {
+    return stage === my_current_stage.value;
+};
 </script>
