@@ -90,14 +90,14 @@
                 </div>
                 <div class="field mb-4 col-6">
                     <FloatLabel>
-                        <Password id="username" v-model="password" size="large" />
+                        <Password id="username" v-model="password" />
                         <label for="username">Password</label>
                     </FloatLabel>
                 </div>
                 <div class="field mb-4 col-6">
                     <FloatLabel>
-                        <Password id="username" v-model="password_confirmation" size="large" />
-                        <label for="username">Password Confirmation</label>
+                        <Password id="confirm"   class="w-full password mb-3" toggleMask :feedback="false" v-model="password_confirmation" />
+                        <label for="confirm">Password Confirmation</label>
                     </FloatLabel>
                 </div>
                 <div class="surface-border border-top-1  mb-4 col-12 "></div>
