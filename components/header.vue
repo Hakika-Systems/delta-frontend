@@ -92,8 +92,10 @@
 
 <script setup lang="ts">
 const frontStore = useFrontStore();
+const toast = useToast()
 const brands:any = storeToRefs(frontStore).brands;
 import $ from 'jquery';
+import Toast from 'primevue/toast';
 const select_shop = ref(false);
 const loading = ref(true);
 const shopBranch = ref();
@@ -113,6 +115,11 @@ const op = ref();
 const searchResultsTable = ref(null);  // Ref for the search results table
 
 const selectShop = async (brandd:any) => {
+  if (brandd?.name != "OKMART") {
+    toast.add({ severity: 'info', summary: 'Coming Soon', detail: `${brandd?.name} will be available soon`, life: 3000 });
+    return
+  }
+
   select_shop.value = true;
   shopID.value = brandd?.id;
   shopLogo.value = brandd?.logo;
