@@ -650,6 +650,36 @@ export const useFrontStore = defineStore('front', {
         throw error;
       }
     },
+    async updateCart(my_params: any) {
+      const url = `${SHOP_URL}/api/carts/edit/${my_params.cart_id}`;
+      const token = useCookie('token').value || "";
+      
+      const headers = {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      };
+      
+      const body = {
+        user_id: my_params.user_id ? my_params.user_id : "",
+        guest_id: my_params.guest_id ? my_params.guest_id : "",
+        shop_id: my_params.shop_id ? my_params.shop_id : "",
+        is_active: my_params.is_active ? my_params.is_active : true,
+      };
+      
+      try {
+        const response = await fetch(url, {
+          method: "POST",
+          headers,
+          body: JSON.stringify(body),
+        });
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error:', error);
+        throw error;
+      }
+    },
     async createAddress(my_params: any) {
       const url = `${SHOP_URL}/api/addresses`;
       const token = useCookie('token').value || "";
