@@ -377,6 +377,13 @@ skeleton_loader.value = false
     // Assign the found brand to chosenBrand
     if (foundBrand) {
         currentBrand.value = foundBrand;
+		if (foundBrand?.name != "OKMART") {
+			currentBrand.value = null;
+			chosenBrand.value = null;
+			toast.add({ severity: 'info', summary: 'Coming Soon', detail: `${foundBrand?.name} will be available soon`, life: 3000 });
+			return
+		}
+
     } else {
         currentBrand.value = null; // Or handle the case when the brand is not found
     }
@@ -433,6 +440,16 @@ skeleton_loader.value = false
         loading.value = false
         current_id.value = null
         let new_cart = await frontStore.getCart().then((data) => {
+			if (!user_id.value) {
+            sessionStorage.setItem('cart_id', JSON.stringify(data?.data?.id))
+            sessionStorage.setItem('current_cart_shop_id', JSON.stringify(shop_id))
+            sessionStorage.setItem('current_cart_brand',JSON.stringify(brand_id))
+          } else {
+            sessionStorage.removeItem('cart_id');
+            sessionStorage.removeItem('current_cart_shop_id');
+            sessionStorage.removeItem('current_cart_brand');
+          }
+          
           cart.value = data.data.items
           cart_total.value = data?.data?.cart_total
         })
@@ -596,6 +613,16 @@ const decreaseCartItem = async (item_id:any,product_id: any,quantity:any,unit_pr
     let edit_cart_item = await frontStore.editCartItem(cart_item).then( async (data) => {
       if (data?.status === "success") {
         let new_cart = await frontStore.getCart().then((data) => {
+			if (!user_id.value) {
+            sessionStorage.setItem('cart_id', JSON.stringify(data?.data?.id))
+            sessionStorage.setItem('current_cart_shop_id', JSON.stringify(shop_id))
+            sessionStorage.setItem('current_cart_brand',JSON.stringify(brand_id))
+          } else {
+            sessionStorage.removeItem('cart_id');
+            sessionStorage.removeItem('current_cart_shop_id');
+            sessionStorage.removeItem('current_cart_brand');
+          }
+          
           cart.value = data.data.items
           cart_total.value = data?.data?.cart_total
         })
@@ -636,6 +663,16 @@ const increaseCartItem = async (item_id:any,product_id: any,quantity:any,unit_pr
       if (data?.status === "success") {
         
         let new_cart = await frontStore.getCart().then((data) => {
+			if (!user_id.value) {
+            sessionStorage.setItem('cart_id', JSON.stringify(data?.data?.id))
+            sessionStorage.setItem('current_cart_shop_id', JSON.stringify(shop_id))
+            sessionStorage.setItem('current_cart_brand',JSON.stringify(brand_id))
+          } else {
+            sessionStorage.removeItem('cart_id');
+            sessionStorage.removeItem('current_cart_shop_id');
+            sessionStorage.removeItem('current_cart_brand');
+          }
+          
           cart.value = data.data.items
           cart_total.value = data?.data?.cart_total
         })
@@ -676,6 +713,16 @@ const removeFromCart = async (itemId:any) => {
             life: 3000,
             });
             let new_cart = await frontStore.getCart().then((data) => {
+				if (!user_id.value) {
+					sessionStorage.setItem('cart_id', JSON.stringify(data?.data?.id))
+					sessionStorage.setItem('current_cart_shop_id', JSON.stringify(shop_id))
+					sessionStorage.setItem('current_cart_brand',JSON.stringify(brand_id))
+				} else {
+					sessionStorage.removeItem('cart_id');
+					sessionStorage.removeItem('current_cart_shop_id');
+					sessionStorage.removeItem('current_cart_brand');
+				}
+          
             cart.value = data.data.items
             cart_total.value = data?.data?.cart_total
             })
