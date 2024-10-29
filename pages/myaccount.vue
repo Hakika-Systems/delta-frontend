@@ -649,7 +649,7 @@ const filters = ref({
 
         initFilters();
     };
-const signIn = async () => {
+    const signIn = async () => {
   loading.value = true;
 const info = {
   email: email.value,
@@ -677,7 +677,48 @@ try {
       detail: 'Successfully Signed In',
       life: 3000,
     });
-    reloadNuxtApp()
+            let user_idd:any = response.data?.login?.data?.user?.id
+            const current_shop_id:any = sessionStorage.getItem('current_shop_id');
+            const guest_id:any = sessionStorage.getItem('guest_id');
+            const current_shop_branch:any = sessionStorage.getItem('current_shop_branch');
+			      const cart_id:any = sessionStorage.getItem('cart_id');
+            const current_cart_brand:any = sessionStorage.getItem('current_cart_brand')
+            const current_cart_shop_id:any = sessionStorage.getItem('current_cart_shop_id')
+            console.log("cart_id: " + cart_id)
+            if (cart_id) {
+              let ccb = JSON.parse(current_cart_brand)
+              let csi = JSON.parse(current_cart_shop_id)
+              let gi = JSON.parse(guest_id)
+              console.log("variables to comapre",current_shop_id,ccb)
+              if(current_shop_id === ccb) {
+                 let params = {
+                  user_id: user_idd,
+                  shop_id: csi
+                 }
+                //  let cart_creation = await frontStore.createCart(params).then((data) => {
+                //   console.log("cart_creation_data",data)
+                //  })
+                 let results = await frontStore.getCartTwo(cart_id).then(async(data) => {
+                  if (data?.status == 'success') {
+                    let update_params = {
+                      user_id: user_idd,
+                      cart_id: data?.data?.id,
+                      guest_id: gi,
+                      shop_id: data?.data?.shop_id
+                    }
+                    let cart_update = await frontStore.updateCart(update_params).then((data) => {
+                      navigateTo('/myaccount',{external: true});
+                    })
+                  }
+                 })
+
+              }   
+            } else {
+               navigateTo('/myaccount',{external: true});
+            }
+           
+        //    await  navigateTo(`/shop-${JSON.parse(current_shop_id)}-${JSON.parse(current_shop_branch)}`,{external:true})
+        // navigateTo('/myaccount',{external: true});
   } else {
     // Catch all for unexpected response structures
     toast.add({
