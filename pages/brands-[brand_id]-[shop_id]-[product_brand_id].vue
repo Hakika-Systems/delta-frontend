@@ -228,6 +228,16 @@ if (products.value[productIndex].details[0].quantity < 1) {
       loading.value = false
       current_id.value = null
       let new_cart = await frontStore.getCart().then((data) => {
+        if (!user_id.value) {
+					sessionStorage.setItem('cart_id', JSON.stringify(data?.data?.id))
+					sessionStorage.setItem('current_cart_shop_id', JSON.stringify(shop_id))
+					sessionStorage.setItem('current_cart_brand',JSON.stringify(brand_id))
+				} else {
+					sessionStorage.removeItem('cart_id');
+					sessionStorage.removeItem('current_cart_shop_id');
+					sessionStorage.removeItem('current_cart_brand');
+				} 
+        
         cart.value = data.data.items
         cart_total.value = data?.data?.cart_total
       })
