@@ -68,23 +68,22 @@
                 <div  v-if= "delivery_option == 'Delivery'" class="col-12 flex flex-column lg:flex-row field">
                     <div @click="select_fast_delivery()"  :class="{'border-top': delivery_type === 'Fast Delivery'}" class="flex justify-content-between p-3 border-round border-1 surface-border w-full mr-3 hover:border-primary cursor-pointer">
                       <div class="mr-3 lg:mr-0">
-                        <div class="text-900 font-bold mb-2">Fast Delivery</div>
+                        <div class="text-900 font-bold mb-2">Fast Delivery<br><small class="smallt">Delivered within 3 Hours</small></div>
                         <small v-if="!delivery_type" style="color: red;">Required</small>
                       </div>
                       <div class="flex justify-content-between align-items-center">
                         <span class="text-primary mr-2 font-medium">$7.00</span>
                         <div class="flex items-center">
-                        
                        </div> 
                       </div>
                     </div>
                     <div @click="select_standard_delivery" :class="{'border-top': delivery_type === 'Standard Delivery'}" class="flex justify-content-between p-3 mt-3 lg:mt-0 border-round border-1 surface-border w-full hover:border-primary cursor-pointer">
                       <div class="mr-3 lg:mr-0">
-                        <div class="text-900 font-bold mb-2">Standard Delivery</div>
+                        <div class="text-900 font-bold mb-2">Standard Delivery<br><small class="smallt">Delivered within 48 Hours</small></div>
                         <small v-if="!delivery_type" style="color: red;">Required</small>
                       </div>
                       <div  class="flex justify-content-between align-items-center">
-                        <span class="text-primary mr-2 font-medium">$1.50</span>
+                        <span class="text-primary mr-2 font-medium">$5.00</span>
                         <div class="flex items-center">
                        
                       </div> 
@@ -236,7 +235,7 @@
                     <span class="text-900 font-bold">{{findCurrency()}}{{  cartTotal() }}</span>
                   </div>
                 </div>
-                <InlineMessage class="w-12 mt-5" v-if="cartTotal() < minimum_order" severity="info">Please note the minumum order is {{findCurrency()}}{{ minimum_order }} </InlineMessage>
+                <InlineMessage class="w-12 mt-5" v-if="cartTotal() < minimum_order && delivery_option === 'Delivery'" severity="info">Please note the minumum order is {{findCurrency()}}{{ minimum_order }} </InlineMessage>
                 <Button :disabled="isButtonDisabled" :loading="loading" @click="confirmOrder()" class="p-button p-component p-button-primary w-full mt-3" label="Place Order" />
               </div>
             </div>
@@ -284,7 +283,7 @@ const cart_total = ref(Number(0.00))
 const use_address_for_delivery = ref(true)
 const current_payment_option = ref()
 const current_payment_option_name = ref('')
-const standard_delivery = ref(Number(1.50))
+const standard_delivery = ref(Number(5.00))
 const VAT_RATE = Number(0.15); // 14.5% VAT rate
 const coupon_code = ref('');
 const order_status_id = ref(1);
@@ -364,6 +363,15 @@ const decreaseCartItem = async (item_id:any,product_id: any,quantity:any,unit_pr
     let edit_cart_item = await frontStore.editCartItem(cart_item).then( async (data) => {
       if (data?.status === "success") {
         let new_cart = await frontStore.getCart().then((data) => {
+          if (!user_id.value) {
+					sessionStorage.setItem('cart_id', JSON.stringify(data?.data?.id))
+					sessionStorage.setItem('current_cart_shop_id', JSON.stringify(shop_id))
+					sessionStorage.setItem('current_cart_brand',JSON.stringify(brand_id))
+				} else {
+					sessionStorage.removeItem('cart_id');
+					sessionStorage.removeItem('current_cart_shop_id');
+					sessionStorage.removeItem('current_cart_brand');
+				}
           cart.value = data.data.items
           cart_total.value = data?.data?.cart_total
           vat_total.value = data?.data?.vat_total
@@ -405,6 +413,15 @@ const increaseCartItem = async (item_id:any,product_id: any,quantity:any,unit_pr
       if (data?.status === "success") {
         
         let new_cart = await frontStore.getCart().then((data) => {
+          if (!user_id.value) {
+					sessionStorage.setItem('cart_id', JSON.stringify(data?.data?.id))
+					sessionStorage.setItem('current_cart_shop_id', JSON.stringify(shop_id))
+					sessionStorage.setItem('current_cart_brand',JSON.stringify(brand_id))
+				} else {
+					sessionStorage.removeItem('cart_id');
+					sessionStorage.removeItem('current_cart_shop_id');
+					sessionStorage.removeItem('current_cart_brand');
+				}
           cart.value = data.data.items
           cart_total.value = data?.data?.cart_total
           vat_total.value = data?.data?.vat_total
@@ -469,7 +486,7 @@ const lineTotal = (price:any, quantity:any) => {
     !name.value ||
     !email.value ||
     !customer_mobile.value ||
-    cartTotal() < minimum_order.value ||
+    cartTotal() < minimum_order.value && delivery_option.value === 'Delivery' ||
     !delivery_option.value ||
     !address.value ||
     !suburb.value ||
@@ -518,6 +535,15 @@ const removeFromCart = async (itemId:any) => {
             life: 3000,
             });
             let new_cart = await frontStore.getCart().then((data) => {
+              if (!user_id.value) {
+                sessionStorage.setItem('cart_id', JSON.stringify(data?.data?.id))
+                sessionStorage.setItem('current_cart_shop_id', JSON.stringify(shop_id))
+                sessionStorage.setItem('current_cart_brand',JSON.stringify(brand_id))
+              } else {
+                sessionStorage.removeItem('cart_id');
+                sessionStorage.removeItem('current_cart_shop_id');
+                sessionStorage.removeItem('current_cart_brand');
+              }
             cart.value = data.data.items
             cart_total.value = data?.data?.cart_total
             vat_total.value = data?.data?.vat_total
