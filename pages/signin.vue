@@ -103,7 +103,7 @@ try {
 
               }   
             } else {
-               navigateTo('/myaccount',{external: true});
+              navigateTo('/myaccount',{external: true});
             }
            
         //    await  navigateTo(`/shop-${JSON.parse(current_shop_id)}-${JSON.parse(current_shop_branch)}`,{external:true})
