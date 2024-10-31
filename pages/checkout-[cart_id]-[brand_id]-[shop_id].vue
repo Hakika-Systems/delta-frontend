@@ -700,14 +700,14 @@ const  confirmOrder = async () => {
                   }
               } else {
                 loading.value = false
-                toast.add({ severity: 'warn', summary: 'Failed', detail: "Failed To Order, Contact Support", life: 3000 });
+                toast.add({ severity: 'warn', summary: 'Failed', detail: data?.data?.errors, life: 3000 });
               }
               
             })
            
         } else {
             loading.value = false
-            toast.add({ severity: 'warn', summary: 'Failed', detail: "Failed To Order, Contact Support", life: 3000 });
+            toast.add({ severity: 'warn', summary: 'Failed', detail: data?.errors, life: 3000 });
         }
     })
 }
