@@ -125,7 +125,7 @@
             <TieredMenu v-else class="shopbyisle" :model="categories" />
          </div> -->
          <div class="col-10">
-			<Skeleton v-if="dummyMenu.length < 1" height="2rem" class="mb-2"></Skeleton>
+			<Skeleton v-if="menuLoader" height="2rem" class="mb-2"></Skeleton>
             <MegaMenu v-else :model="dummyMenu" />
          </div>
       </div>
@@ -216,6 +216,7 @@
     const branches = ref()
     const select_shop = ref()
     const shopLogo = ref();
+	const menuLoader = ref(false)
     const shopName = ref();
     const brands = ref()
     const search_products = ref([])
@@ -243,6 +244,7 @@
     const categories = ref()
 	onMounted( async() => {
     skeleton_loader.value = true
+	menuLoader.value = true
     categories_loading.value = true;
     let gi:any
     if (typeof window !== 'undefined') {
@@ -311,6 +313,7 @@ let f_menus = await frontStore.getFeaturedMenus(JSON.parse(par)).then(async (dat
 dummyMenu.value = await convertDataToMenuItems(data?.data)
 })
 skeleton_loader.value = false
+menuLoader.value = false
 })
     const goToLanding = async () => {
      await navigateTo('/',{external: true})
@@ -585,7 +588,7 @@ const navColor = active_brand?.value?.menu_font_color??"#fff";
 
         //@ts-ignore
 const convertDataToMenuItems = (data) => {
-	// @ts-ignore
+	//@ts-ignore
     return data.map(item => {
         const { referenceable, referenceable_id, is_brand } = item;
         return {
