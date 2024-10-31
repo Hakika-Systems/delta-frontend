@@ -267,6 +267,11 @@ const goToShop = async () => {
 }
 
 onMounted(async() => {
+  let result_one = await frontStore.getBrands().then(async (data) => {
+    brands.value = data?.data?.shopbrands;
+    loading.value = false;
+    await getAllBrandsFeaturedProducts();
+  });
   let currency_params = {
     page: 1,
     per_page: 100
@@ -275,11 +280,7 @@ onMounted(async() => {
     currencies.value = data.data.currencies
     selected_currency.value = data?.data?.currencies[0]?.id ? data?.data?.currencies[0]?.id : null
   });
-  let result_one = await frontStore.getBrands().then(async (data) => {
-    brands.value = data?.data?.shopbrands;
-    await getAllBrandsFeaturedProducts();
-    loading.value = false;
-  });
+  
 })
 
 const getAllBrandsFeaturedProducts = async () => {
