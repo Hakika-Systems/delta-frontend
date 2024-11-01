@@ -10,8 +10,10 @@
                 <div class="col-12 mb-4 flex flex-column lg:flex-row align-items-center justify-content-between">
                   <div class="text-900 font-medium text-xl">Personal Details</div>
                   <div v-if="!user_id" class="mt-3 lg:mt-0">
-                    <span class="text-600 mr-2">Already have an account?</span>
-                    <a tabindex="0" @click="navigateTo('signin',{external:true})" class="cursor-pointer text-900 hover:text-primary transition-duration-150">Login</a>
+                    <span class="text-600 mr-2">Have an account?</span>
+                    <a tabindex="0" @click="navigateTo('signin',{external:true})" class="cursor-pointer text-900 hover:text-primary transition-duration-150">Login</a><br>
+                    <span class="text-600 mr-2">New to our platform?</span>
+                    <a tabindex="0" @click="navigateTo('registration',{external:true})" class="cursor-pointer text-900 hover:text-primary transition-duration-150">Register</a><br>
                   </div>
                 </div>
              
