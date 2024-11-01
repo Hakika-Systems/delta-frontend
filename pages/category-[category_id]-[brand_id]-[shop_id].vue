@@ -209,8 +209,11 @@ const buttonColor = active_brand?.value?.button_color;
   onMounted( async() => {
     brand_idd.value = brand_id
     let gi:any
+    let current_cart_id:any
     if (typeof window !== 'undefined') {
+        let current_cart_id:any
         gi  = sessionStorage.getItem('guest_id');
+        current_cart_id = sessionStorage.getItem('cart_id');
     }
     guest_id.value = JSON.parse(gi)
     shop_idd.value = shop_id
@@ -244,11 +247,18 @@ const buttonColor = active_brand?.value?.button_color;
     user_id: user_id.value,
     guest_id: guest_id.value
    }
-  let created_cart = await frontStore.createCart(cart_params).then((data) => {
-    cart.value = data.data.items
+   if (current_cart_id) {
+   let saved_cart  = await frontStore.getCartTwo(current_cart_id).then((data) => {
+	  cart.value = data.data?.items
     cart_total.value = data?.data?.cart_total
+   })
+ } else {
+    let created_cart = await frontStore.createCart(cart_params).then((data) => {
+	  cart.value = data?.data?.items
+	  cart_total.value = data?.data?.cart_total
     cart_id.value = data?.data?.id
-  }) 
+   }) 
+ } 
   
  })
   

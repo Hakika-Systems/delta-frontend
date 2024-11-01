@@ -664,7 +664,6 @@ const  confirmOrder = async () => {
           city: delivery_city.value ? delivery_city.value : city.value,
           country: delivery_country.value ? delivery_country.value : country.value
         },
-        payment_method_id: current_payment_option.value,
         delivery_option: delivery_option.value === 'Collection' ? "pickup" : 'delivery',
         payment_method: current_payment_option_name.value,
         currency_id: selected_currency.value,
@@ -700,14 +699,14 @@ const  confirmOrder = async () => {
                   }
               } else {
                 loading.value = false
-                toast.add({ severity: 'warn', summary: 'Failed', detail: data?.data?.errors, life: 3000 });
+                toast.add({ severity: 'warn', summary: data?.data?.message, detail: data?.data?.errors, life: 3000 });
               }
               
             })
            
         } else {
             loading.value = false
-            toast.add({ severity: 'warn', summary: 'Failed', detail: data?.errors, life: 3000 });
+            toast.add({ severity: 'warn', summary: data?.message, detail: data?.errors, life: 3000 });
         }
     })
 }
