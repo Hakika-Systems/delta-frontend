@@ -11,17 +11,6 @@
       <label for="password4" class="block text-900 font-medium mb-2">Password</label>
       <Password  class="w-full password mb-3" placeholder="Enter Password" :feedback="false" toggleMask v-model="password" />
       <div class="flex align-items-center justify-content-between mb-6">
-        <div class="flex align-items-center">
-          <div class="p-checkbox p-component mr-2" data-pc-name="checkbox" data-pc-section="root" id="rememberme4">
-            <div class="p-hidden-accessible" data-pc-section="hiddeninputwrapper" data-p-hidden-accessible="true">
-              <input type="checkbox" data-pc-section="hiddeninput">
-            </div>
-            <div class="p-checkbox-box" data-pc-section="input" data-p-highlight="false" data-p-disabled="false" data-p-focused="false">
-              <!---->
-            </div>
-          </div>
-          <label for="rememberme4">Remember me</label>
-        </div>
         <a class="font-medium text-blue-500 hover:text-blue-700 cursor-pointer transition-colors transition-duration-150">Forgot password?</a>
       </div>
       <Button :loading="loading" label="Sign In" @click="signIn()" class="w-full" /> 
