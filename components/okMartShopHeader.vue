@@ -83,7 +83,7 @@
       </div>
     </div>
     <div class="belowheader okmartheader px-6  flex align-items-center justify-content-between relative lg:static">
-      <div class="row col-12 flex">
+      <div class="row col-12 mainnavv flex">
         <div class="col-md-3 col-2">
 			<Skeleton v-if="skeleton_loader" height="4rem" width="6rem" class="mb-2 ml-2"></Skeleton>
 <div v-else id="mega-menu">
@@ -285,24 +285,34 @@ await getLogo()
 if (guest_id.value === null) {
       guest_id.value = createId()
       sessionStorage.setItem('guest_id', JSON.stringify(guest_id.value))
-  }
+}
   let current_shop_branch:any
   let current_shop_id:any
+  let current_cart_id:any
   if (typeof window !== 'undefined') {
     current_shop_branch = sessionStorage.getItem('current_shop_branch');
     current_shop_id = sessionStorage.getItem('current_shop_id');
-}
+    current_cart_id = sessionStorage.getItem('cart_id');
+  }
   
  let cart_params = {
   shop_id: JSON.parse(current_shop_branch),
   user_id: user_id.value,
   guest_id: guest_id.value
  }
-let created_cart = await frontStore.createCart(cart_params).then((data) => {
+ if (current_cart_id) {
+   let saved_cart  = await frontStore.getCartTwo(current_cart_id).then((data) => {
+	cart.value = data.data?.items
+    cart_total.value = data?.data?.cart_total
+   })
+ } else {
+    let created_cart = await frontStore.createCart(cart_params).then((data) => {
 	cart.value = data?.data?.items
 	cart_total.value = data?.data?.cart_total
-  cart_id.value = data?.data?.id
-}) 
+   cart_id.value = data?.data?.id
+   }) 
+ }
+
 
 let categoriess = await frontStore.getAllCategories(params).then(async (data) => {
 await transformMenu(data)
@@ -791,6 +801,9 @@ const getParsedImages = (images: string) => {
     
     </script>
     <style>
+	.row.col-12.mainnavv.flex {
+    height: 70px;
+}
 	.cat-title.cursor-pointer {
     font-weight: 600 !important;
     margin-top: 15px !important;
