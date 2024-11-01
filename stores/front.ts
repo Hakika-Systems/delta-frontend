@@ -1083,7 +1083,6 @@ export const useFrontStore = defineStore('front', {
           country: my_params.delivery_address.country,
           phone: my_params.delivery_address.phone
         },
-        payment_method_id: my_params.payment_method_id,
         delivery_option: my_params.delivery_option,
         payment_method: my_params.payment_method,
         currency_id: my_params.currency_id,
