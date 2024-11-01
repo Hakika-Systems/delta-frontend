@@ -304,6 +304,7 @@ if (guest_id.value === null) {
    let saved_cart  = await frontStore.getCartTwo(current_cart_id).then((data) => {
 	cart.value = data.data?.items
     cart_total.value = data?.data?.cart_total
+	cart_id.value = current_cart_id
    })
  } else {
     let created_cart = await frontStore.createCart(cart_params).then((data) => {
