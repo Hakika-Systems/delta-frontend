@@ -300,9 +300,6 @@ const addresses = ref()
 const mytoken = useCookie('token');
 const user_id = useCookie('user_id');
 const whatsapp_number = ref('');
-const payment_method = ref('');
-const payment_methoid_id = ref('');
-const currency_id = ref();
 const currencies:any = storeToRefs(frontStore).currencies
 const selected_currency:any = storeToRefs(frontStore).selected_currency
 const currency = ref('');
@@ -327,12 +324,6 @@ onMounted( async() => {
         page: 1,
         per_page: 10
   }
-// let payment_optionss = await frontStore.getPaymentOptions(payments_params).then((data) => {
-//     const paymentMethods: PaymentMethod[] = data?.data?.paymentmethods || [];
-//     const activePaymentMethods = paymentMethods.filter((method: PaymentMethod) => method.is_active);
-
-//     payment_options.value = activePaymentMethods;
-// });
 let addressess = await frontStore.getMyAddresses(user_id.value).then((data) => {
     addresses.value = data?.data?.data
 });
@@ -397,7 +388,6 @@ const decreaseCartItem = async (item_id:any,product_id: any,quantity:any,unit_pr
         current_loading.value = null
       }
     })
-    
     
 };
 
@@ -719,6 +709,9 @@ const  confirmOrder = async () => {
               if(data?.data?.success) {
                   if(data?.data?.redirect === false) {
                     loading.value = false
+                    sessionStorage.removeItem('cart_id');
+                    sessionStorage.removeItem('current_cart_shop_id');
+                    sessionStorage.removeItem('current_cart_brand');
                      navigateTo('/coc_order_summary',{external: true})
                   } else if (data?.data?.redirect === true){
                     toast.add({ severity: 'info', summary: 'Redirecting', detail: "Redirecting To Paynow", life: 3000 });

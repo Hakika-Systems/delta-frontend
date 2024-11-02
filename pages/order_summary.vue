@@ -186,6 +186,9 @@ onMounted(async() => {
   let last_order:any
   let payment_details:any
     if (typeof window !== 'undefined') {
+      sessionStorage.removeItem('cart_id');
+      sessionStorage.removeItem('current_cart_shop_id');
+      sessionStorage.removeItem('current_cart_brand');
       last_order = sessionStorage.getItem('last_order');
       payment_details = sessionStorage.getItem('payment_details');
     }
