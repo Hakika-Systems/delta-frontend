@@ -598,22 +598,33 @@ const navColor = active_brand?.value?.menu_font_color??"#fff";
 }
 
         //@ts-ignore
-const convertDataToMenuItems = (data) => {
-	//@ts-ignore
+		const convertDataToMenuItems = (data) => {
+    // Check if sessionStorage is available (for client-side execution)
+    let current_shop_id = null;
+    let current_shop_branch = null;
+    if (typeof window !== 'undefined') {
+		//@ts-ignore
+        current_shop_id = JSON.parse(sessionStorage.getItem('current_shop_id'));
+		//@ts-ignore
+        current_shop_branch = JSON.parse(sessionStorage.getItem('current_shop_branch'));
+    }
+//@ts-ignore
     return data.map(item => {
         const { referenceable, referenceable_id, is_brand } = item;
+        
         return {
             label: referenceable.name,
-            icon: 'pi pi-tagjhs', // You can adjust the icon as needed
+            icon: 'pi pi-tagjhs', // Adjust icon as needed
             command: () => {
                 const url = is_brand 
-                    ? `/brands-${brand_id.value}-${shop_id.value}-${referenceable_id}` 
-                    : `/category-${referenceable_id}-${brand_id.value}-${shop_id.value}`;
-                navigateTo(url,{external:true});
+                    ? `/brands-${current_shop_id}-${current_shop_branch}-${referenceable_id}` 
+                    : `/category-${referenceable_id}-${current_shop_id}-${current_shop_branch}`;
+                navigateTo(url, { external: true });
             }
         };
     });
 }
+
 const decreaseCartItem = async (item_id:any,product_id: any,quantity:any,unit_price:any) => {
     loading.value = true
     let cart_item = {

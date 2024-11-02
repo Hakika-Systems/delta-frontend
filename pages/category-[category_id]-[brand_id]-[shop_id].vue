@@ -13,7 +13,7 @@
     <div class="surface-section px-4 py-8 md:px-6 lg:px-8">
       <div class="flex justify-content-between flex-wrap">
         <div class="flex align-items-center mb-4 md:mb-0">
-          <div class="text-900 font-bold text-3xl">{{ category_name ? category_name : "All Products"}}</div>
+          <div class="text-900 font-bold text-3xl">All Products</div>
         </div>
       </div>
       <div class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left" role="separator" aria-orientation="horizontal" data-pc-name="divider" data-pc-section="root" styleclass="w-full border-gray-200" style="justify-content: center;">
