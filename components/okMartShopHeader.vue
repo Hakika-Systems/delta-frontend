@@ -62,7 +62,7 @@
       </div>
       <div class="flex items-center col-5 flex-grow-0 account-cart-container">
 		<Skeleton v-if="skeleton_loader" height="2rem" width="5rem" class="mb-2"></Skeleton>
-        <Dropdown v-else v-model="selected_currency" :options="currencies" optionLabel="iso_code" optionValue="id" placeholder="Select Currency" class="w-50 md:w-7rem" />
+        <Dropdown @change="saveCurrency()" v-else v-model="selected_currency" :options="brand_currencies" optionLabel="currency.iso_code" optionValue="id" placeholder="Select Currency" class="w-50 md:w-7rem" />
 		<Skeleton v-if="skeleton_loader" height="2rem" width="5rem" class="mb-2 ml-2"></Skeleton>
      <a v-else class="text-white font-medium inline-flex align-items-center cursor-pointer px-3 hover:text-gray-200 p-ripple" data-pd-ripple="true">
        <i class="pi pi-user mr-2 sm:mr-3 toptext text-sm"></i>
@@ -75,7 +75,7 @@
         <InputGroupAddon>
             <i v-badge="getTotalItemsInCart()" @mouseenter="toggle" @click="toggle" class="pi pi-shopping-cart totalbadge" style="font-size: 25px;" />
         </InputGroupAddon>
-        <InlineMessage severity="secondary">{{findCurrency()}}{{ cart_total }}</InlineMessage>
+        <InlineMessage severity="secondary">{{findCurrency()}}{{ findConversionRatePrice(cart_total) }}</InlineMessage>
         <!-- <InputNumber v-model="cartTotal()" class="inputtotal" disabled placeholder="0.00" /> -->
         <Button @click="goToCheckout()" label="Checkout" class="checkoutbutton" icon="pi pi-angle-right" iconPos="right" severity="warn" />
     </InputGroup>
@@ -148,7 +148,7 @@
                     </span>
                 </div>
                 <div class="flex align-items-center gap-2 text-color-secondary ml-auto text-sm">
-                    <span>USD{{ (lineTotal(item.unit_price,item.quantity)).toFixed(2)}}</span>
+                    <span>{{findCurrency()}}{{ findConversionRatePrice((lineTotal(item.unit_price,item.quantity)).toFixed(2))}}</span>
                     <i  class="pi pi-trash" @click="removeFromCart(item.id)"></i>
                 </div>
                 </li>
@@ -206,9 +206,7 @@
     const frontStore = useFrontStore()
     const cart:any = storeToRefs(frontStore).cart
     import { createId } from '@paralleldrive/cuid2';
-	const router = useRouter()
     const op = ref();
-    const logo = ref('')
     const toast = useToast()
     const select_brand = ref(false)
     const chosenBrand = ref()
@@ -237,11 +235,13 @@
     const guest_id = ref()
     const categories_loading = ref(false)
 	const skeleton_loader = ref(true)
-    const selectedCurrency = ref("USD");
     const cart_id = storeToRefs(frontStore).cart_id
-    const currencies:any = storeToRefs(frontStore).currencies;
+    const brand_currencies:any = storeToRefs(frontStore).currencies;
     const selected_currency = storeToRefs(frontStore).selected_currency;
-    const categories = ref()
+
+	const saveCurrency = () => {
+		sessionStorage.setItem('selected_currency', JSON.stringify(selected_currency.value))
+	}
 	onMounted( async() => {
     skeleton_loader.value = true
 	menuLoader.value = true
@@ -252,19 +252,21 @@
     }
     guest_id.value = JSON.parse(gi)
     //@ts-ignore
-    let currenciess
+	
+	let csi:any
+	let sc:any
     if (typeof window !== 'undefined') {
-      currenciess  = sessionStorage.getItem('active_brand');
+	  csi = sessionStorage.getItem('current_shop_id');
+	  sc  = sessionStorage.getItem('selected_currency')
     }
     //@ts-ignore
-    let currency = JSON.parse(currenciess)
-    currencies.value = currency.currencies
-    if (!selected_currency.value) {
-        selected_currency.value = currencies.value[0]?.id ? currencies.value[0]?.id : null
-    }
-   
-
 let params = {
+    page: 1,
+    per_page: 100
+}
+
+let currency_params = {
+	shop_brand_id: JSON.parse(csi),
     page: 1,
     per_page: 100
 }
@@ -272,6 +274,27 @@ let result_one = await frontStore.getBrands().then(async (data) => {
     brands.value = data?.data?.shopbrands;
 
 });
+let brand_currenciess = await frontStore.getBrandCurrencies(currency_params)
+  .then((data) => {
+    // Set the currencies in a reactive variable
+    brand_currencies.value = data?.data?.currencies;
+
+    // Attempt to find a default currency
+	let current_currency = JSON.parse(sc)
+	//@ts-ignore
+    const defaultCurrency = data?.data?.currencies.find(currency => currency.default === 1);
+    if (current_currency) {
+		selected_currency.value = current_currency;
+	} else {
+		selected_currency.value = defaultCurrency ? defaultCurrency.currency?.id : (data?.data?.currencies[0]?.currency?.id || null);
+	}
+    // Set selected_currency to the default or the first currency if no default is found
+   
+  })
+  .catch((error) => {
+    console.error('Error fetching currencies:', error);
+  });
+
 let brandss = await frontStore.getProductBrands(params).then((data) => {
     //@ts-ignore
     product_brands.value = data?.data?.data.map(item => ({
@@ -537,9 +560,40 @@ const  transformMenu = (data:any) => {
     return null;
 }
 const findCurrency = () => {
-    const currency = currencies.value.find((currency:any) => currency.id === selected_currency.value);
-    return currency ? currency.iso_code : null;
+	const currencies = brand_currencies.value;
+//@ts-ignore
+    const currency = currencies.find(item => item.currency_id === selected_currency.value);
+
+return currency ? currency.currency.iso_code : null;
+
 }
+const findConversionRatePrice = (price:any) => {
+    const currencies = brand_currencies.value;
+
+    // Step 1: Find the default currency
+	//@ts-ignore
+    const defaultCurrency = currencies.find(item => item.default === 1);
+    if (!defaultCurrency) {
+        return null; // Return null or handle error if no default currency is found
+    }
+
+    // Step 2: Find the selected currency
+	//@ts-ignore
+    const selectedCurrency = currencies.find(item => item.currency_id === selected_currency.value);
+    if (!selectedCurrency) {
+        return null; // Return null or handle error if no selected currency is found
+    }
+
+    // Step 3: Determine the conversion rate
+    const selectedRate = parseFloat(selectedCurrency.conversion_rate);
+
+    // Multiply the price by the selected currency’s conversion rate
+    const convertedPrice = price * selectedRate;
+
+    // Return the converted price
+    return convertedPrice;
+};
+
 const goToShop = async () => {
 //   loading.value = true;
 //   sessionStorage.setItem('active_brand', JSON.stringify(currentBrand.value))
