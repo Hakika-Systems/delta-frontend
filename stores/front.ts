@@ -620,6 +620,65 @@ export const useFrontStore = defineStore('front', {
         throw error;
       }
     },
+    async sendReset(my_params: any) {
+      console.log("my_params",my_params.email)
+      const url = `${SHOP_URL}/api/auth/forgot-password`;
+      const token = useCookie('token').value || "";
+      
+      const headers = {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      };
+      
+      const body = {
+        email: my_params.email,
+      };
+      
+      try {
+        const response = await fetch(url, {
+          method: "POST",
+          headers,
+          body: JSON.stringify(body),
+        });
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error:', error);
+        throw error;
+      }
+    },
+    async changePassword(my_params: any) {
+      console.log("my_params",my_params.email)
+      const url = `${SHOP_URL}/api/auth/reset-password`;
+      const token = useCookie('token').value || "";
+      
+      const headers = {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      };
+      
+      const body = {
+        email: my_params.email,
+        password: my_params.password,
+        password_confirmation: my_params.confirm_password,
+        token: my_params.otp,
+      };
+      
+      try {
+        const response = await fetch(url, {
+          method: "POST",
+          headers,
+          body: JSON.stringify(body),
+        });
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error:', error);
+        throw error;
+      }
+    },
     async createCart(my_params: any) {
       const url = `${SHOP_URL}/api/carts`;
       const token = useCookie('token').value || "";
@@ -747,7 +806,7 @@ export const useFrontStore = defineStore('front', {
     async initiatePayment(info: any) {
       // Prepare the FormData object
       const formData = new FormData();
-      formData.append('order_id', info.order_id); // Assuming `info.id` contains the order ID
+      formData.append('order_id', info.order_id); // AssuminFg `info.id` contains the order ID
       formData.append('payment_method', info.payment_method); // Assuming `info.payment_method` is the payment method
     
       // Define the configuration for the axios request
