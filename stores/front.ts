@@ -524,6 +524,33 @@ export const useFrontStore = defineStore('front', {
       } finally {
       }
     },
+    async getBrandCurrencies(my_params:any) {
+      const url = new URL(`${SHOP_URL}/api/shop-currencies`);
+      const params:any = {
+          per_page: `${my_params.per_page}`,
+          shop_brand_id: `${my_params.shop_brand_id}`,
+          page:`${my_params.page}`
+      };
+      Object.keys(params).forEach((key) =>
+          url.searchParams.append(key, params[key])
+      );
+      const token = useCookie('token').value || ""
+      const headers = {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+      };
+  
+      try {
+          const response = await fetch(url, {
+              method: "GET",
+              headers,
+          });
+          const data = await response.json();
+          return data;
+      } finally {
+      }
+    },
     async getAllAddressTypes() {
       const url = new URL(`${SHOP_URL}/api/address-types`);
       const token = useCookie('token').value || ""
