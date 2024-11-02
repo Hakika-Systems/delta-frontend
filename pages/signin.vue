@@ -10,22 +10,60 @@
       <InputText class="p-inputtext p-component w-full mb-3 p-3" placeholder="Email Address" v-model="email" />
       <label for="password4" class="block text-900 font-medium mb-2">Password</label>
       <Password  class="w-full password mb-3" placeholder="Enter Password" :feedback="false" toggleMask v-model="password" />
-      <div class="flex align-items-center justify-content-between mb-6">
-        <a class="font-medium text-blue-500 hover:text-blue-700 cursor-pointer transition-colors transition-duration-150">Forgot password?</a>
+      <div @click="forgot = true" class="flex align-items-center justify-content-between mb-6">
+        <a @click="forgot = true" class="font-medium text-blue-500 hover:text-blue-700 cursor-pointer transition-colors transition-duration-150">Forgot password?</a>
       </div>
       <Button :loading="loading" label="Sign In" @click="signIn()" class="w-full" /> 
     </div>
   </div>
+  <Dialog v-model:visible="forgot" modal header="Forgot Password" :style="{ width: '25rem' }">
+    <span class="p-text-secondary block mb-5">Enter your email address.</span>
+    <div class="flex align-items-center gap-3 mb-3">
+        <label for="username" class="font-semibold w-6rem">Email Address</label>
+        <InputText v-model='email' id="username" type="email" class="flex-auto"  />
+    </div>
+    <div class="flex justify-content-end gap-2">
+        <Button :loading="loading" type="button" label="Reset" @click="sendReset()"></Button>
+    </div>
+</Dialog>
+<Dialog v-model:visible="new_details" modal header="Change Password" :style="{ width: '25rem' }">
+    <span class="p-text-secondary block mb-5">Enter your new password.</span>
+    <div class="flex align-items-center gap-3 mb-3">
+        <label for="username" class="font-semibold w-6rem">Email Address</label>
+        <InputText v-model='email' id="username" type="email" class="flexx"  />
+    </div>
+    <div class="flex align-items-center gap-3 mb-3">
+        <label for="username" class="font-semibold w-6rem">Password</label>
+        <Password class="w-full" v-model="password" placeholder="Password" toggleMask />
+    </div>
+    <div class="flex align-items-center gap-3 mb-3">
+        <label for="username" class="font-semibold w-6rem">Confirm Password</label>
+        <Password :feedback="false" class="w-full" v-model="confirm_password" placeholder="Confirm Password" />
+    </div>
+    <div class="flex align-items-center gap-3 mb-3">
+        <label for="username" class="font-semibold w-6rem">OTP</label>
+        <InputOtp  class="w-full flexx" v-model="otp" :length="5" integerOnly />
+    </div>
+    <div class="flex justify-content-end gap-2">
+        <Button :loading="loading" type="button" label="Change Password" @click="changePassword()"></Button>
+    </div>
+</Dialog>
   <Footer />
   </template>
 <script setup lang="ts">
+import Password from 'primevue/password';
+
 const authStore = useAuthStore()
 const frontStore = useFrontStore()
 const email = ref()
+const forgot = ref(false)
 const user_id = useCookie('user_id');
+const confirm_password = ref()
+const new_details = ref(false)
 const loading = ref(false)
 const password = ref()
 const toast = useToast()
+const otp = ref()
 
 const signIn = async () => {
   loading.value = true;
@@ -121,6 +159,47 @@ try {
 }
 
 }
+const sendReset = async () => {
+    loading.value = true
+    const info = {
+        
+        email: email.value,
+        
+    }
+    let result = await frontStore.sendReset(info).then((data)=> {
+        loading.value = false
+        if (data.status === "success") {
+            forgot.value = false
+            new_details.value = true
+            toast.add({ severity: 'success', summary: 'Success', detail: data?.message, life: 3000 });
+           
+        } else {
+            toast.add({ severity: 'warn', summary: 'Failed', detail: data.errors, life: 3000 });
+        }
+    })
+}
+const changePassword = async () => {
+    loading.value = true
+    const info = {
+        
+        email: email.value,
+        password: password.value,
+        confirm_password: confirm_password.value,
+        otp: otp.value
+        
+    }
+    let result = await frontStore.changePassword(info).then((data)=> {
+        loading.value = false
+        if (data.status === "success") {
+            forgot.value = false
+            new_details.value = false
+            toast.add({ severity: 'success', summary: 'Success', detail: data?.message, life: 3000 });
+           
+        } else {
+            toast.add({ severity: 'warn', summary: 'Failed', detail: data.errors, life: 3000 });
+        }
+    })
+}
 
 
 </script>
@@ -128,6 +207,10 @@ try {
 input.p-inputtext.p-component.p-password-input {
     width: 100%;
     height: 50px;
+}
+.flexx {
+    height: 50px !important;
+    width: 100%;
 }
 </style>
 
