@@ -192,7 +192,7 @@
                   <div class="flex-auto lg:ml-3">
                     <div class="flex align-items-center justify-content-between mb-3">
                       <span class="text-900 font-medium">{{ item.product.name }}</span>
-                      <span class="text-900 font-bold">USD{{ (lineTotal(item.unit_price,item.quantity))}}</span>
+                      <span class="text-900 font-bold">{{findCurrency()}}{{ (findConversionRatePrice(lineTotal(item.unit_price,item.quantity)))}}</span>
                     </div>
                     <div class="flex flex-auto justify-content-between align-items-center">
                       <span class="p-inputnumber p-component p-inputwrapper p-inputwrapper-filled p-inputnumber-buttons-horizontal border-1 surface-border border-round" data-pc-name="inputnumber" data-pc-section="root" spinnermode="horizontal">
@@ -218,11 +218,11 @@
                 <div class="py-2 mt-3 border-bottom-1 surface-border">
                   <div class="flex justify-content-between align-items-center mb-3">
                     <span class="text-900">Subtotal</span>
-                    <span class="text-900">{{findCurrency()}}{{ (cart_total - vat_total).toFixed(2) }}</span>
+                    <span class="text-900">{{findCurrency()}}{{ findConversionRatePrice((cart_total - vat_total).toFixed(2)) }}</span>
                   </div>
                   <div class="flex justify-content-between align-items-center mb-3">
                     <span class="text-900">Delivery</span>
-                    <span class="text-900">{{findCurrency()}}{{ calculateDeliveryCost() }}</span>
+                    <span class="text-900">{{findCurrency()}}{{ findConversionRatePrice(calculateDeliveryCost()) }}</span>
                   </div>
                   <div class="flex justify-content-between align-items-center mb-3">
                     <span class="text-900">Discount</span>
@@ -230,11 +230,11 @@
                   </div>
                   <div class="flex justify-content-between align-items-center mb-3">
                     <span class="text-900">VAT</span>
-                    <span class="text-900">{{findCurrency()}}{{ (Number(vat_total)).toFixed(2) }} </span>
+                    <span class="text-900">{{findCurrency()}}{{ findConversionRatePrice((Number(vat_total)).toFixed(2)) }} </span>
                   </div>
                   <div class="flex justify-content-between align-items-center mb-3">
                     <span class="text-900">Total</span>
-                    <span class="text-900 font-bold">{{findCurrency()}}{{  cartTotal() }}</span>
+                    <span class="text-900 font-bold">{{findCurrency()}}{{  findConversionRatePrice(cartTotal()) }}</span>
                   </div>
                 </div>
                 <InlineMessage class="w-12 mt-5" v-if="cartTotal() < minimum_order && delivery_option === 'Delivery'" severity="info">Please note the minumum order is {{findCurrency()}}{{ minimum_order }} </InlineMessage>
@@ -635,9 +635,39 @@ const select_fast_delivery = ()=>{
   delivery_type.value = "Fast Delivery"
 }
 const findCurrency = () => {
-    const currency = currencies.value.find((currency:any) => currency.id === selected_currency.value);
-    return currency ? currency.iso_code : null;
+	const currenciess = currencies.value;
+//@ts-ignore
+    const currency = currenciess.find(item => item.currency_id === selected_currency.value);
+
+return currency ? currency.currency.iso_code : null;
+
 }
+const findConversionRatePrice = (price:any) => {
+    const currenciess = currencies.value;
+
+    // Step 1: Find the default currency
+	//@ts-ignore
+    const defaultCurrency = currenciess.find(item => item.default === 1);
+    if (!defaultCurrency) {
+        return null; // Return null or handle error if no default currency is found
+    }
+
+    // Step 2: Find the selected currency
+	//@ts-ignore
+    const selectedCurrency = currenciess.find(item => item.currency_id === selected_currency.value);
+    if (!selectedCurrency) {
+        return null; // Return null or handle error if no selected currency is found
+    }
+
+    // Step 3: Determine the conversion rate
+    const selectedRate = parseFloat(selectedCurrency.conversion_rate);
+
+    // Multiply the price by the selected currency’s conversion rate
+    const convertedPrice = price * selectedRate;
+
+    // Return the converted price
+    return convertedPrice;
+};
 const select_standard_delivery = ()=>{
   delivery_type.value = "Standard Delivery"
 }

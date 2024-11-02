@@ -39,7 +39,7 @@
               <div class="border-round surface-section p-4 shadow-2">
                   <div class="flex align-items-center text-xl font-medium text-900 mb-4">{{ product?.name }}</div>
                   <div class="flex align-items-center justify-content-between mb-5">
-                      <span class="text-900 font-medium text-3xl block">{{ findCurrency() }} {{product?.prices[0]?.price ? product?.prices[0]?.price : "0.00"}}</span>
+                      <span class="text-900 font-medium text-3xl block">{{ findCurrency() }} {{product?.prices[0]?.price ? findConversionRatePrice(product?.prices[0]?.price) : "0.00"}}</span>
                       <div class="flex align-items-center">
                           <span class="mr-3">
                               <i class="pi pi-star-fill text-yellow-500 mr-1"></i>
@@ -91,7 +91,7 @@
                                   </div>
                                   <div @click="goToDetailPage(item)" class="mb-3 font-medium nametext cursor-pointer">{{ addEllipsis(item.name) }}</div>
                                   <div class="flex justify-content-between align-items-center">
-                                      <span class="font-bold text-900 ml-2">{{ findCurrency() }} {{item?.prices[0]?.price ? item?.prices[0]?.price : formatCurrency(0)}}</span>
+                                      <span class="font-bold text-900 ml-2">{{ findCurrency() }} {{item?.prices[0]?.price ? findConversionRatePrice(item?.prices[0]?.price) : formatCurrency(0)}}</span>
                                   </div>
                                   <InputGroup class="w-full">
                                   <InputGroupAddon class="firstinput">
@@ -180,9 +180,39 @@ const  decreaseQuantity = (productId:any) => {
   }
 }
 const findCurrency = () => {
-    const currency = currencies.value.find((currency:any) => currency.id === selected_currency.value);
-    return currency ? currency.iso_code : null;
+	const currenciess = currencies.value;
+//@ts-ignore
+    const currency = currenciess.find(item => item.currency_id === selected_currency.value);
+
+return currency ? currency.currency.iso_code : null;
+
 }
+const findConversionRatePrice = (price:any) => {
+    const currenciess = currencies.value;
+
+    // Step 1: Find the default currency
+	//@ts-ignore
+    const defaultCurrency = currenciess.find(item => item.default === 1);
+    if (!defaultCurrency) {
+        return null; // Return null or handle error if no default currency is found
+    }
+
+    // Step 2: Find the selected currency
+	//@ts-ignore
+    const selectedCurrency = currenciess.find(item => item.currency_id === selected_currency.value);
+    if (!selectedCurrency) {
+        return null; // Return null or handle error if no selected currency is found
+    }
+
+    // Step 3: Determine the conversion rate
+    const selectedRate = parseFloat(selectedCurrency.conversion_rate);
+
+    // Multiply the price by the selected currency’s conversion rate
+    const convertedPrice = price * selectedRate;
+
+    // Return the converted price
+    return convertedPrice;
+};
 onMounted(async () => {
    //@ts-ignore
 

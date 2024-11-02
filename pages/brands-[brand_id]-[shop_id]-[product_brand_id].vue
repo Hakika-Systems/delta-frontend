@@ -30,7 +30,7 @@
                 <div class="mb-4">
                 </div>
                 <div class="flex justify-content-between align-items-center">
-                  <span class="font-bold text-900 ml-2">{{findCurrency()}}{{product?.prices[0]?.price ? formatCurrency(product.prices[0]?.price) : formatCurrency(0)}}</span>
+                  <span class="font-bold text-900 ml-2">{{findCurrency()}}{{product?.prices[0]?.price ? findConversionRatePrice(product.prices[0]?.price) : formatCurrency(0)}}</span>
                 </div>
                 <Button v-if="product?.details[0]?.quantity >= 1" :loading="current_id === product.id" @click="addToCart(product.id,product.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Add" class="mt-3 w-full cart"/>
                 <Button v-else  icon="pi pi-cart-arrow-down" label="Out of Stock" class="mt-3 w-full cart" disabled/>
@@ -92,9 +92,39 @@ const responsiveOptions = ref([
   }
 ]);
 const findCurrency = () => {
-    const currency = currencies.value.find((currency:any) => currency.id === selected_currency.value);
-    return currency ? currency.iso_code : null;
+	const currenciess = currencies.value;
+//@ts-ignore
+    const currency = currenciess.find(item => item.currency_id === selected_currency.value);
+
+return currency ? currency.currency.iso_code : null;
+
 }
+const findConversionRatePrice = (price:any) => {
+    const currenciess = currencies.value;
+
+    // Step 1: Find the default currency
+	//@ts-ignore
+    const defaultCurrency = currenciess.find(item => item.default === 1);
+    if (!defaultCurrency) {
+        return null; // Return null or handle error if no default currency is found
+    }
+
+    // Step 2: Find the selected currency
+	//@ts-ignore
+    const selectedCurrency = currenciess.find(item => item.currency_id === selected_currency.value);
+    if (!selectedCurrency) {
+        return null; // Return null or handle error if no selected currency is found
+    }
+
+    // Step 3: Determine the conversion rate
+    const selectedRate = parseFloat(selectedCurrency.conversion_rate);
+
+    // Multiply the price by the selected currency’s conversion rate
+    const convertedPrice = price * selectedRate;
+
+    // Return the converted price
+    return convertedPrice;
+};
 const goToDetailPage = (productt:any) => {
     // product.value = productt
     sessionStorage.setItem('product_detail',JSON.stringify(productt))

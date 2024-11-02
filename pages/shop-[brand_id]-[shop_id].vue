@@ -22,7 +22,7 @@
           <!-- Additional details if needed -->
         </div>
         <div class="flex justify-content-between align-items-center">
-          <span class="font-bold text-900 ml-2">{{findCurrency()}}{{data.prices[0]?.price ? formatCurrency(data.prices[0]?.price) : formatCurrency(0)}}</span>
+          <span class="font-bold text-900 ml-2">{{findCurrency()}}{{data.prices[0]?.price ? findConversionRatePrice(data.prices[0]?.price) : formatCurrency(0)}}</span>
         </div>
         
         <Button v-if="data?.details[0]?.quantity >= 1" :loading="current_id === data.id"  @click="addToCart(data.id,data.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Add" class="w-full mt-3 cart"/>
@@ -64,7 +64,7 @@
           <div class="mb-4"></div>
           <div class="flex justify-content-between align-items-center">
             <span class="font-bold text-900 ml-2">
-              {{ findCurrency() }}{{ product.prices[0]?.price ? formatCurrency(product.prices[0]?.price) : formatCurrency(0) }}
+              {{ findCurrency() }}{{ product.prices[0]?.price ? findConversionRatePrice(product.prices[0]?.price) : formatCurrency(0) }}
             </span>
           </div>
           <InputGroup class="w-full">
@@ -241,13 +241,39 @@ const buttonColor = active_brand?.value?.button_color;
     }
   }
   const findCurrency = () => {
-   if (!currencies.value || !Array.isArray(currencies.value) || !selected_currency.value) {
-     return null; // Return null if currencies or selected currency is not defined
-   }
+	const currenciess = currencies.value;
+//@ts-ignore
+    const currency = currenciess.find(item => item.currency_id === selected_currency.value);
 
-   const currency = currencies.value.find((currency:any) => currency.id === selected_currency.value);
-   return currency ? currency.iso_code : null;
-  };
+return currency ? currency.currency.iso_code : null;
+
+}
+const findConversionRatePrice = (price:any) => {
+    const currenciess = currencies.value;
+
+    // Step 1: Find the default currency
+	//@ts-ignore
+    const defaultCurrency = currenciess.find(item => item.default === 1);
+    if (!defaultCurrency) {
+        return null; // Return null or handle error if no default currency is found
+    }
+
+    // Step 2: Find the selected currency
+	//@ts-ignore
+    const selectedCurrency = currenciess.find(item => item.currency_id === selected_currency.value);
+    if (!selectedCurrency) {
+        return null; // Return null or handle error if no selected currency is found
+    }
+
+    // Step 3: Determine the conversion rate
+    const selectedRate = parseFloat(selectedCurrency.conversion_rate);
+
+    // Multiply the price by the selected currency’s conversion rate
+    const convertedPrice = price * selectedRate;
+
+    // Return the converted price
+    return convertedPrice;
+};
 
   const pageChange = async (event:any) => {
     const { page, rows } = event;
