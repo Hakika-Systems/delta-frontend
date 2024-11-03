@@ -15,7 +15,7 @@
       <!-- Logo -->
       <div class="flex items-center flex-grow-0">
 		<Skeleton v-if="skeleton_loader" width="10rem" height="4rem"></Skeleton>
-        <img v-else :src='mylogo' alt="Image" height="90"  @click="goToHome()">
+        <img v-else :src='mylogo' class="cursor-pointer" alt="Image" height="90"  @click="goToHome()">
       </div>
       <!-- Search Input -->
       <div class="flex items-center col-6 flex-grow search-container">

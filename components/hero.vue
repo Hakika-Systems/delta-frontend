@@ -1,4 +1,5 @@
 <template>
+  
   <div class="th-hero-wrapper hero-3" id="hero" style="background-image: url(&quot;/images/se1.jpg&quot;);background-size: contain;">
     <!-- <div class="container">
       <div class="row justify-content-end">
