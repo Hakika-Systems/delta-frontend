@@ -25,7 +25,7 @@
           <span class="font-bold text-900 ml-2">{{findCurrency()}}{{data.prices[0]?.price ? findConversionRatePrice(data.prices[0]?.price) : formatCurrency(0)}}</span>
         </div>
         
-        <Button v-if="data?.details[0]?.quantity >= 1" :loading="current_id === data.id"  @click="addToCart(data.id,data.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Add" class="w-full mt-3 cart"/>
+        <Button v-if="data?.details[0]?.quantity >= 1" :loading="current_id === data.id"  @click="addToCartFeatured(data.id,data.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Add" class="w-full mt-3 cart"/>
           <Button v-else  icon="pi pi-cart-arrow-down"  label="OUT OF STOCK" class="w-full mt-3 cart" disabled/>
       </div>
     </template>
@@ -387,6 +387,7 @@ const findConversionRatePrice = (price:any) => {
   const productIndex = products.value.findIndex((prod:any) => prod.id === product_id);
 
   if (productIndex === -1) {
+    console.log("product index is",productIndex)
     console.error('Product not found');
     loading.value = false
     return;
@@ -427,6 +428,91 @@ const findConversionRatePrice = (price:any) => {
     quantity: qnty,
     unit_price: Number(price),
     total_price: (qnty * price) 
+    }
+    let add_cart_item = await frontStore.addCartItem(cart_item).then( async (data) => {
+      if (data?.status === "success") {
+        loading.value = false
+        current_id.value = null
+        let new_cart = await frontStore.getCart().then((data) => {
+          if (!user_id.value) {
+            sessionStorage.setItem('cart_id', JSON.stringify(data?.data?.id))
+            sessionStorage.setItem('current_cart_shop_id', JSON.stringify(shop_id))
+            sessionStorage.setItem('current_cart_brand',JSON.stringify(brand_id))
+          } else {
+            sessionStorage.removeItem('cart_id');
+            sessionStorage.removeItem('current_cart_shop_id');
+            sessionStorage.removeItem('current_cart_brand');
+          }
+          
+          cart.value = data.data.items
+          cart_total.value = data?.data?.cart_total
+        })
+        toast.add({
+          severity: 'info',
+          summary: 'Cart',
+          detail: 'Product Added',
+          group: 'br',
+          life: 3000,
+        });
+      } else {
+        toast.add({
+          severity: 'warn',
+          summary: 'Cart',
+          detail: 'Could not add product',
+          group: 'br',
+          life: 3000,
+        });
+        current_id.value = null
+      }
+    })
+};
+const addToCartFeatured = async (product_id: any,price:any) => {
+    current_id.value = product_id
+    loading.value = true
+  // Find the product in products
+  const productIndex = featured_products.value.findIndex((prod:any) => prod.id === product_id);
+
+  if (productIndex === -1) {
+    console.log("product index is",productIndex)
+    console.error('Product not found');
+    loading.value = false
+    return;
+  }
+
+  const product = featured_products.value[productIndex];
+  const productPrice = product.prices.length > 0 ? product.prices[0].price : null;
+
+  if (!productPrice) {
+    toast.add({
+      severity: 'warn',
+      summary: 'Not added',
+      detail: 'Product price not found',
+      group: 'br',
+      life: 3000,
+    });
+    console.error('Product price not found');
+    loading.value = false
+    return;
+  }
+  if (featured_products.value[productIndex].details[0].quantity < 1) {
+    toast.add({
+      severity: 'warn',
+      summary: 'Not added',
+      detail: 'Product out of stock',
+      group: 'br',
+      life: 3000,
+    });
+    loading.value = false
+  }
+
+  // Check if the product is already in the cart
+    // Add the product to the cart with quantity 1
+    let cart_item = {
+    cart_id: cart_id.value,
+    product_id: product_id,
+    quantity: 1,
+    unit_price: Number(price),
+    total_price: Number(price),
     }
     let add_cart_item = await frontStore.addCartItem(cart_item).then( async (data) => {
       if (data?.status === "success") {

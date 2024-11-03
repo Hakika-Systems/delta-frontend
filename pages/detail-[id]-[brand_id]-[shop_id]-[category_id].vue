@@ -132,7 +132,7 @@ const user_id = useCookie('user_id');
 const cart_id = storeToRefs(frontStore).cart_id
 const loading = ref(false)
 const current_id:any = ref()
-const product:any = storeToRefs(frontStore).product
+const product:any = ref()
 const currencies:any = storeToRefs(frontStore).currencies
 const selected_currency:any = storeToRefs(frontStore).selected_currency
 const rating = ref()
@@ -218,12 +218,15 @@ onMounted(async () => {
 
    let gi:any
     let current_cart_id:any
+    let prod:any
     if (typeof window !== 'undefined') {
         let current_cart_id:any
         gi  = sessionStorage.getItem('guest_id');
+        prod = sessionStorage.getItem('product_detail');
         current_cart_id = sessionStorage.getItem('cart_id');
     }
   guest_id.value = JSON.parse(gi)
+  product.value = JSON.parse(prod)
   brand_idd.value = brand_id
   shop_idd.value = shop_id
 

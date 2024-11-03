@@ -247,35 +247,31 @@
 	menuLoader.value = true
     categories_loading.value = true;
     let gi:any
+	let current_shop_id:any
+	let sc:any
+	let current_shop_branch:any
+ 	let current_cart_id:any
     if (typeof window !== 'undefined') {
         gi  = sessionStorage.getItem('guest_id');
+		current_shop_id = sessionStorage.getItem('current_shop_id');
+		sc  = sessionStorage.getItem('selected_currency')
+		current_shop_branch = sessionStorage.getItem('current_shop_branch');
+    	current_cart_id = sessionStorage.getItem('cart_id');
     }
-    guest_id.value = JSON.parse(gi)
-    //@ts-ignore
 	
-	let csi:any
-	let sc:any
-    if (typeof window !== 'undefined') {
-	  csi = sessionStorage.getItem('current_shop_id');
-	  sc  = sessionStorage.getItem('selected_currency')
-    }
-    //@ts-ignore
+guest_id.value = JSON.parse(gi)
 let params = {
     page: 1,
     per_page: 100
 }
 
 let currency_params = {
-	shop_brand_id: JSON.parse(csi),
+	shop_brand_id: JSON.parse(current_shop_id),
     page: 1,
     per_page: 100
 }
-let result_one = await frontStore.getBrands().then(async (data) => {
-    brands.value = data?.data?.shopbrands;
 
-});
-let brand_currenciess = await frontStore.getBrandCurrencies(currency_params)
-  .then((data) => {
+let brand_currenciess =  frontStore.getBrandCurrencies(currency_params).then((data) => {
     // Set the currencies in a reactive variable
     brand_currencies.value = data?.data?.currencies;
 
@@ -290,12 +286,10 @@ let brand_currenciess = await frontStore.getBrandCurrencies(currency_params)
 	}
     // Set selected_currency to the default or the first currency if no default is found
    
-  })
-  .catch((error) => {
-    console.error('Error fetching currencies:', error);
-  });
-
-let brandss = await frontStore.getProductBrands(params).then((data) => {
+  }).catch((error) => {
+  console.error('Error fetching currencies:', error);
+});
+let brandss =  frontStore.getProductBrands(params).then((data) => {
     //@ts-ignore
     product_brands.value = data?.data?.data.map(item => ({
     label: item.name,
@@ -304,19 +298,11 @@ let brandss = await frontStore.getProductBrands(params).then((data) => {
     }
    }));
 })
-await getLogo()
 if (guest_id.value === null) {
       guest_id.value = createId()
       sessionStorage.setItem('guest_id', JSON.stringify(guest_id.value))
 }
-  let current_shop_branch:any
-  let current_shop_id:any
-  let current_cart_id:any
-  if (typeof window !== 'undefined') {
-    current_shop_branch = sessionStorage.getItem('current_shop_branch');
-    current_shop_id = sessionStorage.getItem('current_shop_id');
-    current_cart_id = sessionStorage.getItem('cart_id');
-  }
+
   
  let cart_params = {
   shop_id: JSON.parse(current_shop_branch),
@@ -324,13 +310,13 @@ if (guest_id.value === null) {
   guest_id: guest_id.value
  }
  if (current_cart_id) {
-   let saved_cart  = await frontStore.getCartTwo(current_cart_id).then((data) => {
+   let saved_cart  = frontStore.getCartTwo(current_cart_id).then((data) => {
 	cart.value = data.data?.items
     cart_total.value = data?.data?.cart_total
 	cart_id.value = current_cart_id
    })
  } else {
-    let created_cart = await frontStore.createCart(cart_params).then((data) => {
+    let created_cart = frontStore.createCart(cart_params).then((data) => {
 	cart.value = data?.data?.items
 	cart_total.value = data?.data?.cart_total
    cart_id.value = data?.data?.id
@@ -338,16 +324,20 @@ if (guest_id.value === null) {
  }
 
 
-let categoriess = await frontStore.getAllCategories(params).then(async (data) => {
+let categoriess = frontStore.getAllCategories(params).then(async (data) => {
 await transformMenu(data)
 categories_loading.value = false
 })
-let par:any  = sessionStorage.getItem('current_shop_id');
-let f_menus = await frontStore.getFeaturedMenus(JSON.parse(par)).then(async (data) => {
-dummyMenu.value = await convertDataToMenuItems(data?.data)
+let f_menus =  frontStore.getFeaturedMenus(JSON.parse(current_shop_id)).then(async (data) => {
+dummyMenu.value =  convertDataToMenuItems(data?.data)
 })
 skeleton_loader.value = false
 menuLoader.value = false
+let result_one =  frontStore.getBrands().then(async (data) => {
+    brands.value = data?.data?.shopbrands;
+
+});
+await getLogo()
 })
     const goToLanding = async () => {
      await navigateTo('/',{external: true})
@@ -867,6 +857,20 @@ const getParsedImages = (images: string) => {
     
     </script>
     <style>
+	span.p-menuitem-text {
+    text-transform: uppercase !important;
+}
+.p-menuitem-content {
+    border: 1px solid #efefef;
+    margin-right: 5px;
+}
+.p-menuitem-content:hover {
+	background: v-bind('buttonColor') !important;
+	color: white !important;
+    border: 1px solid #efefef;
+    margin-right: 5px;
+}
+
 	.row.col-12.mainnavv.flex {
     height: 70px;
 }
@@ -1003,7 +1007,7 @@ img.imgt {
         -moz-user-select: none;
         /* user-select: none; */
     }
-    .p-tieredmenu .p-menuitem:not(.p-highlight):not(.p-disabled) > .p-menuitem-content:hover {
+    .p-tieredmenu .p-menuitem:not(.p-highlight):not(.p-disabled)  {
         color: #334155;
         background: #a0a3a7d1;               
     }
@@ -1031,7 +1035,7 @@ span.toptext {
     .p-tieredmenu .p-menuitem > .p-menuitem-content .p-menuitem-link .p-submenu-icon {
         color: #ffffff;
     }
-    .p-megamenu.p-megamenu-horizontal .p-megamenu-root-list > .p-menuitem:not(.p-highlight):not(.p-disabled) > .p-menuitem-content:hover {
+    .p-megamenu.p-megamenu-horizontal .p-megamenu-root-list > .p-menuitem:not(.p-highlight):not(.p-disabled)  {
         color: #334155;
         background: v-bind('menuColor') !important;
     }
@@ -4167,5 +4171,11 @@ ul.menu li.column-1 .submenu > li > a i {
 }
 .textt {
     margin-right: 10px;
+}
+.p-menuitem-text:hover {
+    color: white !important;
+}
+.p-megamenu.p-megamenu-horizontal .p-megamenu-root-list > .p-menuitem > .p-menuitem-content .p-menuitem-link .p-menuitem-text:hover {
+    color: rgb(255, 255, 255) !important;
 }
 </style>
