@@ -167,7 +167,7 @@ const findConversionRatePrice = (price:any) => {
     const convertedPrice = price * selectedRate;
 
     // Return the converted price
-    return convertedPrice;
+    return convertedPrice.toFixed(2);
 };
    const goToDetailPage = (productt:any) => {
     // product.value = productt

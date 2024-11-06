@@ -656,7 +656,7 @@ const findConversionRatePrice = (price:any) => {
     const convertedPrice = price * selectedRate;
 
     // Return the converted price
-    return convertedPrice;
+    return convertedPrice.toFixed(2);
 };
 const select_standard_delivery = ()=>{
   delivery_type.value = "Standard Delivery"
