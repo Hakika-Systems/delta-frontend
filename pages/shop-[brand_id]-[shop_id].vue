@@ -1,7 +1,44 @@
 <template>
     <okMartShopHeader  />
-    <div class="surface-section h-30rem bg-no-repeat bg-cover bg-center flex align-items-center" style="background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url('/images/se2.jpg?w=1060');">
-    </div>
+    <div v-if="!banners" class="th-hero-wrapper hero-3" id="hero" style="background-image: url(&quot;/images/se1.jpg&quot;);background-size: contain;">
+  </div>
+  <div v-else class="hero heroheight">
+  <Swiper
+    :modules="[SwiperAutoplay, SwiperEffectCreative,SwiperNavigation,SwiperPagination]"
+    :slides-per-view="1"
+    :loop="true"
+    :effect="'creative'"
+    :navigation="true"
+    :autoplay="{
+      delay: 4000,
+      disableOnInteraction: true,
+    }"
+    :creative-effect="{
+      prev: {
+        shadow: false,
+        translate: ['-20%', 0, -1],
+      },
+      next: {
+        translate: ['100%', 0, 0],
+      },
+    }"
+  >
+  <SwiperSlide v-for="(image, index) in banners" :key="index">
+      <img :src="image?.file" />
+    </SwiperSlide>
+  </Swiper>
+<!-- <Carousel :value="products" :numVisible="1" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="3000">
+            <template #item="slotProps">
+                <div class="border-1 surface-border border-round m-2  p-3">
+                    <div class="mb-3">
+                        <div class="relative mx-auto">
+                            <img :src="slotProps.data.image"  class="w-full border-round" />
+                        </div>
+                    </div>
+                </div>
+            </template>
+</Carousel> -->
+</div>
     <div class="surface-section px-4 py-8 md:px-6 lg:px-8">
       <div class="flex justify-content-between flex-wrap">
         <div class="flex align-items-center mb-4 md:mb-0">
@@ -134,6 +171,7 @@
   const name = useCookie('username');
   const rows = ref(20)
   const totalItemCount = ref()
+  const banners = ref()
   const currentPage = ref()
   const totalPages = ref()
   const first = ref(0);
@@ -298,10 +336,21 @@ const findConversionRatePrice = (price:any) => {
   onMounted( async() => {
     let gi:any
     let current_cart_id:any
+    let storeConfig:any
+    let ads:any
     if (typeof window !== 'undefined') {
         let current_cart_id:any
+        let up:any
         gi  = sessionStorage.getItem('guest_id');
         current_cart_id = sessionStorage.getItem('cart_id');
+        storeConfig = sessionStorage.getItem('active_brand');
+        up = JSON.parse(storeConfig)
+        ads = up?.adverts
+  // Filter adverts to only include those with a display position of "Top"
+  //@ts-ignore
+        banners.value = up.adverts.filter(ad => ad.display_position === "Top");
+        
+
     }
     guest_id.value = JSON.parse(gi)
     if (shop_id && brand_id === null) {

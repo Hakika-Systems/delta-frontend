@@ -16,6 +16,7 @@
     "@paralleldrive/cuid2": "^2.2.2",
     "@pinia/nuxt": "^0.5.1",
     "@primevue/themes": "^4.0.0",
+    "@tawk.to/tawk-messenger-vue-3": "^1.0.3",
     "@types/jquery": "^3.5.30",
     "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
@@ -23,11 +24,13 @@
     "font-awesome": "^4.7.0",
     "jquery": "^3.7.1",
     "nuxt": "^3.12.3",
+    "nuxt-swiper": "^1.2.2",
     "pinia": "^2.1.7",
     "primeflex": "^3.3.1",
     "primeicons": "^7.0.0",
     "primevue": "^3.53.0",
     "sweetalert2": "^11.12.2",
+    "swiper": "^11.1.14",
     "vue": "latest"
   },
   "devDependencies": {

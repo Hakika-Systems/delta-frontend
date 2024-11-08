@@ -551,6 +551,32 @@ export const useFrontStore = defineStore('front', {
       } finally {
       }
     },
+    async getBanners(my_params:any) {
+      const url = new URL(`${SHOP_URL}/api/adverts/section`);
+      const params:any = {
+          slug: `${my_params.slug}`,
+          
+      };
+      Object.keys(params).forEach((key) =>
+          url.searchParams.append(key, params[key])
+      );
+      const token = useCookie('token').value || ""
+      const headers = {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+      };
+  
+      try {
+          const response = await fetch(url, {
+              method: "GET",
+              headers,
+          });
+          const data = await response.json();
+          return data;
+      } finally {
+      }
+    },
     async getAllAddressTypes() {
       const url = new URL(`${SHOP_URL}/api/address-types`);
       const token = useCookie('token').value || ""
