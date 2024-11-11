@@ -1,6 +1,6 @@
 <template>
   
-  <div v-if="!banners" class="th-hero-wrapper hero-3" id="hero" style="background-image: url(&quot;/images/se1.jpg&quot;);background-size: contain;">
+  <div v-if="!banners && !loading" class="th-hero-wrapper hero-3" id="hero" style="background-image: url(&quot;/images/se1.jpg&quot;);background-size: contain;">
   </div>
   <div v-else class="hero heroheight">
   <Swiper
@@ -27,39 +27,20 @@
       <img :src="image?.file" />
     </SwiperSlide>
   </Swiper>
-<!-- <Carousel :value="products" :numVisible="1" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="3000">
-            <template #item="slotProps">
-                <div class="border-1 surface-border border-round m-2  p-3">
-                    <div class="mb-3">
-                        <div class="relative mx-auto">
-                            <img :src="slotProps.data.image"  class="w-full border-round" />
-                        </div>
-                    </div>
-                </div>
-            </template>
-</Carousel> -->
 </div>
 </template>
 <script lang="ts" setup>
 const frontStore = useFrontStore()
+const loading = ref(false)
 const banners = ref()
-const images = ref(
-  [
-    {
-      image: 'https://api.pricelyst.co.zw/img/ads/1727961310.png'
-    },
-    {
-      image: 'https://api.pricelyst.co.zw/img/ads/1727961794.png'
-    }
-  ]
-);
-
 onMounted(async() => {
+loading.value = true;
 let params = {
   slug: "Home"
 }
 let home_banners = await frontStore.getBanners(params).then((data) => {
   banners.value = data?.data
+  loading.value = false;
 })
 })
 const getParsedImages = (images: string) => {
