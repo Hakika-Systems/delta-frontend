@@ -4148,7 +4148,7 @@ ul.menu li.column-1 .submenu > li > a i {
 }
 .banner-container {
     width: auto;
-    height: 430px;
+    height: 600px !important;
     overflow: hidden;
 }
 
