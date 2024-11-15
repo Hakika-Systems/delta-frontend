@@ -5,7 +5,7 @@
      </div>
      <div class="px-4 py-4 md:px-6 lg:px-8">
       <div class="surface-section bg-no-repeat bg-cover bg-center flex align-items-center"
-     style="background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url('https://directory.maz.co.zw/wp-content/uploads/2023/02/Irvines-Additional-Billboards-CMYK-3mm-Bleed-Cropmarks-JC-Decaux-Site-Size-3m-h-x-12m-Print-27.05.22MM-1024x271.jpg'); background-size: contain; height: 220px; margin-top: 20px; padding: 0 20px;">
+     style="background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url('/irvines.jpeg'); background-size: contain; height: 220px; margin-top: 20px; padding: 0 20px;">
     </div>
      </div>
     

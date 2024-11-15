@@ -4,8 +4,7 @@
             <div class="px-6 py-4">
                 <img src="/images/logos/okzim.jpg" class="w-12rem flex-shrink-0 mx-auto md:mx-0">
             </div>
-            <img src="https://tmpnponline.co.zw/wp-content/uploads/2023/03/132049-Irvines-Mixed-Portions-2kg-768x768.png" alt="Image" class="block mx-auto lg:absolute" style="height: 340px;top: -7rem;right:-1rem;z-index:10;/* margin-bottom: 34px !important; */">
-        </div>
+          </div>
         <!-- <header class="flex w-full justify-content-between align-items-center  surface-border pb-5">
             <div>
                 <img src="/images/logos/okzim.jpg" class="w-12rem flex-shrink-0 mx-auto md:mx-0">
@@ -43,7 +42,7 @@
          <div class="px-6 py-4">
             <img src="/images/logos/bonmarche.png" class="w-12rem flex-shrink-0 mx-auto md:mx-0">
          </div>
-         <img src="https://tmpnponline.co.zw/wp-content/uploads/2023/03/132049-Irvines-Mixed-Portions-2kg-768x768.png" alt="Image" class="block mx-auto lg:absolute" style="height: 340px;top: -7rem;right:-1rem;z-index:10;/* margin-bottom: 34px !important; */">  </div>
+         </div>
          <div class="col-12 grid grid-nogutter align-items-center">
         <div class="col-12">
           <div class="grid">
@@ -75,8 +74,8 @@
             <div class="px-6 py-4">
                 <img src="/images/logos/foodlovers.png" class="w-12rem flex-shrink-0 mx-auto md:mx-0">
             </div>
-            <img src="https://tmpnponline.co.zw/wp-content/uploads/2022/03/54491472-Coca-Cola-500ml-1-300x300.png" alt="Image" class="block mx-auto lg:absolute" style="height: 340px;top: -7rem;right:-1rem;z-index:10;/* margin-bottom: 34px !important; */">    </div>
-          <div class="col-12 grid grid-nogutter align-items-center">
+          </div>
+             <div class="col-12 grid grid-nogutter align-items-center">
         <div class="col-12">
           <div class="grid">
             <div v-for="product in foodloversProducts" :key="product.id" class="col-12 md:col-6 lg:col-3">
@@ -107,8 +106,7 @@
             <div class="px-6 py-4">
                 <img src="/images/logos/okmart.jpg" class="w-12rem flex-shrink-0 mx-auto md:mx-0">
             </div>
-            <img src="https://tmpnponline.co.zw/wp-content/uploads/2023/03/132362-Sable-Drums-1kg-300x300.png" alt="Image" class="block mx-auto lg:absolute" style="height: 340px;top: -7rem;right:-1rem;z-index:10;/* margin-bottom: 34px !important; */">  
-        </div>
+           </div>
         <div class="col-12 grid grid-nogutter align-items-center">
         <div class="col-12">
           <div class="grid">
