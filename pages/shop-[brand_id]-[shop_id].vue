@@ -138,7 +138,7 @@
 
     <!-- Banner after every 8 products -->
     <div v-if="(index + 1) % 12 === 0" :key="'banner-' + index" class="col-12">
-      <img src="/images/middle_banner.jpg" alt="Side Banner" class="w-full" />
+      <img :src="strip_banners[0].file" alt="Strip Banner" class="w-full" />
     </div>
   </template>
 </div>
@@ -182,6 +182,7 @@
   const product = storeToRefs(frontStore).product
   const brand_idd:any = storeToRefs(frontStore).brand_id
   const shop_idd:any = storeToRefs(frontStore).shop_id
+  const strip_banners:any = ref()
   const {params:{brand_id,shop_id}} = useRoute()
   const selected_shop = ref()
   const quantity = ref(1)
@@ -412,6 +413,12 @@ const findConversionRatePrice = (price:any) => {
     cart_id.value = data?.data?.id
    }) 
  }
+let paramss = {
+  slug: "strip"
+}
+let home_banners = await frontStore.getBanners(params).then((data) => {
+  strip_banners.value = data?.data
+})
  })
  const goToShop = () => {
   navigateTo(`shop-${brand_id}-${selected_shop.value}`,{external:true})
@@ -428,6 +435,7 @@ const findConversionRatePrice = (price:any) => {
     return [];
   }
 }
+
   
   const addToCart = async (product_id: any,price:any) => {
     current_id.value = product_id
