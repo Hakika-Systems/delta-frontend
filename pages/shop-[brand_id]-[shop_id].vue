@@ -416,7 +416,7 @@ const findConversionRatePrice = (price:any) => {
 let paramss = {
   slug: "strip"
 }
-let home_banners = await frontStore.getBanners(params).then((data) => {
+let home_banners = await frontStore.getBanners(paramss).then((data) => {
   strip_banners.value = data?.data
 })
  })
