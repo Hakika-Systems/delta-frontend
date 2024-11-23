@@ -264,6 +264,7 @@ const toast = useToast()
 const name = ref()
 const email = ref()
 const password = ref()
+const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 const selectedBusinessType = ref('INDIVIDUAL')
 const businessTypes = ref(['MUKANDO','TRADER','BUSINESS','INSTITUTION','INDIVIDUAL'])
 const loading = ref(false)
@@ -318,6 +319,16 @@ onMounted(() => {
 
 const individualRegistration = async () => {
     loading.value = true
+    if (!strongPasswordRegex.test(password.value)) {
+        loading.value = false;
+        toast.add({ 
+            severity: 'warn', 
+            summary: 'Weak Password', 
+            detail: 'Password must be at least 8 characters long, include uppercase, lowercase, a number, and a special character.', 
+            life: 5000 
+        });
+        return; // Stop the process if password is weak
+    }
     const info = {
         name: name.value,
         email: email.value,
