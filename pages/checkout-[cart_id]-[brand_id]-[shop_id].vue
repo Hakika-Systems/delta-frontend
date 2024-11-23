@@ -195,11 +195,24 @@
                       <span class="text-900 font-bold">{{findCurrency()}}{{ (findConversionRatePrice(lineTotal(item.unit_price,item.quantity)))}}</span>
                     </div>
                     <div class="flex flex-auto justify-content-between align-items-center">
-                      <span class="p-inputnumber p-component p-inputwrapper p-inputwrapper-filled p-inputnumber-buttons-horizontal border-1 surface-border border-round" data-pc-name="inputnumber" data-pc-section="root" spinnermode="horizontal">
-                        <input class="p-inputtext p-component p-inputnumber-input w-2rem text-center py-2 px-1 border-transparent" v-model="cart[index].quantity" data-pc-name="inputtext" data-pc-section="input" role="spinbutton" aria-valuemin="0" aria-valuenow="1">
-                        <Button :loading="item.id === current_loading" icon="pi pi-plus" @click="increaseCartItem(item.id,item.product_id,cart[index].quantity,item.unit_price)" class="p-button p-component p-button-icon-only p-inputnumber-button p-inputnumber-button-up p-button-text text-600 hover:text-primary py-1 px-1" />
-                        <Button :loading="item.id === current_loading" :disabled="item.quantity === 1" icon="pi pi-minus" @click="decreaseCartItem(item.id,item.product_id,cart[index].quantity,item.unit_price)" class="p-button p-component p-button-icon-only p-inputnumber-button p-inputnumber-button-down p-button-text text-600 hover:text-primary py-1 px-1" />
-                      </span>
+                      <InputNumber
+                        v-model="cart[index].quantity"
+                        showButtons
+                        class="p-inputnumber p-component p-inputwrapper p-inputwrapper-filled p-inputnumber-buttons-horizontal border-1 surface-border border-round"
+                        buttonLayout="horizontal"
+                        :min="1"
+                        :max="99"
+                        @update:modelValue="(value:any) => changeCartItem(value, item.id, item.product_id, item.unit_price)"
+                        @blur="handleBlur(cart[index].quantity, item.id, item.product_id, item.unit_price)"
+                      >
+                      
+                        <template #incrementbuttonicon>
+                          <span  class="pi pi-plus" :loading="item.id === current_loading" @click="increaseCartItem(item.id,item.product_id,cart[index].quantity,item.unit_price)" />
+                        </template>
+                        <template #decrementbuttonicon>
+                          <span :loading="item.id === current_loading" class="pi pi-minus"  @click="decreaseCartItem(item.id,item.product_id,cart[index].quantity,item.unit_price)" />
+                        </template>
+                      </InputNumber>
                       <Button @click="removeFromCart(item.id)" icon="pi pi-trash" class="p-button p-component p-button-icon-only text-600 p-button-text p-button-rounded" />
                     </div>
                   </div>
@@ -250,6 +263,7 @@
 <script setup lang="ts">
 const frontStore = useFrontStore()
 import InputText from 'primevue/inputtext';
+import debounce from 'debounce';
 const toast = useToast()
 const loading = ref(false)
 const delivery_option = ref('')
@@ -280,6 +294,7 @@ const payment_options = ref([
 ])
 const notes = ref('')
 const cart:any = storeToRefs(frontStore).cart
+const changed = storeToRefs(frontStore).changed
 const vat_total = ref(Number(0.00))
 const cart_total = ref(Number(0.00))
 const use_address_for_delivery = ref(true)
@@ -365,6 +380,7 @@ const decreaseCartItem = async (item_id:any,product_id: any,quantity:any,unit_pr
 					sessionStorage.removeItem('current_cart_shop_id');
 					sessionStorage.removeItem('current_cart_brand');
 				}
+          changed.value = true
           cart.value = data.data.items
           cart_total.value = data?.data?.cart_total
           vat_total.value = data?.data?.vat_total
@@ -390,6 +406,74 @@ const decreaseCartItem = async (item_id:any,product_id: any,quantity:any,unit_pr
     })
     
 };
+const handleBlur = async (quantity:any, item_id:any, product_id:any, unit_price:any) => {
+    if (quantity < 1 || !quantity) {
+        toast.add({
+            severity: 'warn',
+            summary: 'Cart',
+            detail: 'Quantity cannot be negative',
+            life: 3000,
+        });
+        return;
+    }
+    
+    // Call the same function for updating the cart
+    await changeCartItem(quantity, item_id, product_id, unit_price);
+};
+const changeCartItem = debounce(async (quantity:any, item_id:any, product_id:any, unit_price:any) => {
+    if (quantity < 1 || !quantity) {
+        toast.add({
+            severity: 'warn',
+            summary: 'Cart',
+            detail: 'Quantity cannot be negative',
+            life: 3000,
+        });
+        return;
+    }
+
+    loading.value = true;
+
+    const cart_item = {
+        id: item_id,
+        cart_id: cart_id,
+        product_id: product_id,
+        quantity: quantity,
+        unit_price: Number(unit_price),
+        total_price: quantity * unit_price,
+    };
+
+    try {
+        const data = await frontStore.editCartItem(cart_item);
+        if (data?.status === 'success') {
+            const newCart = await frontStore.getCart();
+            cart.value = newCart.data.items;
+            cart_total.value = newCart.data.cart_total;
+
+            toast.add({
+                severity: 'info',
+                summary: 'Cart',
+                detail: 'Quantity Changed',
+                life: 3000,
+            });
+        } else {
+            toast.add({
+                severity: 'warn',
+                summary: 'Cart',
+                detail: 'Could not update product',
+                life: 3000,
+            });
+        }
+    } catch (error) {
+        toast.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Failed to update the cart item',
+            life: 3000,
+        });
+    } finally {
+        loading.value = false;
+    }
+}, 300);
 
 const increaseCartItem = async (item_id:any,product_id: any,quantity:any,unit_price:any) => {
     current_loading.value = item_id
@@ -414,6 +498,7 @@ const increaseCartItem = async (item_id:any,product_id: any,quantity:any,unit_pr
 					sessionStorage.removeItem('current_cart_shop_id');
 					sessionStorage.removeItem('current_cart_brand');
 				}
+          changed.value = true
           cart.value = data.data.items
           cart_total.value = data?.data?.cart_total
           vat_total.value = data?.data?.vat_total
@@ -536,6 +621,7 @@ const removeFromCart = async (itemId:any) => {
                 sessionStorage.removeItem('current_cart_shop_id');
                 sessionStorage.removeItem('current_cart_brand');
               }
+            changed.value = true;
             cart.value = data.data.items
             cart_total.value = data?.data?.cart_total
             vat_total.value = data?.data?.vat_total
