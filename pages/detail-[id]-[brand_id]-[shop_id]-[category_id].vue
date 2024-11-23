@@ -66,7 +66,7 @@
               <div class="border-round surface-section p-4 shadow-2">
                   <div class="flex justify-content-between align-items-center mb-3">
                       <span class="font-bold text-900">Add Review</span>
-                      <Button icon="pi pi-whatsapp" class="p-button p-component w-4 flex  mr-5" label="Contact Sales Rep" />
+                      
                   </div>
                   <Rating class="mb-4" v-model="rating" :cancel="false" />
               </div>

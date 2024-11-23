@@ -18,12 +18,7 @@
                     <!---->
                     <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
                   </button>
-                  <button class="p-button p-component p-button-outlined p-button-secondary" type="button" aria-label="Print" data-pc-name="button" data-pc-section="root" data-pd-ripple="true">
-                    <span class="p-button-icon p-button-icon-left pi pi-print" data-pc-section="icon"></span>
-                    <span class="p-button-label" data-pc-section="label">Print Invoice</span>
-                    <!---->
-                    <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
-                  </button>
+                 
                 </div>
               </div>
               <div class="border-round surface-border border-1">

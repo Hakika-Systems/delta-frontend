@@ -16,11 +16,11 @@
           <div class="grid">
             <div v-for="product in okZimbabweProducts" :key="product.id" class="col-12 md:col-6 lg:col-3">
               <div class="p-2">
-                <div class="border-1 surface-border border-round m-2 p-3">
+                <div class="border-1 surface-border border-round m-2 p-3" style="min-height: 350px; display: flex; flex-direction: column; justify-content: space-between;">
                   <div  class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
                     <img :src="getParsedImages(product.images)" class="product_image object-cover">
                   </div>
-                  <div  class="mb-3 font-medium nametext cursor-pointer">{{ addEllipsis(product.name) }}</div>
+                  <div  class="mb-3 font-medium nametext cursor-pointer">{{ product.name}}</div>
                   <div class="mb-4">
                   </div>
                   <div class="flex justify-content-between align-items-center">
@@ -48,11 +48,11 @@
           <div class="grid">
             <div v-for="product in bornemarcheProducts" :key="product.id" class="col-12 md:col-6 lg:col-3">
               <div class="p-2">
-                <div class="border-1 surface-border border-round m-2 p-3">
+                <div class="border-1 surface-border border-round m-2 p-3" style="min-height: 350px; display: flex; flex-direction: column; justify-content: space-between;">
                   <div  class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
                     <img :src="getParsedImages(product.images)" class="product_image object-cover">
                   </div>
-                  <div  class="mb-3 font-medium nametext cursor-pointer">{{ addEllipsis(product.name) }}</div>
+                  <div  class="mb-3 font-medium nametext cursor-pointer">{{ product.name }}</div>
                   <div class="mb-4">
                   </div>
                   <div class="flex justify-content-between align-items-center">
@@ -80,11 +80,11 @@
           <div class="grid">
             <div v-for="product in foodloversProducts" :key="product.id" class="col-12 md:col-6 lg:col-3">
               <div class="p-2">
-                <div class="border-1 surface-border border-round m-2 p-3">
+                <div class="border-1 surface-border border-round m-2 p-3" style="min-height: 350px; display: flex; flex-direction: column; justify-content: space-between;">
                   <div  class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
                     <img :src="getParsedImages(product.images)" class="product_image object-cover">
                   </div>
-                  <div  class="mb-3 font-medium nametext cursor-pointer">{{ addEllipsis(product.name) }}</div>
+                  <div  class="mb-3 font-medium nametext cursor-pointer">{{ product.name }}</div>
                   <div class="mb-4">
                   </div>
                   <div class="flex justify-content-between align-items-center">
@@ -112,11 +112,11 @@
           <div class="grid">
             <div v-for="product in okmartProducts" :key="product.id" class="col-12 md:col-6 lg:col-3">
               <div class="p-2">
-                <div class="border-1 surface-border border-round m-2 p-3">
+                <div class="border-1 surface-border border-round m-2 p-3" style="min-height: 350px; display: flex; flex-direction: column; justify-content: space-between;">
                   <div  class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
                     <img :src="getParsedImages(product.images)" class="product_image object-cover">
                   </div>
-                  <div  class="mb-3 font-medium nametext cursor-pointer">{{ addEllipsis(product.name) }}</div>
+                  <div  class="mb-3 font-medium nametext cursor-pointer">{{ product.name}}</div>
                   <div class="mb-4">
                   </div>
                   <div class="flex justify-content-between align-items-center">

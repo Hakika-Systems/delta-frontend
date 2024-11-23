@@ -50,11 +50,11 @@
       </div>
       <Carousel :value="featured_products" :numVisible="5" :numScroll="1" :responsiveOptions="responsiveOptions"  :autoplayInterval="3000">
     <template #item="{ data }">
-      <div class="border-1 surface-border border-round m-2 p-3">
+      <div class="border-1 surface-border border-round m-2 p-3" style="min-height: 350px; display: flex; flex-direction: column; justify-content: space-between;">
         <div @click="goToDetailPage(data)" class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto cursor-pointer">
           <img :src="getParsedImages(data.images)" class="product_image object-cover">
         </div>
-        <div @click="goToDetailPage(data)" class="mb-3 font-medium nametext cursor-pointer">{{ addEllipsis(data.name) }}</div>
+        <div @click="goToDetailPage(data)" class="mb-3 font-medium nametext cursor-pointer">{{ data.name }}</div>
         <div class="mb-4">
           <!-- Additional details if needed -->
         </div>
@@ -91,12 +91,12 @@
     <!-- Product Card -->
     <div class="col-12 md:col-6 lg:col-3">
       <div class="p-2">
-        <div class="border-1 surface-border border-round m-2 p-3">
+        <div class="border-1 surface-border border-round m-2 p-3" style="min-height: 350px; display: flex; flex-direction: column; justify-content: space-between;">
           <div @click="goToDetailPage(product)" class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
             <img :src="getParsedImages(product.images)" class="product_image object-cover" />
           </div>
           <div @click="goToDetailPage(product)" class="mb-3 font-medium nametext cursor-pointer">
-            {{ addEllipsis(product.name) }}
+            {{product.name }}
           </div>
           <div class="mb-4"></div>
           <div class="flex justify-content-between align-items-center">
