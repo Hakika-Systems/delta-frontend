@@ -46,14 +46,14 @@
       <span style="color: white;" class=" text-2xl block">Company</span>
       <ul class="list-none p-0">
         <li>
-          <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">About Us</a>
+          <a tabindex="0"  class=" hover transition-duration-150 cursor-pointer mt-3 block">About Us</a>
         </li>
         
         <li>
-          <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Terms And Conditions</a>
+          <a tabindex="0"  class="hover  transition-duration-150 cursor-pointer mt-3 block">Terms And Conditions</a>
         </li>
         <li>
-          <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Privacy Policy</a>
+          <a tabindex="0"  class=" hover transition-duration-150 cursor-pointer mt-3 block">Privacy Policy</a>
         </li>
        
       </ul>
@@ -62,17 +62,17 @@
       <span style="color: white;" class=" text-2xl block">Help</span>
       <ul class="list-none p-0">
         <li>
-          <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Contact Us</a>
+          <a tabindex="0"  class=" hover transition-duration-150 cursor-pointer mt-3 block">Contact Us</a>
         </li>
         <li>
-          <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Suggest A Product</a>
+          <a tabindex="0"  class=" hover transition-duration-150 cursor-pointer mt-3 block">Suggest A Product</a>
         </li>
        
         <li>
-          <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Our Branches</a>
+          <a tabindex="0"  class=" hover transition-duration-150 cursor-pointer mt-3 block">Our Branches</a>
         </li>
         <li>
-          <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Advertise on ShopEasy</a>
+          <a tabindex="0"  class=" hover  transition-duration-150 cursor-pointer mt-3 block">Advertise on ShopEasy</a>
         </li>
       </ul>
     </div>
@@ -80,16 +80,16 @@
       <span style="color: white;" class=" text-2xl block">Account</span>
       <ul class="list-none p-0">
         <li>
-          <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Manage Account</a>
+          <a tabindex="0"  class=" hover transition-duration-150 cursor-pointer mt-3 block">Manage Account</a>
         </li>
         <li  @click="navigateTo('/myaccount',{external: true})">
-          <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Track Order</a>
+          <a tabindex="0"  class=" hover transition-duration-150 cursor-pointer mt-3 block">Track Order</a>
         </li>
         <li>
-          <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Subscriptions</a>
+          <a tabindex="0"  class="hover  transition-duration-150 cursor-pointer mt-3 block">Subscriptions</a>
         </li>
         <li>
-          <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Invoices</a>
+          <a tabindex="0"  class="hover  transition-duration-150 cursor-pointer mt-3 block">Invoices</a>
         </li>
       
       </ul>
@@ -169,5 +169,8 @@ h3.text-0 {
 
     .p-inputgroup-addon {
     width: 65px;
+    }
+    .hover{
+      color: white
     }
 </style>
