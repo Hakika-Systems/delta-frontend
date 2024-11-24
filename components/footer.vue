@@ -7,12 +7,12 @@
     </li>
     <li class="mr-4 mt-3 lg:mt-0">
       <h3 class=" text-0">PHONE SUPPORT</h3>
-      <a tabindex="0" class="cursor-pointer text-0">078 279 3499</a>
+      <a tabindex="0" class="cursor-pointer text-0">071 142 1883</a>
       
     </li>
     <li class="mr-4 mt-3 lg:mt-0">
       <h3 class=" text-0">WHATSAPP</h3>
-      <a tabindex="0" class="cursor-pointer text-0">078 279 3499</a>
+      <a tabindex="0" class="cursor-pointer text-0">071 142 1883</a>
       
     </li>
     <li class="mr-4 mt-3 lg:mt-0">
@@ -30,6 +30,12 @@
     <!---->
     <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
   </button>
+  <button class="p-button p-component surface-900 text-0 px-5 border-none" type="button" aria-label="Subscribe" data-pc-name="button" data-pc-section="root" data-pd-ripple="true">
+    <!---->
+    <span class="p-button-label" data-pc-section="label">Unsubscribe</span>
+    <!---->
+    <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
+  </button>
 </div>
   </div>
 </div>
@@ -42,18 +48,14 @@
         <li>
           <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">About Us</a>
         </li>
-        <li>
-          <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Careers</a>
-        </li>
+        
         <li>
           <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Terms And Conditions</a>
         </li>
         <li>
           <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Privacy Policy</a>
         </li>
-        <li>
-          <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Returns And Refund Policy</a>
-        </li>
+       
       </ul>
     </div>
     <div class="col-12 sm:col-6 md:col-4 lg:col-4 flex flex-column mt-0 py-4 px-4 border-bottom-1 lg:border-y-none  surface-border">
@@ -65,17 +67,12 @@
         <li>
           <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Suggest A Product</a>
         </li>
-        <li>
-          <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Returns</a>
-        </li>
-        <li>
-          <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Sell on ShopEasy</a>
-        </li>
+       
         <li>
           <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Our Branches</a>
         </li>
         <li>
-          <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Advertise on ShopEasy</a>
+          <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Advertise on SvpEasy</a>
         </li>
       </ul>
     </div>
