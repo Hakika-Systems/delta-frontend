@@ -72,7 +72,7 @@
           <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Our Branches</a>
         </li>
         <li>
-          <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Advertise on SvpEasy</a>
+          <a tabindex="0" style="color: white;" class="  transition-duration-150 cursor-pointer mt-3 block">Advertise on ShopEasy</a>
         </li>
       </ul>
     </div>
