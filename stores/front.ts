@@ -7,6 +7,7 @@ export const useFrontStore = defineStore('front', {
         brands: [],
         shop_id: null,
         current_template: "home",
+        changed: false,
         product: null,
         brand_id: null,
         old_cart_id: null,

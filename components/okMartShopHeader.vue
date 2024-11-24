@@ -141,11 +141,24 @@
                     <span class="font-medium">{{ item.product.name }}</span>
                 </div>
                 <div  class="col-2 flex align-items-center gap-2 text-color-secondary text-sm">
-                    <span class="p-inputnumber p-component p-inputwrapper p-inputwrapper-filled p-inputnumber-buttons-horizontal border-1 surface-border border-round" data-pc-name="inputnumber" data-pc-section="root" spinnermode="horizontal">
-                        <input class="p-inputtext p-component p-inputnumber-input w-2rem text-center py-2 px-1 border-transparent" v-model="cart[index].quantity" data-pc-name="inputtext" data-pc-section="input" role="spinbutton" aria-valuemin="0" aria-valuenow="1">
-                        <Button icon="pi pi-plus" :loading="loading" @click="increaseCartItem(item.id,item.product_id,cart[index].quantity,item.unit_price)" class="p-button p-component p-button-icon-only p-inputnumber-button p-inputnumber-button-up p-button-text text-600 hover:text-primary py-1 px-1" type="button" data-pc-name="button" data-pc-section="incrementbutton" tabindex="-1" aria-hidden="true" data-pd-ripple="true" />
-                        <Button icon="pi pi-minus" :loading="loading" @click="decreaseCartItem(item.id,item.product_id,cart[index].quantity,item.unit_price)" class="p-button p-component p-button-icon-only p-inputnumber-button p-inputnumber-button-down p-button-text text-600 hover:text-primary py-1 px-1" type="button" data-pc-name="button" data-pc-section="decrementbutton" tabindex="-1" aria-hidden="true" data-pd-ripple="true" />
-                    </span>
+                    <InputNumber
+						v-model="cart[index].quantity"
+						showButtons
+						class="p-inputnumber p-component p-inputwrapper p-inputwrapper-filled p-inputnumber-buttons-horizontal border-1 surface-border border-round"
+						buttonLayout="horizontal"
+						:min="1"
+						:max="99"
+						@update:modelValue="(value:any) => changeCartItem(value, item.id, item.product_id, item.unit_price)"
+						@blur="handleBlur(cart[index].quantity, item.id, item.product_id, item.unit_price)"
+					>
+           
+						<template #incrementbuttonicon>
+							<span class="pi pi-plus" :loading="loading" @click="increaseCartItem(item.id,item.product_id,cart[index].quantity,item.unit_price)" />
+						</template>
+						<template #decrementbuttonicon>
+							<span class="pi pi-minus" :loading="loading" @click="decreaseCartItem(item.id,item.product_id,cart[index].quantity,item.unit_price)" />
+						</template>
+					</InputNumber>
                 </div>
                 <div class="flex align-items-center gap-2 text-color-secondary ml-auto text-sm">
                     <span>{{findCurrency()}}{{ findConversionRatePrice((lineTotal(item.unit_price,item.quantity)).toFixed(2))}}</span>
@@ -206,9 +219,11 @@
     const frontStore = useFrontStore()
     const cart:any = storeToRefs(frontStore).cart
     import { createId } from '@paralleldrive/cuid2';
+	import debounce from 'debounce';
     const op = ref();
     const toast = useToast()
     const select_brand = ref(false)
+	const changed = storeToRefs(frontStore).changed
     const chosenBrand = ref()
     const shopBranch = ref();
     const branches = ref()
@@ -242,6 +257,46 @@
 	const saveCurrency = () => {
 		sessionStorage.setItem('selected_currency', JSON.stringify(selected_currency.value))
 	}
+	const getCart = () => {
+	console.log("getting cart again")
+	let gi:any
+	let current_shop_id:any
+	let sc:any
+	let current_shop_branch:any
+ 	let current_cart_id:any
+    if (typeof window !== 'undefined') {
+        gi  = sessionStorage.getItem('guest_id');
+		current_shop_id = sessionStorage.getItem('current_shop_id');
+		sc  = sessionStorage.getItem('selected_currency')
+		current_shop_branch = sessionStorage.getItem('current_shop_branch');
+    	current_cart_id = sessionStorage.getItem('cart_id');
+    }
+	
+        guest_id.value = JSON.parse(gi)
+		let cart_params = {
+		shop_id: JSON.parse(current_shop_branch),
+		user_id: user_id.value,
+		guest_id: guest_id.value
+		}
+		if (current_cart_id) {
+		let saved_cart  = frontStore.getCartTwo(current_cart_id).then((data) => {
+			cart.value = data.data?.items
+			cart_total.value = data?.data?.cart_total
+			cart_id.value = current_cart_id
+			changed.value = false
+		})
+		} else {
+			let created_cart = frontStore.createCart(cart_params).then((data) => {
+			cart.value = data?.data?.items
+			cart_total.value = data?.data?.cart_total
+		    cart_id.value = data?.data?.id
+			changed.value = false
+		}) 
+		}
+	};
+	watch(changed, () => {
+	getCart();
+	});
 	onMounted( async() => {
     skeleton_loader.value = true
 	menuLoader.value = true
@@ -717,6 +772,74 @@ const decreaseCartItem = async (item_id:any,product_id: any,quantity:any,unit_pr
     
     
 };
+const handleBlur = async (quantity:any, item_id:any, product_id:any, unit_price:any) => {
+    if (quantity < 1 || !quantity) {
+        toast.add({
+            severity: 'warn',
+            summary: 'Cart',
+            detail: 'Quantity cannot be negative',
+            life: 3000,
+        });
+        return;
+    }
+    
+    // Call the same function for updating the cart
+    await changeCartItem(quantity, item_id, product_id, unit_price);
+};
+const changeCartItem = debounce(async (quantity:any, item_id:any, product_id:any, unit_price:any) => {
+    if (quantity < 1 || !quantity) {
+        toast.add({
+            severity: 'warn',
+            summary: 'Cart',
+            detail: 'Quantity cannot be negative',
+            life: 3000,
+        });
+        return;
+    }
+
+    loading.value = true;
+
+    const cart_item = {
+        id: item_id,
+        cart_id: cart_id.value,
+        product_id: product_id,
+        quantity: quantity,
+        unit_price: Number(unit_price),
+        total_price: quantity * unit_price,
+    };
+
+    try {
+        const data = await frontStore.editCartItem(cart_item);
+        if (data?.status === 'success') {
+            const newCart = await frontStore.getCart();
+            cart.value = newCart.data.items;
+            cart_total.value = newCart.data.cart_total;
+
+            toast.add({
+                severity: 'info',
+                summary: 'Cart',
+                detail: 'Quantity Changed',
+                life: 3000,
+            });
+        } else {
+            toast.add({
+                severity: 'warn',
+                summary: 'Cart',
+                detail: 'Could not update product',
+                life: 3000,
+            });
+        }
+    } catch (error) {
+        toast.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Failed to update the cart item',
+            life: 3000,
+        });
+    } finally {
+        loading.value = false;
+    }
+}, 300);
 
 const increaseCartItem = async (item_id:any,product_id: any,quantity:any,unit_price:any) => {
     loading.value = true
@@ -863,6 +986,9 @@ const getParsedImages = (images: string) => {
 .p-menuitem-content {
     border: 1px solid #efefef;
     margin-right: 5px;
+}
+input.p-inputtext.p-component.p-inputnumber-input {
+    width: 60px !important;
 }
 .p-menuitem-content:hover {
 	background: v-bind('buttonColor') !important;
