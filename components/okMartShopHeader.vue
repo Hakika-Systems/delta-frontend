@@ -75,6 +75,7 @@
         <InputGroupAddon>
             <i v-badge="getTotalItemsInCart()" @mouseenter="toggle" @click="toggle" class="pi pi-shopping-cart totalbadge" style="font-size: 25px;" />
         </InputGroupAddon>
+		
         <InlineMessage severity="secondary">{{findCurrency()}}{{ findConversionRatePrice(cart_total) }}</InlineMessage>
         <!-- <InputNumber v-model="cartTotal()" class="inputtotal" disabled placeholder="0.00" /> -->
         <Button @click="goToCheckout()" label="Checkout" class="checkoutbutton" icon="pi pi-angle-right" iconPos="right" severity="warn" />
