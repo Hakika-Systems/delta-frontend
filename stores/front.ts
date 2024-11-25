@@ -12,7 +12,7 @@ export const useFrontStore = defineStore('front', {
         brand_id: null,
         old_cart_id: null,
         brand_featured_products: {},
-        cart_total: null,
+        cart_total: 0.00,
         currencies: [],
         selected_currency: null,
         cart_id: null,
