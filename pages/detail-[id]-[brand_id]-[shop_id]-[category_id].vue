@@ -214,72 +214,105 @@ const findConversionRatePrice = (price:any) => {
     return convertedPrice.toFixed(2);
 };
 onMounted(async () => {
-   //@ts-ignore
+  let gi: any;
+  let current_cart_id: any;
+  let prod: any;
 
-   let gi:any
-    let current_cart_id:any
-    let prod:any
-    if (typeof window !== 'undefined') {
-        let current_cart_id:any
-        gi  = sessionStorage.getItem('guest_id');
-        prod = sessionStorage.getItem('product_detail');
-        current_cart_id = sessionStorage.getItem('cart_id');
+  if (typeof window !== 'undefined') {
+    try {
+      // Retrieve session storage values
+      gi = sessionStorage.getItem('guest_id');
+      prod = sessionStorage.getItem('product_detail');
+      current_cart_id = sessionStorage.getItem('cart_id');
+
+      if (!prod) {
+        throw new Error('Missing required session storage data');
+      }
+    } catch (error:any) {
+      console.error('Error in sessionStorage retrieval:', error.message);
+      navigateTo('/', { external: true }); // Redirect to homepage
+      return;
     }
-  guest_id.value = JSON.parse(gi)
-  product.value = JSON.parse(prod)
-  brand_idd.value = brand_id
-  shop_idd.value = shop_id
-
-  const params = {
-      page: 1,
-      per_page: 10,
-      shop_brand_id: brand_id,
-      shop_id: shop_id
   }
-  if (guest_id.value === null) {
-      guest_id.value = createId()
-      sessionStorage.setItem('guest_id', JSON.stringify(guest_id.value))
 
-  }
-   let cart_params = {
-    shop_id: shop_id,
-    user_id: user_id.value,
-    guest_id: guest_id.value
-   }
-   if (current_cart_id) {
-   let saved_cart  = await frontStore.getCartTwo(current_cart_id).then((data) => {
-	  cart.value = data.data?.items
-    cart_total.value = data?.data?.cart_total
-    cart_id.value = current_cart_id
-   })
- } else {
-    let created_cart = await frontStore.createCart(cart_params).then((data) => {
-	  cart.value = data?.data?.items
-	  cart_total.value = data?.data?.cart_total
-    cart_id.value = data?.data?.id
-   }) 
- } 
-  const related_params = {
+  try {
+    // Parse session storage data
+    guest_id.value = JSON.parse(gi);
+    product.value = JSON.parse(prod);
+
+    // Validate parsed data
+    if (!guest_id.value || !product.value) {
+      throw new Error('Invalid session storage data');
+    }
+
+    // Set brand and shop IDs
+    brand_idd.value = brand_id;
+    shop_idd.value = shop_id;
+
+    const params = {
       page: 1,
       per_page: 10,
       shop_brand_id: brand_id,
       shop_id: shop_id,
-      category_id: category_id
-  }
+    };
 
-  await frontStore.getProducts(params).then((data) => {
-      products.value = data?.data?.products
-  })
-  await frontStore.getRelatedProducts(related_params).then((data) => {
-    totalItemCount.value = data?.data?.totalItemCount,
-      currentPage.value = data?.data?.currentPage,
-      totalPages.value = data?.data?.totalPages
-      related_products.value = data?.data?.products
-      related_products.value.forEach((product:any) => {
-        quantities.value[product.id] = 1; // Initialize quantity for each product
+    // Generate a new guest ID if missing
+    if (guest_id.value === null) {
+      guest_id.value = createId();
+      sessionStorage.setItem('guest_id', JSON.stringify(guest_id.value));
+    }
+
+    const cart_params = {
+      shop_id: shop_id,
+      user_id: user_id.value,
+      guest_id: guest_id.value,
+    };
+
+    // Retrieve or create a cart
+    if (current_cart_id) {
+      await frontStore.getCartTwo(current_cart_id).then((data) => {
+        cart.value = data.data?.items;
+        cart_total.value = data?.data?.cart_total;
+        cart_id.value = current_cart_id;
       });
-  })
-})
+    } else {
+      await frontStore.createCart(cart_params).then((data) => {
+        cart.value = data?.data?.items;
+        cart_total.value = data?.data?.cart_total;
+        cart_id.value = data?.data?.id;
+      });
+    }
+
+    const related_params = {
+      page: 1,
+      per_page: 10,
+      shop_brand_id: brand_id,
+      shop_id: shop_id,
+      category_id: category_id,
+    };
+
+    // Fetch products and related products
+    await frontStore.getProducts(params).then((data) => {
+      products.value = data?.data?.products;
+    });
+
+    await frontStore.getRelatedProducts(related_params).then((data) => {
+      totalItemCount.value = data?.data?.totalItemCount;
+      currentPage.value = data?.data?.currentPage;
+      totalPages.value = data?.data?.totalPages;
+      related_products.value = data?.data?.products;
+
+      // Initialize quantities for related products
+      related_products.value.forEach((product: any) => {
+        quantities.value[product.id] = 1;
+      });
+    });
+  } catch (error:any) {
+    console.error('Error during processing:', error.message);
+    navigateTo('/', { external: true }); // Redirect to homepage
+    return;
+  }
+});
 
 const addToCart = async (product_id: any,price:any) => {
     current_id.value = product_id

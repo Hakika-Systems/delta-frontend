@@ -24,6 +24,8 @@
     "flowbite": "^2.4.1",
     "font-awesome": "^4.7.0",
     "jquery": "^3.7.1",
+    "libphonenumber-js": "^1.11.15",
+    "maz-ui": "^3.47.1",
     "nuxt": "^3.12.3",
     "nuxt-swiper": "^1.2.2",
     "pinia": "^2.1.7",

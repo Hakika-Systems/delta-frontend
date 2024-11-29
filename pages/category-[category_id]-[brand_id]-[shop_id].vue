@@ -227,10 +227,18 @@ const getBrandConfiguration = () => {
     if (typeof window !== 'undefined') {
         // Retrieve brand configuration from sessionStorage
         const storedConfig = sessionStorage.getItem('active_brand');
-        return storedConfig ? JSON.parse(storedConfig) : null;
+        
+        if (!storedConfig) {
+            // If no brand configuration is found, use navigateTo to redirect to the home page
+            navigateTo('/',{external: true}); // Adjust the URL as needed
+            return null;
+        }
+        
+        return JSON.parse(storedConfig); // Return the parsed brand configuration
     }
     return null;
-}
+};
+
 
 //@ts-ignore
 const active_brand = ref(getBrandConfiguration())

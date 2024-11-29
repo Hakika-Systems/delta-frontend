@@ -160,8 +160,8 @@
     </div>
 </Dialog>
 <Footer />
-  </template>
-  <script setup lang="ts">
+</template>
+<script setup lang="ts">
   import { storeToRefs } from 'pinia';
   import { useFrontStore } from '~/stores/front';
   import { createId } from '@paralleldrive/cuid2';
@@ -334,92 +334,117 @@ const findConversionRatePrice = (price:any) => {
       });
     })
   }
-  onMounted( async() => {
-    let gi:any
-    let current_cart_id:any
-    let storeConfig:any
-    let ads:any
-    if (typeof window !== 'undefined') {
-        let current_cart_id:any
-        let up:any
-        gi  = sessionStorage.getItem('guest_id');
-        current_cart_id = sessionStorage.getItem('cart_id');
-        storeConfig = sessionStorage.getItem('active_brand');
-        up = JSON.parse(storeConfig)
-        ads = up?.adverts
-  // Filter adverts to only include those with a display position of "Top"
-  //@ts-ignore
-        banners.value = up.adverts.filter(ad => ad.display_position === "Top");
-        
+  onMounted(async () => {
+  let gi: any;
+  let current_cart_id: any;
+  let storeConfig: any;
+  let ads: any;
 
-    }
-    guest_id.value = JSON.parse(gi)
-    if (shop_id && brand_id === null) {
-  navigateTo('/',{external:true});
-   }
-    if(shop_id === "undefined") {
-       visible.value = true;
-       let result_one = await frontStore.getBrands().then(async (data) => {
-       let brands = data?.data?.shopbrands;
-        selectShopsByBrandId(brand_id,brands)
-      });
-    }
-    brand_idd.value = brand_id
-    shop_idd.value = shop_id
-    let params = {
-        page: 1,
-        per_page: 60,
-        shop_brand_id: brand_id,
-        shop_id: shop_id
-    }
-    let productsd =  await frontStore.getProducts(params).then((data) => {
-      totalItemCount.value = data?.data?.totalItemCount,
-      currentPage.value = data?.data?.currentPage,
-      totalPages.value = data?.data?.totalPages
-      products.value = data?.data?.products
-      products.value.forEach((product:any) => {
-        quantities.value[product.id] = 1; // Initialize quantity for each product
-      });
-    })
-    let featured_params = {
-        page: 1,
-        per_page: 80,
-        is_shop_brand: false,
-        id: shop_id
-    }
-    let featured_productss = await frontStore.getFeaturedProducts(featured_params).then((data) => {
-      featured_products.value = data.data.products
-    })
-  if (guest_id.value === null) {
-      guest_id.value = createId()
-      sessionStorage.setItem('guest_id', JSON.stringify(guest_id.value))
+  if (typeof window !== 'undefined') {
+    try {
+      // Retrieve session storage variables
+      gi = sessionStorage.getItem('guest_id');
+      current_cart_id = sessionStorage.getItem('cart_id');
+      storeConfig = sessionStorage.getItem('active_brand');
+      
+      if (!storeConfig) throw new Error('active_brand is missing'); // Handle missing active_brand
+      const up = JSON.parse(storeConfig);
+      ads = up?.adverts;
 
+      // Filter adverts to include only those with display position "Top"
+      //@ts-ignore
+      banners.value = up.adverts.filter((ad) => ad.display_position === "Top");
+    } catch (error:any) {
+      console.error('Error in sessionStorage retrieval:', error.message);
+      navigateTo('/', { external: true }); // Redirect to homepage
+      return;
+    }
   }
-   let cart_params = {
+
+  // Parse guest_id from session storage
+  guest_id.value = JSON.parse(gi);
+
+  if (shop_id === null || brand_id === null) {
+    navigateTo('/', { external: true }); // Redirect to homepage if IDs are invalid
+    return;
+  }
+
+  if (shop_id === "undefined") {
+    visible.value = true;
+
+    // Fetch brands and select shops by brand ID
+    let result_one = await frontStore.getBrands().then(async (data) => {
+      let brands = data?.data?.shopbrands;
+      selectShopsByBrandId(brand_id, brands);
+    });
+  }
+
+  brand_idd.value = brand_id;
+  shop_idd.value = shop_id;
+
+  // Fetch products
+  const params = {
+    page: 1,
+    per_page: 60,
+    shop_brand_id: brand_id,
+    shop_id: shop_id,
+  };
+  await frontStore.getProducts(params).then((data) => {
+    totalItemCount.value = data?.data?.totalItemCount;
+    currentPage.value = data?.data?.currentPage;
+    totalPages.value = data?.data?.totalPages;
+    products.value = data?.data?.products;
+    products.value.forEach((product: any) => {
+      quantities.value[product.id] = 1; // Initialize quantity for each product
+    });
+  });
+
+  // Fetch featured products
+  const featured_params = {
+    page: 1,
+    per_page: 80,
+    is_shop_brand: false,
+    id: shop_id,
+  };
+  await frontStore.getFeaturedProducts(featured_params).then((data) => {
+    featured_products.value = data.data.products;
+  });
+
+  // Create guest ID if not available
+  if (guest_id.value === null) {
+    guest_id.value = createId();
+    sessionStorage.setItem('guest_id', JSON.stringify(guest_id.value));
+  }
+
+  // Handle cart
+  const cart_params = {
     shop_id: shop_id,
     user_id: user_id.value,
-    guest_id: guest_id.value
-   }
-   if (current_cart_id) {
-   let saved_cart  = await frontStore.getCartTwo(current_cart_id).then((data) => {
-	  cart.value = data.data?.items
-    cart_total.value = data?.data?.cart_total
-    cart_id.value = current_cart_id
-   })
- } else {
-    let created_cart = await frontStore.createCart(cart_params).then((data) => {
-	  cart.value = data?.data?.items
-	  cart_total.value = data?.data?.cart_total
-    cart_id.value = data?.data?.id
-   }) 
- }
-let paramss = {
-  slug: "strip"
-}
-let home_banners = await frontStore.getBanners(paramss).then((data) => {
-  strip_banners.value = data?.data
-})
- })
+    guest_id: guest_id.value,
+  };
+  if (current_cart_id) {
+    await frontStore.getCartTwo(current_cart_id).then((data) => {
+      cart.value = data.data?.items;
+      cart_total.value = data?.data?.cart_total;
+      cart_id.value = current_cart_id;
+    });
+  } else {
+    await frontStore.createCart(cart_params).then((data) => {
+      cart.value = data?.data?.items;
+      cart_total.value = data?.data?.cart_total;
+      cart_id.value = data?.data?.id;
+    });
+  }
+
+  // Fetch banners
+  const paramss = {
+    slug: "strip",
+  };
+  await frontStore.getBanners(paramss).then((data) => {
+    strip_banners.value = data?.data;
+  });
+});
+
  const goToShop = () => {
   navigateTo(`shop-${brand_id}-${selected_shop.value}`,{external:true})
  }

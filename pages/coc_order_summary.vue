@@ -107,18 +107,46 @@
 
   return '/images/placeholder.png'; // Return null if parsing fails or if parsedImages is null
 };
-  onMounted(async() => {
-    let last_order:any
-      if (typeof window !== 'undefined') {
-        last_order = sessionStorage.getItem('last_order');
+onMounted(async () => {
+  let last_order: any;
+
+  if (typeof window !== 'undefined') {
+    try {
+      // Retrieve last order from session storage
+      last_order = sessionStorage.getItem('last_order');
+
+      // Check if last_order exists and is valid
+      if (!last_order) {
+        throw new Error('Missing last_order in session storage');
       }
-    
-    order_details.value = JSON.parse(last_order)
-    old_cart_id.value = order_details.value.cart_id
-    let cart = await frontStore.getOlderCart().then((data) => {
-      order_items.value = data?.data?.items
-    })
-  })
+    } catch (error:any) {
+      console.error('Error retrieving sessionStorage data:', error.message);
+      navigateTo('/', { external: true }); // Redirect to homepage
+      return;
+    }
+  }
+
+  try {
+    // Parse the last_order data
+    order_details.value = JSON.parse(last_order);
+
+    // Validate the parsed data
+    if (!order_details.value || !order_details.value.cart_id) {
+      throw new Error('Invalid last_order data');
+    }
+
+    old_cart_id.value = order_details.value.cart_id;
+
+    // Fetch cart details
+    await frontStore.getOlderCart().then((data) => {
+      order_items.value = data?.data?.items;
+    });
+  } catch (error:any) {
+    console.error('Error processing order details:', error.message);
+    navigateTo('/', { external: true }); // Redirect to homepage
+  }
+});
+
   </script>
   <style>
   img.w-3rem.sm\:w-8rem.flex-shrink-0.mr-3.shadow-2.custom {

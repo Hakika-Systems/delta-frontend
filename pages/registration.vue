@@ -260,6 +260,9 @@
 <script setup lang="ts">
 
 const frontStore = useFrontStore()
+const phoneNumber = ref()
+const countryCode = ref('FR')
+const results = ref()
 const toast = useToast()
 const name = ref()
 const email = ref()

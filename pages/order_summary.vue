@@ -177,26 +177,60 @@ const getParsedImages = (images: string) => {
 
   return '/images/placeholder.png'; // Return null if parsing fails or if parsedImages is null
 };
-onMounted(async() => {
-  let last_order:any
-  let payment_details:any
-    if (typeof window !== 'undefined') {
+onMounted(async () => {
+  let last_order: any;
+  let payment_details: any;
+
+  if (typeof window !== 'undefined') {
+    try {
+      // Clear session storage items related to cart
       sessionStorage.removeItem('cart_id');
       sessionStorage.removeItem('current_cart_shop_id');
       sessionStorage.removeItem('current_cart_brand');
+
+      // Retrieve last order and payment details from session storage
       last_order = sessionStorage.getItem('last_order');
       payment_details = sessionStorage.getItem('payment_details');
+
+      if (!last_order || !payment_details) {
+        throw new Error('Missing critical session storage data');
+      }
+    } catch (error:any) {
+      console.error('Error in sessionStorage retrieval:', error.message);
+      navigateTo('/', { external: true }); // Redirect to homepage
+      return;
     }
-  order_details.value = JSON.parse(last_order)
-  payment.value = JSON.parse(payment_details)
-  old_cart_id.value = order_details.value.cart_id
-  let cart = await frontStore.getOlderCart().then((data) => {
-    order_items.value = data?.data?.items
-  })
-  let payment_resultss = await frontStore.getPaymentStatus(payment.value?.id).then((data) => {
-    payment_object.value = data?.data
-  })
-})
+  }
+
+  try {
+    // Parse session storage data
+    order_details.value = JSON.parse(last_order);
+    payment.value = JSON.parse(payment_details);
+
+    // Validate parsed data
+    if (!order_details.value || !order_details.value.cart_id || !payment.value || !payment.value.id) {
+      throw new Error('Invalid order or payment data');
+    }
+
+    // Set old cart ID
+    old_cart_id.value = order_details.value.cart_id;
+
+    // Fetch older cart details
+    await frontStore.getOlderCart().then((data) => {
+      order_items.value = data?.data?.items;
+    });
+
+    // Fetch payment status
+    await frontStore.getPaymentStatus(payment.value?.id).then((data) => {
+      payment_object.value = data?.data;
+    });
+  } catch (error:any) {
+    console.error('Error during processing:', error.message);
+    navigateTo('/', { external: true }); // Redirect to homepage
+    return;
+  }
+});
+
 </script>
 <style>
 img.w-3rem.sm\:w-8rem.flex-shrink-0.mr-3.shadow-2.custom {
