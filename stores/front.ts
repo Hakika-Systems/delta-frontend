@@ -348,6 +348,31 @@ export const useFrontStore = defineStore('front', {
       } finally {
       }
     },
+    async trackOrder(my_params:any) {
+      const url = new URL(`${SHOP_URL}/api/track-order/track`);
+      const params:any = {
+          order_ref: `${my_params.order_ref}`,
+      };
+      Object.keys(params).forEach((key) =>
+          url.searchParams.append(key, params[key])
+      );
+      const token = useCookie('token').value || ""
+      const headers = {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+      };
+  
+      try {
+          const response = await fetch(url, {
+              method: "GET",
+              headers,
+          });
+          const data = await response.json();
+          return data;
+      } finally {
+      }
+    },
     async getSearchResults(search_params: any) {
       const url = `${SHOP_URL}/api/search`;
     
