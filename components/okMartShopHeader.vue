@@ -193,10 +193,10 @@
     <span class="p-text-secondary block mb-5">Enter Tracking ID Below</span>
     <div class="flex align-items-center gap-3 mb-5">
         <label for="email" class="font-semibold w-6rem">Tracking ID</label>
-        <InputText id="email" class="flex-auto" autocomplete="off" />
+        <InputText v-model="tracking_id" id="email" class="flex-auto" autocomplete="off" />
     </div>
     <div class="flex justify-content-end gap-2">
-        <Button type="button" label="Track Order"></Button>
+        <Button :disabled="!tracking_id" @click="goToTracking(tracking_id)" type="button" label="Track Order"></Button>
     </div>
 </Dialog>
 <Dialog v-model:visible="select_shop" modal header="Shop Selection" :style="{ width: '25rem' }">
@@ -224,6 +224,7 @@
     const op = ref();
     const toast = useToast()
     const select_brand = ref(false)
+	const tracking_id = ref()
 	const changed = storeToRefs(frontStore).changed
     const chosenBrand = ref()
     const shopBranch = ref();
@@ -434,6 +435,15 @@ await getLogo()
             const current_shop_id:any = sessionStorage.getItem('current_shop_id');
             const current_shop_branch:any = sessionStorage.getItem('current_shop_branch');
 			await navigateTo(`/category-${id}-${JSON.parse(current_shop_id)}-${JSON.parse(current_shop_branch)}`,{external:true});
+            // await  navigateTo(`/shop-${JSON.parse(current_shop_id)}-${JSON.parse(current_shop_branch)}`,{external:true})
+        } 
+       
+    }
+	const goToTracking = async (id:any) => {
+		if (typeof window !== 'undefined') {
+            const current_shop_id:any = sessionStorage.getItem('current_shop_id');
+            const current_shop_branch:any = sessionStorage.getItem('current_shop_branch');
+			await navigateTo(`/track-${id}-${JSON.parse(current_shop_id)}-${JSON.parse(current_shop_branch)}`,{external:true});
             // await  navigateTo(`/shop-${JSON.parse(current_shop_id)}-${JSON.parse(current_shop_branch)}`,{external:true})
         } 
        
