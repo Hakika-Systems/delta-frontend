@@ -628,10 +628,7 @@ const countries = ref([
     { name: 'Zimbabwe', code: 'ZW' }
 ]);
 const trackOrderModal = async(data:any) => {
-  addLineItem.value = true
-  myref.value = data.order_ref
-  delivery_option.value = data.delivery_option
-  trackOrder(data.order_ref)
+  navigateTo(`/track-${data.order_ref}-${current_shop_id.value}-${current_brand_id.value}`,{external:true})
    
   
  }
@@ -814,6 +811,8 @@ const changePassword = async () => {
 const street = ref()
 const selected_address_type = ref()
 const current_template =  storeToRefs(frontStore).current_template
+const current_shop_id = ref()
+const current_brand_id = ref()
 const my_orders = ref()
 const my_addresses = ref()
 const mytoken = useCookie('token');
@@ -855,6 +854,17 @@ const createAddress = () => {
   })
 }
 onMounted(() => {
+  let gi:any
+	let sc:any
+	let current_shop_branch:any
+ 	let current_cart_id:any
+    if (typeof window !== 'undefined') {
+        gi  = sessionStorage.getItem('guest_id');
+		current_shop_id.value = sessionStorage.getItem('current_shop_id');
+		sc  = sessionStorage.getItem('selected_currency')
+		current_brand_id.value = sessionStorage.getItem('current_shop_branch');
+    	current_cart_id = sessionStorage.getItem('cart_id');
+    }
   let all_addresses = frontStore.getAllAddressTypes().then((data) => {
     address_types.value = data?.data?.data
   })
