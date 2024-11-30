@@ -93,19 +93,37 @@
                                   <div class="flex justify-content-between align-items-center">
                                       <span class="font-bold text-900 ml-2">{{ findCurrency() }} {{item?.prices[0]?.price ? findConversionRatePrice(item?.prices[0]?.price) : formatCurrency(0)}}</span>
                                   </div>
-                                  <InputGroup class="w-full">
-                                  <InputGroupAddon class="firstinput">
-                                      <InputText :min="1" :max="100" style="border:none" v-model="quantities[product.id]" />
-                                  </InputGroupAddon>
-                                  <InputGroupAddon @click="decreaseQuantity(product.id)" class="addsub cursor-pointer">
-                                      <i  class="pi pi-minus"></i>
-                                  </InputGroupAddon>
-                                  <Button v-if="product?.details[0]?.quantity >= 1" :loading="current_id === product.id" @click="addToCartRelated(product.id,product.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Add" class="w-full  cart"/>
-                                    <Button v-else :loading="loading" icon="pi pi-cart-arrow-down" label="Out of Stock" class="w-full  cart" disabled/>
-                                  <InputGroupAddon @click="increaseQuantity(product.id)" class="addsub cursor-pointer">
-                                      <i  class="pi pi-plus"></i>
-                                  </InputGroupAddon>
-                              </InputGroup>
+                                  <div v-if="product?.details[0]?.quantity >= 1" class="custom-input-number">
+    <!-- InputNumber with stacked buttons -->
+    <InputNumber
+      v-model="quantities[product.id]"
+      mode="decimal"
+      :min="1"
+      :step="1"
+      inputId="vertical-buttons"
+      showButtons
+      buttonLayout="stacked"
+      class="w-12rem"
+    >
+      <!-- Custom Increment Button -->
+      <template #incrementbuttonicon>
+        <span @click="increaseQuantity(product.id)"  class="pi pi-plus" />
+      </template>
+      <!-- Custom Decrement Button -->
+      <template #decrementbuttonicon>
+        <span  @click="decreaseQuantity(product.id)" class="pi pi-minus" />
+      </template>
+    </InputNumber>
+
+    <!-- Add to Cart Button -->
+    <Button
+      label="Add"
+      :loading="current_id === product.id"
+      icon="pi pi-cart-arrow-down"
+      class="w-full p-button-success"
+      @click="addToCart(product.id, product.prices[0]?.price)"
+    />
+  </div>
                               </div>
                           </div>
                       </div>
@@ -213,6 +231,24 @@ const findConversionRatePrice = (price:any) => {
     // Return the converted price
     return convertedPrice.toFixed(2);
 };
+const getBrandConfiguration = () => {
+    if (typeof window !== 'undefined') {
+        // Retrieve brand configuration from sessionStorage
+        const storedConfig = sessionStorage.getItem('active_brand');
+        
+        if (!storedConfig) {
+            // If no brand configuration is found, use navigateTo to redirect to the home page
+            navigateTo('/',{external: true}); // Adjust the URL as needed
+            return null;
+        }
+        
+        return JSON.parse(storedConfig); // Return the parsed brand configuration
+    }
+    return null;
+}
+const active_brand = ref(getBrandConfiguration())
+
+const buttonColor = active_brand?.value?.button_color;
 onMounted(async () => {
   let gi: any;
   let current_cart_id: any;
@@ -480,6 +516,53 @@ const addToCartRelated = async (product_id: any,price:any) => {
 };
 </script>
 <style scoped>
+.custom-input-number {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Space between InputNumber and Add to Cart button */
+}
+span.p-inputnumber-button-group {
+   background-color: #f5f1f1;
+}
+span.pi.pi-plus {
+   font-size: 10px !important;
+   padding: 10px !important;
+}
+span.pi.pi-minus {
+   font-size: 10px !important;
+   padding: 10px !important;
+}
+
+.p-inputnumber {
+  display: flex;
+  flex-direction: row-reverse; /* Ensure buttons are on the right of the input */
+  align-items: stretch;
+  justify-content: center;
+}
+
+.p-inputnumber-button {
+  flex: none;
+  width: 30px;
+  height: 50%; /* Buttons are vertically stacked */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.p-inputnumber-input {
+  flex: 1;
+  text-align: center;
+}
+
+.w-12rem {
+  width: 12rem; /* Set a fixed width for the InputNumber */
+}
+
+.ml-3 {
+  margin-left: 1rem; /* Space between InputNumber and the Add to Cart button */
+}
+</style>
+<style scoped>
 img.product_image.w-full.border-round {
     width: auto !important;
     height: 365px !important;
@@ -489,3 +572,149 @@ img.product_image.w-full.border-round {
     height: 155px !important;
 }
 </style>
+<style>
+ .ripple {
+ position: absolute;
+ border-radius: 50%;
+ transform: scale(0);
+ animation: ripple-effect 0.6s linear;
+ background-color: rgba(255, 255, 255, 0.7);
+ pointer-events: none;
+ }
+ .p-inputgroup.w-full {
+   height: 40px;
+   margin-top: 3px;
+ }
+ @keyframes ripple-effect {
+ to {
+   transform: scale(4);
+   opacity: 0;
+ }
+ }
+ .product_image {
+   width: auto !important;
+   height: 155px !important;
+ }
+ .p-tag {
+   background: #003e95;
+   color: #ffffff;
+   text-transform: uppercase;
+ }
+ .p-inputgroup-addon.firstinput {
+   width: 188px !important;
+   padding: 1px !important;
+ }
+ button.p-button.p-component.p-button-icon-only.ml-2.cart {
+   background-color: #003e95;
+   border-color: #003e95;
+ }
+ button.p-button.p-component.p-button-icon-only.p-button-secondary.p-button-outlined.whishlist {
+   background-color: #d6200e;
+   color: white;
+ }
+ img.w-full.h-full.object-cover.border-round {
+   height: 100px !important;
+   width: auto !important;
+ }
+ .banner{
+   width: 100% !important;
+   height: 100% !important
+   ;
+ }
+ img.w-12rem.flex-shrink-0.mx-auto.md\:mx-0 {
+   border-radius: 21px;
+ }
+ ul.p-carousel-indicators.p-reset {
+   display: none;
+ }
+ .card.border-featured {
+   border-radius: 10px !important;
+ }
+ img.shop_logo {
+   width: auto;
+   height: 43px;
+ }
+ button.p-button.p-component.ml-2.cart.tagee {
+   background-image: linear-gradient(to right, #cb1400, #F44336) !important;
+   border: none;
+ }
+ button.p-button.p-component.shopnow.feat {
+   background-color: #dadada;
+   border-radius: 30px;
+   border: none;
+   color: black;
+ }
+ .border-1.surface-border.border-round.p-3 {
+   box-shadow: 0 5px 10px 0 rgba(41, 61, 102, .2) !important;
+ }
+ .okzimbabwe {
+   background-color: red;
+   padding: 10px;
+   border-radius: 25px;
+   color: white !important;
+   font-weight: 900 !important;
+   font-size: 25px !important;
+ }
+ button.p-button.p-component.ml-auto.cart {
+   background-color: #f7941f;
+   border: none;
+   border-radius: 33px;
+ }
+ .bonmarche {
+   background-color: red;
+   padding: 10px;
+   border-radius: 25px;
+   color: white !important;
+   font-weight: 900 !important;
+   font-size: 25px !important;
+ }
+ button.p-button.p-component.ok.addtocart.w-full {
+   border-radius: 20px;
+   background-color: red ;
+   border: none;
+ }
+
+ .foodlovers {
+   background-color: red;
+   padding: 10px;
+   border-radius: 25px;
+   color: white !important;
+   font-weight: 900 !important;
+   font-size: 25px !important;
+ }
+ .okmart {
+   background-color: red;
+   padding: 10px;
+   border-radius: 25px;
+   color: white !important;
+   font-weight: 900 !important;
+   font-size: 25px !important;
+ }
+ .side-banner {
+     
+     
+     margin-top: 12px;
+ }
+ .p-megamenu.p-component.p-megamenu-horizontal.jjmenu {
+    display: flex;
+    justify-content: flex-start !important;
+}
+ </style>
+   <style scoped>
+   .p-inputtext {
+       border: none !important;
+   }
+   .p-inputtext:focus {
+       outline: none;
+   }
+   .p-button {
+   color: #ffffff;
+   background: v-bind('buttonColor') !important;
+   border: 1px solid v-bind('buttonColor') !important;
+   padding: 0.5rem 1rem;
+   font-size: 1rem;
+   transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s, outline-color 0.2s;
+   border-radius: 6px;
+   outline-color: transparent;
+}
+   </style>
