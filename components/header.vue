@@ -1,18 +1,5 @@
 <template>
   <header class="th-header header-layout3">
-    <!-- <div class="menu-top">
-      <div class="containerr">
-        <div class="row align-items-center justify-content-center" style="height: 75px;">
-    <a href="#">
-        <img
-            src="/images/mukuru.jpeg"
-            alt="OK shop easy"
-            style="width: 426px;height: 75px;margin: auto;object-fit:cover;"
-        />
-    </a>
-</div>
-      </div>
-    </div> -->
     <div class="menu-top">
       <div class="">
         <div class="row align-items-center p-2 justify-content-between">
@@ -32,35 +19,30 @@
               <button type="submit"><i class="far fa-search"></i></button>
             </form>
           </div> -->
-          <div class="col-3">
-
-          </div>
-          <div class="col-3">
+          <div class="col-6 align-items-end">
             <div v-if="loading" class="grid grid-nogutter align-items-center">
-              <div
-                  class="col h-3rem text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors">
-                  <Skeleton class="h-3rem" />
-              </div>
-              <div
-                  class="col h-3rem text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors">
-                  <Skeleton class="h-3rem" />
-              </div>
-              <div
-                  class="col h-3rem text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors">
-                  <Skeleton class="h-3rem" />
-              </div>
-              <div
-                  class="col h-3rem text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors">
-                  <Skeleton class="h-3rem" />
-              </div>
-            </div>
-            <div v-else class="grid grid-nogutter align-items-center">
-              <div v-for="brand in brands" :key="brand.id" 
-                  class="col h-3rem text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors" 
-                  @click="selectShop(brand)">
-                  <img :src="brand.logo" :alt="brand.name" class="h-3rem">
-              </div>
-            </div>
+  <div
+    class="col h-3rem text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors">
+    <Skeleton class="h-3rem" />
+  </div>
+  <div
+    class="col h-3rem text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors">
+    <Skeleton class="h-3rem" />
+  </div>
+</div>
+
+<div v-if="!loading" class="relative align-items-end">
+  <div class="helper-text col-6">
+    Select a brand to explore!
+  </div>
+  <div class="brands-container">
+    <div v-for="brand in brands" :key="brand.id" 
+        class="brand-item h-3rem text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors" 
+        @click="selectShop(brand)">
+      <img :src="brand.logo" :alt="brand.name" class="h-3rem">
+    </div>
+  </div>
+</div>
 </div>
         </div>
       </div>
@@ -315,6 +297,54 @@ const getFeaturedProducts = async (brand_id:any) => {
 
 
 <style scoped>
+.relative {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.helper-text {
+  font-size: 14px;
+  color: #f97316;
+  font-weight: bold;
+  animation: fadeInOut 3s infinite;
+  margin-bottom: 10px; /* Space between the helper text and the brands */
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.helper-text::after {
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 8px solid #f97316; /* Arrow color */
+}
+
+.brands-container {
+  display: flex; /* Ensure items are displayed horizontally */
+  flex-wrap: nowrap; /* Prevent wrapping of items */
+  overflow-x: auto; /* Allows horizontal scroll if brands overflow */
+}
+
+.brand-item {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 0.5rem;
+  margin-right: 1rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+}
+
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
 .header-layout3 .header-top {
     --body-color: #54595f;
     background-color: #e48b4b !important;
