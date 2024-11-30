@@ -40,19 +40,37 @@
                   <div class="flex justify-content-between align-items-center">
                     <span class="font-bold text-900 ml-2">{{findCurrency()}}{{product?.prices[0]?.price ? findConversionRatePrice(product.prices[0]?.price) : formatCurrency(0)}}</span>
                   </div>
-                  <InputGroup v-if="product?.details[0]?.quantity >= 1" class="w-full">
-                                  <InputGroupAddon class="firstinput">
-                                      <InputText :min="1" :max="100" style="border:none" v-model="quantities[product.id]" />
-                                  </InputGroupAddon>
-                                  <InputGroupAddon @click="decreaseQuantity(product.id)" class="addsub cursor-pointer">
-                                      <i  class="pi pi-minus"></i>
-                                  </InputGroupAddon>
-                                  <Button  :loading="current_id === product.id" @click="addToCart(product.id,product.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Add" class="w-full  cart"/>
-                                    
-                                  <InputGroupAddon @click="increaseQuantity(product.id)" class="addsub cursor-pointer">
-                                      <i  class="pi pi-plus"></i>
-                                  </InputGroupAddon>
-                  </InputGroup>
+                  <div v-if="product?.details[0]?.quantity >= 1" class="custom-input-number">
+    <!-- InputNumber with stacked buttons -->
+    <InputNumber
+      v-model="quantities[product.id]"
+      mode="decimal"
+      :min="1"
+      :step="1"
+      inputId="vertical-buttons"
+      showButtons
+      buttonLayout="stacked"
+      class="w-12rem"
+    >
+      <!-- Custom Increment Button -->
+      <template #incrementbuttonicon>
+        <span @click="increaseQuantity(product.id)"  class="pi pi-plus" />
+      </template>
+      <!-- Custom Decrement Button -->
+      <template #decrementbuttonicon>
+        <span  @click="decreaseQuantity(product.id)" class="pi pi-minus" />
+      </template>
+    </InputNumber>
+
+    <!-- Add to Cart Button -->
+    <Button
+      label="Add"
+      :loading="current_id === product.id"
+      icon="pi pi-cart-arrow-down"
+      class="w-full p-button-success"
+      @click="addToCart(product.id, product.prices[0]?.price)"
+    />
+  </div>
                   <Button v-else :loading="loading" icon="pi pi-cart-arrow-down" label="Out of Stock" class="w-full mt-1 cart" disabled/>
                 </div>
               </div>
@@ -391,6 +409,53 @@ const buttonColor = active_brand?.value?.button_color;
 
   
   </script>
+   <style scoped>
+   .custom-input-number {
+     display: flex;
+     align-items: center;
+     gap: 8px; /* Space between InputNumber and Add to Cart button */
+   }
+   span.p-inputnumber-button-group {
+      background-color: #f5f1f1;
+  }
+  span.pi.pi-plus {
+      font-size: 10px !important;
+      padding: 10px !important;
+  }
+  span.pi.pi-minus {
+      font-size: 10px !important;
+      padding: 10px !important;
+  }
+   
+   .p-inputnumber {
+     display: flex;
+     flex-direction: row-reverse; /* Ensure buttons are on the right of the input */
+     align-items: stretch;
+     justify-content: center;
+   }
+   
+   .p-inputnumber-button {
+     flex: none;
+     width: 30px;
+     height: 50%; /* Buttons are vertically stacked */
+     display: flex;
+     justify-content: center;
+     align-items: center;
+   }
+   
+   .p-inputnumber-input {
+     flex: 1;
+     text-align: center;
+   }
+   
+   .w-12rem {
+     width: 12rem; /* Set a fixed width for the InputNumber */
+   }
+   
+   .ml-3 {
+     margin-left: 1rem; /* Space between InputNumber and the Add to Cart button */
+   }
+   </style>
  <style>
  .ripple {
  position: absolute;
