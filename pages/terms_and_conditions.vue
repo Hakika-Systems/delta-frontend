@@ -4,7 +4,7 @@
     <div style="text-align: center; padding: 50px 20px; background-color: #f6f7f8;">
       <h3 style="font-size: 2.5rem; font-weight: bold; color: #2b2d42;">Terms And Conditions</h3>
       <div style="margin-top: 10px; font-size: 1rem; color: #6c757d;">
-        <span>Home</span>
+        <span @click="navigateTo('/',{external: true})">Home</span>
         <span style="color: #c6c6c6; margin: 0 5px;">|</span>
         <span>Terms and Conditions</span>
       </div>

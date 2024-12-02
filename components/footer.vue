@@ -53,7 +53,7 @@
        
           <a tabindex="0" class="hover  transition-duration-150 cursor-pointer mt-3 block">Terms And Conditions</a>
         </li>
-        <li>
+        <li @click="navigateTo('/privacy_policy',{external: true})">
           <a tabindex="0"  class=" hover transition-duration-150 cursor-pointer mt-3 block">Privacy Policy</a>
         </li>
        
