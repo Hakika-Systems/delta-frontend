@@ -23,7 +23,7 @@
   <div class="flex align-items-center flex-order-0 lg:flex-order-1">
     
     <div class="p-inputgroup">
-  <input class="p-inputtext p-component" data-pc-name="inputtext" data-pc-section="root" type="text" placeholder="Enter your email address">
+  <input class="p-inputtext p-component " data-pc-name="inputtext" data-pc-section="root" type="text" placeholder="Enter your email address">
   <button class="p-button p-component surface-900 text-0 px-5 border-none" type="button" aria-label="Subscribe" data-pc-name="button" data-pc-section="root" data-pd-ripple="true">
     <!---->
     <span class="p-button-label" data-pc-section="label">Subscribe</span>
@@ -49,8 +49,9 @@
           <a tabindex="0"  class=" hover transition-duration-150 cursor-pointer mt-3 block">About Us</a>
         </li>
         
-        <li>
-          <a tabindex="0"  class="hover  transition-duration-150 cursor-pointer mt-3 block">Terms And Conditions</a>
+        <li  @click="navigateTo('/terms_and_conditions',{external: true})">
+       
+          <a tabindex="0" class="hover  transition-duration-150 cursor-pointer mt-3 block">Terms And Conditions</a>
         </li>
         <li>
           <a tabindex="0"  class=" hover transition-duration-150 cursor-pointer mt-3 block">Privacy Policy</a>
