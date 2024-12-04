@@ -3,7 +3,7 @@
     
     <div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
       <ul class="list-none p-0 m-0 flex flex-column md:flex-row">
-  <li class="relative mr-0 md:mr-8 flex-auto">
+  <li class="relative mb-5 mr-0 md:mr-8 flex-auto">
     <div class="border-1 surface-border surface-card border-round p-3 flex flex-column md:flex-row align-items-center z-1">
       <i class="pi pi-truck  text-2xl md:text-4xl mb-2 md:mb-0 mr-0 md:mr-3 topicons"></i>
       <div>
@@ -13,7 +13,7 @@
     </div>
     <div class="w-full absolute top-50 left-100 surface-300 hidden md:block" style="transform: translateY(-50%); height: 2px;"></div>
   </li>
-  <li class="relative mr-0 md:mr-8 flex-auto">
+  <li class="relative mb-5 mr-0 md:mr-8 flex-auto">
     <div class="border-1 surface-border surface-card border-round p-3 flex flex-column md:flex-row align-items-center z-1">
       <i class="pi pi-android topicons text-2xl md:text-4xl mb-2 md:mb-0 mr-0 md:mr-3"></i>
       <div>
@@ -23,7 +23,7 @@
     </div>
     <div class="w-full absolute top-50 left-100 surface-300 hidden md:block" style="transform: translateY(-50%); height: 2px;"></div>
   </li>
-  <li class="relative flex-auto">
+  <li class="relative mb-5 flex-auto">
     <div class="border-1 surface-border surface-card border-round p-3 flex flex-column md:flex-row align-items-center z-1">
       <i class="pi pi-credit-card topicons  text-2xl md:text-4xl mb-2 md:mb-0 mr-0 md:mr-3"></i>
       <div>
