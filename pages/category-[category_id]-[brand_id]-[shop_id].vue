@@ -5,7 +5,7 @@
      </div>
      <div class="px-4 py-4 md:px-6 lg:px-8">
       <div class="surface-section bg-no-repeat bg-cover bg-center flex align-items-center"
-     style="background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url('/irvines.jpeg'); background-size: contain; height: 220px; margin-top: 20px; padding: 0 20px;">
+     style="background: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url('https://api.pricelyst.co.zw/img/ads/1727962309.png'); background-size: contain; height: 365px; margin-top: 20px; padding: 0 20px;">
     </div>
      </div>
     
