@@ -24,6 +24,7 @@
     
     <div class="p-inputgroup">
   <input class="p-inputtext p-component " data-pc-name="inputtext" data-pc-section="root" type="text" placeholder="Enter your email address">
+  
   <button class="p-button p-component surface-900 text-0 px-5 border-none" type="button" aria-label="Subscribe" data-pc-name="button" data-pc-section="root" data-pd-ripple="true">
     <!---->
     <span class="p-button-label" data-pc-section="label">Subscribe</span>
