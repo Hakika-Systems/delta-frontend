@@ -40,7 +40,7 @@
                   <div class="flex justify-content-between align-items-center">
                     <span class="font-bold text-900 ml-2">{{findCurrency()}}{{product?.prices[0]?.price ? findConversionRatePrice(product.prices[0]?.price) : formatCurrency(0)}}</span>
                   </div>
-                  <div v-if="product?.details[0]?.quantity >= 1" class="custom-input-number">
+<div v-if="product?.details[0]?.quantity >= 1" class="custom-input-number">
     <!-- InputNumber with stacked buttons -->
     <InputNumber
       v-model="quantities[product.id]"
@@ -71,7 +71,7 @@
       @click="addToCart(product.id, product.prices[0]?.price)"
     />
   </div>
-                  <Button v-else :loading="loading" icon="pi pi-cart-arrow-down" label="Out of Stock" class="w-full mt-1 cart" disabled/>
+   <Button v-else :loading="loading" icon="pi pi-cart-arrow-down" label="Out of Stock" class="w-full mt-1 cart" disabled/>
                 </div>
               </div>
             </div>

@@ -127,13 +127,14 @@
     </InputNumber>
 
     <!-- Add to Cart Button -->
-    <Button
+    <Button v-if="product?.details[0]?.quantity >= 1"
       label="Add"
       :loading="current_id === product.id"
       icon="pi pi-cart-arrow-down"
       class="w-full p-button-success"
       @click="addToCart(product.id, product.prices[0]?.price)"
     />
+    <Button v-else :loading="loading" icon="pi pi-cart-arrow-down" label="Out of Stock" class="w-full mt-1 cart" disabled/>
   </div>
           <!-- <InputGroup class="w-full">
             <InputGroupAddon class="firstinput">
