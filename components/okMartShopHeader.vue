@@ -1,88 +1,129 @@
 <template>
 <Skeleton v-if="skeleton_loader" height="4rem" class="mb-2"></Skeleton>
-    <div v-else class="toppheader px-4 lg:px-8 py-3 lg:py-3 flex flex-column sm:flex-row w-full justify-content-between align-items-center">
-        <div>
-  <Button @click="goToLanding()" icon="pi pi-home" class="topbtn mr-2" label="Home" outlined/>
-  <Button @click="select_brand = true" icon="pi pi-sync" class="mr-2 topbtn" label="Choose Store" outlined />
-  <Button @click="track_order = true" icon="pi pi-map-marker" class="mr-2 topbtn" label="Track Order" outlined />
-</div>
-  <a tabindex="0" class="cursor-pointer h-full inline-flex align-items-center mt-3 sm:mt-0 md:py-0">
+<div v-else class="toppheader px-4 lg:px-8 py-3 lg:py-3 flex flex-column sm:flex-row w-full justify-content-between align-items-center">
+  <div class="flex flex-col sm:flex-row gap-2 sm:gap-4">
+    <!-- Buttons -->
+    <Button 
+      @click="select_brand = true" 
+      icon="pi pi-sync" 
+      class="topbtn" 
+      label="Choose Store" 
+      outlined 
+    />
+    <Button 
+      @click="track_order = true" 
+      icon="pi pi-map-marker" 
+      class="topbtn" 
+      label="Track Order" 
+      outlined 
+    />
+  </div>
+  
+  <!-- Current Shop Info -->
+  <a 
+    tabindex="0" 
+    class="cursor-pointer h-full inline-flex align-items-center mt-3 sm:mt-0 md:py-0 flex-shrink-0 text-center"
+  >
     <span class="text-0">You are currently shopping at {{ getActiveShopNameById() }}</span>
   </a>
-  
 </div>
-    <div class="okmartheader py-3 px-6  flex align-items-center justify-content-between relative">
-      <!-- Logo -->
-      <div class="flex items-center flex-grow-0">
-		<Skeleton v-if="skeleton_loader" width="10rem" height="4rem"></Skeleton>
-        <img v-else :src='mylogo' class="cursor-pointer" alt="Image" height="90"  @click="goToHome()">
-      </div>
-      <!-- Search Input -->
-      <div class="flex items-center col-6 flex-grow search-container">
-        <InputGroup class="w-full">
-		<Skeleton v-if="skeleton_loader" height="2rem" class="mb-2" borderRadius="16px"></Skeleton>
-        <InputText v-else @keyup="searchProducts()" v-model="search_text" id="input"  type="text" placeholder="Search Products" class="search-input px-4 py-2 w-full" autofocus />
-       </InputGroup>
-       <div class="results-box p-5" v-if="search_text">
-		<p v-if="search_products.length  < 1">No products from the searched keys</p>
-        <DataTable v-else :value="search_products" showGridlines tableStyle="min-width: 50rem">
-            <Column  style="width: 5%" >
-        <template #body="slotProps">
-            <img :src="getParsedImages(slotProps?.data?.product?.thumbnails)" :alt="slotProps?.data?.product?.name" class="imgt border-round" />
-        </template>
-    </Column>
-    <Column field="price" header="Product Name" style="width: 20%">
-        <template #body="slotProps">
-            {{ slotProps?.data?.product?.name }}
-        </template>
-    </Column>
-    <!-- <Column field="price" header="Category" style="width: 15%">
-        <template #body="slotProps">
-            {{ slotProps?.data?.product?.categories[0]?.name }}
-        </template>
-    </Column> -->
-    <Column field="price" header="Price" style="width: 10%">
-        <template #body="slotProps">
-            {{findCurrency()}}{{ slotProps?.data?.product?.prices[0]?.price }}
-        </template>
-    </Column>
-    <Column field="price" header="Shop" style="width: 10%">
-        <template #body="slotProps">
-            <Button :loading="current_id === slotProps?.data?.product?.id" @click="addToCart(slotProps?.data?.product,slotProps?.data?.quantity)" icon="pi pi-shopping-cart" aria-label="Submit" />
-        </template>
-    </Column>
-   
-    <!-- <Column field="price" header="Brand">
-        <template #body="slotProps">
-            {{ slotProps?.data?.product?.brand?.name }}
-        </template>
-    </Column> -->
-        </DataTable>
-       </div>
-      </div>
-      <div class="flex items-center col-5 flex-grow-0 account-cart-container">
-		<Skeleton v-if="skeleton_loader" height="2rem" width="5rem" class="mb-2"></Skeleton>
-        <Dropdown @change="saveCurrency()" v-else v-model="selected_currency" :options="brand_currencies" optionLabel="currency.iso_code" optionValue="id" placeholder="Select Currency" class="w-50 md:w-7rem" />
-		<Skeleton v-if="skeleton_loader" height="2rem" width="5rem" class="mb-2 ml-2"></Skeleton>
-     <a v-else class="text-white font-medium inline-flex align-items-center cursor-pointer px-3 hover:text-gray-200 p-ripple" data-pd-ripple="true">
-       <i class="pi pi-user mr-2 sm:mr-3 toptext text-sm"></i>
-       <span v-if="mytoken" class="toptext" @click="navigateTo('/myaccount',{external:true})">My Account</span>
-       <span v-else class="toptext" @click="navigateTo('/signin',{external:true})">Sign In</span>
-       <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
-     </a>
-	 <Skeleton v-if="skeleton_loader" height="2rem" width="8rem" class="mb-2 ml-2"></Skeleton>
-     <InputGroup v-else class="w-custom md:w-[30rem]">
-        <InputGroupAddon>
-            <i v-badge="getTotalItemsInCart()" @mouseenter="toggle" @click="toggle" class="pi pi-shopping-cart totalbadge" style="font-size: 25px;" />
-        </InputGroupAddon>
-		
-        <InlineMessage severity="secondary">{{findCurrency()}}{{ findConversionRatePrice(cart_total) }}</InlineMessage>
-        <!-- <InputNumber v-model="cartTotal()" class="inputtotal" disabled placeholder="0.00" /> -->
-        <Button @click="goToCheckout()" label="Checkout" class="checkoutbutton" icon="pi pi-angle-right" iconPos="right" severity="warn" />
+
+<div class="okmartheader py-3 px-6 flex flex-wrap lg:flex-nowrap align-items-center justify-content-between relative">
+  <!-- Logo -->
+  <div class="col-12 lg:col-2 flex items-center justify-center lg:justify-start mb-4 lg:mb-0">
+    <Skeleton v-if="skeleton_loader" width="10rem" height="4rem"></Skeleton>
+    <img v-else :src='mylogo' class="cursor-pointer" alt="Image" height="90" @click="goToHome()">
+  </div>
+
+  <!-- Search Input -->
+  <div class="col-12 lg:col-5 flex items-center justify-center mb-4 lg:mb-0 search-container">
+    <InputGroup class="w-full">
+      <Skeleton v-if="skeleton_loader" height="2rem" class="mb-2" borderRadius="16px"></Skeleton>
+      <InputText 
+        v-else 
+        @keyup="searchProducts()" 
+        v-model="search_text" 
+        id="input" 
+        type="text" 
+        placeholder="Search Products" 
+        class="search-input px-4 py-2 w-full" 
+        autofocus 
+      />
     </InputGroup>
-     <!-- <i v-badge.danger="'5'" class="pi pi-shopping-cart carticon" style="font-size: 1rem" /> -->
-      </div>
+    <div class="results-box p-5" v-if="search_text">
+      <p v-if="search_products.length < 1">No products from the searched keys</p>
+      <DataTable v-else :value="search_products" showGridlines tableStyle="min-width: 50rem">
+        <Column style="width: 5%">
+          <template #body="slotProps">
+            <img :src="getParsedImages(slotProps?.data?.product?.thumbnails)" :alt="slotProps?.data?.product?.name" class="imgt border-round" />
+          </template>
+        </Column>
+        <Column field="price" header="Product Name" style="width: 20%">
+          <template #body="slotProps">
+            {{ slotProps?.data?.product?.name }}
+          </template>
+        </Column>
+        <Column field="price" header="Price" style="width: 10%">
+          <template #body="slotProps">
+            {{ findCurrency() }}{{ slotProps?.data?.product?.prices[0]?.price }}
+          </template>
+        </Column>
+        <Column field="price" header="Shop" style="width: 10%">
+          <template #body="slotProps">
+            <Button :loading="current_id === slotProps?.data?.product?.id" @click="addToCart(slotProps?.data?.product,slotProps?.data?.quantity)" icon="pi pi-shopping-cart" aria-label="Submit" />
+          </template>
+        </Column>
+      </DataTable>
     </div>
+  </div>
+
+  <!-- Account and Cart -->
+  <div class="col-12 lg:col-2 flex flex-col lg:flex-row items-center justify-between">
+    <!-- Currency Switch -->
+    <Dropdown 
+      @change="saveCurrency()" 
+      v-model="selected_currency" 
+      :options="brand_currencies" 
+      optionLabel="currency.iso_code" 
+      optionValue="id" 
+      placeholder="Select Currency" 
+      class="w-50 lg:w-7rem mb-4 lg:mb-0 lg:mr-4" 
+    />
+
+    <!-- User Account -->
+    <a 
+      class="text-white font-medium inline-flex align-items-center cursor-pointer px-3 hover:text-gray-200 p-ripple mb-4 lg:mb-0"
+      data-pd-ripple="true"
+    >
+      <i class="pi pi-user mr-2 toptext text-sm"></i>
+      <span class="toptr" v-if="mytoken" @click="navigateTo('/myaccount', {external: true})">Account</span>
+      <span class="toptr" v-else @click="navigateTo('/signin', {external: true})">Sign In</span>
+    </a>
+  </div>
+  <div class="col-12 lg:col-3 flex flex-col lg:flex-row items-center justify-between">
+    <!-- Currency Switch -->
+
+    <!-- User Account -->
+   
+
+    <!-- Cart Total -->
+    <InputGroup class="w-full md:w-[30rem]">
+      <InputGroupAddon>
+        <i v-badge="getTotalItemsInCart()" @mouseenter="toggle" @click="toggle" class="pi pi-shopping-cart totalbadge" style="font-size: 25px;" />
+      </InputGroupAddon>
+      <InlineMessage severity="secondary">{{ findCurrency() }}{{ findConversionRatePrice(cart_total) }}</InlineMessage>
+      <Button 
+        @click="goToCheckout()" 
+        label="Checkout" 
+        class="checkoutbutton" 
+        icon="pi pi-angle-right" 
+        iconPos="right" 
+        severity="warn" 
+      />
+    </InputGroup>
+  </div>
+</div>
+
     <div class="belowheader okmartheader px-6  flex align-items-center justify-content-between relative lg:static">
       <div class="row col-12 mainnavv flex">
         <div class="col-md-3 col-2">
@@ -4314,5 +4355,8 @@ ul.menu li.column-1 .submenu > li > a i {
 }
 .p-megamenu.p-megamenu-horizontal .p-megamenu-root-list > .p-menuitem > .p-menuitem-content .p-menuitem-link .p-menuitem-text:hover {
     color: rgb(255, 255, 255) !important;
+}
+span.toptr {
+    color: #7a7474;
 }
 </style>
