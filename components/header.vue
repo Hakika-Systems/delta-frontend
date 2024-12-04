@@ -1,77 +1,96 @@
 <template>
-  <header class="th-header header-layout3">
-    <div class="menu-top">
-      <div class="">
-        <div class="row align-items-center p-2 justify-content-between">
-          <div class="col-2">
-            <div class="header-logoo">
-              <a href="#"
-                ><img
-                  src="/images/shopeasy_logo.png"
-                  alt="OK shop easy"
-                  style="height: auto;width:200px;"
-              /></a>
+<header class="th-header header-layout3">
+  <!-- Top Menu Section -->
+  <div class="menu-top">
+    <div class="container-fluid">
+      <div class="row align-items-center p-2">
+        <!-- Logo Section -->
+        <div class="col-sm-12 col-md-4 col-lg-6 text-center text-md-start mb-3 mb-md-0">
+          <div class="header-logoo">
+            <a href="#">
+              <img
+                src="/images/shopeasy_logo.png"
+                alt="OK shop easy"
+                class="logo img-fluid"
+              />
+            </a>
+          </div>
+        </div>
+
+        <!-- Brand Selection Section -->
+        <div class="col-sm-12 col-md-8 col-lg-6">
+          <div v-if="loading" class="d-flex justify-content-center justify-content-md-end">
+            <Skeleton class="h-3rem me-2" />
+            <Skeleton class="h-3rem" />
+          </div>
+          <div class="brands-section" v-if="!loading">
+            <span class="helper-text d-block text-center text-md-end mb-3">
+              Select a brand to explore
+            </span>
+            <div class="row g-2">
+              <div
+                v-for="brand in brands"
+                :key="brand.id"
+                class="col-sm-12 col-md-auto d-flex justify-content-center"
+              >
+                <div
+                  class="brand-item d-flex justify-content-center align-items-center border-round cursor-pointer"
+                  @click="selectShop(brand)"
+                >
+                  <img :src="brand.logo" :alt="brand.name" class="h-3rem" />
+                </div>
+              </div>
             </div>
           </div>
-          <!-- <div class="col-4 d-none d-lg-block">
-            <form class="header-search">
-              <input type="text" placeholder="Enter Keyword" />
-              <button type="submit"><i class="far fa-search"></i></button>
-            </form>
-          </div> -->
-          <div class="col-6 align-items-end">
-            <div v-if="loading" class="grid grid-nogutter align-items-center">
-  <div
-    class="col h-3rem text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors">
-    <Skeleton class="h-3rem" />
+        </div>
+      </div>
+    </div>
   </div>
-  <div
-    class="col h-3rem text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors">
-    <Skeleton class="h-3rem" />
-  </div>
-</div>
 
-<div v-if="!loading" class="relative align-items-end">
-  <div class="helper-text col-6">
-    Select a brand to explore!
-  </div>
-  <div class="brands-container">
-    <div v-for="brand in brands" :key="brand.id" 
-        class="brand-item h-3rem text-900 inline-flex justify-content-center align-items-center flex-shrink-0 border-round mr-3 cursor-pointer hover:surface-100 transition-duration-150 transition-colors" 
-        @click="selectShop(brand)">
-      <img :src="brand.logo" :alt="brand.name" class="h-3rem">
+  <!-- Sticky Navigation Area -->
+  <div class="sticky-wrapper">
+    <div class="menu-area">
+      <!-- Add your sticky navigation content here -->
     </div>
   </div>
-</div>
-</div>
-        </div>
-      </div>
-    </div>
-    <div class="sticky-wrapper">
-      <!-- Main Menu Area -->
-      <div class="menu-area">
-        <div class="">
-        </div>
-      </div>
-    </div>
-  </header>
+</header>
+
+
+
   <Dialog v-model:visible="select_shop" modal header="Shop Selection" :style="{ width: '25rem' }">
     <template #header>
-        <div class="inline-flex align-items-center justify-content-center gap-2">
-           
-            <span class="font-bold white-space-nowrap">Welcome to <img :src="shopLogo" :alt="shopName" class="h-3rem"></span>
-        </div>
+      <div class="inline-flex align-items-center justify-content-center gap-2">
+        <span class="font-bold white-space-nowrap">
+          Welcome to <img :src="shopLogo" :alt="shopName" class="h-3rem" />
+        </span>
+      </div>
     </template>
     <span class="p-text-secondary block mb-5">Select Branch.</span>
     <div class="flex align-items-center gap-3 mb-3">
-      <Dropdown v-model="shopBranch" :options="branches" filter optionLabel="name" optionValue="id" placeholder="Select a Store" checkmark :highlightOnSelect="false" class="w-full" />
+      <Dropdown
+        v-model="shopBranch"
+        :options="branches"
+        filter
+        optionLabel="name"
+        optionValue="id"
+        placeholder="Select a Store"
+        checkmark
+        :highlightOnSelect="false"
+        class="w-full"
+      />
     </div>
     <template #footer>
-        <Button :loading="loading" label="Shop Now" outlined severity="secondary" :disabled="!shopBranch" @click="goToShop()" />
+      <Button
+        :loading="loading"
+        label="Shop Now"
+        outlined
+        severity="secondary"
+        :disabled="!shopBranch"
+        @click="goToShop()"
+      />
     </template>
-</Dialog>
+  </Dialog>
 </template>
-
 <script setup lang="ts">
 const frontStore = useFrontStore();
 const toast = useToast()
@@ -315,12 +334,7 @@ const getFeaturedProducts = async (brand_id:any) => {
 }
 
 .helper-text::after {
-  content: '';
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 8px solid #f97316; /* Arrow color */
+  
 }
 
 .brands-container {
@@ -438,4 +452,59 @@ select, .form-control, .form-select, textarea, input {
 }
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css");
+</style>
+<style scoped>
+.logo {
+  height: auto;
+  max-width: 258px;
+}
+
+.brands-container {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 10px;
+}
+
+.brand-item img {
+  max-width: 100%;
+  height: auto;
+}
+
+@media screen and (max-width: 768px) {
+  .helper-text {
+    font-size: 12px;
+    margin-bottom: 5px;
+  }
+
+  .brands-container {
+    gap: 5px;
+  }
+
+  .brand-item img {
+    max-height: 2.5rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .header-logoo img {
+    max-width: 150px;
+  }
+
+  .helper-text {
+    font-size: 10px;
+  }
+}
+.header-logoo {
+    display: grid;
+    justify-content: flex-start;
+}
+.brands-section {
+    display: grid;
+    justify-content: flex-end;
+}
+.brand-item:hover {
+    border: solid #c7c7c7 1px;
+    padding: 5px;
+}
 </style>
