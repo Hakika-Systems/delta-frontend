@@ -24,7 +24,7 @@
     }"
   >
   <SwiperSlide v-for="(image, index) in banners" :key="index">
-      <img :src="image?.file" />
+    <NuxtImg format="webp"   width="1920" height="600" :src="image?.file" alt="OK ZIMBABWE" loading="lazy" />
     </SwiperSlide>
   </Swiper>
 <!-- <Carousel :value="products" :numVisible="1" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="3000">
@@ -52,7 +52,7 @@
     <template #item="{ data }">
       <div class="border-1 surface-border border-round m-2 p-3" style="min-height: 350px; display: flex; flex-direction: column; justify-content: space-between;">
         <div @click="goToDetailPage(data)" class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto cursor-pointer">
-          <img :src="getParsedImages(data.images)" class="product_image object-cover">
+          <NuxtImg format="webp"  :placeholder="[50, 50, 50, 50]"  width="auto" height="155" :src="getParsedImages(data.images)" class="product_image object-cover" alt="OK Shopeasy Strip Ad" loading="lazy" />
         </div>
         <div @click="goToDetailPage(data)" class="mb-3 font-medium nametext cursor-pointer">{{ data.name }}</div>
         <div class="mb-4">
@@ -93,7 +93,7 @@
       <div class="p-2">
         <div class="border-1 surface-border border-round m-2 p-3" style="min-height: 350px; display: flex; flex-direction: column; justify-content: space-between;">
           <div @click="goToDetailPage(product)" class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
-            <img :src="getParsedImages(product.images)" class="product_image object-cover" />
+            <NuxtImg format="webp" class="product_image object-cover" :placeholder="[50, 50, 50, 50]"  width="auto" height="155" :src="getParsedImages(product.images)" :alt="product?.name" loading="lazy" />
           </div>
           <div @click="goToDetailPage(product)" class="mb-3 font-medium nametext cursor-pointer">
             {{product.name }}
@@ -134,7 +134,7 @@
       class="w-full p-button-success"
       @click="addToCart(product.id, product.prices[0]?.price)"
     />
-    <Button v-else :loading="loading" icon="pi pi-cart-arrow-down" label="Out of Stock" class="w-full mt-1 cart" disabled/>
+    <Button v-else  icon="pi pi-cart-arrow-down" label="Out of Stock" class="w-full mt-1 cart" disabled/>
   </div>
           <!-- <InputGroup class="w-full">
             <InputGroupAddon class="firstinput">
@@ -170,7 +170,7 @@
 
     <!-- Banner after every 8 products -->
     <div v-if="(index + 1) % 12 === 0" :key="'banner-' + index" class="col-12">
-      <img :src="strip_banners[0].file" alt="Strip Banner" class="w-full" />
+      <NuxtImg format="webp"  :placeholder="[50, 50, 50, 50]"  width="auto" height="155" :src="strip_banners[0]?.file" alt="Strip Banner" class="w-full"  loading="lazy" />
     </div>
   </template>
 </div>
@@ -199,6 +199,12 @@
   import { createId } from '@paralleldrive/cuid2';
   const toast = useToast()
   const frontStore = useFrontStore()
+  useHead({
+  title: "OK ShopEasy Zimbabwe - Shop Page",
+  meta: [
+    { name: "description", content: "OKshop makes shopping in Zimbabwe easy and convenient!" },
+  ],
+});
   const mytoken = useCookie('token');
   const name = useCookie('username');
   const rows = ref(20)
@@ -501,8 +507,6 @@ const findConversionRatePrice = (price:any) => {
   const productIndex = products.value.findIndex((prod:any) => prod.id === product_id);
 
   if (productIndex === -1) {
-    console.log("product index is",productIndex)
-    console.error('Product not found');
     loading.value = false
     return;
   }
@@ -587,8 +591,6 @@ const addToCartFeatured = async (product_id: any,price:any) => {
   const productIndex = featured_products.value.findIndex((prod:any) => prod.id === product_id);
 
   if (productIndex === -1) {
-    console.log("product index is",productIndex)
-    console.error('Product not found');
     loading.value = false
     return;
   }

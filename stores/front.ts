@@ -700,7 +700,6 @@ export const useFrontStore = defineStore('front', {
       }
     },
     async sendReset(my_params: any) {
-      console.log("my_params",my_params.email)
       const url = `${SHOP_URL}/api/auth/forgot-password`;
       const token = useCookie('token').value || "";
       
@@ -728,7 +727,6 @@ export const useFrontStore = defineStore('front', {
       }
     },
     async changePassword(my_params: any) {
-      console.log("my_params",my_params.email)
       const url = `${SHOP_URL}/api/auth/reset-password`;
       const token = useCookie('token').value || "";
       

@@ -56,6 +56,12 @@ import Password from 'primevue/password';
 const authStore = useAuthStore()
 const frontStore = useFrontStore()
 const email = ref()
+useHead({
+  title: "OK ShopEasy Zimbabwe - Sign In",
+  meta: [
+    { name: "description", content: "OKshop makes shopping in Zimbabwe easy and convenient!" },
+  ],
+});
 const forgot = ref(false)
 const user_id = useCookie('user_id');
 const confirm_password = ref()
@@ -100,12 +106,10 @@ try {
 			      const cart_id:any = sessionStorage.getItem('cart_id');
             const current_cart_brand:any = sessionStorage.getItem('current_cart_brand')
             const current_cart_shop_id:any = sessionStorage.getItem('current_cart_shop_id')
-            console.log("cart_id: " + cart_id)
             if (cart_id) {
               let ccb = JSON.parse(current_cart_brand)
               let csi = JSON.parse(current_cart_shop_id)
               let gi = JSON.parse(guest_id)
-              console.log("variables to comapre",current_shop_id,ccb)
               if(current_shop_id === ccb) {
                  let params = {
                   user_id: user_idd,

@@ -1,8 +1,5 @@
 <template>
-  
-  <div v-if="!banners && !loading" class="th-hero-wrapper hero-3" id="hero" style="background-image: url(&quot;/images/se1.jpg&quot;);background-size: contain;">
-  </div>
-  <div v-else class="hero heroheight">
+  <div  class="hero heroheight">
   <Swiper
     :modules="[SwiperAutoplay, SwiperEffectCreative,SwiperNavigation,SwiperPagination]"
     :slides-per-view="1"
@@ -24,7 +21,7 @@
     }"
   >
   <SwiperSlide v-for="(image, index) in banners" :key="index">
-      <img :src="image?.file" />
+    <NuxtImg format="webp"  width="1920" height="600" :src="image?.file" alt="OK shopeasy banners" loading="lazy" />
     </SwiperSlide>
   </Swiper>
 </div>

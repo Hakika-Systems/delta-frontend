@@ -260,6 +260,12 @@
 <script setup lang="ts">
 
 const frontStore = useFrontStore()
+useHead({
+  title: "OK ShopEasy Zimbabwe - Registration",
+  meta: [
+    { name: "description", content: "OKshop makes shopping in Zimbabwe easy and convenient!" },
+  ],
+});
 const phoneNumber = ref()
 const countryCode = ref('FR')
 const results = ref()

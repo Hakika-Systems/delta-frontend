@@ -2,15 +2,9 @@
     <div v-if="okZimbabweProducts.length > 0" class="surface-ground px-4 py-8 md:px-6 lg:px-8">
         <div class="flex flex-wrap mb-5 relative" style="border-radius: 1rem; background: radial-gradient(100% 1126.49% at 100% 0%, rgb(238 28 37) 0%, rgb(238 28 37) 100%), rgb(33, 33, 33);">
             <div class="px-6 py-4">
-                <img src="/images/logos/okzim.jpg" class="w-12rem flex-shrink-0 mx-auto md:mx-0">
+              <NuxtImg format="webp" class="w-12rem flex-shrink-0 mx-auto md:mx-0"  src="/images/logos/okzim.jpg" alt="OK Zimbabwe" loading="lazy" />
             </div>
           </div>
-        <!-- <header class="flex w-full justify-content-between align-items-center  surface-border pb-5">
-            <div>
-                <img src="/images/logos/okzim.jpg" class="w-12rem flex-shrink-0 mx-auto md:mx-0">
-            </div>
-            <Button class="shopnow feat" label="Shop Now" />
-        </header> -->
         <div class="col-12 grid grid-nogutter align-items-center">
         <div class="col-12">
           <div class="grid">
@@ -18,7 +12,7 @@
               <div class="p-2">
                 <div class="border-1 surface-border border-round m-2 p-3" style="min-height: 350px; display: flex; flex-direction: column; justify-content: space-between;">
                   <div  class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
-                    <img :src="getParsedImages(product.images)" class="product_image object-cover">
+                    <NuxtImg format="webp" class="product_image object-cover" :placeholder="[50, 50, 50, 50]"  width="auto" height="155" :src="getParsedImages(product.images)" :alt="product?.name" loading="lazy" />
                   </div>
                   <div  class="mb-3 font-medium nametext cursor-pointer">{{ product.name}}</div>
                   <div class="mb-4">
@@ -40,7 +34,7 @@
     <div  v-if="bornemarcheProducts.length > 0" class="surface-ground px-4 py-8 md:px-6 lg:px-8">
         <div class="flex flex-wrap mb-5 relative" style="border-radius:1rem;background: radial-gradient(100% 1126.49% at 100% 0%, rgb(163 180 135) 0%, rgb(163 201 98) 100%), rgb(33, 33, 33);">
          <div class="px-6 py-4">
-            <img src="/images/logos/bonmarche.png" class="w-12rem flex-shrink-0 mx-auto md:mx-0">
+          <NuxtImg format="webp" class="w-12rem flex-shrink-0 mx-auto md:mx-0"  src="/images/logos/bonmarche.png" alt="OK Zimbabwe" loading="lazy" />
          </div>
          </div>
          <div class="col-12 grid grid-nogutter align-items-center">
@@ -50,7 +44,7 @@
               <div class="p-2">
                 <div class="border-1 surface-border border-round m-2 p-3" style="min-height: 350px; display: flex; flex-direction: column; justify-content: space-between;">
                   <div  class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
-                    <img :src="getParsedImages(product.images)" class="product_image object-cover">
+                    <NuxtImg format="webp" class="product_image object-cover" :placeholder="[50, 50, 50, 50]"  width="auto" height="155" :src="getParsedImages(product.images)" :alt="product?.name" loading="lazy" />
                   </div>
                   <div  class="mb-3 font-medium nametext cursor-pointer">{{ product.name }}</div>
                   <div class="mb-4">
@@ -72,7 +66,7 @@
     <div v-if="foodloversProducts.length > 0" class="surface-ground px-4 py-8 md:px-6 lg:px-8">
             <div class="flex flex-wrap mb-5 relative " style="border-radius: 1rem;background: radial-gradient(100% 1126.49% at 100% 0%, rgb(44 96 73) 0%, rgb(1 113 63) 100%), rgb(33, 33, 33);">
             <div class="px-6 py-4">
-                <img src="/images/logos/foodlovers.png" class="w-12rem flex-shrink-0 mx-auto md:mx-0">
+              <NuxtImg format="webp" class="w-12rem flex-shrink-0 mx-auto md:mx-0"  src="/images/logos/foodlovers.png" alt="OK Zimbabwe" loading="lazy" />
             </div>
           </div>
              <div class="col-12 grid grid-nogutter align-items-center">
@@ -82,7 +76,7 @@
               <div class="p-2">
                 <div class="border-1 surface-border border-round m-2 p-3" style="min-height: 350px; display: flex; flex-direction: column; justify-content: space-between;">
                   <div  class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
-                    <img :src="getParsedImages(product.images)" class="product_image object-cover">
+                    <NuxtImg format="webp" class="product_image object-cover" :placeholder="[50, 50, 50, 50]"  width="auto" height="155" :src="getParsedImages(product.images)" :alt="product?.name" loading="lazy" />
                   </div>
                   <div  class="mb-3 font-medium nametext cursor-pointer">{{ product.name }}</div>
                   <div class="mb-4">
@@ -104,7 +98,7 @@
     <div v-if="okmartProducts.length > 0" class="surface-ground px-4 py-8 md:px-6 lg:px-8">
         <div class="flex flex-wrap  relative mb-5" style="border-radius: 1rem;background: radial-gradient(100% 1126.49% at 100% 0%, rgb(238 28 37) 0%, rgb(238 28 37) 100%), rgb(33, 33, 33);">
             <div class="px-6 py-4">
-                <img src="/images/logos/okmart.jpg" class="w-12rem flex-shrink-0 mx-auto md:mx-0">
+              <NuxtImg format="webp" class="w-12rem flex-shrink-0 mx-auto md:mx-0"  src="/images/logos/okmart.jpg" alt="OK Zimbabwe" loading="lazy" />
             </div>
            </div>
         <div class="col-12 grid grid-nogutter align-items-center">
@@ -114,7 +108,7 @@
               <div class="p-2">
                 <div class="border-1 surface-border border-round m-2 p-3" style="min-height: 350px; display: flex; flex-direction: column; justify-content: space-between;">
                   <div  class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
-                    <img :src="getParsedImages(product.images)" class="product_image object-cover">
+                    <NuxtImg format="webp" class="product_image object-cover" :placeholder="[50, 50, 50, 50]"  width="auto" height="155" :src="getParsedImages(product.images)" :alt="product?.name" loading="lazy" />
                   </div>
                   <div  class="mb-3 font-medium nametext cursor-pointer">{{ product.name}}</div>
                   <div class="mb-4">
@@ -137,7 +131,7 @@
     <template #header>
         <div class="inline-flex align-items-center justify-content-center gap-2">
             <!-- <Avatar :image="shopLogo" shape="circle" /> -->
-            <span class="font-bold white-space-nowrap">Welcome to  <img :src="shopLogo" :alt="shopName" class="h-3rem"></span>
+            <span class="font-bold white-space-nowrap">Welcome to   <NuxtImg format="webp"  :src="shopLogo" :alt="shopName" class="h-3rem" loading="lazy" /></span>
         </div>
     </template>
     <span class="p-text-secondary block mb-5">Select Branch.</span>

@@ -32,7 +32,8 @@
   <!-- Logo -->
   <div class="col-12 lg:col-2 flex items-center justify-center lg:justify-start mb-4 lg:mb-0">
     <Skeleton v-if="skeleton_loader" width="10rem" height="4rem"></Skeleton>
-    <img v-else :src='mylogo' class="cursor-pointer" alt="Image" height="90" @click="goToHome()">
+	
+    <NuxtImg format="webp" v-else :src='mylogo' class="cursor-pointer" alt="Image" height="90" @click="goToHome()" loading="lazy" />
   </div>
 
   <!-- Search Input -->
@@ -55,7 +56,7 @@
       <DataTable v-else :value="search_products" showGridlines tableStyle="min-width: 50rem">
         <Column style="width: 5%">
           <template #body="slotProps">
-            <img :src="getParsedImages(slotProps?.data?.product?.thumbnails)" :alt="slotProps?.data?.product?.name" class="imgt border-round" />
+            <NuxtImg format="webp" :src="getParsedImages(slotProps?.data?.product?.thumbnails)" loading="lazy" :alt="slotProps?.data?.product?.name" class="imgt border-round" />
           </template>
         </Column>
         <Column field="price" header="Product Name" style="width: 20%">
@@ -153,7 +154,7 @@
     <!-- Banner Section -->
     <div class="col-4">
       <div class="banner-container">
-        <img :src="getMenuBannerUrl(item?.banners)" alt="Banner Image" class="banner-image">
+        <NuxtImg format="webp" :src="getMenuBannerUrl(item?.banners)" alt="Banner Image" loading="lazy" class="banner-image" />
       </div>
     </div>
   </div>
@@ -178,7 +179,7 @@
                     <ul class="list-none p-0 m-0 flex flex-column gap-3">
                         <p v-if="cart.length === 0">No Items in Cart</p>
                         <li v-else v-for="(item, index) in cart" :key="item?.id" class="flex align-items-center gap-2">
-                <img :src="getParsedImages(item?.product?.thumbnails)" style="width: 32px" />
+                <NuxtImg :src="getParsedImages(item?.product?.thumbnails)" style="width: 32px" format="webp" loading="lazy" />
                 <div class="col-4 flex align-items-center gap-2 text-color-secondary text-sm">
                     <span class="font-medium">{{ item.product.name }}</span>
                 </div>
@@ -244,7 +245,7 @@
     <template #header>
         <div class="inline-flex align-items-center justify-content-center gap-2">
            
-            <span class="font-bold white-space-nowrap">Welcome to <img :src="shopLogo" :alt="shopName" class="h-3rem"></span>
+            <span class="font-bold white-space-nowrap">Welcome to <NuxtImg format="webp" loading="lazy" :src="shopLogo" :alt="shopName" class="h-3rem"/></span>
         </div>
     </template>
     <span class="p-text-secondary block mb-5">Select Branch.</span>
@@ -301,7 +302,6 @@
 		sessionStorage.setItem('selected_currency', JSON.stringify(selected_currency.value))
 	}
 	const getCart = () => {
-	console.log("getting cart again")
 	let gi:any
 	let current_shop_id:any
 	let sc:any

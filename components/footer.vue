@@ -102,7 +102,7 @@
 </div>
 <div class=" px-3 py-4 lg:px-8 flex flex-column lg:flex-row justify-content-between align-items-center">
   <div v-for="brand in brands" class="col-fixed flex justify-content-center md:justify-content-start flex-wrap flex-order-1 lg:flex-order-0">
-    <img :src="brand.logo" class="w-6rem mb-3 md:mb-0 mr-3" alt="Amex">
+    <NuxtImg format="webp"  :placeholder="[50, 50, 50, 50]"  width="auto" height="155" :src="brand.logo" class="w-6rem mb-3 md:mb-0 mr-3" :alt="brand?.name" loading="lazy" />
    
   </div>
   <div class="col-fixed flex align-items-center flex-order-0 lg:flex-order-1">

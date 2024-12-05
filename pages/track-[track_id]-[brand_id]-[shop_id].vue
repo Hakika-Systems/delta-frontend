@@ -83,7 +83,12 @@ import { useToast } from 'primevue/usetoast';
 const {params:{track_id,shop_id,brand_id}} = useRoute()
 const toast = useToast();
 const frontStore = useFrontStore();
-
+useHead({
+  title: "OK ShopEasy Zimbabwe - Order Tracking",
+  meta: [
+    { name: "description", content: "OKshop makes shopping in Zimbabwe easy and convenient!" },
+  ],
+});
 const orderID = ref();
 const orderDetails:any = ref();
 const loading = ref(false);

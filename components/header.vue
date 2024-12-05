@@ -1,43 +1,42 @@
 <template>
-<header class="th-header header-layout3">
-  <!-- Top Menu Section -->
-  <div class="menu-top">
-    <div class="container-fluid">
-      <div class="row align-items-center p-2">
-        <!-- Logo Section -->
-        <div class="col-sm-12 col-md-4 col-lg-6 text-center text-md-start mb-3 mb-md-0">
-          <div class="header-logoo">
-            <a href="#">
-              <img
-                src="/images/shopeasy_logo.png"
-                alt="OK shop easy"
-                class="logo img-fluid"
-              />
-            </a>
+  <header class="th-header header-layout3">
+    <!-- Top Menu Section -->
+    <div class="menu-top">
+      <div class="container-fluid">
+        <div class="row align-items-center p-2">
+          <!-- Logo Section -->
+          <div class="col-sm-12 col-md-4 col-lg-6 text-center text-md-start mb-3 mb-md-0">
+            <div class="header-logoo">
+              <a href="#">
+                <NuxtImg format="webp"  class="logo img-fluid" width="200" height="50" src="/images/shopeasy_logo.png" alt="Ok Shop Easy Logo" loading="lazy" />
+              </a>
+            </div>
           </div>
-        </div>
 
-        <!-- Brand Selection Section -->
-        <div class="col-sm-12 col-md-8 col-lg-6">
-          <div v-if="loading" class="d-flex justify-content-center justify-content-md-end">
-            <Skeleton class="h-3rem me-2" />
-            <Skeleton class="h-3rem" />
-          </div>
-          <div class="brands-section" v-if="!loading">
-            <span class="helper-text d-block text-center text-md-end mb-3">
-              Select a brand to explore
-            </span>
-            <div class="row g-2">
-              <div
-                v-for="brand in brands"
-                :key="brand.id"
-                class="col-sm-12 col-md-auto d-flex justify-content-center"
-              >
+          <!-- Brand Selection Section -->
+          <div class="col-sm-12 col-md-8 col-lg-6">
+            <div v-if="loading" class="d-flex justify-content-center justify-content-md-end">
+              <Skeleton class="h-3rem me-2" />
+              <Skeleton class="h-3rem" />
+            </div>
+            <div class="brands-section" v-if="!loading">
+              <span class="helper-text d-block text-center text-md-end mb-3">
+                Select a brand to explore
+              </span>
+              <div class="row g-2">
                 <div
-                  class="brand-item d-flex justify-content-center align-items-center border-round cursor-pointer"
-                  @click="selectShop(brand)"
+                  v-for="brand in brands"
+                  :key="brand.id"
+                  class="col-sm-12 col-md-auto d-flex justify-content-center"
                 >
-                  <img :src="brand.logo" :alt="brand.name" class="h-3rem" />
+                  <div
+                    class="brand-item d-flex justify-content-center align-items-center border-round cursor-pointer"
+                    @click="selectShop(brand)"
+                    tabindex="0"
+                    aria-label="Select Brand"
+                  >
+                  <NuxtImg format="webp" :placeholder="[50, 50, 50, 50]" class="h-3rem" width="50" height="70" :src="brand.logo" :alt="brand.name" loading="lazy" />
+                  </div>
                 </div>
               </div>
             </div>
@@ -45,23 +44,20 @@
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Sticky Navigation Area -->
-  <div class="sticky-wrapper">
-    <div class="menu-area">
-      <!-- Add your sticky navigation content here -->
+    <!-- Sticky Navigation Area -->
+    <div class="sticky-wrapper">
+      <div class="menu-area">
+        <!-- Add your sticky navigation content here -->
+      </div>
     </div>
-  </div>
-</header>
-
-
+  </header>
 
   <Dialog v-model:visible="select_shop" modal header="Shop Selection" :style="{ width: '25rem' }">
     <template #header>
       <div class="inline-flex align-items-center justify-content-center gap-2">
         <span class="font-bold white-space-nowrap">
-          Welcome to <img :src="shopLogo" :alt="shopName" class="h-3rem" />
+          Welcome to <NuxtImg format="webp" :placeholder="[50, 50, 50, 50]" class="h-3rem" width="50" height="50" :src="shopLogo" :alt="shopName" loading="lazy" />
         </span>
       </div>
     </template>
@@ -311,11 +307,12 @@ const getFeaturedProducts = async (brand_id:any) => {
   return featured.value;
 }
 </script>
-
-
-
-
 <style scoped>
+/* Import external stylesheets first */
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css");
+
+/* General Styles */
 .relative {
   display: flex;
   flex-direction: column;
@@ -331,10 +328,6 @@ const getFeaturedProducts = async (brand_id:any) => {
   display: flex;
   align-items: center;
   gap: 5px;
-}
-
-.helper-text::after {
-  
 }
 
 .brands-container {
@@ -359,100 +352,109 @@ const getFeaturedProducts = async (brand_id:any) => {
   50% { opacity: 1; }
 }
 
+/* Header Styles */
 .header-layout3 .header-top {
-    --body-color: #54595f;
-    background-color: #e48b4b !important;
-    border-bottom: 1px solid var(--th-border-color);
+  --body-color: #54595f;
+  background-color: #e48b4b !important;
+  border-bottom: 1px solid var(--th-border-color);
 }
+
 .header-links li, .header-links span, .header-links p, .header-links a {
-    color: #ffffff !important;
+  color: #ffffff !important;
 }
+
 .header-layout3 .menu-area {
-    position: relative;
-    z-index: 2;
-    background-color: #ffffff !important;
+  position: relative;
+  z-index: 2;
+  background-color: #ffffff !important;
 }
+
 .menu-top {
-    border-bottom: 1px solid #d8caca;
+  border-bottom: 1px solid #d8caca;
 }
+
 .topcurrency {
-    border-radius: 35px !important;
+  border-radius: 35px !important;
 }
-/* input.p-inputtext.p-component.searchinput.p-inputtext.p-component.surface-section.text-600.surface-border.w-full {
-    border-radius: 30px 0px 0px 30px;
-} */
+
 button.shop-now-btn {
-    background-color: #f97316 !important;
-    padding: 5px !important;
-    color: white !important;
-    border-radius: 23px !important;
-    border: none !important;
-    font-size: 11px !important;
+  background-color: #f97316 !important;
+  padding: 5px !important;
+  color: white !important;
+  border-radius: 23px !important;
+  border: none !important;
+  font-size: 11px !important;
 }
+
 .menu-expand {
-    display: inline-block;
-    font-size: 16px;
-    font-weight: 700;
-    margin-left: 31px;
-    border-radius: 69px;
-    text-transform: uppercase;
-    color: var(--white-color);
-    background-color: #f7941f;
-    padding: 8px 40px;
-    width: 63%;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 700;
+  margin-left: 31px;
+  border-radius: 69px;
+  text-transform: uppercase;
+  color: var(--white-color);
+  background-color: #f7941f;
+  padding: 8px 40px;
+  width: 63%;
 }
+
+/* Results Box */
 .results-box {
-    position: absolute;
-    width: 1120px;
-    margin-top: 3px;
-    border: 1px solid #ccc;
-    /* border-top: none; */
-    border-radius: 0 0 4px 4px;
-    max-height: 350px;
-    overflow-y: auto;
-    background-color: #fff;
-    z-index: 1000;
+  position: absolute;
+  width: 1120px;
+  margin-top: 3px;
+  border: 1px solid #ccc;
+  border-radius: 0 0 4px 4px;
+  max-height: 350px;
+  overflow-y: auto;
+  background-color: #fff;
+  z-index: 1000;
 }
+
 img.h-3rem {
-    border-radius: 32px;
+  border-radius: 32px;
 }
+
+/* Buttons */
 button.p-button.p-component.my-account {
-    background-color: white;
-    color: black;
-    border-radius: 30px;
-    border-color: #d0d0d0;
+  background-color: white;
+  color: black;
+  border-radius: 30px;
+  border-color: #d0d0d0;
 }
-select, .form-control, .form-select, textarea, input {
-    height: 50px !important;
-    padding: 0 25px 0 25px;
-    padding-right: 45px;
-    border: 1px solid transparent;
-    color: var(--body-color);
-    background-color: var(--smoke-color2);
-    border-radius: 27px;
-    font-size: 16px;
-    width: 100%;
-    font-family: var(--body-font);
-    -webkit-transition: 0.4s ease-in-out;
-    transition: 0.4s ease-in-out;
-}
+
 .p-button.p-button-icon-only {
-    width: 2.5rem;
-    padding: 1.5rem 0;
+  width: 2.5rem;
+  padding: 1.5rem 0;
 }
+
 .p-button[data-v-37e9dcf2] {
-    color: #a81010;
-    background: #f97316 !important;
-    border: 1px solid #f97316 !important;
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s, outline-color 0.2s;
-    border-radius: 6px;
-    outline-color: transparent;
+  color: #a81010;
+  background: #f97316 !important;
+  border: 1px solid #f97316 !important;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s, outline-color 0.2s;
+  border-radius: 6px;
+  outline-color: transparent;
 }
-@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css");
-@import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css");
+
+/* Form Controls */
+select, .form-control, .form-select, textarea, input {
+  height: 50px !important;
+  padding: 0 25px;
+  border: 1px solid transparent;
+  color: var(--body-color);
+  background-color: var(--smoke-color2);
+  border-radius: 27px;
+  font-size: 16px;
+  width: 100%;
+  font-family: var(--body-font);
+  transition: 0.4s ease-in-out;
+}
 </style>
+
 <style scoped>
 .logo {
   height: auto;

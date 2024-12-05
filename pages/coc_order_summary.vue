@@ -24,7 +24,7 @@
                 <div class="border-round surface-border border-1">
                   <ul class="list-none p-0 m-0">
                     <li v-for="item in order_items" class="p-2 border-bottom-1 surface-border flex align-items-start sm:align-items-center">
-                      <img :src="getParsedImages(item.product.images)" class="w-3rem sm:w-8rem flex-shrink-0 mr-3 shadow-2 custom">
+                      <NuxtImg :src="getParsedImages(item.product.images)" class="w-3rem sm:w-8rem flex-shrink-0 mr-3 shadow-2 custom" loading="lazy" format="webp"/>
                       <div class="flex flex-column">
                         <span class="text-900 font-medium text-xl mb-2">{{ item.product.name }}</span>
                         <span class="text-600 mb-3">Quantity ({{ item.quantity }})</span>
@@ -48,14 +48,6 @@
                     <div class="flex flex-column text-900 mt-3 mb-5">
                       <span class="mb-1">Collection</span>
                     </div>
-                    </div>
-                    <span class="font-medium text-900">Payment</span>
-                    <div class="flex align-items-center mt-3">
-                      <img src="/images/paynow.png" class="w-4rem mr-3">
-                      <div class="flex flex-column">
-                        <span class="text-900 mb-1">Visa Debit Card</span>
-                        <span class="text-900 font-medium">**** **** **** 1234</span>
-                      </div>
                     </div>
                   </div>
                   <div class="w-full lg:w-6 pl-3 lg:pl-0 lg:pr-3 flex align-items-end mt-5 lg:mt-0">
@@ -91,7 +83,12 @@
   const frontStore = useFrontStore()
   const order_items = ref()
   const old_cart_id = storeToRefs(frontStore).old_cart_id
-  
+  useHead({
+  title: "OK ShopEasy Zimbabwe - Order Summary",
+  meta: [
+    { name: "description", content: "OKshop makes shopping in Zimbabwe easy and convenient!" },
+  ],
+});
   const getParsedImages = (images: string) => {
   try {
     const parsedImages = JSON.parse(images);

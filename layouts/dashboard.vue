@@ -5,70 +5,83 @@
       rel="apple-touch-icon"
       sizes="57x57"
       href="/assets/img/favicons/apple-icon-57x57.png"
+      loading="lazy"
     />
     <link
       rel="apple-touch-icon"
       sizes="60x60"
       href="/assets/img/favicons/apple-icon-60x60.png"
+      loading="lazy"
     />
     <link
       rel="apple-touch-icon"
       sizes="72x72"
       href="/assets/img/favicons/apple-icon-72x72.png"
+      loading="lazy"
     />
     <link
       rel="apple-touch-icon"
       sizes="76x76"
       href="/assets/img/favicons/apple-icon-76x76.png"
+      loading="lazy"
     />
     <link
       rel="apple-touch-icon"
       sizes="114x114"
       href="/assets/img/favicons/apple-icon-114x114.png"
+      loading="lazy"
     />
     <link
       rel="apple-touch-icon"
       sizes="120x120"
       href="/assets/img/favicons/apple-icon-120x120.png"
+      loading="lazy"
     />
     <link
       rel="apple-touch-icon"
       sizes="144x144"
       href="/assets/img/favicons/apple-icon-144x144.png"
+      loading="lazy"
     />
     <link
       rel="apple-touch-icon"
       sizes="152x152"
       href="/assets/img/favicons/apple-icon-152x152.png"
+      loading="lazy"
     />
     <link
       rel="apple-touch-icon"
       sizes="180x180"
       href="/assets/img/favicons/apple-icon-180x180.png"
+      loading="lazy"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="192x192"
       href="/assets/img/favicons/android-icon-192x192.png"
+      loading="lazy"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="32x32"
       href="/assets/img/favicons/favicon-32x32.png"
+      loading="lazy"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="96x96"
       href="/assets/img/favicons/favicon-96x96.png"
+      loading="lazy"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="16x16"
       href="/assets/img/favicons/favicon-16x16.png"
+      loading="lazy"
     />
     <link rel="manifest" href="/assets/img/favicons/manifest.json" />
     <meta name="msapplication-TileColor" content="#ffffff" />
@@ -88,7 +101,6 @@
       rel="stylesheet"
     />
 
-    <link rel="manifest" href="/assets/img/favicons/manifest.json" />
     <link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/assets/css/primeblocks.css" />
     <!-- Fontawesome Icon -->
@@ -99,11 +111,6 @@
     <link rel="stylesheet" href="/assets/css/swiper-bundle.min.css" />
     <!-- Theme Custom CSS -->
     <link rel="stylesheet" href="/assets/css/style.css" />
-    <!-- ======== sidebar-nav start =========== -->
-
-    <!-- ======== sidebar-nav end =========== -->
-
-    <!-- ======== main-wrapper start =========== -->
 
     <!-- ========== header start ========== -->
     <Header />
@@ -113,9 +120,6 @@
     <Hero />
     <slot />
     <Footer />
-
-    <!-- ========== footer start =========== -->
-
     <!-- ========== footer end =========== -->
   </main>
 </template>
@@ -129,46 +133,25 @@ export default defineNuxtComponent({
         { name: "viewport", content: "width=device-width, initial-scale=0.7" },
         {
           hid: "description",
-          name: "erp system for silverlands zambia",
-          content: "Silverlands Holdings Zambia",
+          name: "OK shopeasy e-commerce system description",
+          content: "OK Zimbabwe Limited",
         },
       ],
-      link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+      link: [
+        { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+      ],
       script: [
-        {
-          src: "/assets/js/vendor/jquery-3.6.0.min.js",
-        },
-        {
-          src: "/assets/js/swiper-bundle.min.js",
-        },
-        {
-          src: "/assets/js/bootstrap.min.js",
-        },
-        {
-          src: "/assets/js/jquery.magnific-popup.min.js",
-        },
-        {
-          src: "/assets/js/jquery.counterup.min.js",
-        },
-        {
-          src: "/assets/js/jquery-ui.min.js",
-        },
-        {
-          src: "/assets/js/imagesloaded.pkgd.min.js",
-        },
-        {
-          src: "/assets/js/isotope.pkgd.min.js",
-        },
-        {
-          src: "/assets/js/main.js",
-        }
+        { src: "/assets/js/vendor/jquery-3.6.0.min.js", defer: true },
+        { src: "/assets/js/swiper-bundle.min.js", defer: true },
+        { src: "/assets/js/bootstrap.min.js", defer: true },
+        { src: "/assets/js/jquery.magnific-popup.min.js", async: true },
+        { src: "/assets/js/jquery.counterup.min.js", async: true },
+        { src: "/assets/js/jquery-ui.min.js", async: true },
+        { src: "/assets/js/imagesloaded.pkgd.min.js", async: true },
+        { src: "/assets/js/isotope.pkgd.min.js", async: true },
+        { src: "/assets/js/main.js", defer: true },
       ],
     };
   },
 });
 </script>
-<style>
-/* body {
-    zoom: 0.7;
-  } */
-</style>

@@ -35,7 +35,7 @@
     </div>
     <div class="flex flex-wrap align-items-center justify-content-between mt-6">
       <div class="flex align-items-center justify-content-start md:mb-0 mb-3">
-        <img src="/assets/img/okshop.jpg" alt="Image" style="height: auto;width:200px;">
+        <NuxtImg src="/assets/img/okshop.jpg" alt="Image" loading="lazy" format="webp" style="height: auto;width:200px;" />
       </div>
       <div class="flex align-items-center justify-content-between md:mb-0 mb-3">
         <a class="text-700 cursor-pointer md:ml-5 ml-2">Brand Policy</a>

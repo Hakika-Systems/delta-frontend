@@ -1,5 +1,6 @@
 export default defineNuxtPlugin(() => {
-    if (process.client) {
+  if (process.client) {
+    setTimeout(() => {
       var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
       (function() {
         var s1 = document.createElement("script");
@@ -10,7 +11,6 @@ export default defineNuxtPlugin(() => {
         s1.setAttribute("crossorigin", "*");
         s0.parentNode.insertBefore(s1, s0);
       })();
-    }
-  });
-  
-  
+    }, 10000); // 10 seconds delay
+  }
+});

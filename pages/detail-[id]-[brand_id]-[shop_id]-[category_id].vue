@@ -7,7 +7,7 @@
             <div class="grid grid-nogutter lg:flex-column">
               <div class="col-12 lg:col-12 mb-5">
                 <div class="border-round surface-section p-4 shadow-2 flex align-items-center justify-content-center">
-                  <img :src="getParsedImages(product?.images)" class="product_image border-round">
+                  <NuxtImg :src="getParsedImages(product?.images)" class="product_image border-round" loading="lazy" format="webp" />
                  </div>
               </div>
               <div class="col-12">
@@ -87,7 +87,7 @@
                           <div class="p-2">
                               <div class="border-1 surface-border border-round m-2 p-3">
                                   <div @click="goToDetailPage(item)" class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
-                                      <img :src="getParsedImages(item?.images)" class="w-full product_image object-cover">
+                                      <NuxtImg :src="getParsedImages(item?.images)" class="w-full product_image object-cover" loading="lazy" format="webp" />
                                   </div>
                                   <div @click="goToDetailPage(item)" class="mb-3 font-medium nametext cursor-pointer">{{ addEllipsis(item.name) }}</div>
                                   <div class="flex justify-content-between align-items-center">
@@ -142,6 +142,12 @@ const products:any = storeToRefs(frontStore).products
 import { createId } from '@paralleldrive/cuid2';
 const cart:any = storeToRefs(frontStore).cart
 const {params:{id,brand_id,shop_id,category_id}} = useRoute()
+useHead({
+  title: "OK ShopEasy Zimbabwe - Detail Page",
+  meta: [
+    { name: "description", content: "OKshop makes shopping in Zimbabwe easy and convenient!" },
+  ],
+});
 const toast = useToast()
 const brand_idd:any = storeToRefs(frontStore).brand_id
 const shop_idd:any = storeToRefs(frontStore).shop_id

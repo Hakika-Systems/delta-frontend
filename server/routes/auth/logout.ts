@@ -21,14 +21,11 @@ export default defineEventHandler(async (event) => {
 
         response.success = true;
         response.message = "Logged out successfully.";
-        console.log("Logout successful:", response);
     } catch (error: any) {
-        console.error("Logout error:", error);
 
         // If the error is related to token expiration, attempt to refresh the token
         if (error.message === "TokenExpiredError") {
             try {
-                console.log("Attempting to refresh token...");
                 // Refresh the token using the refresh token
                 const newToken = await refreshToken();
 
@@ -43,21 +40,17 @@ export default defineEventHandler(async (event) => {
 
                 response.success = true;
                 response.message = "Logged out successfully after refreshing the token.";
-                console.log("Logout successful after refresh:", response);
             } catch (refreshError: any) {
-                console.error("Token refresh error:", refreshError);
                 // If refreshing the token fails, forcibly delete cookies
                 deleteAllCookies(event);
                 response.success = true;
                 response.message = "Logout completed with token refresh failure. Cookies have been cleared.";
-                console.log("Forced logout after failed refresh:", response);
             }
         } else {
             // If it's another type of error, forcibly delete cookies
             deleteAllCookies(event);
             response.success = true;
             response.message = "Logout completed despite errors. Cookies have been cleared.";
-            console.log("Forced logout after other errors:", response);
         }
     }
 
@@ -78,10 +71,8 @@ export const logout = async () => {
 
     try {
         const response = await axios.post(url, body, { headers });
-        console.log("Logout API response:", response.data);
         return response.data;
     } catch (error: any) {
-        console.error("Logout API error:", error.response?.data || error.message);
         // If the error is due to an expired token, throw a specific error
         if (error.response?.status === 401 && error.response?.data?.error === "TokenExpiredError") {
             throw new Error("TokenExpiredError");
@@ -103,8 +94,6 @@ export const refreshToken = async () => {
 
     try {
         const response = await axios.post(url, body, { headers });
-        console.log("Refresh token API response:", response.data);
-
         // Optionally, update the token in cookies if needed
         //@ts-ignore
         setCookie(event, "token", JSON.stringify(response.data.token));
@@ -122,5 +111,4 @@ const deleteAllCookies = (event: any) => {
     deleteCookie(event, "refresh_token");
     deleteCookie(event, "user_id");
     deleteCookie(event, "username");
-    console.log("All cookies have been forcibly deleted.");
 };

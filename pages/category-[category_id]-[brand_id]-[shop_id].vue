@@ -32,7 +32,7 @@
               <div class="p-2">
                 <div class="border-1 surface-border border-round m-2 p-3">
                   <div @click="goToDetailPage(product)" class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
-                    <img :src="getParsedImages(product.images)" class="product_image object-cover">
+                    <NuxtImg :src="getParsedImages(product.images)" class="product_image object-cover" loading="lazy" format="webp" />
                   </div>
                   <div @click="goToDetailPage(product)" class="mb-3 font-medium nametext cursor-pointer">{{ addEllipsis(product.name) }}</div>
                   <div class="mb-4">
@@ -89,6 +89,12 @@
   import { createId } from '@paralleldrive/cuid2';
   const toast = useToast()
   const frontStore = useFrontStore()
+  useHead({
+  title: "OK ShopEasy Zimbabwe - Category Page",
+  meta: [
+    { name: "description", content: "OKshop makes shopping in Zimbabwe easy and convenient!" },
+  ],
+});
   const mytoken = useCookie('token');
   const name = useCookie('username');
   const user_id = useCookie('user_id');

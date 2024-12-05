@@ -132,6 +132,12 @@
  //@ts-ignore
  const add_address = ref(false)
  const toast = useToast()
+ useHead({
+  title: "OK ShopEasy Zimbabwe - Order Details",
+  meta: [
+    { name: "description", content: "OKshop makes shopping in Zimbabwe easy and convenient!" },
+  ],
+});
  import { FilterMatchMode } from 'primevue/api';
  const loading = ref(false)
  const address_types = ref()
@@ -176,7 +182,6 @@
  const delivery_option = ref()
  const my_current_stage = ref()
  const user_id = useCookie('user_id');
- console.log('user',user_id.value)
  const addAddress = () => {
   add_address.value = true
  }
@@ -247,7 +252,6 @@
  }
  onMounted(() => {
    let all_addresses = frontStore.getAllAddressTypes().then((data) => {
-     console.log("my address types",data.data.data)
      address_types.value = data?.data?.data
    })
    let delivery = frontStore.getAllOrderStages().then((data) => {
@@ -262,7 +266,6 @@
      my_addresses.value = data?.data?.data
    })
    let orders = frontStore.getMyOrders(user_id.value).then((data) => {
-    console.log('orders',data.data.orders)
      my_orders.value = data?.data?.orders
    })
  })

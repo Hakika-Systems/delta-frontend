@@ -161,14 +161,13 @@
                 <div class="text-900 col-12 font-medium text-xl mt-4 lg:mt-0 mb-4 px-2"> Select Payment Method</div>
                 <div :disabled="loading" v-if="delivery_option === 'Collection'"  @click="toggleOptionCheckbox(payment_options[0].id,payment_options[0].name)" class="col-3 p-3 d-flex justify-content-center align-items-center">
                   <div :class="{'border-top': payment_options[0].id === current_payment_option}" class="payheight flex flex-column border-round border-1 surface-border p-4 cursor-pointer hover:border-primary transition-duration-150 d-flex justify-content-center align-items-center">
-                    <img :src="payment_options[0].logo" class="w-8rem" alt="Visa" >
-                    
+                    <NuxtImg :src="payment_options[0].logo" class="w-8rem" alt="Visa" loading="lazy" format="webp" />
                   </div>
                   <small v-if="!current_payment_option" style="color: red;">Required</small>
                 </div>
                 <div  :disabled="loading" @click="toggleOptionCheckbox(payment_options[1].id,payment_options[1].name)" class="col-3 p-3 d-flex justify-content-center align-items-center">
                   <div :class="{'border-top': payment_options[1].id === current_payment_option}" class="payheight flex flex-column border-round border-1 surface-border p-4 cursor-pointer hover:border-primary transition-duration-150 d-flex justify-content-center align-items-center">
-                    <img :src="payment_options[1].logo" class="w-8rem" alt="Visa" >
+                    <NuxtImg :src="payment_options[1].logo" class="w-8rem" alt="Visa" loading="lazy" format="webp"/>
                   </div>
                   <small v-if="!current_payment_option" style="color: red;">Required</small>
                 </div>
@@ -188,7 +187,7 @@
                     <i class="pi pi-shopping-cart text-xl mr-2"></i>Your Order  </span>
                 </div>
                 <div v-for="(item, index) in cart" :key="index" class="flex flex-column lg:flex-row flex-wrap lg:align-items-center py-3 my-3 border-bottom-1 surface-border">
-                  <img :src="getParsedImages(item?.product?.thumbnails)" class="cimage flex-shrink-0 mb-3">
+                  <NuxtImg :src="getParsedImages(item?.product?.thumbnails)" class="cimage flex-shrink-0 mb-3" loading="lazy" format="webp" />
                   <div class="flex-auto lg:ml-3">
                     <div class="flex align-items-center justify-content-between mb-3">
                       <span class="text-900 font-medium">{{ item.product.name }}</span>
@@ -265,6 +264,12 @@ const frontStore = useFrontStore()
 import InputText from 'primevue/inputtext';
 import debounce from 'debounce';
 const toast = useToast()
+useHead({
+  title: "OK ShopEasy Zimbabwe - Checkout",
+  meta: [
+    { name: "description", content: "OKshop makes shopping in Zimbabwe easy and convenient!" },
+  ],
+});
 const loading = ref(false)
 const delivery_option = ref('')
 const {params:{cart_id,brand_id,shop_id}} = useRoute()

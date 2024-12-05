@@ -317,7 +317,7 @@
         <Dropdown v-model="selectedCountry" :options="countries" filter optionLabel="name" placeholder="Select a Country" class="w-full md:w-14rem">
     <template #value="slotProps">
         <div v-if="slotProps.value" class="flex align-items-center">
-            <img :alt="slotProps.value.label" src="https://primefaces.org/cdn/primevue/images/flag/flag_placeholder.png" :class="`mr-2 flag flag-${slotProps?.value?.code.toLowerCase()}`" style="width: 18px" />
+            <NuxtImg :alt="slotProps.value.label" src="https://primefaces.org/cdn/primevue/images/flag/flag_placeholder.png" loading="lazy" format="webp" :class="`mr-2 flag flag-${slotProps?.value?.code.toLowerCase()}`" style="width: 18px" />
             <div>{{ slotProps.value.name }}</div>
         </div>
         <span v-else>
@@ -326,7 +326,7 @@
     </template>
     <template #option="slotProps">
         <div class="flex align-items-center">
-            <img :alt="slotProps.option.label" src="https://primefaces.org/cdn/primevue/images/flag/flag_placeholder.png" :class="`mr-2 flag flag-${slotProps.option.code.toLowerCase()}`" style="width: 18px" />
+            <NuxtImg :alt="slotProps.option.label" src="https://primefaces.org/cdn/primevue/images/flag/flag_placeholder.png" loading="lazy" format="webp" :class="`mr-2 flag flag-${slotProps.option.code.toLowerCase()}`" style="width: 18px" />
             <div>{{ slotProps.option.name }}</div>
         </div>
     </template>
@@ -409,6 +409,12 @@
 const frontStore = useFrontStore()
 const authStore = useAuthStore()
 import { FilterMatchMode } from 'primevue/api';
+useHead({
+  title: "OK ShopEasy Zimbabwe - Account Page",
+  meta: [
+    { name: "description", content: "OKshop makes shopping in Zimbabwe easy and convenient!" },
+  ],
+});
 //@ts-ignore
 const add_address = ref(false)
 const toast = useToast()
@@ -707,12 +713,10 @@ try {
 			      const cart_id:any = sessionStorage.getItem('cart_id');
             const current_cart_brand:any = sessionStorage.getItem('current_cart_brand')
             const current_cart_shop_id:any = sessionStorage.getItem('current_cart_shop_id')
-            console.log("cart_id: " + cart_id)
             if (cart_id) {
               let ccb = JSON.parse(current_cart_brand)
               let csi = JSON.parse(current_cart_shop_id)
               let gi = JSON.parse(guest_id)
-              console.log("variables to comapre",current_shop_id,ccb)
               if(current_shop_id === ccb) {
                  let params = {
                   user_id: user_idd,
@@ -878,7 +882,6 @@ onMounted(() => {
      collection_stages.value = data.data.data.filter(order => order.delivery_option === "pickup") .sort((a, b) => a.sequence - b.sequence).map(order => order.stage)
    })
    let orders = frontStore.getMyOrders(user_id.value).then((data) => {
-    console.log('orders',data.data.orders)
      my_orders.value = data?.data?.orders
    })
 })
