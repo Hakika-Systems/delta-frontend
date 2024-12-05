@@ -24,6 +24,15 @@ export default defineNuxtConfig({
   plugins: [
     { src: '~/plugins/tawk-messenger.client.js', mode: 'client' }
   ],
+  vite: {
+    css: {
+        preprocessorOptions: {
+            scss: {
+                api: 'modern'
+            }
+        }
+    }
+},
   swiper: {
     // Swiper options
     //----------------------

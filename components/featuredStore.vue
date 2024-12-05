@@ -12,7 +12,7 @@
               <div class="p-2">
                 <div class="border-1 surface-border border-round m-2 p-3" style="min-height: 350px; display: flex; flex-direction: column; justify-content: space-between;">
                   <div  class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
-                    <NuxtImg format="webp" class="product_image object-cover" :placeholder="[50, 50, 50, 50]"  width="auto" height="155" :src="getParsedImages(product.images)" :alt="product?.name" loading="lazy" />
+                    <NuxtImg format="webp" class="product_image object-cover" :placeholder="[50, 50, 50, 50]"   :src="getParsedImages(product.images)" :alt="product?.name" loading="lazy" />
                   </div>
                   <div  class="mb-3 font-medium nametext cursor-pointer">{{ product.name}}</div>
                   <div class="mb-4">
@@ -44,7 +44,7 @@
               <div class="p-2">
                 <div class="border-1 surface-border border-round m-2 p-3" style="min-height: 350px; display: flex; flex-direction: column; justify-content: space-between;">
                   <div  class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
-                    <NuxtImg format="webp" class="product_image object-cover" :placeholder="[50, 50, 50, 50]"  width="auto" height="155" :src="getParsedImages(product.images)" :alt="product?.name" loading="lazy" />
+                    <NuxtImg format="webp" class="product_image object-cover" :placeholder="[50, 50, 50, 50]"   :src="getParsedImages(product.images)" :alt="product?.name" loading="lazy" />
                   </div>
                   <div  class="mb-3 font-medium nametext cursor-pointer">{{ product.name }}</div>
                   <div class="mb-4">
@@ -76,7 +76,7 @@
               <div class="p-2">
                 <div class="border-1 surface-border border-round m-2 p-3" style="min-height: 350px; display: flex; flex-direction: column; justify-content: space-between;">
                   <div  class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
-                    <NuxtImg format="webp" class="product_image object-cover" :placeholder="[50, 50, 50, 50]"  width="auto" height="155" :src="getParsedImages(product.images)" :alt="product?.name" loading="lazy" />
+                    <NuxtImg format="webp" class="product_image object-cover" :placeholder="[50, 50, 50, 50]"   :src="getParsedImages(product.images)" :alt="product?.name" loading="lazy" />
                   </div>
                   <div  class="mb-3 font-medium nametext cursor-pointer">{{ product.name }}</div>
                   <div class="mb-4">
@@ -108,7 +108,7 @@
               <div class="p-2">
                 <div class="border-1 surface-border border-round m-2 p-3" style="min-height: 350px; display: flex; flex-direction: column; justify-content: space-between;">
                   <div  class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
-                    <NuxtImg format="webp" class="product_image object-cover" :placeholder="[50, 50, 50, 50]"  width="auto" height="155" :src="getParsedImages(product.images)" :alt="product?.name" loading="lazy" />
+                    <NuxtImg format="webp" class="product_image object-cover" :placeholder="[50, 50, 50, 50]"   :src="getParsedImages(product.images)" :alt="product?.name" loading="lazy" />
                   </div>
                   <div  class="mb-3 font-medium nametext cursor-pointer">{{ product.name}}</div>
                   <div class="mb-4">

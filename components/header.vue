@@ -35,7 +35,7 @@
                     tabindex="0"
                     aria-label="Select Brand"
                   >
-                  <NuxtImg format="webp" :placeholder="[50, 50, 50, 50]" class="h-3rem" width="50" height="70" :src="brand.logo" :alt="brand.name" loading="lazy" />
+                  <NuxtImg format="webp" :placeholder="[50, 50, 50, 50]" class="h-3rem" width="100" height="70" :src="brand.logo" :alt="brand.name" loading="lazy" />
                   </div>
                 </div>
               </div>

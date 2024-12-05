@@ -37,7 +37,7 @@
   </div>
 
   <!-- Search Input -->
-  <div class="col-12 lg:col-5 flex items-center justify-center mb-4 lg:mb-0 search-container">
+  <div class="col-12 lg:col-4 flex items-center justify-center mb-4 lg:mb-0 search-container">
     <InputGroup class="w-full">
       <Skeleton v-if="skeleton_loader" height="2rem" class="mb-2" borderRadius="16px"></Skeleton>
       <InputText 
@@ -79,7 +79,7 @@
   </div>
 
   <!-- Account and Cart -->
-  <div class="col-12 lg:col-2 flex flex-col lg:flex-row items-center justify-between">
+  <div class="col-12 lg:col-3 flex flex-col lg:flex-row items-center justify-between">
     <!-- Currency Switch -->
     <Dropdown 
       @change="saveCurrency()" 

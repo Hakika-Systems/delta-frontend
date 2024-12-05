@@ -1,8 +1,6 @@
 <template>
     <okMartShopHeader  />
-    <div v-if="!banners" class="th-hero-wrapper hero-3" id="hero" style="background-image: url(&quot;/images/se1.jpg&quot;);background-size: contain;">
-  </div>
-  <div v-else class="hero heroheight">
+  <div class="hero heroheight">
   <Swiper
     :modules="[SwiperAutoplay, SwiperEffectCreative,SwiperNavigation,SwiperPagination]"
     :slides-per-view="1"
@@ -27,17 +25,6 @@
     <NuxtImg format="webp"   width="1920" height="600" :src="image?.file" alt="OK ZIMBABWE" loading="lazy" />
     </SwiperSlide>
   </Swiper>
-<!-- <Carousel :value="products" :numVisible="1" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="3000">
-            <template #item="slotProps">
-                <div class="border-1 surface-border border-round m-2  p-3">
-                    <div class="mb-3">
-                        <div class="relative mx-auto">
-                            <img :src="slotProps.data.image"  class="w-full border-round" />
-                        </div>
-                    </div>
-                </div>
-            </template>
-</Carousel> -->
 </div>
     <div class="surface-section px-4 py-8 md:px-6 lg:px-8">
       <div class="flex justify-content-between flex-wrap">
@@ -48,25 +35,69 @@
       <div class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left" role="separator" aria-orientation="horizontal" data-pc-name="divider" data-pc-section="root" styleclass="w-full border-gray-200" style="justify-content: center;">
         <!---->
       </div>
-      <Carousel :value="featured_products" :numVisible="5" :numScroll="1" :responsiveOptions="responsiveOptions"  :autoplayInterval="3000">
-    <template #item="{ data }">
-      <div class="border-1 surface-border border-round m-2 p-3" style="min-height: 350px; display: flex; flex-direction: column; justify-content: space-between;">
-        <div @click="goToDetailPage(data)" class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto cursor-pointer">
-          <NuxtImg format="webp"  :placeholder="[50, 50, 50, 50]"  width="auto" height="155" :src="getParsedImages(data.images)" class="product_image object-cover" alt="OK Shopeasy Strip Ad" loading="lazy" />
-        </div>
-        <div @click="goToDetailPage(data)" class="mb-3 font-medium nametext cursor-pointer">{{ data.name }}</div>
-        <div class="mb-4">
-          <!-- Additional details if needed -->
-        </div>
-        <div class="flex justify-content-between align-items-center">
-          <span class="font-bold text-900 ml-2">{{findCurrency()}}{{data.prices[0]?.price ? findConversionRatePrice(data.prices[0]?.price) : formatCurrency(0)}}</span>
+      <Carousel 
+  :value="featured_products" 
+  :numVisible="5" 
+  :numScroll="1" 
+  :responsiveOptions="responsiveOptions" 
+  :autoplayInterval="3000"
+>
+  <template #item="{ data }">
+    <div 
+      class="border-1 surface-border border-round m-2 p-3 product-card"
+      style="min-height: 350px; display: flex; flex-direction: column;"
+    >
+      <!-- Image Section -->
+      <div 
+        @click="goToDetailPage(data)" 
+        class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto cursor-pointer card-image"
+      >
+        <NuxtImg 
+          format="webp"  
+          :placeholder="[50, 50, 50, 50]"   
+          :src="getParsedImages(data.images)" 
+          class="product_image object-cover" 
+          alt="OK Shopeasy Strip Ad" 
+          loading="lazy" 
+        />
+      </div>
+
+      <!-- Name Section -->
+      <div 
+        @click="goToDetailPage(data)" 
+        class="mb-3 font-medium nametext cursor-pointer card-title"
+      >
+        {{ data.name }}
+      </div>
+
+      <!-- Price and Action Section -->
+      <div class="flex flex-column mt-auto">
+        <div class="flex justify-content-between align-items-center mb-3">
+          <span class="font-bold text-900 ml-2">
+            {{ findCurrency() }}{{ data.prices[0]?.price ? findConversionRatePrice(data.prices[0]?.price) : formatCurrency(0) }}
+          </span>
         </div>
         
-        <Button v-if="data?.details[0]?.quantity >= 1" :loading="current_id === data.id"  @click="addToCartFeatured(data.id,data.prices[0]?.price)" icon="pi pi-cart-arrow-down" label="Add" class="w-full mt-3 cart"/>
-          <Button v-else  icon="pi pi-cart-arrow-down"  label="OUT OF STOCK" class="w-full mt-3 cart" disabled/>
+        <Button 
+          v-if="data?.details[0]?.quantity >= 1" 
+          :loading="current_id === data.id"  
+          @click="addToCartFeatured(data.id, data.prices[0]?.price)" 
+          icon="pi pi-cart-arrow-down" 
+          label="Add" 
+          class="w-full mt-3 cart"
+        />
+        <Button 
+          v-else  
+          icon="pi pi-cart-arrow-down"  
+          label="OUT OF STOCK" 
+          class="w-full mt-3 cart" 
+          disabled
+        />
       </div>
-    </template>
-  </Carousel>
+    </div>
+  </template>
+</Carousel>
+
     </div>
     <div class="surface-section px-4 py-8 md:px-6 lg:px-8">
       <div class="flex justify-content-between flex-wrap">
@@ -78,11 +109,6 @@
         <!---->
       </div>
       <div class="flex ">
-        <!-- <div class="col-4">
-          <div class="side-banner ">
-            <img src="/images/banner3.png" alt="Side Banner"  class="banner object-repeat">
-          </div>
-        </div> -->
         <div class="col-12 grid grid-nogutter align-items-center">
         <div class="col-12">
           <div class="grid">
@@ -93,7 +119,7 @@
       <div class="p-2">
         <div class="border-1 surface-border border-round m-2 p-3" style="min-height: 350px; display: flex; flex-direction: column; justify-content: space-between;">
           <div @click="goToDetailPage(product)" class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
-            <NuxtImg format="webp" class="product_image object-cover" :placeholder="[50, 50, 50, 50]"  width="auto" height="155" :src="getParsedImages(product.images)" :alt="product?.name" loading="lazy" />
+            <NuxtImg format="webp" class="product_image object-cover" :placeholder="[50, 50, 50, 50]"   :src="getParsedImages(product.images)" :alt="product?.name" loading="lazy" />
           </div>
           <div @click="goToDetailPage(product)" class="mb-3 font-medium nametext cursor-pointer">
             {{product.name }}
@@ -136,41 +162,13 @@
     />
     <Button v-else  icon="pi pi-cart-arrow-down" label="Out of Stock" class="w-full mt-1 cart" disabled/>
   </div>
-          <!-- <InputGroup class="w-full">
-            <InputGroupAddon class="firstinput">
-              <InputText :min="1" :max="100" style="border:none" v-model="quantities[product.id]" />
-            </InputGroupAddon>
-            <InputGroupAddon @click="decreaseQuantity(product.id)" class="addsub cursor-pointer">
-              <i class="pi pi-minus"></i>
-            </InputGroupAddon>
-            <Button 
-              v-if="product?.details[0]?.quantity >= 1"
-              :loading="current_id === product.id"
-              @click="addToCart(product.id, product.prices[0]?.price)" 
-              icon="pi pi-cart-arrow-down" 
-              label="Add" 
-              class="w-full cart" 
-            />
-            <Button 
-              v-else 
-              :loading="loading" 
-              @click="addToCart(product.id, product.prices[0]?.price)" 
-              icon="pi pi-cart-arrow-down" 
-              label="Out of Stock" 
-              class="w-full cart" 
-              disabled 
-            />
-            <InputGroupAddon @click="increaseQuantity(product.id)" class="addsub cursor-pointer">
-              <i class="pi pi-plus"></i>
-            </InputGroupAddon>
-          </InputGroup> -->
         </div>
       </div>
     </div>
 
     <!-- Banner after every 8 products -->
     <div v-if="(index + 1) % 12 === 0" :key="'banner-' + index" class="col-12">
-      <NuxtImg format="webp"  :placeholder="[50, 50, 50, 50]"  width="auto" height="155" :src="strip_banners[0]?.file" alt="Strip Banner" class="w-full"  loading="lazy" />
+      <NuxtImg format="webp"  :placeholder="[50, 50, 50, 50]"   :src="strip_banners[0]?.file" alt="Strip Banner" class="w-full"  loading="lazy" />
     </div>
   </template>
 </div>
@@ -373,115 +371,105 @@ const findConversionRatePrice = (price:any) => {
     })
   }
   onMounted(async () => {
-  let gi: any;
-  let current_cart_id: any;
-  let storeConfig: any;
-  let ads: any;
+  try {
+    if (typeof window === 'undefined') return;
 
-  if (typeof window !== 'undefined') {
-    try {
-      // Retrieve session storage variables
-      gi = sessionStorage.getItem('guest_id');
-      current_cart_id = sessionStorage.getItem('cart_id');
-      storeConfig = sessionStorage.getItem('active_brand');
-      
-      if (!storeConfig) throw new Error('active_brand is missing'); // Handle missing active_brand
-      const up = JSON.parse(storeConfig);
-      ads = up?.adverts;
+    // Initialize variables
+    const gi = sessionStorage.getItem('guest_id');
+    const current_cart_id = sessionStorage.getItem('cart_id');
+    const storeConfig = sessionStorage.getItem('active_brand');
 
-      // Filter adverts to include only those with display position "Top"
-      //@ts-ignore
-      banners.value = up.adverts.filter((ad) => ad.display_position === "Top");
-    } catch (error:any) {
-      console.error('Error in sessionStorage retrieval:', error.message);
+    if (!storeConfig) {
+      console.error('active_brand is missing');
       navigateTo('/', { external: true }); // Redirect to homepage
       return;
     }
-  }
 
-  // Parse guest_id from session storage
-  guest_id.value = JSON.parse(gi);
+    const parsedConfig = JSON.parse(storeConfig);
+    const adverts = parsedConfig?.adverts || [];
+    banners.value = adverts.filter((ad: any) => ad.display_position === "Top");
 
-  if (shop_id === null || brand_id === null) {
-    navigateTo('/', { external: true }); // Redirect to homepage if IDs are invalid
-    return;
-  }
+    guest_id.value = gi ? JSON.parse(gi) : null;
 
-  if (shop_id === "undefined") {
-    visible.value = true;
+    // Redirect if essential IDs are missing
+    if (!shop_id || !brand_id || shop_id === "undefined") {
+      visible.value = shop_id === "undefined";
+      navigateTo('/', { external: true });
+      return;
+    }
 
-    // Fetch brands and select shops by brand ID
-    let result_one = await frontStore.getBrands().then(async (data) => {
-      let brands = data?.data?.shopbrands;
-      selectShopsByBrandId(brand_id, brands);
-    });
-  }
+    // Update brand and shop IDs
+    brand_idd.value = brand_id;
+    shop_idd.value = shop_id;
 
-  brand_idd.value = brand_id;
-  shop_idd.value = shop_id;
+    // Fetch data concurrently
+    const [productsResponse, featuredProductsResponse, bannersResponse] = await Promise.all([
+      frontStore.getProducts({
+        page: 1,
+        per_page: 60,
+        shop_brand_id: brand_id,
+        shop_id: shop_id,
+      }),
+      frontStore.getFeaturedProducts({
+        page: 1,
+        per_page: 80,
+        is_shop_brand: false,
+        id: shop_id,
+      }),
+      frontStore.getBanners({ slug: "strip" }),
+    ]);
 
-  // Fetch products
-  const params = {
-    page: 1,
-    per_page: 60,
-    shop_brand_id: brand_id,
-    shop_id: shop_id,
-  };
-  await frontStore.getProducts(params).then((data) => {
-    totalItemCount.value = data?.data?.totalItemCount;
-    currentPage.value = data?.data?.currentPage;
-    totalPages.value = data?.data?.totalPages;
-    products.value = data?.data?.products;
+    // Process products
+    const productsData = productsResponse?.data || {};
+    totalItemCount.value = productsData.totalItemCount || 0;
+    currentPage.value = productsData.currentPage || 1;
+    totalPages.value = productsData.totalPages || 0;
+    products.value = productsData.products || [];
     products.value.forEach((product: any) => {
-      quantities.value[product.id] = 1; // Initialize quantity for each product
+      quantities.value[product.id] = 1; // Initialize quantity
     });
-  });
 
-  // Fetch featured products
-  const featured_params = {
-    page: 1,
-    per_page: 80,
-    is_shop_brand: false,
-    id: shop_id,
-  };
-  await frontStore.getFeaturedProducts(featured_params).then((data) => {
-    featured_products.value = data.data.products;
-  });
+    // Process featured products
+    featured_products.value = featuredProductsResponse?.data?.products || [];
 
-  // Create guest ID if not available
-  if (guest_id.value === null) {
-    guest_id.value = createId();
-    sessionStorage.setItem('guest_id', JSON.stringify(guest_id.value));
-  }
+    // Process banners
+    strip_banners.value = bannersResponse?.data || [];
 
-  // Handle cart
-  const cart_params = {
-    shop_id: shop_id,
-    user_id: user_id.value,
-    guest_id: guest_id.value,
-  };
-  if (current_cart_id) {
-    await frontStore.getCartTwo(current_cart_id).then((data) => {
-      cart.value = data.data?.items;
-      cart_total.value = data?.data?.cart_total;
+    // Handle guest ID creation if missing
+    if (!guest_id.value) {
+      guest_id.value = createId();
+      sessionStorage.setItem('guest_id', JSON.stringify(guest_id.value));
+    }
+
+    // Handle cart operations
+    if (current_cart_id) {
+      const cartResponse = await frontStore.getCartTwo(current_cart_id);
+      cart.value = cartResponse?.data?.items || [];
+      cart_total.value = cartResponse?.data?.cart_total || 0;
       cart_id.value = current_cart_id;
-    });
-  } else {
-    await frontStore.createCart(cart_params).then((data) => {
-      cart.value = data?.data?.items;
-      cart_total.value = data?.data?.cart_total;
-      cart_id.value = data?.data?.id;
-    });
-  }
+    } else {
+      const cartResponse = await frontStore.createCart({
+        shop_id,
+        user_id: user_id.value,
+        guest_id: guest_id.value,
+      });
+      cart.value = cartResponse?.data?.items || [];
+      cart_total.value = cartResponse?.data?.cart_total || 0;
+      cart_id.value = cartResponse?.data?.id || null;
+    }
 
-  // Fetch banners
-  const paramss = {
-    slug: "strip",
-  };
-  await frontStore.getBanners(paramss).then((data) => {
-    strip_banners.value = data?.data;
-  });
+    // Fetch brands if shop_id is undefined
+    if (visible.value) {
+      const brandsResponse = await frontStore.getBrands();
+      const brands = brandsResponse?.data?.shopbrands || [];
+      selectShopsByBrandId(brand_id, brands);
+    }
+  } catch (error: any) {
+    console.error('Error during onMounted execution:', error.message);
+    navigateTo('/', { external: true }); // Redirect to homepage
+  }
 });
+
 
  const goToShop = () => {
   navigateTo(`shop-${brand_id}-${selected_shop.value}`,{external:true})
@@ -995,3 +983,27 @@ span.pi.pi-minus {
     
     }
     </style>
+    <style>
+    .product-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Ensures content is spaced evenly */
+  height: 100%; /* Ensures all cards take the full height of the container */
+}
+
+.card-image {
+  height: 150px; /* Fixed height for image container */
+  width: 100%;
+}
+
+.product_image {
+  height: 100%; /* Ensures the image fills the container */
+  width: auto; /* Maintain aspect ratio */
+}
+.card-button {
+  margin-top: auto; /* Push buttons to the bottom */
+}
+.p-carousel-container {
+    height: 400px;
+}
+  </style>

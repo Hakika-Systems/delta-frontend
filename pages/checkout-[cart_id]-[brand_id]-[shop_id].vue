@@ -161,7 +161,7 @@
                 <div class="text-900 col-12 font-medium text-xl mt-4 lg:mt-0 mb-4 px-2"> Select Payment Method</div>
                 <div :disabled="loading" v-if="delivery_option === 'Collection'"  @click="toggleOptionCheckbox(payment_options[0].id,payment_options[0].name)" class="col-3 p-3 d-flex justify-content-center align-items-center">
                   <div :class="{'border-top': payment_options[0].id === current_payment_option}" class="payheight flex flex-column border-round border-1 surface-border p-4 cursor-pointer hover:border-primary transition-duration-150 d-flex justify-content-center align-items-center">
-                    <NuxtImg :src="payment_options[0].logo" class="w-8rem" alt="Visa" loading="lazy" format="webp" />
+                    <NuxtImg :src="payment_options[0].logo" class="w-6rem" alt="Visa" loading="lazy" format="webp" />
                   </div>
                   <small v-if="!current_payment_option" style="color: red;">Required</small>
                 </div>

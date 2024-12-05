@@ -43,6 +43,9 @@ import  "~/public/assets/flags.css"
     font-size: 1rem;
     font-weight: normal;
 }
+ol, ul {
+    padding-left: 1px !important;
+}
 span.font-bold.text-900.ml-2 {
   font-family: "IBM Plex Sans" !important;
 }
