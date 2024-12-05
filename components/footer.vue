@@ -46,8 +46,8 @@
     <div class="col-12 sm:col-6 md:col-4 lg:col-4 flex flex-column mt-0 py-4 px-4 border-bottom-1 lg:border-y-none  surface-border">
       <span style="color: white;" class=" text-2xl block">Company</span>
       <ul class="list-none p-0">
-        <li>
-          <a tabindex="0"  class=" hover transition-duration-150 cursor-pointer mt-3 block">About Us</a>
+        <li >
+          <a tabindex="0"  href="https://okziminvestor.com/about/"  target="_blank" class=" hover transition-duration-150 cursor-pointer mt-3 block">About Us</a>
         </li>
         
         <li  @click="navigateTo('/terms_and_conditions',{external: true})">
