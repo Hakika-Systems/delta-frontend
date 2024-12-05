@@ -1,5 +1,6 @@
 
 <template>
+    <Header2/>
     <div style="margin: 0; font-family: Arial, sans-serif; background-color: #f6f7f8;">
     <div style="text-align: center; padding: 50px 20px; background-color: #f6f7f8;">
       <h3 style="font-size: 2.5rem; font-weight: bold; color: #2b2d42;">Privacy Policy</h3>
