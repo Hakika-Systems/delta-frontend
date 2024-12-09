@@ -6,7 +6,7 @@
       <h3 style="font-size: 2.5rem; font-weight: bold; color: #2b2d42;">Privacy Policy</h3>
       <div style="margin-top: 10px; font-size: 1rem; color: #6c757d;">
      
-        <Button @click="navigateTo('/',{external:true})" icon="pi pi-home" class="topbtn " label="Home" style="margin: 0 5px;" outlined/>
+        <Button @click='goToPreviousLink()' icon="pi pi-home" class="topbtn " label="Home" style="margin: 0 5px;" outlined/>
        
       </div>
     </div>
@@ -192,7 +192,29 @@
     { name: "description", content: "OKshop makes shopping in Zimbabwe easy and convenient!" },
   ],
 });
+
+const goToPreviousLink = ()=>{
+    if (typeof window !== 'undefined') {
+        // Retrieve brand configuration from sessionStorage
+        const storedConfig = sessionStorage.getItem('previous_link');
+      
+        console.log('parsed',storedConfig)
+        
+            // If no brand configuration is found, use navigateTo to redirect to the home page
+        navigateTo(`${storedConfig}`,{external: true}); // Adjust the URL as needed
+        
+    
+        
+       // Return the parsed brand configuration
+    }
+ 
+ 
+
+
+}
+
 </script>
+
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
 .layout-wrapper, body {
