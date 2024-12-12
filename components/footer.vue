@@ -3,7 +3,7 @@
   <ul class="list-none p-0 mb-0 flex flex-column md:flex-row flex-order-1 lg:flex-order-0 mt-4 lg:mt-0">
     <li class="mr-6 mt-3 lg:mt-0">
       <h3 class=" text-0">EMAIL SUPPORT</h3>
-      <a tabindex="0" class="cursor-pointer text-0">online@okshopeasy.com </a>
+      <a tabindex="0" class="cursor-pointer text-0">info@okshopeasy.com </a>
     </li>
     <li class="mr-4 mt-3 lg:mt-0">
       <h3 class=" text-0">PHONE SUPPORT</h3>
@@ -25,9 +25,9 @@
     <div class="p-inputgroup">
   <input class="p-inputtext p-component " data-pc-name="inputtext" data-pc-section="root" type="text" placeholder="Enter your email address">
   
-  <button class="p-button p-component surface-900 text-0 px-5 border-none" type="button" aria-label="Subscribe" data-pc-name="button" data-pc-section="root" data-pd-ripple="true">
+  <button class="p-button p-component hover  transition-duration-150 surface-900 text-0 px-5 border-none" type="button" aria-label="Subscribe" data-pc-name="button" data-pc-section="root" data-pd-ripple="true">
     <!---->
-    <span class="p-button-label" data-pc-section="label">Subscribe</span>
+    <span class="p-button-label hover transition-duration-150" data-pc-section="label">Subscribe</span>
     <!---->
     <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
   </button>
@@ -44,29 +44,30 @@
   <div class=" px-4 md:px-6 lg:px-8  surface-border border-x-none" ">
   <div class="grid grid-nogutter flex-wrap -mr-3 -ml-3 text-center md:text-left">
     <div class="col-12 sm:col-6 md:col-4 lg:col-4 flex flex-column mt-0 py-4 px-4 border-bottom-1 lg:border-y-none  surface-border">
-      <span style="color: white;" class=" text-2xl block">Company</span>
+      <span style="color: white;" class=" text-2xl block"></span>
       <ul class="list-none p-0">
         <li >
           <a tabindex="0"  href="https://okziminvestor.com/about/"  target="_blank" class=" hover transition-duration-150 cursor-pointer mt-3 block">About Us</a>
         </li>
         
-        <li  @click="navigateTo('/terms_and_conditions',{external: true})">
+        <!-- <li  @click="navigateTo('/terms_and_conditions',{external: true})">
        
           <a tabindex="0" class="hover  transition-duration-150 cursor-pointer mt-3 block">Terms And Conditions</a>
         </li>
-        <li @click="navigateTo('/privacy_policy',{external: true})">
+        <li @click="goToPrivacy()">
           <a tabindex="0"  class=" hover transition-duration-150 cursor-pointer mt-3 block">Privacy Policy</a>
-        </li>
+        </li> -->
        
       </ul>
     </div>
     <div class="col-12 sm:col-6 md:col-4 lg:col-4 flex flex-column mt-0 py-4 px-4 border-bottom-1 lg:border-y-none  surface-border">
-      <span style="color: white;" class=" text-2xl block">Help</span>
+      <span  class=" hover transition-duration-150 cursor-pointer  text-2xl block"></span>
       <ul class="list-none p-0">
-        <li>
-          <a tabindex="0"  class=" hover transition-duration-150 cursor-pointer mt-3 block">Contact Us</a>
-        </li>
-        <li>
+        <li  @click='goToTerms()'>
+       
+       <a tabindex="0" class="hover  transition-duration-150 cursor-pointer mt-3 block">Terms And Conditions</a>
+     </li>
+        <!-- <li>
           <a tabindex="0"  class=" hover transition-duration-150 cursor-pointer mt-3 block">Suggest A Product</a>
         </li>
        
@@ -75,16 +76,16 @@
         </li>
         <li>
           <a tabindex="0"  class=" hover  transition-duration-150 cursor-pointer mt-3 block">Advertise on ShopEasy</a>
-        </li>
+        </li> -->
       </ul>
     </div>
     <div class="col-12 sm:col-6 md:col-4 lg:col-4 flex flex-column mt-0 py-4 px-4 border-bottom-1 lg:border-y-none  surface-border">
-      <span style="color: white;" class=" text-2xl block">Account</span>
+      <span style="color: white;" class=" text-2xl block"></span>
       <ul class="list-none p-0">
-        <li>
-          <a tabindex="0"  class=" hover transition-duration-150 cursor-pointer mt-3 block">Manage Account</a>
+        <li @click="goToPrivacy()">
+          <a tabindex="0"  class=" hover transition-duration-150 cursor-pointer mt-3 block">Privacy Policy</a>
         </li>
-        <li  @click="navigateTo('/myaccount',{external: true})">
+        <!-- <li  @click="navigateTo('/myaccount',{external: true})">
           <a tabindex="0"  class=" hover transition-duration-150 cursor-pointer mt-3 block">Track Order</a>
         </li>
         <li>
@@ -92,7 +93,7 @@
         </li>
         <li>
           <a tabindex="0"  class="hover  transition-duration-150 cursor-pointer mt-3 block">Invoices</a>
-        </li>
+        </li> -->
       
       </ul>
     </div>
@@ -132,6 +133,7 @@
 <script setup lang="ts">
 const frontStore = useFrontStore();
 const brands:any = storeToRefs(frontStore).brands;
+const my_route = useRoute()
 onMounted(async() => {
  
   let result_one = await frontStore.getBrands().then(async (data) => {
@@ -156,6 +158,17 @@ const getParsedImages = (images: string) => {
 
   return '/images/placeholder.png'; // Return null if parsing fails or if parsedImages is null
 };
+
+const goToPrivacy = ()=>{
+    sessionStorage.setItem('previous_link',my_route.path)
+    navigateTo('/privacy_policy',{external:true})
+
+}
+const goToTerms = ()=>{
+    sessionStorage.setItem('previous_link',my_route.path)
+    navigateTo('/terms_and_conditions',{external:true})
+
+}
 </script>
 <style>
 .text-900 {
