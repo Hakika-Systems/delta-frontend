@@ -214,7 +214,7 @@
   const user_id = useCookie('user_id');
   const visible = ref(false)
   const loading = ref(false)
-  const cart_id = storeToRefs(frontStore).cart_id
+  const cart_id:any = storeToRefs(frontStore).cart_id
   const product = storeToRefs(frontStore).product
   const brand_idd:any = storeToRefs(frontStore).brand_id
   const shop_idd:any = storeToRefs(frontStore).shop_id

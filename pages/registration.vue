@@ -273,7 +273,7 @@ const toast = useToast()
 const name = ref()
 const email = ref()
 const password = ref()
-const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+const strongPasswordRegex = ref(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/);
 const selectedBusinessType = ref('INDIVIDUAL')
 const businessTypes = ref(['MUKANDO','TRADER','BUSINESS','INSTITUTION','INDIVIDUAL'])
 const loading = ref(false)
@@ -328,7 +328,7 @@ onMounted(() => {
 
 const individualRegistration = async () => {
     loading.value = true
-    if (!strongPasswordRegex.test(password.value)) {
+    if (!strongPasswordRegex.value.test(password.value)) {
         loading.value = false;
         toast.add({ 
             severity: 'warn', 
