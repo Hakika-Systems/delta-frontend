@@ -42,7 +42,7 @@
       <Skeleton v-if="skeleton_loader" height="2rem" class="mb-2" borderRadius="16px"></Skeleton>
       <InputText 
         v-else 
-        @keyup="searchProducts()" 
+        @keyup="debouncedSearch()" 
         v-model="search_text" 
         id="input" 
         type="text" 
@@ -297,7 +297,6 @@
     const cart_id = storeToRefs(frontStore).cart_id
     const brand_currencies:any = storeToRefs(frontStore).currencies;
     const selected_currency = storeToRefs(frontStore).selected_currency;
-
 	const saveCurrency = () => {
 		sessionStorage.setItem('selected_currency', JSON.stringify(selected_currency.value))
 	}
@@ -995,6 +994,7 @@ const searchProducts = () => {
     search_products.value = data?.data.products;
   });
 }
+const debouncedSearch = debounce(searchProducts, 500);
 const getActiveShopNameById = () => {
     // Find the shop with the given ID
     let current_shop_branch:any
