@@ -11,6 +11,6 @@ export default defineNuxtPlugin(() => {
         s1.setAttribute("crossorigin", "*");
         s0.parentNode.insertBefore(s1, s0);
       })();
-    }, 10000); // 10 seconds delay
+    }, 10000);
   }
 });

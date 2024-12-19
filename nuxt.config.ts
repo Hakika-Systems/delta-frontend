@@ -25,8 +25,6 @@ export default defineNuxtConfig({
   headers: {
       contentSecurityPolicy: {
           'script-src': [
-              "'self'",
-              "'unsafe-inline'",
               "https://*.google.com",
               "https://www.gstatic.com",
               "https://storage.googleapis.com",
@@ -34,7 +32,11 @@ export default defineNuxtConfig({
               "https://www.googletagmanager.com",
               "https://www.google-analytics.com",
               "https://www.pagespeed-mod.com",
-              "https://*.sentry.io"
+              "https://*.sentry.io",
+              "https://api.okshopeasy.com",
+              "http://api.okshopeasy.com",
+              "https://okshopeasy.com",
+              "www.api.okshopeasy.com",
           ],
           'script-src-attr': [
               "'self'",
@@ -43,27 +45,35 @@ export default defineNuxtConfig({
           'worker-src': [
               "'self'",
               "blob:",
-              "https://storage.googleapis.com"
+              "https://storage.googleapis.com",
+              "https://api.okshopeasy.com",
+              "http://api.okshopeasy.com",
+              "https://okshopeasy.com",
+              "www.api.okshopeasy.com",
           ],
           'img-src': [
               "'self'",
               "data:",
-              "https://t.paypal.com",
-              "https://www.paypalobjects.com",
               "https://googleads.g.doubleclick.net",
               "https://www.google.com",
               "https://www.google.co.zw",
               "https://*.googleapis.com",
               "https://*.googleusercontent.com",
-              "https://www.facebook.com",
-              "https://*.linkedin.com",
               "https://api.hakikasystems.co.zw",
-              "https://back-uat.okshopeasy.com"
+              "https://back-uat.okshopeasy.com",
+              "https://api.okshopeasy.com",
+              "http://api.okshopeasy.com",
+              "https://okshopeasy.com",
+              "www.api.okshopeasy.com",
           ],
           'connect-src': [
               "'self'",
               "https://api.hakikasystems.co.zw",
               "https://back-uat.okshopeasy.com",
+              "https://api.okshopeasy.com",
+              "http://api.okshopeasy.com",
+              "https://okshopeasy.com",
+              "www.api.okshopeasy.com",
               "https://*.google.com",
               "https://www.googletagmanager.com",
               "https://www.google-analytics.com",
