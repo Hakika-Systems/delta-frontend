@@ -37,6 +37,7 @@ export default defineNuxtConfig({
               "http://api.okshopeasy.com",
               "https://okshopeasy.com",
               "www.api.okshopeasy.com",
+              "blob:"
           ],
           'script-src-attr': [
               "'self'",
@@ -53,6 +54,7 @@ export default defineNuxtConfig({
           ],
           'img-src': [
               "'self'",
+              "blob:",
               "data:",
               "https://googleads.g.doubleclick.net",
               "https://www.google.com",
@@ -78,7 +80,8 @@ export default defineNuxtConfig({
               "https://www.googletagmanager.com",
               "https://www.google-analytics.com",
               "https://*.paypal.com",
-              "https://*.sentry.io"
+              "https://*.sentry.io",
+              "blob:"
           ]
       },
       crossOriginEmbedderPolicy: 'unsafe-none',
