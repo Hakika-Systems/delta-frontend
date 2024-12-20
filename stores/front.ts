@@ -279,10 +279,11 @@ export const useFrontStore = defineStore('front', {
         const url = new URL(`${SHOP_URL}/api/shop-brands`);
         const token = useCookie('token').value || ""
         const headers = {
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-        };
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Access-Control-Allow-Origin": "*", // Allows requests from any origin
+      };
         try {
             const response = await fetch(url, {
                 method: "GET",
