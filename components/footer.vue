@@ -107,13 +107,13 @@
    
   </div>
   <div class="col-fixed flex align-items-center flex-order-0 lg:flex-order-1">
-    <a tabindex="0" class="cursor-pointer mr-3">
+    <a href="https://www.facebook.com/profile.php?id=61570057859024" target="_blank" tabindex="0" class="cursor-pointer mr-3">
       <i class="pi pi-facebook surface-900 p-1 text-sm border-circle text-0"></i>
     </a>
-    <a tabindex="0" class="cursor-pointer mr-3">
+    <a href="https://x.com/OkShopEasy"  target="_blank" tabindex="0" class="cursor-pointer mr-3">
       <i class="pi pi-twitter surface-900 p-1 text-sm border-circle text-0"></i>
     </a>
-    <a tabindex="0" class="cursor-pointer mr-3">
+    <a href="https://www.youtube.com/@OkShopEasy"  target="_blank" tabindex="0" class="cursor-pointer mr-3">
       <i class="pi pi-youtube surface-900 p-1 text-sm border-circle text-0"></i>
     </a>
     <a tabindex="0" class="cursor-pointer">
@@ -161,7 +161,7 @@ const getParsedImages = (images: string) => {
 
 const goToPrivacy = ()=>{
     sessionStorage.setItem('previous_link',my_route.path)
-    navigateTo('/privacy_policy',{external:true})
+    navigateTo('https://www.youtube.com/@OkShopEasy',{external:true})
 
 }
 const goToTerms = ()=>{
