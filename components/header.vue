@@ -296,7 +296,7 @@ const getAllBrandsFeaturedProducts = async () => {
 const getFeaturedProducts = async (brand_id:any) => {
   let params = {
     page: 1,
-    per_page: 10,
+    per_page: 30,
     id: brand_id,
     is_shop_brand: true
   }
