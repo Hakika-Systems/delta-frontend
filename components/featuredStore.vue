@@ -106,7 +106,7 @@
           <div class="grid">
             <div v-for="product in okmartProducts" :key="product.id" class="col-12 md:col-6 lg:col-3">
               <div class="p-2">
-                <div class="border-1 surface-border border-round m-2 p-3" style="min-height: 350px; display: flex; flex-direction: column; justify-content: space-between;">
+                <div class="border-1 surface-border border-round m-2 p-3" style="min-height: 400px; display: flex; flex-direction: column; justify-content: space-between;">
                   <div  class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
                     <NuxtImg format="webp" class="product_image object-cover" :placeholder="[50, 50, 50, 50]"   :src="getParsedImages(product.images)" :alt="product?.name" loading="lazy" />
                   </div>
