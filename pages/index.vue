@@ -1,170 +1,210 @@
 <template>
-  <NuxtLayout name="dashboard">
-    
-    <div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
-      <ul class="list-none p-0 m-0 flex flex-column md:flex-row">
-  <li class="relative mb-5 mr-0 md:mr-8 flex-auto">
-    <div class="border-1 surface-border surface-card border-round p-3 flex flex-column md:flex-row align-items-center z-1">
-      <i class="pi pi-truck  text-2xl md:text-4xl mb-2 md:mb-0 mr-0 md:mr-3 topicons"></i>
-      <div>
-        <div class="text-900 topcardstext font-medium mb-1">FREE DELIVERY</div>
-        <span class="text-600 text-sm hidden md:block">On Orders over $100</span>
+  <DeltaHeader/>
+  <Hero/>
+  <div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
+      <h2 class="text-4xl font-bold text-center mb-3" style="color: #0958A9;">Featured Products</h2>
+        <div class="col-12 grid grid-nogutter align-items-center">
+        <div class="col-12">
+          <div class="grid">
+            <div v-for="product in products" :key="index" class="col-12 md:col-6 lg:col-3">
+              <div class="p-2">
+                <div class="border-1 surface-border border-round m-2 p-3" style="min-height: 350px; display: flex; flex-direction: column; justify-content: space-between;">
+                  <div  class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
+                    <img class="product_image object-cover" :placeholder="[50, 50, 50, 50]"   :src="product.image" :alt="product?.name" loading="lazy" />
+                  </div>
+                  <div  class="mb-3 font-medium nametext cursor-pointer">{{ product.name}}</div>
+                  <div class="mb-4">
+                  </div>
+                  <div class="flex justify-content-between align-items-center">
+                    <span class="font-bold text-900 ml-2">${{ product.price.toFixed(2) }}</span>
+                  </div>
+                  <Button icon="pi pi-cart-arrow-down" label="GO TO SHOP" class="cart mt-3 okaddtocart w-full"/>
+                </div>
+              </div>
+            </div>
+            <!-- <div  class="col-8 md:col-6 lg:col-12">
+              <img src="/images/middle_banner.jpg" alt="Side Banner" class="w-full"  >
+            </div> -->
+          </div>
+        </div>
       </div>
     </div>
-    <div class="w-full absolute top-50 left-100 surface-300 hidden md:block" style="transform: translateY(-50%); height: 2px;"></div>
-  </li>
-  <li class="relative mb-5 mr-0 md:mr-8 flex-auto">
-    <div class="border-1 surface-border surface-card border-round p-3 flex flex-column md:flex-row align-items-center z-1">
-      <i class="pi pi-android topicons text-2xl md:text-4xl mb-2 md:mb-0 mr-0 md:mr-3"></i>
-      <div>
-        <div class="text-900 topcardstext font-medium mb-1">GET THE SHOPPER CHOICE APP</div>
-        <span class="text-600 text-sm hidden md:block">Mall in your pocket</span>
-      </div>
-    </div>
-    <div class="w-full absolute top-50 left-100 surface-300 hidden md:block" style="transform: translateY(-50%); height: 2px;"></div>
-  </li>
-  <li class="relative mb-5 flex-auto">
-    <div class="border-1 surface-border surface-card border-round p-3 flex flex-column md:flex-row align-items-center z-1">
-      <i class="pi pi-credit-card topicons  text-2xl md:text-4xl mb-2 md:mb-0 mr-0 md:mr-3"></i>
-      <div>
-        <div class="text-900 topcardstext font-medium mb-1">SHOP OVER 3000 PRODUCTS</div>
-        <span class="text-600 text-sm hidden md:block">Using Shop Easy card</span>
-      </div>
-    </div>
-  </li>
-</ul>
-</div>
-<FeaturedStore />
-  </NuxtLayout>
+    <DeltaFooter/>
 </template>
+
 <script setup>
-useHead({
-  title: "OK ShopEasy Zimbabwe",
-  meta: [
-    { name: "description", content: "Your number one e-commerce shopping destination in Zimbabwe" },
-  ],
-});
+import { ref } from 'vue'
+
+const selectedCurrency = ref({ name: 'USD $', code: 'USD' })
+const currencies = [
+  { name: 'USD $', code: 'USD' },
+  { name: 'ZWD $', code: 'ZWD' }
+]
+
+const selectedShop = ref(null)
+const shops = [
+  { name: 'Delta Beverages', code: 'delta' },
+  { name: 'African Distillers', code: 'african' },
+  { name: 'National Breweries', code: 'nat' }
+]
+
+const menuItems = [
+  { label: 'BEERS & CIDERS', icon: 'pi pi-fw pi-beer' },
+  { label: 'SPIRITS', icon: 'pi pi-fw pi-glass' },
+  { label: 'WINES', icon: 'pi pi-fw pi-wine' },
+  { label: 'SHOOTERS', icon: 'pi pi-fw pi-bolt' },
+  { label: 'MIXERS', icon: 'pi pi-fw pi-sliders-h' },
+  { label: 'CIGARETTES', icon: 'pi pi-fw pi-box' },
+  { label: 'DRINKS & JUICES', icon: 'pi pi-fw pi-apple' },
+  { label: 'WATER', icon: 'pi pi-fw pi-water' },
+  { label: 'SNACKS', icon: 'pi pi-fw pi-cookie' }
+]
+
+const categories = [
+  { title: 'BEERS & CIDERS', image: '/placeholder.svg?height=400&width=600', color: 'bg-blue-700' },
+  { title: 'SPIRITS', image: '/placeholder.svg?height=400&width=600', color: 'bg-orange-500' },
+  { title: 'WINES', image: '/placeholder.svg?height=400&width=600', color: 'bg-red-700' },
+  { title: 'SHOOTERS', image: '/placeholder.svg?height=400&width=600', color: 'bg-pink-500' },
+  { title: 'MIXERS', image: '/placeholder.svg?height=400&width=600', color: 'bg-purple-500' },
+  { title: 'DRINKS & JUICES', image: '/placeholder.svg?height=400&width=600', color: 'bg-cyan-500' },
+  { title: 'WATER', image: '/placeholder.svg?height=400&width=600', color: 'bg-teal-500' },
+  { title: 'SNACKS', image: '/placeholder.svg?height=400&width=600', color: 'bg-green-500' }
+]
+
+const products = [
+  { name: 'NIKOLAI VODKA', price: 4.29, image: '/images/sminoff.png?height=10&width=200' },
+  { name: 'JOHNNIE WALKER BLACK', price: 37.71, image: '/images/sminoff.png?height=10&width=200' },
+  { name: 'REMY MARTIN VSOP', price: 65.14, image: '/images/sminoff.png?height=10&width=200' },
+  { name: 'SMIRNOFF 1818', price: 6.86, image: '/images/sminoff.png?height=10&width=200' }
+]
 </script>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
-.layout-wrapper, body {
-    background-color: #ffffff;
-    font-family: "IBM Plex Sans" !important;
-    color: #423939 !important;
-}
-.ibm-plex-sans-thin {
-  font-family: "IBM Plex Sans", sans-serif;
-  font-weight: 100;
-  font-style: normal;
-}
-.p-button-label {
-  font-family: "IBM Plex Sans" !important;
-}
-.p-component {
-    font-family: 'IBM Plex Sans' !important;
-    font-feature-settings: var(--font-feature-settings, normal);
-    font-size: 1rem;
-    font-weight: normal;
+
+<style scoped>
+.hero-section {
+  background-image: linear-gradient(rgba(9, 88, 169, 0.8), rgba(9, 88, 169, 0.8)), url('/placeholder.svg?height=800&width=1600');
+  background-size: cover;
+  background-position: center;
 }
 
-.mb-3.font-medium.nametext {
-   font-family: "IBM Plex Sans";
-   color: #423939;
+.category-card {
+  transition: transform 0.3s ease;
 }
 
-.ibm-plex-sans-extralight {
-  font-family: "IBM Plex Sans", sans-serif;
-  font-weight: 200;
-  font-style: normal;
+.category-card:hover {
+  transform: scale(1.05);
 }
 
-.ibm-plex-sans-light {
-  font-family: "IBM Plex Sans", sans-serif;
-  font-weight: 300;
-  font-style: normal;
+.product-card {
+  transition: box-shadow 0.3s ease;
 }
 
-.ibm-plex-sans-regular {
-  font-family: "IBM Plex Sans", sans-serif;
-  font-weight: 400;
-  font-style: normal;
+.product-card:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
-
-.ibm-plex-sans-medium {
-  font-family: "IBM Plex Sans", sans-serif;
-  font-weight: 500;
-  font-style: normal;
+.p-tag {
+    background: #003e95;
+    color: #ffffff;
+    text-transform: uppercase;
 }
-
-.ibm-plex-sans-semibold {
-  font-family: "IBM Plex Sans", sans-serif;
-  font-weight: 600;
-  font-style: normal;
+button.p-button.p-component.p-button-icon-only.ml-2.cart {
+    background-color: #003e95;
+    border-color: #003e95;
 }
-
-.ibm-plex-sans-bold {
-  font-family: "IBM Plex Sans", sans-serif;
-  font-weight: 700;
-  font-style: normal;
+button.p-button.p-component.p-button-icon-only.p-button-secondary.p-button-outlined.whishlist {
+    background-color: #d6200e;
+    color: white;
 }
-
-.ibm-plex-sans-thin-italic {
-  font-family: "IBM Plex Sans", sans-serif;
-  font-weight: 100;
-  font-style: italic;
+.product_image {
+    width: auto !important;
+    height: 155px !important;
 }
-
-.ibm-plex-sans-extralight-italic {
-  font-family: "IBM Plex Sans", sans-serif;
-  font-weight: 200;
-  font-style: italic;
+img.w-full.h-full.object-cover.border-round {
+    height: 100px !important;
+    width: auto !important;
 }
-
-.ibm-plex-sans-light-italic {
-  font-family: "IBM Plex Sans", sans-serif;
-  font-weight: 300;
-  font-style: italic;
+img.w-full.h-full.object-cover {
+    width: auto !important;
+    height: 155px !important;
 }
-
-.ibm-plex-sans-regular-italic {
-  font-family: "IBM Plex Sans", sans-serif;
-  font-weight: 400;
-  font-style: italic;
+.okaddtocart {
+  background-color: #0958A9;
+  border: none;
 }
-
-.ibm-plex-sans-medium-italic {
-  font-family: "IBM Plex Sans", sans-serif;
-  font-weight: 500;
-  font-style: italic;
+.bonaddtocart {
+    background-color: #a3c962;
+    border: none;
 }
-
-.ibm-plex-sans-semibold-italic {
-  font-family: "IBM Plex Sans", sans-serif;
-  font-weight: 600;
-  font-style: italic;
+.foodaddtocart {
+    background-color: #01713f;
+    border: none;
 }
-
-.ibm-plex-sans-bold-italic {
-  font-family: "IBM Plex Sans", sans-serif;
-  font-weight: 700;
-  font-style: italic;
+img.w-12rem.flex-shrink-0.mx-auto.md\:mx-0 {
+    border-radius: 21px;
 }
-.surface-ground {
-    background-color: #ffffff !important;
+ul.p-carousel-indicators.p-reset {
+    display: none;
 }
-.text-900.font-bold.text-4xl.mb-3.line-height-3 {
-    font-size: 18px !important;
+.card.border-featured {
+    border-radius: 10px !important;
 }
-.topicons {
-    background-color: #f7941f !important;
+img.shop_logo {
+    width: auto;
+    height: 43px;
+}
+button.p-button.p-component.ml-2.cart.tagee {
+    background-image: linear-gradient(to right, #cb1400, #F44336) !important;
+    border: none;
+}
+button.p-button.p-component.shopnow.feat {
+    background-color: #dadada;
+    border-radius: 30px;
+    border: none;
+    color: black;
+}
+.border-1.surface-border.border-round.p-3 {
+    box-shadow: 0 5px 10px 0 rgba(41, 61, 102, .2) !important;
+}
+.okzimbabwe {
+    background-color: red;
+    padding: 10px;
+    border-radius: 25px;
     color: white !important;
-    padding: 10px !important;
-    border-radius: 35px !important;
-}
-.topcardstext {
     font-weight: 900 !important;
+    font-size: 25px !important;
 }
-.text-900.topcardstext.font-medium.mb-1 {
+button.p-button.p-component.ml-auto.cart {
+    background-color: #f7941f;
+    border: none;
+    border-radius: 33px;
+}
+.bonmarche {
+    background-color: red;
+    padding: 10px;
+    border-radius: 25px;
+    color: white !important;
     font-weight: 900 !important;
+    font-size: 25px !important;
+}
+button.p-button.p-component.ok.addtocart.w-full {
+    border-radius: 20px;
+    background-color: red ;
+    border: none;
+}
+.foodlovers {
+    background-color: red;
+    padding: 10px;
+    border-radius: 25px;
+    color: white !important;
+    font-weight: 900 !important;
+    font-size: 25px !important;
+}
+.okmart {
+    background-color: red;
+    padding: 10px;
+    border-radius: 25px;
+    color: white !important;
+    font-weight: 900 !important;
+    font-size: 25px !important;
 }
 </style>
+
