@@ -1,7 +1,10 @@
 <template>
-  <DeltaHeader/>
-  <Hero/>
-  <div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
+    <!-- Top Bar -->
+    <DeltaHeader/>
+    <!-- Hero Section -->
+    <Hero/>
+    <!-- Featured Products -->
+    <div  class="surface-ground px-4 py-8 md:px-6 lg:px-8">
       <h2 class="text-4xl font-bold text-center mb-3" style="color: #0958A9;">Featured Products</h2>
         <div class="col-12 grid grid-nogutter align-items-center">
         <div class="col-12">
@@ -35,41 +38,11 @@
 <script setup>
 import { ref } from 'vue'
 
-const selectedCurrency = ref({ name: 'USD $', code: 'USD' })
-const currencies = [
-  { name: 'USD $', code: 'USD' },
-  { name: 'ZWD $', code: 'ZWD' }
-]
+
+
 
 const selectedShop = ref(null)
-const shops = [
-  { name: 'Delta Beverages', code: 'delta' },
-  { name: 'African Distillers', code: 'african' },
-  { name: 'National Breweries', code: 'nat' }
-]
 
-const menuItems = [
-  { label: 'BEERS & CIDERS', icon: 'pi pi-fw pi-beer' },
-  { label: 'SPIRITS', icon: 'pi pi-fw pi-glass' },
-  { label: 'WINES', icon: 'pi pi-fw pi-wine' },
-  { label: 'SHOOTERS', icon: 'pi pi-fw pi-bolt' },
-  { label: 'MIXERS', icon: 'pi pi-fw pi-sliders-h' },
-  { label: 'CIGARETTES', icon: 'pi pi-fw pi-box' },
-  { label: 'DRINKS & JUICES', icon: 'pi pi-fw pi-apple' },
-  { label: 'WATER', icon: 'pi pi-fw pi-water' },
-  { label: 'SNACKS', icon: 'pi pi-fw pi-cookie' }
-]
-
-const categories = [
-  { title: 'BEERS & CIDERS', image: '/placeholder.svg?height=400&width=600', color: 'bg-blue-700' },
-  { title: 'SPIRITS', image: '/placeholder.svg?height=400&width=600', color: 'bg-orange-500' },
-  { title: 'WINES', image: '/placeholder.svg?height=400&width=600', color: 'bg-red-700' },
-  { title: 'SHOOTERS', image: '/placeholder.svg?height=400&width=600', color: 'bg-pink-500' },
-  { title: 'MIXERS', image: '/placeholder.svg?height=400&width=600', color: 'bg-purple-500' },
-  { title: 'DRINKS & JUICES', image: '/placeholder.svg?height=400&width=600', color: 'bg-cyan-500' },
-  { title: 'WATER', image: '/placeholder.svg?height=400&width=600', color: 'bg-teal-500' },
-  { title: 'SNACKS', image: '/placeholder.svg?height=400&width=600', color: 'bg-green-500' }
-]
 
 const products = [
   { name: 'NIKOLAI VODKA', price: 4.29, image: '/images/sminoff.png?height=10&width=200' },

@@ -128,7 +128,15 @@
 export default defineNuxtComponent({
   head() {
     return {
-     
+      meta: [
+        { charset: "utf-8" },
+        { name: "viewport", content: "width=device-width, initial-scale=0.7" },
+        {
+          hid: "description",
+          name: "OK shopeasy e-commerce system description",
+          content: "OK Zimbabwe Limited",
+        },
+      ],
       link: [
         { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
       ],
