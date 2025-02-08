@@ -93,7 +93,7 @@
           <div class="col-12 md:col-3">
             <h2 class="text-xl font-bold mb-4 text-gold">CONTACT</h2>
             <div class="space-y-2">
-              <p>Liquor Deliveries</p>
+              <p>Delta Zimbabwe</p>
               <p>Shop No 5, Chisipite Shopping Centre, Harare.</p>
               <p>Phone: +263 8688 003417 | +263 78 681 5772</p>
               <p>Email: info@deltastore.co.zw</p>

@@ -33,7 +33,7 @@
   <div class="col-12 lg:col-2 flex items-center justify-center lg:justify-start mb-4 lg:mb-0">
     <Skeleton v-if="skeleton_loader" width="10rem" height="4rem"></Skeleton>
 	
-    <NuxtImg format="webp" v-else :src='mylogo' class="cursor-pointer" alt="Image" height="90" @click="goToHome()" loading="lazy" />
+    <NuxtImg format="webp" v-else src='/images/delta_logo.png' class="cursor-pointer" alt="Image" height="20" style="width: 70%" @click="goToHome()" loading="lazy" />
   </div>
 
   <!-- Search Input -->
@@ -216,19 +216,19 @@
         </div>
         </OverlayPanel>
     </div>
-    <Dialog v-model:visible="select_brand" modal header="Brand Selection" :style="{ width: '25rem' }">
+    <Dialog v-model:visible="select_brand" modal header="Region Selection" :style="{ width: '25rem' }">
     <!-- <template #header>
         <div class="inline-flex align-items-center justify-content-center gap-2">
             
             <span class="font-bold white-space-nowrap">Welcome to <img :src="shopLogo" :alt="shopName" class="h-3rem"></span>
         </div>
     </template> -->
-    <span class="p-text-secondary block mb-5">Select Brand.</span>
+    <span class="p-text-secondary block mb-5">Select Region.</span>
     <div class="flex align-items-center gap-3 mb-3">
-      <Dropdown @change="getBrandById()" v-model="chosenBrand" :options="brands" filter optionLabel="name" optionValue="id" placeholder="Select a Brand" checkmark :highlightOnSelect="false" class="w-full" />
+      <Dropdown @change="getBrandById()" v-model="chosenBrand" :options="brands" filter optionLabel="name" optionValue="id" placeholder="Select a Region" checkmark :highlightOnSelect="false" class="w-full" />
     </div>
     <template #footer>
-        <Button :loading="loading" label="Choose" @click="chooseShop()" severity="secondary" :disabled="!chosenBrand"  autofocus />
+        <Button :loading="loading" label="Choose" @click="chooseShop()" severity="secondary" :disabled="chosenBrand"  autofocus />
     </template>
 </Dialog>
 <Dialog v-model:visible="track_order" modal header="Track Order" :style="{ width: '25rem' }">
@@ -245,7 +245,7 @@
     <template #header>
         <div class="inline-flex align-items-center justify-content-center gap-2">
            
-            <span class="font-bold white-space-nowrap">Welcome to <NuxtImg format="webp" loading="lazy" :src="shopLogo" :alt="shopName" class="h-3rem"/></span>
+            <span class="font-bold white-space-nowrap">Welcome to {{ shopName }}</span>
         </div>
     </template>
     <span class="p-text-secondary block mb-5">Select Branch.</span>
@@ -491,6 +491,7 @@ await getLogo()
     const chooseShop = async () => {
      select_brand.value = false
      select_shop.value = true
+	 console.log('sis',currentBrand.value)
      shopLogo.value = currentBrand.value?.logo;
      shopName.value = currentBrand.value?.name;
      await getShopsForBrand( currentBrand.value?.id);
@@ -1074,13 +1075,13 @@ input.p-inputtext.p-component.p-inputnumber-input {
         margin: auto;
     }
     .okmartheader {
-    background-color: v-bind('menuColor') !important;
+    background-color: #ffffff;
     }
     .p-megamenu.p-megamenu-horizontal .p-megamenu-root-list > .p-menuitem > .p-menuitem-content .p-menuitem-link .p-menuitem-text {
     color:  v-bind('navColor') !important;
 }
 .toppheader {
-    background-color: v-bind('buttonColor') !important;
+    background-color: #0958A9;
 }
 img.imgt {
     height: 40px;
@@ -1105,7 +1106,7 @@ img.imgt {
     overflow-y: auto;
 }
 .checkoutbutton {
-    background-color: v-bind('buttonColor') !important;
+    background-color: #C8B967 !important;
     border: none;
 }
 .p-badge {
@@ -1868,7 +1869,7 @@ ul.flat-unstyled li > ul > li > a {
     align-items: center !important;
     display: flex !important;
     line-height: 62px;
-    background-color: v-bind('buttonColor') !important;
+    background-color: #C8B967 !important;
     /* border-top-left-radius: 9px; */
     /* border-top-right-radius: 9px; */
     position: relative;

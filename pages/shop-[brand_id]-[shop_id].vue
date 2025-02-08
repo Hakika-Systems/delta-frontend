@@ -189,7 +189,7 @@
         <Button @click="goToShop()" :disabled="!selected_shop" type="button" label="Continue Shopping"></Button>
     </div>
 </Dialog>
-<Footer />
+<DeltaFooter/>
 </template>
 <script setup lang="ts">
   import { storeToRefs } from 'pinia';
