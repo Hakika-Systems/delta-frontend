@@ -1,4 +1,5 @@
 <template>
+   <AgeVerification v-if="showAgeVerification" />
     <!-- Top Bar -->
     <DeltaHeader/>
     <!-- Hero Section -->
@@ -39,7 +40,15 @@
 import { ref } from 'vue'
 
 
+const showAgeVerification = ref(false)
 
+onMounted(() => {
+  const ageVerified = localStorage.getItem('ageVerified')
+  if (!ageVerified) {
+    console.log('ssss',showAgeVerification.value)
+    showAgeVerification.value = true
+  }
+})
 
 const selectedShop = ref(null)
 
