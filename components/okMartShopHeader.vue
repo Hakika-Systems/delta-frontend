@@ -228,7 +228,7 @@
       <Dropdown @change="getBrandById()" v-model="chosenBrand" :options="brands" filter optionLabel="name" optionValue="id" placeholder="Select a Region" checkmark :highlightOnSelect="false" class="w-full" />
     </div>
     <template #footer>
-        <Button :loading="loading" label="Choose" @click="chooseShop()" severity="secondary" :disabled="chosenBrand"  autofocus />
+        <Button :loading="loading" label="Choose" @click="chooseShop()" severity="secondary"   autofocus />
     </template>
 </Dialog>
 <Dialog v-model:visible="track_order" modal header="Track Order" :style="{ width: '25rem' }">
@@ -248,7 +248,7 @@
             <span class="font-bold white-space-nowrap">Welcome to {{ shopName }}</span>
         </div>
     </template>
-    <span class="p-text-secondary block mb-5">Select Branch.</span>
+    <span class="p-text-secondary block mb-5">Select Depot.</span>
     <div class="flex align-items-center gap-3 mb-3">
       <Dropdown v-model="shopBranch" :options="branches" filter optionLabel="name" optionValue="id" placeholder="Select a Store" checkmark :highlightOnSelect="false" class="w-full" />
     </div>
@@ -511,12 +511,12 @@ await getLogo()
     // Assign the found brand to chosenBrand
     if (foundBrand) {
         currentBrand.value = foundBrand;
-		if (foundBrand?.name != "OKMART") {
-			currentBrand.value = null;
-			chosenBrand.value = null;
-			toast.add({ severity: 'info', summary: 'Coming Soon', detail: `${foundBrand?.name} will be available soon`, life: 3000 });
-			return
-		}
+		// if (foundBrand?.name != "OKMART") {
+		// 	currentBrand.value = null;
+		// 	chosenBrand.value = null;
+		// 	toast.add({ severity: 'info', summary: 'Coming Soon', detail: `${foundBrand?.name} will be available soon`, life: 3000 });
+		// 	return
+		// }
 
     } else {
         currentBrand.value = null; // Or handle the case when the brand is not found
