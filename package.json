@@ -31,8 +31,6 @@
     "maz-ui": "^3.47.1",
     "nuxt": "^3.12.3",
     "nuxt-booster": "^3.1.6",
-    "nuxt-purgecss": "^2.0.0",
-    "nuxt-security": "^2.1.5",
     "nuxt-swiper": "^1.2.2",
     "pinia": "^2.1.7",
     "primeflex": "^3.3.1",
