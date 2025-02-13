@@ -128,7 +128,7 @@
           <div class="mb-4"></div>
           <div class="flex justify-content-between align-items-center">
             <span class="font-bold text-900 ml-2">
-              {{ findCurrency() }}{{ product.prices[0]?.price ? findConversionRatePrice(product.prices[0]?.price) : formatCurrency(0) }}
+              {{ findCurrency() }}{{ product.prices[0]?.price  }}
             </span>
           </div>
           <div class="custom-input-number">
