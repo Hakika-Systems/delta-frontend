@@ -120,7 +120,7 @@
       <InputGroupAddon>
         <i v-badge="getTotalItemsInCart()" @mouseenter="toggle" @click="toggle" class="pi pi-shopping-cart totalbadge" style="font-size: 25px;" />
       </InputGroupAddon>
-      <InlineMessage severity="secondary">{{ findCurrency() }}</InlineMessage>
+      <InlineMessage severity="secondary">{{ findCurrency() }}{{ findConversionRatePrice(cart_total) }}</InlineMessage>
       <Button 
         @click="goToCheckout()" 
         label="Checkout" 
@@ -674,10 +674,12 @@ return currency ? currency.currency.iso_code : null;
 }
 const findConversionRatePrice = (price:any) => {
     const currencies = brand_currencies.value;
+	console.log('currencies',brand_currencies.value)
 
     // Step 1: Find the default currency
 	//@ts-ignore
-    const defaultCurrency = currencies.find(item => item.default === 1);
+    const defaultCurrency = currencies.find(item => item.currency.is_default == 1);
+	console.log('dd',defaultCurrency)
     if (!defaultCurrency) {
         return null; // Return null or handle error if no default currency is found
     }
@@ -1118,7 +1120,7 @@ img.imgt {
     border: none;
 }
 .p-badge {
-    background: v-bind('buttonColor') !important;
+    background: #c8b967 !important;
 }
       .account-cart-container a {
         display: flex;

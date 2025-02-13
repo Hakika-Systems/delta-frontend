@@ -257,7 +257,7 @@
         </div>
       </div>
     </div>
-    <DeltaFooter />
+    <Footer />
 </template>
 <script setup lang="ts">
 const frontStore = useFrontStore()
