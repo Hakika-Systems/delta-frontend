@@ -18,7 +18,7 @@
       outlined 
     />
 	<Button 
-      @click="track_order = true" 
+      @click="navigateTo('/events',{external:true})" 
       icon="pi pi-ticket" 
       class="topbtn" 
       label="Events" 
