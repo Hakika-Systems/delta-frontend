@@ -323,6 +323,34 @@ export const useFrontStore = defineStore('front', {
       } finally {
       }
     },
+    async getAllProducts() {
+      const url = new URL(`${SHOP_URL}/api/products`);
+      // const params:any = {
+      //     per_page: `${my_params.per_page}`,
+      //     page:`${my_params.page}`,
+      //     shop_brand_id: `${my_params.shop_brand_id}`,
+      //     shop_id: `${my_params.shop_id}`
+      // };
+      // Object.keys(params).forEach((key) =>
+      //     url.searchParams.append(key, params[key])
+      // );
+      const token = useCookie('token').value || ""
+      const headers = {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+      };
+  
+      try {
+          const response = await fetch(url, {
+              method: "GET",
+              headers,
+          });
+          const data = await response.json();
+          return data;
+      } finally {
+      }
+    },
     async getProductBrands(my_params:any) {
       const url = new URL(`${SHOP_URL}/api/product-brands`);
       const params:any = {

@@ -25,7 +25,8 @@
     <NuxtImg format="webp"   width="1920" height="600" :src="image?.file" alt="OK ZIMBABWE" loading="lazy" />
     </SwiperSlide>
   </Swiper>
-</div>
+  </div>
+  <Hero/>
     <div class="surface-section px-4 py-8 md:px-6 lg:px-8">
       <div class="flex justify-content-between flex-wrap">
         <div class="flex align-items-center mb-4 md:mb-0">
@@ -74,25 +75,25 @@
       <div class="flex flex-column mt-auto">
         <div class="flex justify-content-between align-items-center mb-3">
           <span class="font-bold text-900 ml-2">
-            {{ findCurrency() }}{{ data.prices[0]?.price ? findConversionRatePrice(data.prices[0]?.price) : formatCurrency(0) }}
+             {{ data.prices[0]?.price }}
           </span>
         </div>
         
         <Button 
-          v-if="data?.details[0]?.quantity >= 1" 
+          
           :loading="current_id === data.id"  
           @click="addToCartFeatured(data.id, data.prices[0]?.price)" 
           icon="pi pi-cart-arrow-down" 
           label="Add" 
           class="w-full mt-3 cart"
         />
-        <Button 
+        <!-- <Button 
           v-else  
           icon="pi pi-cart-arrow-down"  
           label="OUT OF STOCK" 
           class="w-full mt-3 cart" 
           disabled
-        />
+        /> -->
       </div>
     </div>
   </template>
@@ -164,7 +165,7 @@
   </div>
         </div>
       </div>
-    </div>
+     </div>
 
     <!-- Banner after every 8 products -->
     <div v-if="(index + 1) % 12 === 0" :key="'banner-' + index" class="col-12">
@@ -598,16 +599,16 @@ const addToCartFeatured = async (product_id: any,price:any) => {
     loading.value = false
     return;
   }
-  if (featured_products.value[productIndex].details[0].quantity < 1) {
-    toast.add({
-      severity: 'warn',
-      summary: 'Not added',
-      detail: 'Product out of stock',
-      group: 'br',
-      life: 3000,
-    });
-    loading.value = false
-  }
+  // if (featured_products.value[productIndex].details[0].quantity < 1) {
+  //   toast.add({
+  //     severity: 'warn',
+  //     summary: 'Not added',
+  //     detail: 'Product out of stock',
+  //     group: 'br',
+  //     life: 3000,
+  //   });
+  //   loading.value = false
+  // }
 
   // Check if the product is already in the cart
     // Add the product to the cart with quantity 1
@@ -851,8 +852,8 @@ span.pi.pi-minus {
     }
     .p-button {
     color: #ffffff;
-    background: v-bind('buttonColor') !important;
-    border: 1px solid v-bind('buttonColor') !important;
+    background: #c8b967 !important;
+    border: 1px solid #c8b967 !important;
     padding: 0.5rem 1rem;
     font-size: 1rem;
     transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s, outline-color 0.2s;

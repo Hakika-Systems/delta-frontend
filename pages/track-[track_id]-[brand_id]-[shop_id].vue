@@ -72,7 +72,7 @@
     </div>
     
   </div>
-  <Footer />
+  <DeltaFooter />
 </template>
 
 

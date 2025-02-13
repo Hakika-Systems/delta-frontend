@@ -1,8 +1,7 @@
 <template>
-    <footer class="text-white" style="background-color: #0958A9;">
-      <div class="container mx-auto px-4 py-8">
-        <!-- Main Footer Grid -->
-        <div class="grid">
+  <footer class="text-white" style="background-color: #0958A9;">
+    <div class="container mx-auto px-4 py-4">
+      <div class="grid">
           <!-- Products Column -->
           <div class="col-12 md:col-3">
             <h2 class="text-xl font-bold mb-4 text-gold">PRODUCTS</h2>
@@ -100,81 +99,87 @@
             </div>
           </div>
         </div>
-  
-        <!-- Newsletter Section -->
-        <div class="mt-4 border-t border-white pt-8">
-          <div class="grid">
-            <div class="col-12 md:col-6 flex align-items-center">
-              <span class="font-bold mr-3 text-gold">NEWSLETTER</span>
-              <div class="flex">
-                <InputText 
-                  v-model="email" 
-                  type="email" 
-                  placeholder="Your email address"
-                  class="mr-2"
-                />
-                <Button label="SUBSCRIBE" class="p-button-warning" />
-              </div>
+      <!-- Main Footer Grid -->
+      <!-- [Previous footer content remains the same until the copyright section] -->
+
+      <!-- Newsletter Section with border to separate from copyright -->
+      <div class="mt-4 border-t border-white pt-4 pb-4">
+        <div class="grid">
+          <div class="col-12 md:col-6 flex align-items-center">
+            <span class="font-bold mr-3 text-gold">NEWSLETTER</span>
+            <div class="flex">
+              <InputText 
+                v-model="email" 
+                type="email" 
+                placeholder="Your email address"
+                class="mr-2"
+              />
+              <Button label="SUBSCRIBE" class="p-button-warning" />
             </div>
-            <div class="col-12 md:col-6 flex align-items-center justify-content-end">
-              <span class="font-bold mr-3 text-gold">FOLLOW US</span>
-              <div class="flex gap-4">
-                <a href="#" class="text-white hover:text-gold">
-                  <i class="pi pi-facebook text-xl"></i>
-                </a>
-                <a href="#" class="text-white hover:text-gold">
-                  <i class="pi pi-twitter text-xl"></i>
-                </a>
-                <a href="#" class="text-white hover:text-gold">
-                  <i class="pi pi-instagram text-xl"></i>
-                </a>
-              </div>
+          </div>
+          <div class="col-12 md:col-6 flex align-items-center justify-content-end">
+            <span class="font-bold mr-3 text-gold">FOLLOW US</span>
+            <div class="flex gap-4">
+              <a href="#" class="text-white hover:text-gold">
+                <i class="pi pi-facebook text-xl"></i>
+              </a>
+              <a href="#" class="text-white hover:text-gold">
+                <i class="pi pi-twitter text-xl"></i>
+              </a>
+              <a href="#" class="text-white hover:text-gold">
+                <i class="pi pi-instagram text-xl"></i>
+              </a>
             </div>
           </div>
         </div>
-  
-        <!-- Copyright -->
-        <div class="mt-8 text-center text-sm text-white">
-          © Copyright 2025 Delta Corporation Limited . All Rights Reserved | Powered by Elixr Technologie
-        </div>
       </div>
-    </footer>
-  </template>
-  
-  <script setup>
-  import { ref } from 'vue'
-  
-  const email = ref('')
-  </script>
-  
-  <style scoped>
-  .text-gold {
-    color: #C8B967;
-  }
-  
-  .p-inputtext {
-    background: white;
-    border-color: #FFD700;
-    color: #0958A9;
-  }
-  
-  .p-inputtext::placeholder {
-    color: #0958A9;
-    opacity: 0.7;
-  }
-  
-  :deep(.p-button.p-button-warning) {
-    background: #FFD700;
-    border: none;
-    color: #0958A9;
-  }
-  
-  :deep(.p-button.p-button-warning:hover) {
-    background: #E6C200;
-    color: #0958A9;
-  }
-  
-  .hover\:text-gold:hover {
-    color: #FFD700;
-  }
-  </style>
+    </div>
+
+    <!-- Copyright with gold background -->
+    <div class="py-4 text-center text-sm" style="background-color: #c8b967;">
+      <div class="container mx-auto px-4">
+        <span style="color: #FFFFFF;">
+          © Copyright 2025 Delta Corporation Limited . All Rights Reserved | Powered by Elixr Technologies
+        </span>
+      </div>
+    </div>
+  </footer>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const email = ref('')
+</script>
+
+<style scoped>
+.text-gold {
+color: #c8b967;
+}
+
+.p-inputtext {
+background: white;
+border-color:#c8b967;
+color: #0958A9;
+}
+
+.p-inputtext::placeholder {
+color: #0958A9;
+opacity: 0.7;
+}
+
+:deep(.p-button.p-button-warning) {
+background: #c8b967;
+border: none;
+color: #0958A9;
+}
+
+:deep(.p-button.p-button-warning:hover) {
+background: #c8b967;
+color: #0958A9;
+}
+
+.hover\:text-gold:hover {
+color: #c8b967;
+}
+</style>

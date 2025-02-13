@@ -133,7 +133,7 @@
           </div>
       </div>
   </div>
-  <Footer />
+  <DeltaFooter />
 </template>
 
 <script setup lang="ts">

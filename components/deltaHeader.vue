@@ -1,7 +1,7 @@
 <template>
     <div class="surface-ground">
     <!-- Top Bar -->
-    <div class="text-white p-3" style="background-color: #0958A9;">
+    <div class="text-white p-3" style="background-color: #c8b967;">
       <div class="container">
         <div class="flex justify-content-between align-items-center">
           <div class="flex align-items-center">
@@ -11,31 +11,34 @@
             <span>Email: info@deltastore.co.zw</span>
           </div>
           <div>
-            <Dropdown v-model="selected_currency" :options="currencies" optionLabel="name" placeholder="Select currency" class="mr-2" />
-            <Button label="Sign in" class="p-button-text p-button-plain mr-2" style="color: white;"/>
-            <Button label="Create account" class="p-button-text p-button-plain" style="color: white;"/>
+            <!-- <Dropdown v-model="selected_currency" :options="currencies" optionLabel="name" placeholder="Select currency" class="mr-2" /> -->
+            <!-- <Button label="Sign in" class="p-button-text p-button-plain mr-2" style="color: black;"/>
+            <Button label="Create account" class="p-button-text p-button-plain" style="color: black;"/> -->
           </div>
         </div>
       </div>
     </div>
     <!-- Header -->
-    <div class="surface-card shadow-2 p-3">
+    <div class="surface-card toph shadow-2 p-3">
       <div class="container">
         <div class="flex justify-content-between align-items-center">
-          <img src="/images/delta_logo.png"  style="width: 10%"/>
-          <div>
-            <Dropdown v-model="selected_region" :options="brands" optionLabel="name" placeholder="Select Region to Explore" class="mr-2"  @change="selectShop(selected_region)" />
+          <img src="/images/delta_image.png"  style="width: 15%"/>
+          <div style="float: right; margin-left: auto;" >
+            <Dropdown v-model="selected_region" :options="brands" optionLabel="name" placeholder="Select Region to Explore" class="mr-2"  @change="selectShop(selected_region)"  />
           </div>
         </div>
       </div>
     </div>
-    <Menubar :model="menuItems" class="border-none surface-card shadow-2" />
+    
+      <Menubar style="color:#c8b967;" :model="menuItems" class="border-none shadow-2" />
+    
+ 
     </div>
     <Dialog v-model:visible="select_shop" modal header="Depot Selection" :style="{ width: '25rem' }">
     <template #header>
       <div class="inline-flex align-items-center justify-content-center gap-2">
         <span class="font-bold white-space-nowrap">
-          Welcome to {{ selected_region.name }} Region
+          Welcome to {{ selected_region.name }} 
         </span>
       </div>
     </template>
@@ -101,7 +104,8 @@ const selectShop = async (brandd:any) => {
   select_shop.value = true;
   shopID.value = brandd?.id;
   shopLogo.value = brandd?.logo;
-  await getShopsForBrand( brandd?.id);
+  let result = await getShopsForBrand( brandd?.id);
+  
   shopName.value = brandd?.name;
   sessionStorage.setItem('active_brand', JSON.stringify(brandd))
 }
@@ -427,5 +431,12 @@ const getFeaturedProducts = async (brand_id:any) => {
       font-weight: 900 !important;
       font-size: 25px !important;
   }
+  .toph{
+    background: radial-gradient(circle at center,#15416e 0%,#097fc1 100%) !important;
+    height: 120px
+  }
+  .n{
+    background-color: #c8b967;
+  };
   </style>
   

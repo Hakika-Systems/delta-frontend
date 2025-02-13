@@ -76,7 +76,7 @@
                 </div>
               </div>
       </div>
-      <Footer />
+      <DeltaFooter />
   </template>
   <script lang="ts" setup>
   const order_details:any = ref()

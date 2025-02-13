@@ -403,7 +403,7 @@
     </div>
 </Dialog>
    </NuxtLayout>
-   <Footer />
+   <DeltaFooter />
 </template>
 <script setup lang="ts">
 const frontStore = useFrontStore()

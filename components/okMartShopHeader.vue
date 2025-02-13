@@ -17,7 +17,15 @@
       label="Track Order" 
       outlined 
     />
+	<Button 
+      @click="track_order = true" 
+      icon="pi pi-ticket" 
+      class="topbtn" 
+      label="Events" 
+      outlined 
+    />
   </div>
+  
   
   <!-- Current Shop Info -->
   <a 
@@ -33,7 +41,7 @@
   <div class="col-12 lg:col-2 flex items-center justify-center lg:justify-start mb-4 lg:mb-0">
     <Skeleton v-if="skeleton_loader" width="10rem" height="4rem"></Skeleton>
 	
-    <NuxtImg format="webp" v-else src='/images/delta_logo.png' class="cursor-pointer" alt="Image" height="20" style="width: 70%" @click="goToHome()" loading="lazy" />
+    <NuxtImg format="webp" v-else src='/images/delta_image.png' class="cursor-pointer" alt="Image"  style="width: 70%" @click="goToHome()" loading="lazy" />
   </div>
 
   <!-- Search Input -->
@@ -112,7 +120,7 @@
       <InputGroupAddon>
         <i v-badge="getTotalItemsInCart()" @mouseenter="toggle" @click="toggle" class="pi pi-shopping-cart totalbadge" style="font-size: 25px;" />
       </InputGroupAddon>
-      <InlineMessage severity="secondary">{{ findCurrency() }}{{ findConversionRatePrice(cart_total) }}</InlineMessage>
+      <InlineMessage severity="secondary">{{ findCurrency() }}</InlineMessage>
       <Button 
         @click="goToCheckout()" 
         label="Checkout" 
@@ -125,7 +133,7 @@
   </div>
 </div>
 
-    <div class="belowheader okmartheader px-6  flex align-items-center justify-content-between relative lg:static">
+    <div class="belowheader  px-6  flex align-items-center justify-content-between relative lg:static">
       <div class="row col-12 mainnavv flex">
         <div class="col-md-3 col-2">
 			<Skeleton v-if="skeleton_loader" height="4rem" width="6rem" class="mb-2 ml-2"></Skeleton>
@@ -509,7 +517,7 @@ await getLogo()
     const foundBrand = brands.value.find((brand:any) => brand.id === chosenBrand.value);
 
     // Assign the found brand to chosenBrand
-    if (foundBrand) {
+    if (foundBrand) {	
         currentBrand.value = foundBrand;
 		// if (foundBrand?.name != "OKMART") {
 		// 	currentBrand.value = null;
@@ -1075,13 +1083,13 @@ input.p-inputtext.p-component.p-inputnumber-input {
         margin: auto;
     }
     .okmartheader {
-    background-color: #ffffff;
+		background: radial-gradient(circle at center,#15416e 0%,#097fc1 100%) !important;;
     }
     .p-megamenu.p-megamenu-horizontal .p-megamenu-root-list > .p-menuitem > .p-menuitem-content .p-menuitem-link .p-menuitem-text {
     color:  v-bind('navColor') !important;
 }
 .toppheader {
-    background-color: #0958A9;
+    background-color: #c8b967;
 }
 img.imgt {
     height: 40px;
@@ -4358,6 +4366,6 @@ ul.menu li.column-1 .submenu > li > a i {
     color: rgb(255, 255, 255) !important;
 }
 span.toptr {
-    color: #7a7474;
+    color: #FFFFFF;
 }
 </style>

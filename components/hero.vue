@@ -20,8 +20,8 @@
       },
     }"
   >
-  <SwiperSlide v-for="(image, index) in banners" :key="index">
-    <NuxtImg format="webp"  width="1920" height="600" :src="image?.file" alt="OK shopeasy banners" loading="lazy" />
+  <SwiperSlide v-for="(image, index) in imageBanners" :key="index">
+    <NuxtImg format="webp"  width="1920" height="600" :src="image.image" alt="OK shopeasy banners" loading="lazy" />
     </SwiperSlide>
   </Swiper>
 </div>
@@ -30,6 +30,10 @@
 const frontStore = useFrontStore()
 const loading = ref(false)
 const banners = ref()
+const imageBanners = ref([
+{ image: '/images/delta.jpg' },
+{  image: '/images/deltabanner2.jpg' }
+])
 onMounted(async() => {
 loading.value = true;
 let params = {
@@ -39,6 +43,8 @@ let home_banners = await frontStore.getBanners(params).then((data) => {
   banners.value = data?.data
   loading.value = false;
 })
+
+
 })
 const getParsedImages = (images: string) => {
   try {
@@ -55,6 +61,8 @@ const getParsedImages = (images: string) => {
 
   return '/images/placeholder.png'; // Return null if parsing fails or if parsedImages is null
 };
+
+
 </script>
 <style>
 .th-hero-wrapper {

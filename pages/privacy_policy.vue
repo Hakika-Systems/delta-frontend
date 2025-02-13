@@ -182,7 +182,7 @@
         
         </Accordion>
     </div>
-    <Footer/>
+    <DeltaFooter />
 </template>
 
 <script setup>

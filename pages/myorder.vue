@@ -125,7 +125,7 @@
  </Dialog>
  
     </NuxtLayout>
-    <ShopFooter />
+    <DeltaFooter />
  </template>
  <script setup lang="ts">
  const frontStore = useFrontStore()

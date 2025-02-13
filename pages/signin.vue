@@ -48,7 +48,7 @@
         <Button :loading="loading" type="button" label="Change Password" @click="changePassword()"></Button>
     </div>
 </Dialog>
-  <Footer />
+<DeltaFooter />
   </template>
 <script setup lang="ts">
 import Password from 'primevue/password';
