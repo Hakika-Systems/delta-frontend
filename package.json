@@ -3,20 +3,15 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "prepare": "nuxt prepare",
-    "build": "NITRO_PRESET=netlify nuxt build",
-    "clean": "rm -rf node_modules .nuxt dist .output package-lock.json && npm install",
+    "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
+    "start": "node .output/server/index.mjs",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
   "overrides": {
-    "vue": "latest",
-    "rollup": "npm:@rollup/wasm-node"
-  },
-  "resolutions": {
-    "rollup": "npm:@rollup/wasm-node"
+    "vue": "latest"
   },
   "dependencies": {
     "@nuxt/image": "^1.8.1",
@@ -24,6 +19,7 @@
     "@paralleldrive/cuid2": "^2.2.2",
     "@pinia/nuxt": "^0.5.1",
     "@primevue/themes": "^4.0.0",
+    "@tawk.to/tawk-messenger-vue-3": "^1.0.3",
     "@types/jquery": "^3.5.30",
     "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
@@ -35,12 +31,13 @@
     "maz-ui": "^3.47.1",
     "nuxt": "^3.12.3",
     "nuxt-booster": "^3.1.6",
+    "nuxt-purgecss": "^2.0.0",
+    "nuxt-security": "^2.1.5",
     "nuxt-swiper": "^1.2.2",
     "pinia": "^2.1.7",
     "primeflex": "^3.3.1",
     "primeicons": "^7.0.0",
     "primevue": "^3.53.0",
-    "prisma": "^6.3.1",
     "sweetalert2": "^11.12.2",
     "swiper": "^11.1.14",
     "vue": "latest"
