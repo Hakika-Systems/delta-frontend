@@ -306,7 +306,6 @@ const getFeaturedProducts = async (brand_id:any) => {
 </script>
   <style scoped>
   .hero-section {
-    background-image: linear-gradient(rgba(9, 88, 169, 0.8), rgba(9, 88, 169, 0.8)), url('/placeholder.svg?height=800&width=1600');
     background-size: cover;
     background-position: center;
   }
