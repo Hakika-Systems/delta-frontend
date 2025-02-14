@@ -4,8 +4,8 @@
   "type": "module",
   "scripts": {
     "prepare": "nuxt prepare",
-    "build": "nuxt build",
-    "clean": "rm -rf node_modules package-lock.json && npm install",
+    "build": "NITRO_PRESET=netlify nuxt build",
+    "clean": "rm -rf node_modules .nuxt dist .output package-lock.json && npm install",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
@@ -13,6 +13,9 @@
   },
   "overrides": {
     "vue": "latest",
+    "rollup": "npm:@rollup/wasm-node"
+  },
+  "resolutions": {
     "rollup": "npm:@rollup/wasm-node"
   },
   "dependencies": {
