@@ -10,10 +10,6 @@ export default defineNuxtConfig({
   css: ["primeflex/primeflex.css"],
   modules: ["@primevue/nuxt-module", '@pinia/nuxt', 'nuxt-swiper', '@nuxt/image'],
 
-
-  plugins: [
-    { src: '~/plugins/tawk-messenger.client.js', mode: 'client' }
-  ],
   vite: {
     css: {
         preprocessorOptions: {
