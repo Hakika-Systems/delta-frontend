@@ -12,7 +12,7 @@ export const useFrontStore = defineStore('front', {
         brand_id: null,
         old_cart_id: null,
         brand_featured_products: {},
-        cart_total: 0.00,
+        cart_total: 0,
         currencies: [],
         selected_currency: null,
         cart_id: null,
@@ -903,6 +903,9 @@ export const useFrontStore = defineStore('front', {
           body: JSON.stringify(body),
         });
         const data = await response.json();
+        if (data?.cart_total) {
+          this.cart_total = data.cart_total;
+        }
         return data;
       } catch (error) {
         console.error('Error:', error);
@@ -975,24 +978,15 @@ export const useFrontStore = defineStore('front', {
       }
     },
     async getCart() {
-      const url = `${SHOP_URL}/api/carts/${this.cart_id}`;
-      const token = useCookie('token').value || "";
-      
-      const headers = {
-        "Authorization": `Bearer ${token}`,
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      };
-      
       try {
-        const response = await fetch(url, {
-          method: "GET",
-          headers
-        });
-        const data = await response.json();
-        return data;
+        const response = await $fetch('/api/cart'); // your actual API endpoint
+        if (response?.data) {
+          this.cart = response.data.items;
+          this.cart_total = response.data.cart_total;
+        }
+        return response;
       } catch (error) {
-        console.error('Error:', error);
+        console.error('Error getting cart:', error);
         throw error;
       }
     },

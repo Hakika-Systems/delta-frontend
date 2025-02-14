@@ -18,9 +18,7 @@ export default defineNuxtConfig({
   modules: ["@primevue/nuxt-module", '@pinia/nuxt', 'nuxt-swiper', '@nuxt/image', '@nuxtjs/seo'],
 
 
-  plugins: [
-    { src: '~/plugins/tawk-messenger.client.js', mode: 'client' }
-  ],
+  
   vite: {
     css: {
         preprocessorOptions: {

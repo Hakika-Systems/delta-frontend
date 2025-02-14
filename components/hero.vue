@@ -35,7 +35,7 @@ const imageBanners = ref([
 {  image: '/images/deltabanner2.jpg' }
 ])
 onMounted(async() => {
-loading.value = true;
+loading.value =   true;
 let params = {
   slug: "Home"
 }
