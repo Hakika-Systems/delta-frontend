@@ -5,30 +5,31 @@
     <!-- Hero Section -->
     <Hero/>
     <!-- Featured Products -->
-    <div  class="surface-ground px-4 py-8 md:px-6 lg:px-8">
-      <h2 class="text-4xl font-bold text-left mb-3" style="color: #0958A9;">Suggested Products</h2>
-        <div class="col-12 grid grid-nogutter align-items-center">
-        <div class="col-12">
-          <div class="grid">
-            <div v-for="product in products_" :key="index" class="col-12 md:col-6 lg:col-3">
-              <div class="p-2">
-                <div class="border-1 surface-border border-round m-2 p-3" style="min-height: 350px; display: flex; flex-direction: column; justify-content: space-between;">
-                  <div  class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
-                    <img class="product_image object-cover" :placeholder="[50, 50, 50, 50]"   :src="getParsedImages(product.images)" :alt="product?.name" loading="lazy" />
-                  </div>
-                  <div  class="mb-3 font-medium nametext cursor-pointer">{{ product.name}}</div>
-                  <div class="mb-4">
-                  </div>
-                  <div class="flex justify-content-between align-items-center">
-                    <span class="font-bold text-900 ml-2"></span>
-                  </div>
-                  <Button icon="pi pi-cart-arrow-down"   @click="select_brand = true"  label="GO TO SHOP" class="cart mt-3 okaddtocart w-full"/>
-                </div>
+    <div class="surface-ground px-4 py-8 md:px-6 lg:px-8" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)">
+      <div class="section-header mb-6">
+        <h2 class="text-4xl font-bold mb-2" style="color: #0958A9;">Our Premium Beverages</h2>
+        <div class="header-accent" style="height: 4px; width: 60px; background: linear-gradient(90deg, #c8b967 0%, #0958a9 100%);"></div>
+      </div>
+
+      <div class="grid">
+        <div v-for="product in products_" :key="product.id">
+          <div class="p-2">
+            <div class="delta-product-card surface-card border-round-xl p-4">
+              <div class="product-badge" v-if="product.isNew">New</div>
+              <div class="product-image-wrapper mb-4">
+                <img class="product-image" :src="getParsedImages(product.images)" :alt="product?.name" loading="lazy" />
+              </div>
+              <div class="product-content">
+                <h3 class="text-xl font-bold mb-2 text-900">{{ product.name }}</h3>
+                <p class="text-600 mb-4 product-description">{{ product.description || 'Premium beverage from Delta' }}</p>
+                <Button 
+                  icon="pi pi-shopping-cart"
+                  label="Find Depot" 
+                  class="delta-button w-full"
+                  @click="select_brand = true"
+                />
               </div>
             </div>
-            <!-- <div  class="col-8 md:col-6 lg:col-12">
-              <img src="/images/middle_banner.jpg" alt="Side Banner" class="w-full"  >
-            </div> -->
           </div>
         </div>
       </div>
@@ -101,7 +102,7 @@ import { createId } from '@paralleldrive/cuid2';
     const menuItems = ref()
     const current_id = ref()
     const product_brands = ref()
-	const mylogo = ref()
+	  const mylogo = ref()
     const search_text = ref();
     const brand_id = ref()
     const shop_id = ref()
@@ -359,6 +360,143 @@ button.p-button.p-component.ok.addtocart.w-full {
     color: white !important;
     font-weight: 900 !important;
     font-size: 25px !important;
+}
+.section-header {
+  position: relative;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 1rem;
+  align-items: stretch;
+}
+
+@media screen and (max-width: 1200px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.delta-product-card {
+  position: relative;
+  transition: all 0.3s ease;
+  background: white;
+  border: 1px solid rgba(9, 88, 169, 0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.delta-product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(9, 88, 169, 0.15);
+  border-color: #c8b967;
+}
+
+.product-image-wrapper {
+  background: #ffffff;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  padding: 1rem;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.product-image {
+  max-height: 200px;
+  width: auto;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.delta-product-card:hover .product-image {
+  transform: scale(1.05);
+}
+
+.product-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: linear-gradient(90deg, #0958a9 0%, #c8b967 100%);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  z-index: 1;
+}
+
+.product-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.delta-button {
+  background: linear-gradient(90deg, #0958a9 0%, #0747a6 100%);
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.delta-button:hover {
+  background: linear-gradient(90deg, #0958a9 0%, #c8b967 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(9, 88, 169, 0.2);
+}
+
+/* Dialog customization */
+:deep(.p-dialog) {
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+:deep(.p-dialog-header) {
+  background: linear-gradient(90deg, #0958a9 0%, #074a8c 100%);
+  color: white;
+  border-radius: 16px 16px 0 0;
+}
+
+:deep(.p-dropdown) {
+  border-radius: 8px;
+  border-color: #c8b967;
+}
+
+:deep(.p-dropdown:hover) {
+  border-color: #0958a9;
+}
+
+:deep(.p-button) {
+  border-radius: 8px;
+}
+
+.product-description {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 </style>
 
