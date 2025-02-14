@@ -67,7 +67,7 @@
     <DeltaFooter/>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 const frontStore = useFrontStore()
 const brands = storeToRefs(frontStore).brands
@@ -186,15 +186,44 @@ const chooseShop = async () => {
     }
 
     const goToShop = async () => {
-//   loading.value = true;
-//   sessionStorage.setItem('active_brand', JSON.stringify(currentBrand.value))
-//   sessionStorage.setItem('current_shop_id', JSON.stringify(chosenBrand.value))
-//   sessionStorage.setItem('current_shop_branch', JSON.stringify(shopBranch.value))
-//   select_shop.value = false
-//   loading.value = false;
-  await navigateTo(`/shop-${chosenBrand.value}-${shopBranch.value}`,{external:true});
-  
-}
+      try {
+        loading.value = true
+
+        if (!currentBrand.value || !chosenBrand.value || !shopBranch.value) {
+          toast.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Please select a store to continue',
+            life: 3000
+          })
+          return
+        }
+
+        // Save essential data to session storage
+        sessionStorage.setItem('active_brand', JSON.stringify(currentBrand.value))
+        sessionStorage.setItem('current_shop_id', JSON.stringify(chosenBrand.value))
+        sessionStorage.setItem('current_shop_branch', JSON.stringify(shopBranch.value))
+
+        // Create guest ID if not exists
+        if (!sessionStorage.getItem('guest_id')) {
+          const guestId = createId()
+          sessionStorage.setItem('guest_id', JSON.stringify(guestId))
+        }
+
+        select_shop.value = false
+        await navigateTo(`/shop-${chosenBrand.value}-${shopBranch.value}`, { external: true })
+      } catch (err) {
+        console.error('Navigation error:', err)
+        toast.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to navigate to shop. Please try again.',
+          life: 3000
+        })
+      } finally {
+        loading.value = false
+      }
+    }
 const formatCurrency = (value) => {
     return value.toLocaleString('en-US', { style: 'currency', currency: currency.value });
 };

@@ -191,6 +191,22 @@
     </div>
 </Dialog>
 <DeltaFooter/>
+
+<!-- Error State -->
+<div v-if="error" class="flex flex-column align-items-center justify-content-center p-4">
+  <i class="pi pi-exclamation-triangle text-red-500 text-5xl mb-4"></i>
+  <h2>{{ error }}</h2>
+  <p class="text-600 mb-4">{{ errorDetails }}</p>
+  <div class="flex gap-3">
+    <Button label="Try Again" @click="initializePage" severity="primary" />
+    <Button label="Return Home" @click="goHome" severity="secondary" outlined />
+  </div>
+</div>
+
+<!-- Loading Overlay -->
+<div v-if="loading" class="fixed top-0 left-0 w-full h-full flex justify-content-center align-items-center bg-black-alpha-40" style="z-index: 1000;">
+  <ProgressSpinner />
+</div>
 </template>
 <script setup lang="ts">
   import { storeToRefs } from 'pinia';
@@ -214,7 +230,7 @@
   const first = ref(0);
   const user_id = useCookie('user_id');
   const visible = ref(false)
-  const loading = ref(false)
+  const loading = ref(true)
   const cart_id:any = storeToRefs(frontStore).cart_id
   const product = storeToRefs(frontStore).product
   const brand_idd:any = storeToRefs(frontStore).brand_id
@@ -344,7 +360,7 @@ const findConversionRatePrice = (price:any) => {
     // Step 3: Determine the conversion rate
     const selectedRate = parseFloat(selectedCurrency.conversion_rate);
 
-    // Multiply the price by the selected currency’s conversion rate
+    // Multiply the price by the selected currency's conversion rate
     const convertedPrice = price * selectedRate;
 
     // Return the converted price
@@ -382,8 +398,8 @@ const findConversionRatePrice = (price:any) => {
 
     if (!storeConfig) {
       console.error('active_brand is missing');
-      navigateTo('/', { external: true }); // Redirect to homepage
-      return;
+      // navigateTo('/', { external: true }); // Redirect to homepage
+      // return;
     }
 
     const parsedConfig = JSON.parse(storeConfig);
@@ -395,8 +411,8 @@ const findConversionRatePrice = (price:any) => {
     // Redirect if essential IDs are missing
     if (!shop_id || !brand_id || shop_id === "undefined") {
       visible.value = shop_id === "undefined";
-      navigateTo('/', { external: true });
-      return;
+      // navigateTo('/', { external: true });
+      // return;
     }
 
     // Update brand and shop IDs
@@ -573,93 +589,231 @@ const findConversionRatePrice = (price:any) => {
       }
     })
 };
-const addToCartFeatured = async (product_id: any,price:any) => {
+const addToCartFeatured = async (product_id: any, price: any) => {
+  try {
     current_id.value = product_id
     loading.value = true
-  // Find the product in products
-  const productIndex = featured_products.value.findIndex((prod:any) => prod.id === product_id);
 
-  if (productIndex === -1) {
-    loading.value = false
-    return;
-  }
+    if (!cart_id.value) {
+      throw new Error('Cart not initialized')
+    }
 
-  const product = featured_products.value[productIndex];
-  const productPrice = product.prices.length > 0 ? product.prices[0].price : null;
+    // Clean the cart ID
+    const cleanCartId = cart_id.value.toString().replace(/['"]+/g, '')
+    console.log('Adding to cart with ID:', cleanCartId)
 
-  if (!productPrice) {
+    let cart_item = {
+      cart_id: cleanCartId,
+      product_id: product_id,
+      quantity: 1,
+      unit_price: Number(price),
+      total_price: Number(price),
+    }
+
+    const response = await frontStore.addCartItem(cart_item)
+    
+    if (response?.status === "success") {
+      // Update cart with clean cart ID
+      const cartResponse = await frontStore.getCartTwo(cleanCartId)
+      cart.value = cartResponse?.data?.items || []
+      cart_total.value = cartResponse?.data?.cart_total || 0
+
+      // Store clean cart ID
+      if (!user_id.value) {
+        sessionStorage.setItem('cart_id', cleanCartId)
+        sessionStorage.setItem('current_cart_shop_id', shop_id.toString())
+        sessionStorage.setItem('current_cart_brand', brand_id.toString())
+      }
+
+      toast.add({
+        severity: 'info',
+        summary: 'Cart',
+        detail: 'Product Added',
+        group: 'br',
+        life: 3000,
+      })
+    } else {
+      throw new Error('Could not add product')
+    }
+  } catch (err: any) {
+    console.error('Add to cart error:', err)
     toast.add({
       severity: 'warn',
-      summary: 'Not added',
-      detail: 'Product price not found',
+      summary: 'Cart',
+      detail: err.message || 'Could not add product',
       group: 'br',
       life: 3000,
-    });
-    console.error('Product price not found');
-    loading.value = false
-    return;
-  }
-  // if (featured_products.value[productIndex].details[0].quantity < 1) {
-  //   toast.add({
-  //     severity: 'warn',
-  //     summary: 'Not added',
-  //     detail: 'Product out of stock',
-  //     group: 'br',
-  //     life: 3000,
-  //   });
-  //   loading.value = false
-  // }
-
-  // Check if the product is already in the cart
-    // Add the product to the cart with quantity 1
-    let cart_item = {
-    cart_id: cart_id.value,
-    product_id: product_id,
-    quantity: 1,
-    unit_price: Number(price),
-    total_price: Number(price),
-    }
-    let add_cart_item = await frontStore.addCartItem(cart_item).then( async (data) => {
-      if (data?.status === "success") {
-        loading.value = false
-        current_id.value = null
-        let new_cart = await frontStore.getCart().then((data) => {
-          if (!user_id.value) {
-            sessionStorage.setItem('cart_id', JSON.stringify(data?.data?.id))
-            sessionStorage.setItem('current_cart_shop_id', JSON.stringify(shop_id))
-            sessionStorage.setItem('current_cart_brand',JSON.stringify(brand_id))
-          } else {
-            sessionStorage.removeItem('cart_id');
-            sessionStorage.removeItem('current_cart_shop_id');
-            sessionStorage.removeItem('current_cart_brand');
-          }
-          
-          cart.value = data.data.items
-          cart_total.value = data?.data?.cart_total
-        })
-        toast.add({
-          severity: 'info',
-          summary: 'Cart',
-          detail: 'Product Added',
-          group: 'br',
-          life: 3000,
-        });
-      } else {
-        toast.add({
-          severity: 'warn',
-          summary: 'Cart',
-          detail: 'Could not add product',
-          group: 'br',
-          life: 3000,
-        });
-        current_id.value = null
-      }
     })
-};
+  } finally {
+    loading.value = false
+    current_id.value = null
+  }
+}
 
+// Page state
+const error = ref<string | null>(null)
+const errorDetails = ref<string | null>(null)
 
-  
-  </script>
+// Initialize cart with better error handling
+const initializeCart = async (shop_id: string, user_id: string | null, guest_id: string) => {
+  try {
+    // Try to get existing cart
+    const currentCartId = sessionStorage.getItem('cart_id')
+    
+    if (currentCartId) {
+      try {
+        // Remove any quotes from the cart ID
+        const cleanCartId = currentCartId.replace(/['"]+/g, '')
+        console.log('Fetching cart with ID:', cleanCartId)
+        
+        const response = await frontStore.getCartTwo(cleanCartId)
+        if (response?.data) {
+          console.log('Using existing cart:', response.data)
+          return {
+            items: response.data.items || [],
+            total: response.data.cart_total || 0,
+            id: cleanCartId
+          }
+        }
+      } catch (err: any) {
+        console.log('Cart fetch error:', err.response?.status)
+        if (err.response?.status === 404) {
+          console.log('Cart not found, removing from session')
+          sessionStorage.removeItem('cart_id')
+        }
+      }
+    }
+
+    // Create new cart if no existing cart or 404 error
+    console.log('Creating new cart...')
+    try {
+      // Determine if we should use guest_id or user_id
+      const cartPayload = guest_id ? 
+        {
+          user_id: null,
+          guest_id: guest_id,
+          shop_id: parseInt(shop_id)
+        } : 
+        {
+          user_id: parseInt(user_id!),
+          guest_id: null,
+          shop_id: parseInt(shop_id)
+        }
+
+      console.log('Cart creation payload:', cartPayload)
+
+      const response = await $fetch('https://api.hakikasystems.co.zw/api/carts', {
+        method: 'POST',
+        headers: {
+          'accept': '*/*',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(cartPayload)
+      })
+
+      if (!response || !response.data || !response.data.id) {
+        throw new Error('Invalid cart creation response')
+      }
+
+      // Store cart ID without quotes
+      const newCartId = response.data.id.toString()
+      console.log('New cart created with ID:', newCartId)
+      sessionStorage.setItem('cart_id', newCartId)
+      
+      return {
+        items: response.data.items || [],
+        total: response.data.cart_total || 0,
+        id: newCartId
+      }
+    } catch (createErr: any) {
+      console.error('Failed to create new cart:', createErr)
+      if (createErr.response?.data?.errors) {
+        throw new Error(`Cart creation failed: ${createErr.response.data.errors.join(', ')}`)
+      }
+      throw new Error('Failed to create new cart')
+    }
+  } catch (err) {
+    console.error('Cart initialization error:', err)
+    error.value = 'Cart Error'
+    errorDetails.value = err.message || 'Failed to initialize cart'
+    return null
+  }
+}
+
+// Initialize page function
+const initializePage = async () => {
+  try {
+    loading.value = true
+    error.value = null
+    errorDetails.value = null
+
+    // Validate route params
+    if (!shop_id || !brand_id || shop_id === "undefined") {
+      error.value = 'Invalid Shop Parameters'
+      errorDetails.value = 'The shop information is incomplete'
+      return
+    }
+
+    // Set store IDs
+    brand_idd.value = brand_id
+    shop_idd.value = shop_id
+
+    // Ensure we have a guest ID if no user ID
+    if (!user_id.value) {
+      const storedGuestId = sessionStorage.getItem('guest_id')
+      guest_id.value = storedGuestId ? JSON.parse(storedGuestId) : createId()
+      if (!storedGuestId) {
+        sessionStorage.setItem('guest_id', JSON.stringify(guest_id.value))
+      }
+    }
+
+    // Initialize cart with proper ID handling
+    const cartData = await initializeCart(
+      shop_id,
+      user_id.value,
+      !user_id.value ? guest_id.value : null // Only use guest_id if no user_id
+    )
+
+    if (!cartData) {
+      error.value = 'Cart Initialization Failed'
+      errorDetails.value = 'Unable to create or retrieve cart. Please try again.'
+      return
+    }
+
+    // Update store with cart data
+    cart.value = cartData.items
+    cart_total.value = cartData.total
+    cart_id.value = cartData.id
+
+    // Get store config and continue with other initialization...
+    const storeConfig = sessionStorage.getItem('active_brand')
+    if (storeConfig) {
+      const parsedConfig = JSON.parse(storeConfig)
+      const adverts = parsedConfig?.adverts || []
+      banners.value = adverts.filter((ad: any) => ad.display_position === "Top")
+    }
+
+    // Rest of your initialization code...
+
+  } catch (err: any) {
+    console.error('Page initialization error:', err)
+    error.value = 'Shop Loading Error'
+    errorDetails.value = err.message || 'An unexpected error occurred'
+  } finally {
+    loading.value = false
+  }
+}
+
+// Initialize on mount
+onMounted(() => {
+  if (!process.client) return
+  initializePage()
+})
+
+const goHome = () => {
+  navigateTo('/', { external: true })
+}
+</script>
  <style scoped>
  .custom-input-number {
    display: flex;
