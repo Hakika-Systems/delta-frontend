@@ -3,15 +3,17 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "prepare": "nuxt prepare",
     "build": "nuxt build",
+    "clean": "rm -rf node_modules package-lock.json && npm install",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
-    "start": "node .output/server/index.mjs",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
   "overrides": {
-    "vue": "latest"
+    "vue": "latest",
+    "rollup": "npm:@rollup/wasm-node"
   },
   "dependencies": {
     "@nuxt/image": "^1.8.1",
