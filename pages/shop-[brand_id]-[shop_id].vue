@@ -197,22 +197,6 @@
     </div>
 </Dialog>
 <DeltaFooter/>
-
-<!-- Error State -->
-<div v-if="error" class="flex flex-column align-items-center justify-content-center p-4">
-  <i class="pi pi-exclamation-triangle text-red-500 text-5xl mb-4"></i>
-  <h2>{{ error }}</h2>
-  <p class="text-600 mb-4">{{ errorDetails }}</p>
-  <div class="flex gap-3">
-    <Button label="Try Again" @click="initializePage" severity="primary" />
-    <Button label="Return Home" @click="goHome" severity="secondary" outlined />
-  </div>
-</div>
-
-<!-- Loading Overlay -->
-<div v-if="loading" class="fixed top-0 left-0 w-full h-full flex justify-content-center align-items-center bg-black-alpha-40" style="z-index: 1000;">
-  <ProgressSpinner />
-</div>
 </template>
 <script setup lang="ts">
   import { storeToRefs } from 'pinia';
@@ -236,8 +220,8 @@
   const first = ref(0);
   const user_id = useCookie('user_id');
   const visible = ref(false)
-  const loading = ref(true)
-  const cart_id:any = storeToRefs(frontStore).cart_id
+  const loading = ref(false)
+  const { cart_id } = storeToRefs(frontStore)
   const product = storeToRefs(frontStore).product
   const brand_idd:any = storeToRefs(frontStore).brand_id
   const shop_idd:any = storeToRefs(frontStore).shop_id
@@ -397,50 +381,81 @@ const findConversionRatePrice = (price:any) => {
     try {
       if (typeof window === 'undefined') return;
 
-    // Initialize variables
-    const gi = sessionStorage.getItem('guest_id');
-    const current_cart_id = sessionStorage.getItem('cart_id');
-    const storeConfig = sessionStorage.getItem('active_brand');
+      // Check for required route params first
+      if (!shop_id || !brand_id) {
+        console.error('Missing required route parameters');
+        await navigateTo('/', { external: true });
+        return;
+      }
 
-    if (!storeConfig) {
-      console.error('active_brand is missing');
-      // navigateTo('/', { external: true }); // Redirect to homepage
-      // return;
-    }
+      // Get store configuration
+      const storeConfig = sessionStorage.getItem('active_brand');
+      if (!storeConfig) {
+        console.error('Store configuration missing');
+        await navigateTo('/', { external: true });
+        return;
+      }
 
-    const parsedConfig = JSON.parse(storeConfig);
-    const adverts = parsedConfig?.adverts || [];
-    banners.value = adverts.filter((ad: any) => ad.display_position === "Top");
+      // Initialize basic data
+      const parsedConfig = JSON.parse(storeConfig);
+      banners.value = parsedConfig?.adverts?.filter((ad: any) => ad.display_position === "Top") || [];
+      
+      // Set IDs
+      brand_idd.value = brand_id;
+      shop_idd.value = shop_id;
 
-    guest_id.value = gi ? JSON.parse(gi) : null;
+      // Handle guest ID
+      const gi = sessionStorage.getItem('guest_id');
+      if (!gi) {
+        const newGuestId = createId();
+        guest_id.value = newGuestId;
+        sessionStorage.setItem('guest_id', JSON.stringify(newGuestId));
+      } else {
+        guest_id.value = JSON.parse(gi);
+      }
 
-    // Redirect if essential IDs are missing
-    if (!shop_id || !brand_id || shop_id === "undefined") {
-      visible.value = shop_id === "undefined";
-      // navigateTo('/', { external: true });
-      // return;
-    }
+      // Handle cart initialization
+      const current_cart_id = sessionStorage.getItem('cart_id');
+      if (current_cart_id) {
+        const cartResponse = await frontStore.getCartTwo(current_cart_id);
+        if (cartResponse?.data) {
+          cart.value = cartResponse.data.items || [];
+          if (typeof cartResponse.data.cart_total === 'number') {
+            cart_total.value = cartResponse.data.cart_total;
+          }
+          cart_id.value = current_cart_id;
+        }
+      } else {
+        const cartResponse = await frontStore.createCart({
+          shop_id,
+          user_id: user_id.value,
+          guest_id: guest_id.value,
+        });
+        if (cartResponse?.data) {
+          cart.value = cartResponse.data.items || [];
+          if (typeof cartResponse.data.cart_total === 'number') {
+            cart_total.value = cartResponse.data.cart_total;
+          }
+          cart_id.value = cartResponse.data.id;
+        }
+      }
 
-    // Update brand and shop IDs
-    brand_idd.value = brand_id;
-    shop_idd.value = shop_id;
-
-    // Fetch data concurrently
-    const [productsResponse, featuredProductsResponse, bannersResponse] = await Promise.all([
-      frontStore.getProducts({
-        page: 1,
-        per_page: 60,
-        shop_brand_id: brand_id,
-        shop_id: shop_id,
-      }),
-      frontStore.getFeaturedProducts({
-        page: 1,
-        per_page: 80,
-        is_shop_brand: false,
-        id: shop_id,
-      }),
-      frontStore.getBanners({ slug: "strip" }),
-    ]);
+      // Fetch data in parallel
+      const [productsData, featuredData, bannersData] = await Promise.all([
+        frontStore.getProducts({
+          page: 1,
+          per_page: 60,
+          shop_brand_id: brand_id,
+          shop_id: shop_id,
+        }),
+        frontStore.getFeaturedProducts({
+          page: 1,
+          per_page: 80,
+          is_shop_brand: false,
+          id: shop_id,
+        }),
+        frontStore.getBanners({ slug: "strip" })
+      ]);
 
       // Process products data
       if (productsData?.data) {
@@ -556,100 +571,80 @@ const findConversionRatePrice = (price:any) => {
           life: 3000,
         });
       } else {
-        toast.add({
-          severity: 'warn',
-          summary: 'Cart',
-          detail: 'Could not add product',
-          group: 'br',
-          life: 3000,
-        });
-        current_id.value = null
+        throw new Error('Could not add product');
       }
-    })
-};
-const addToCartFeatured = async (product_id: any,price:any) => {
-    current_id.value = product_id
-    loading.value = true
-  // Find the product in products
-  const productIndex = featured_products.value.findIndex((prod:any) => prod.id === product_id);
 
-  if (productIndex === -1) {
-    loading.value = false
-    return;
-  }
-
-  const product = featured_products.value[productIndex];
-  const productPrice = product.prices.length > 0 ? product.prices[0].price : null;
-
-  if (!productPrice) {
-    toast.add({
-      severity: 'warn',
-      summary: 'Not added',
-      detail: 'Product price not found',
-      group: 'br',
-      life: 3000,
-    });
-    console.error('Product price not found');
-    loading.value = false
-    return;
-  }
-  // if (featured_products.value[productIndex].details[0].quantity < 1) {
-  //   toast.add({
-  //     severity: 'warn',
-  //     summary: 'Not added',
-  //     detail: 'Product out of stock',
-  //     group: 'br',
-  //     life: 3000,
-  //   });
-  //   loading.value = false
-  // }
-
-  // Check if the product is already in the cart
-    // Add the product to the cart with quantity 1
-    let cart_item = {
-    cart_id: cart_id.value,
-    product_id: product_id,
-    quantity: 1,
-    unit_price: Number(price),
-    total_price: Number(price),
+    } catch (error: any) {
+      console.error('Error adding to cart:', error);
+      toast.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: error.message || 'Could not add product',
+        group: 'br',
+        life: 3000,
+      });
+    } finally {
+      loading.value = false;
+      current_id.value = null;
     }
-    let add_cart_item = await frontStore.addCartItem(cart_item).then( async (data) => {
-      if (data?.status === "success") {
-        loading.value = false
-        current_id.value = null
-        let new_cart = await frontStore.getCart().then((data) => {
-          if (!user_id.value) {
-            sessionStorage.setItem('cart_id', JSON.stringify(data?.data?.id))
-            sessionStorage.setItem('current_cart_shop_id', JSON.stringify(shop_id))
-            sessionStorage.setItem('current_cart_brand',JSON.stringify(brand_id))
-          } else {
-            sessionStorage.removeItem('cart_id');
-            sessionStorage.removeItem('current_cart_shop_id');
-            sessionStorage.removeItem('current_cart_brand');
-          }
-          
-          cart.value = data.data.items
-          cart_total.value = data?.data?.cart_total
-        })
+  };
+
+  const addToCartFeatured = async (product_id: any, price: any) => {
+    try {
+      current_id.value = product_id;
+      loading.value = true;
+
+      const productIndex = featured_products.value.findIndex((prod: any) => prod.id === product_id);
+      if (productIndex === -1) {
+        throw new Error('Product not found');
+      }
+
+      const cart_item = {
+        cart_id: cart_id.value,
+        product_id: product_id,
+        quantity: 1,
+        unit_price: Number(price),
+        total_price: Number(price)
+      };
+
+      const response = await frontStore.addCartItem(cart_item);
+      if (response?.status === "success") {
+        const cartData = await frontStore.getCart();
+        
+        if (!user_id.value) {
+          sessionStorage.setItem('cart_id', JSON.stringify(cartData?.data?.id));
+          sessionStorage.setItem('current_cart_shop_id', JSON.stringify(shop_id));
+          sessionStorage.setItem('current_cart_brand', JSON.stringify(brand_id));
+        }
+
+        cart.value = cartData.data.items;
+        cart_total.value = cartData?.data?.cart_total;
+
         toast.add({
-          severity: 'info',
+          severity: 'success',
           summary: 'Cart',
           detail: 'Product Added',
           group: 'br',
           life: 3000,
         });
       } else {
-        toast.add({
-          severity: 'warn',
-          summary: 'Cart',
-          detail: 'Could not add product',
-          group: 'br',
-          life: 3000,
-        });
-        current_id.value = null
+        throw new Error('Could not add product');
       }
-    })
-};
+
+    } catch (error: any) {
+      console.error('Error adding to cart:', error);
+      toast.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: error.message || 'Could not add product',
+        group: 'br',
+        life: 3000,
+      });
+    } finally {
+      loading.value = false;
+      current_id.value = null;
+    }
+  };
 
 
   
