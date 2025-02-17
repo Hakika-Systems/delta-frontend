@@ -30,7 +30,10 @@
     <div class="surface-section px-4 py-8 md:px-6 lg:px-8">
       <div class="flex justify-content-between flex-wrap">
         <div class="flex align-items-center mb-4 md:mb-0">
-          <div class="text-900 font-bold text-3xl">Featured Products</div>
+          <div class="section-title">
+            <h2>Featured Products</h2>
+            <div class="title-underline"></div>
+          </div>
         </div>
       </div>
       <div class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left" role="separator" aria-orientation="horizontal" data-pc-name="divider" data-pc-section="root" styleclass="w-full border-gray-200" style="justify-content: center;">
@@ -51,14 +54,14 @@
       <!-- Image Section -->
       <div 
         @click="goToDetailPage(data)" 
-        class="surface-50 flex align-items-center justify-content-center mb-3 mx-auto cursor-pointer card-image"
+        class="product-image-container flex align-items-center justify-content-center mb-3 mx-auto cursor-pointer"
       >
         <NuxtImg 
           format="webp"  
           :placeholder="[50, 50, 50, 50]"   
           :src="getParsedImages(data.images)" 
           class="product_image object-cover" 
-          alt="OK Shopeasy Strip Ad" 
+          alt="Product Image" 
           loading="lazy" 
         />
       </div>
@@ -66,7 +69,7 @@
       <!-- Name Section -->
       <div 
         @click="goToDetailPage(data)" 
-        class="mb-3 font-medium nametext cursor-pointer card-title"
+        class="product-name"
       >
         {{ data.name }}
       </div>
@@ -74,8 +77,8 @@
       <!-- Price and Action Section -->
       <div class="flex flex-column mt-auto">
         <div class="flex justify-content-between align-items-center mb-3">
-          <span class="font-bold text-900 ml-2">
-             {{ data.prices[0]?.price }}
+          <span class="product-price">
+            {{ findCurrency() }}{{ data.prices[0]?.price }}
           </span>
         </div>
         
@@ -85,7 +88,7 @@
           @click="addToCartFeatured(data.id, data.prices[0]?.price)" 
           icon="pi pi-cart-arrow-down" 
           label="Add" 
-          class="w-full mt-3 cart"
+          class="add-to-cart-btn"
         />
         <!-- <Button 
           v-else  
@@ -103,7 +106,10 @@
     <div class="surface-section px-4 py-8 md:px-6 lg:px-8">
       <div class="flex justify-content-between flex-wrap">
         <div class="flex align-items-center mb-4 md:mb-0">
-          <div class="text-900 font-bold text-3xl">All Products</div>
+          <div class="section-title">
+            <h2>All Products</h2>
+            <div class="title-underline"></div>
+          </div>
         </div>
       </div>
       <div class="p-divider p-component p-divider-horizontal p-divider-solid p-divider-left" role="separator" aria-orientation="horizontal" data-pc-name="divider" data-pc-section="root" styleclass="w-full border-gray-200" style="justify-content: center;">
@@ -118,16 +124,16 @@
     <!-- Product Card -->
     <div class="col-12 md:col-6 lg:col-3">
       <div class="p-2">
-        <div class="border-1 surface-border border-round m-2 p-3" style="min-height: 350px; display: flex; flex-direction: column; justify-content: space-between;">
-          <div @click="goToDetailPage(product)" class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
+        <div class="product-card border-round m-2 p-3" style="min-height: 350px; display: flex; flex-direction: column; justify-content: space-between;">
+          <div @click="goToDetailPage(product)" class="product-image-container flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
             <NuxtImg format="webp" class="product_image object-cover" :placeholder="[50, 50, 50, 50]"   :src="getParsedImages(product.images)" :alt="product?.name" loading="lazy" />
           </div>
-          <div @click="goToDetailPage(product)" class="mb-3 font-medium nametext cursor-pointer">
+          <div @click="goToDetailPage(product)" class="product-name">
             {{product.name }}
           </div>
           <div class="mb-4"></div>
           <div class="flex justify-content-between align-items-center">
-            <span class="font-bold text-900 ml-2">
+            <span class="product-price">
               {{ findCurrency() }}{{ product.prices[0]?.price  }}
             </span>
           </div>
@@ -141,7 +147,7 @@
       inputId="vertical-buttons"
       showButtons
       buttonLayout="stacked"
-      class="w-12rem"
+      class="quantity-input"
     >
       <!-- Custom Increment Button -->
       <template #incrementbuttonicon>
@@ -158,7 +164,7 @@
       label="Add"
       :loading="current_id === product.id"
       icon="pi pi-cart-arrow-down"
-      class="w-full p-button-success"
+      class="add-to-cart-btn"
       @click="addToCart(product.id, product.prices[0]?.price)"
     />
     <Button v-else  icon="pi pi-cart-arrow-down" label="Out of Stock" class="w-full mt-1 cart" disabled/>
@@ -993,6 +999,167 @@ span.pi.pi-minus {
   margin-top: auto; /* Push buttons to the bottom */
 }
 .p-carousel-container {
-    height: 400px;
+    height: 430px;
 }
+  </style>
+  <style scoped>
+  .product-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333;
+    margin: 1rem 0;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.4;
+  }
+  
+  .product-title:hover {
+    color: #0958A9;
+  }
+
+  .product-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+  }
+  </style>
+  <style scoped>
+  .section-title {
+    position: relative;
+    margin-bottom: 2rem;
+  }
+  
+  .section-title h2 {
+    font-size: 2rem;
+    color: #15416e;
+    margin: 0;
+    font-weight: 600;
+  }
+  
+  .title-underline {
+    width: 60px;
+    height: 4px;
+    background: #c8b967;
+    margin-top: 0.5rem;
+  }
+  
+  .product-card {
+    background: white;
+    border: 1px solid #e9ecef !important;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  
+  .product-card:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+  }
+  
+  .product-image-container {
+    height: 200px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1rem;
+  }
+  
+  .product_image {
+    max-height: 100%;
+    width: auto;
+    object-fit: contain;
+  }
+  
+  .product-name {
+    font-size: 1rem;
+    color: #15416e;
+    font-weight: 500;
+    margin: 1rem 0;
+    line-height: 1.4;
+    height: 2.8em;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+  
+  .product-name:hover {
+    color: #097fc1;
+  }
+  
+  .product-price {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #15416e;
+  }
+  
+  .add-to-cart-btn {
+    background: linear-gradient(90deg, #15416e 0%, #097fc1 100%);
+    border: none;
+    width: 100%;
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+  }
+  
+  .add-to-cart-btn:hover {
+    background: linear-gradient(90deg, #097fc1 0%, #15416e 100%);
+    transform: translateY(-2px);
+  }
+  
+  .add-to-cart-btn:focus {
+    box-shadow: 0 0 0 2px rgba(21, 65, 110, 0.2);
+  }
+  
+  @media screen and (max-width: 768px) {
+    .section-title h2 {
+      font-size: 1.75rem;
+    }
+    
+    .product-image-container {
+      height: 180px;
+    }
+  }
+  </style>
+  <style scoped>
+  .custom-input-number {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .quantity-input {
+    width: 100%;
+  }
+  
+  .quantity-input :deep(.p-inputnumber-input) {
+    text-align: center;
+    color: #15416e;
+    font-weight: 500;
+  }
+  
+  .quantity-input :deep(.p-inputnumber-button) {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    color: #15416e;
+  }
+  
+  .quantity-input :deep(.p-inputnumber-button:hover) {
+    background: #e9ecef;
+    color: #097fc1;
+  }
+  
+  .quantity-input :deep(.p-inputnumber-button-up) {
+    border-top-right-radius: 4px;
+  }
+  
+  .quantity-input :deep(.p-inputnumber-button-down) {
+    border-bottom-right-radius: 4px;
+  }
   </style>

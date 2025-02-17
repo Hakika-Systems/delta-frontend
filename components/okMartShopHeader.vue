@@ -7,7 +7,7 @@
       @click="select_brand = true" 
       icon="pi pi-sync" 
       class="topbtn" 
-      label="Choose Store" 
+      label="Choose Depot" 
       outlined 
     />
     <Button 
@@ -19,7 +19,7 @@
     />
 	<Button 
       @click="navigateTo('/events',{external:true})" 
-      icon="pi pi-ticket" 
+      icon="pi pi-calendar" 
       class="topbtn" 
       label="Events" 
       outlined 
@@ -28,24 +28,49 @@
   
   
   <!-- Current Shop Info -->
-  <a 
-    tabindex="0" 
-    class="cursor-pointer h-full inline-flex align-items-center mt-3 sm:mt-0 md:py-0 flex-shrink-0 text-center"
-  >
-    <span class="text-0">You are currently shopping at {{ getActiveShopNameById() }}</span>
-  </a>
 </div>
 
+<!-- Top Header -->
+<div class="top-header">
+  <div class="container">
+    <div class="top-header-content">
+      <!-- Left side -->
+      <div class="welcome-message">
+        <i class="pi pi-map-marker"></i>
+        <span>Welcome to {{ getActiveShopNameById() }}</span>
+      </div>
+      
+      <!-- Right side -->
+      <div class="top-controls">
+        <Dropdown 
+          @change="saveCurrency()" 
+          v-model="selected_currency" 
+          :options="brand_currencies" 
+          optionLabel="currency.iso_code" 
+          optionValue="id" 
+          placeholder="Currency" 
+          class="currency-select" 
+        />
+        <div class="account-control">
+          <i class="pi pi-user"></i>
+          <span v-if="mytoken" @click="navigateTo('/myaccount', {external: true})">My Account</span>
+          <span v-else @click="navigateTo('/signin', {external: true})">Sign In</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Main Header -->
 <div class="okmartheader py-3 px-6 flex flex-wrap lg:flex-nowrap align-items-center justify-content-between relative">
   <!-- Logo -->
-  <div class="col-12 lg:col-2 flex items-center justify-center lg:justify-start mb-4 lg:mb-0">
+  <div class="col-12 lg:col-3 flex items-center lg:justify-start mb-4 lg:mb-0">
     <Skeleton v-if="skeleton_loader" width="10rem" height="4rem"></Skeleton>
-	
-    <NuxtImg format="webp" v-else src='/images/delta_image.png' class="cursor-pointer" alt="Image"  style="width: 70%" @click="goToHome()" loading="lazy" />
+    <NuxtImg format="webp" v-else src='/images/delta_image.png' class="cursor-pointer" alt="Image" style="width: 70%" @click="goToHome()" loading="lazy" />
   </div>
 
   <!-- Search Input -->
-  <div class="col-12 lg:col-4 flex items-center justify-center mb-4 lg:mb-0 search-container">
+  <div class="col-12 lg:col-6 flex items-center justify-center mb-4 lg:mb-0 search-container">
     <InputGroup class="w-full">
       <Skeleton v-if="skeleton_loader" height="2rem" class="mb-2" borderRadius="16px"></Skeleton>
       <InputText 
@@ -55,7 +80,7 @@
         id="input" 
         type="text" 
         placeholder="Search Products" 
-        class="search-input px-4 py-2 w-full" 
+        class="search-input" 
         autofocus 
       />
     </InputGroup>
@@ -86,37 +111,10 @@
     </div>
   </div>
 
-  <!-- Account and Cart -->
-  <div class="col-12 lg:col-3 flex flex-col lg:flex-row items-center justify-between">
-    <!-- Currency Switch -->
-    <Dropdown 
-      @change="saveCurrency()" 
-      v-model="selected_currency" 
-      :options="brand_currencies" 
-      optionLabel="currency.iso_code" 
-      optionValue="id" 
-      placeholder="Select Currency" 
-      class="w-50 lg:w-7rem mb-4 lg:mb-0 lg:mr-4" 
-    />
-
-    <!-- User Account -->
-    <a 
-      class="text-white font-medium inline-flex align-items-center cursor-pointer px-3 hover:text-gray-200 p-ripple mb-4 lg:mb-0"
-      data-pd-ripple="true"
-    >
-      <i class="pi pi-user mr-2 toptext text-sm"></i>
-      <span class="toptr" v-if="mytoken" @click="navigateTo('/myaccount', {external: true})">Account</span>
-      <span class="toptr" v-else @click="navigateTo('/signin', {external: true})">Sign In</span>
-    </a>
-  </div>
-  <div class="col-12 lg:col-3 flex flex-col lg:flex-row items-center justify-between">
-    <!-- Currency Switch -->
-
-    <!-- User Account -->
-   
-
+  <!-- Cart Section -->
+  <div class="col-12 lg:col-3 flex flex-col lg:flex-row items-center lg:justify-end">
     <!-- Cart Total -->
-    <InputGroup class="w-full md:w-[30rem]">
+    <InputGroup class="w-full lg:w-auto cart-group">
       <InputGroupAddon>
         <i v-badge="getTotalItemsInCart()" @mouseenter="toggle" @click="toggle" class="pi pi-shopping-cart totalbadge" style="font-size: 25px;" />
       </InputGroupAddon>
@@ -694,7 +692,7 @@ const findConversionRatePrice = (price:any) => {
     // Step 3: Determine the conversion rate
     const selectedRate = parseFloat(selectedCurrency.conversion_rate);
 
-    // Multiply the price by the selected currency’s conversion rate
+    // Multiply the price by the selected currency's conversion rate
     const convertedPrice = price * selectedRate;
 
     // Return the converted price
@@ -4369,5 +4367,138 @@ ul.menu li.column-1 .submenu > li > a i {
 }
 span.toptr {
     color: #FFFFFF;
+}
+
+.okmartheader {
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.search-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #e9ecef;
+  border-radius: 0;
+  transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #0958A9;
+}
+
+
+
+.cart-group :deep(.p-inputgroup-addon) {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.cart-group :deep(.p-inlinemessage) {
+  background: transparent;
+  border: none;
+  padding: 0 0.5rem;
+  font-weight: 600;
+  color: #0958A9;
+}
+
+.checkoutbutton {
+  white-space: nowrap;
+}
+
+@media screen and (max-width: 992px) {
+  .search-container {
+    max-width: none;
+  }
+
+  .cart-group {
+    width: 100%;
+    justify-content: center;
+  }
+}
+</style>
+
+<style scoped>
+.top-header {
+  background: radial-gradient(circle at center, #15416e 0%, #097fc1 100%) !important;
+    color: white;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgb(200 185 103);
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.top-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.welcome-message {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.welcome-message .pi {
+  color: #c8b967;
+}
+
+.top-controls {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.currency-select {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  min-width: 100px;
+}
+
+.currency-select :deep(.p-dropdown-label) {
+  color: white;
+}
+
+.account-control {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.account-control:hover {
+  color: #c8b967;
+}
+
+.account-control .pi {
+  font-size: 1rem;
+}
+
+@media screen and (max-width: 768px) {
+  .top-header-content {
+    flex-direction: column;
+    gap: 0.75rem;
+    text-align: center;
+  }
+
+  .top-controls {
+    width: 100%;
+    justify-content: center;
+  }
 }
 </style>
