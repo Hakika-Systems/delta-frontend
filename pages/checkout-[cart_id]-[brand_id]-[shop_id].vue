@@ -67,31 +67,61 @@
                   </div>
                 </div>
       
-                <div  v-if= "delivery_option == 'Delivery'" class="col-12 flex flex-column lg:flex-row field">
-                    <div @click="select_fast_delivery()"  :class="{'border-top': delivery_type === 'Fast Delivery'}" class="flex justify-content-between p-3 border-round border-1 surface-border w-full mr-3 hover:border-primary cursor-pointer">
+                <div v-if="delivery_option == 'Delivery'" class="col-12 flex flex-column">
+  <!-- Schedule Delivery Date (Full Width) -->
+                  <div class="col-12 mt-3 field mb-0">
+                    <label for="phone" class="text-900 font-medium mb-3">Schedule Delivery Date</label>
+                    <Calendar v-model="date" size="large" variant="filled" />
+                    <small v-if="!date" style="color: red;">Required</small>
+                  </div>
+
+                  <!-- Delivery Options Side by Side -->
+                  <div class="col-12 flex flex-column lg:flex-row gap-3 mt-3">
+                    <!-- Fast Delivery -->
+                    <div
+                      @click="select_fast_delivery()"
+                      :class="{'border-top': delivery_type === 'Fast Delivery'}"
+                      class="flex flex-column justify-content-between p-3 border-round border-1 surface-border w-full lg:w-6 hover:border-primary cursor-pointer"
+                    >
                       <div class="mr-3 lg:mr-0">
-                        <div class="text-900 font-bold mb-2">Fast Delivery<br><small class="smallt">Delivered within 3 Hours</small></div>
+                        <div class="text-900 font-bold mb-2">
+                          Fast Delivery<br />
+                          <small class="smallt">Delivered within 3 Hours</small>
+                        </div>
                         <small v-if="!delivery_type" style="color: red;">Required</small>
                       </div>
                       <div class="flex justify-content-between align-items-center">
                         <span class="text-primary mr-2 font-medium">$7.00</span>
-                        <div class="flex items-center">
-                       </div> 
                       </div>
                     </div>
-                    <div @click="select_standard_delivery" :class="{'border-top': delivery_type === 'Standard Delivery'}" class="flex justify-content-between p-3 mt-3 lg:mt-0 border-round border-1 surface-border w-full hover:border-primary cursor-pointer">
+
+                    <!-- Standard Delivery -->
+                    <div
+                      @click="select_standard_delivery()"
+                      :class="{'border-top': delivery_type === 'Standard Delivery'}"
+                      class="flex flex-column justify-content-between p-3 border-round border-1 surface-border w-full lg:w-6 hover:border-primary cursor-pointer"
+                    >
                       <div class="mr-3 lg:mr-0">
-                        <div class="text-900 font-bold mb-2">Standard Delivery<br><small class="smallt">Delivered within 48 Hours</small></div>
+                        <div class="text-900 font-bold mb-2">
+                          Standard Delivery<br />
+                          <small class="smallt">Delivered within 48 Hours</small>
+                        </div>
                         <small v-if="!delivery_type" style="color: red;">Required</small>
                       </div>
-                      <div  class="flex justify-content-between align-items-center">
+                      <div class="flex justify-content-between align-items-center">
                         <span class="text-primary mr-2 font-medium">$5.00</span>
-                        <div class="flex items-center">
-                       
-                      </div> 
                       </div>
                     </div>
                   </div>
+                </div>
+                <div  v-if= "delivery_option == 'Collection'" class="col-12 flex flex-column lg:flex-row field">
+                    <div class="col-12 mt-3  lg:col-12 field mb-0">
+                      <label for="phone" class="text-900 font-medium mb-3">Schedule Collection Date</label>
+                      <Calendar v-model="date" size="large" variant="filled" />
+                      <small v-if="!date" style="color: red;">Required</small>
+                    </div>
+                  
+                </div>
                 <div class="col-12 mt-5 mb-4 flex flex-column lg:flex-row align-items-center justify-content-between">
                   <div class="text-900 font-medium text-xl">Billing Address</div>
                 </div>
@@ -332,6 +362,7 @@ const delivery_country = ref()
 const delivery_suburb = ref()
 const delivery_address = ref()
 const current_loading = ref()
+const date = ref()
 const country = ref('')
 const suburb = ref()
 onMounted( async() => {
