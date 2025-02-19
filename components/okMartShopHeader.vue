@@ -1,7 +1,13 @@
 <template>
 <Skeleton v-if="skeleton_loader" height="4rem" class="mb-2"></Skeleton>
-<div v-else class="toppheader px-4 lg:px-8 py-3 lg:py-3 flex flex-column sm:flex-row w-full justify-content-between align-items-center">
-  <div class="flex flex-col sm:flex-row gap-2 sm:gap-4">
+
+
+<!-- Top Header -->
+<div class="top-header px-4 lg:px-8 py-3 lg:py-3 flex flex-column sm:flex-row w-full justify-content-between align-items-center">
+  <div class="container">
+    <div class="top-header-content">
+      <!-- Left side -->
+	  <div class="flex left-buttons flex-col sm:flex-row gap-2 sm:gap-4">
     <!-- Buttons -->
     <Button 
       @click="select_brand = true" 
@@ -25,16 +31,6 @@
       outlined 
     />
   </div>
-  
-  
-  <!-- Current Shop Info -->
-</div>
-
-<!-- Top Header -->
-<div class="top-header">
-  <div class="container">
-    <div class="top-header-content">
-      <!-- Left side -->
       <div class="welcome-message">
         <i class="pi pi-map-marker"></i>
         <span>Welcome to {{ getActiveShopNameById() }}</span>
@@ -69,21 +65,36 @@
     <NuxtImg format="webp" v-else src='/images/delta_image.png' class="cursor-pointer" alt="Image" style="width: 70%" @click="goToHome()" loading="lazy" />
   </div>
 
-  <!-- Search Input -->
-  <div class="col-12 lg:col-6 flex items-center justify-center mb-4 lg:mb-0 search-container">
-    <InputGroup class="w-full">
-      <Skeleton v-if="skeleton_loader" height="2rem" class="mb-2" borderRadius="16px"></Skeleton>
+  <!-- Search Input with Categories -->
+  <div class="col-12 lg:col-4 flex items-center justify-center mb-4 lg:mb-0 search-container">
+    <div class="p-inputgroup w-full">
+      <!-- <div class="categories-wrapper">
+		
+	
+		
+        <Button 
+          class="browse-btn"
+          @mouseenter="showMenu = true"
+        >
+          <i class="pi pi-bars mr-2"></i>
+          CATEGORIES
+          <i class="pi pi-chevron-down ml-2"></i>
+        </Button>
+
+      </div> -->
+      
       <InputText 
-        v-else 
+        v-if="!skeleton_loader"
         @keyup="debouncedSearch()" 
         v-model="search_text" 
-        id="input" 
         type="text" 
         placeholder="Search Products" 
         class="search-input" 
-        autofocus 
       />
-    </InputGroup>
+      <Button icon="pi pi-search" class="search-button" />
+    </div>
+
+    <!-- Search Results -->
     <div class="results-box p-5" v-if="search_text">
       <p v-if="search_products.length < 1">No products from the searched keys</p>
       <DataTable v-else :value="search_products" showGridlines tableStyle="min-width: 50rem">
@@ -306,6 +317,12 @@
 	const saveCurrency = () => {
 		sessionStorage.setItem('selected_currency', JSON.stringify(selected_currency.value))
 	}
+	// Add these to your existing refs
+const showMenu = ref(false)
+
+// Add this method
+
+
 	const getCart = () => {
 	let gi:any
 	let current_shop_id:any
@@ -347,6 +364,7 @@
 	});
 	onMounted( async() => {
     skeleton_loader.value = true
+	
 	menuLoader.value = true
     categories_loading.value = true;
     let gi:any
@@ -1091,13 +1109,14 @@ input.p-inputtext.p-component.p-inputnumber-input {
 .toppheader {
     background-color: #c8b967;
 }
+
 img.imgt {
     height: 40px;
     width: auto;
 }
 .results-box {
     position: absolute;
-    width: 50%;
+    width: 150%;
     margin-top: 50px;
     border: 1px solid #ccc;
     /* border-top: none; */
@@ -4422,14 +4441,120 @@ span.toptr {
     justify-content: center;
   }
 }
+
+/* Add these new styles while keeping existing ones */
+.search-container {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.p-inputgroup {
+  display: flex;
+  align-items: stretch;
+  border: 2px solid #c8b967;
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+}
+
+.browse-btn {
+  min-width: 180px !important;
+  background: #c8b967 !important;
+  border: none !important;
+  color: white !important;
+  font-weight: 500 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1rem !important;
+  transition: background-color 0.2s;
+}
+
+.browse-btn:hover {
+  background: #baa73b !important;
+}
+
+.search-input {
+  flex: 1;
+  border: none !important;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+}
+
+.search-input:focus {
+  outline: none;
+  box-shadow: none !important;
+}
+
+.search-button {
+  width: 50px;
+  background: #c8b967 !important;
+  border: none !important;
+  color: white !important;
+}
+
+.search-button:hover {
+  background: #baa73b !important;
+}
+
+.categories-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 250px;
+  background: white;
+  border: 1px solid #e9ecef;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  margin-top: 2px;
+}
+
+.category-item {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.category-item:last-child {
+  border-bottom: none;
+}
+
+.category-link {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  color: #333;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+
+.category-link:hover {
+  background: #f8f9fa;
+  color: #c8b967;
+}
+
+.category-icon {
+  margin-right: 0.75rem;
+  color: #c8b967;
+}
+
+@media screen and (max-width: 768px) {
+  .browse-btn {
+    min-width: 120px !important;
+  }
+  
+  .browse-btn span {
+    display: none;
+  }
+}
 </style>
 
 <style scoped>
 .top-header {
-  background: radial-gradient(circle at center, #15416e 0%, #097fc1 100%) !important;
+  background: radial-gradient(circle at center,#baa73b   0%, #c8b967  100%) !important;
     color: white;
     padding: 0.5rem 0;
-    border-bottom: 1px solid rgb(200 185 103);
+    border-bottom: 1px solid #097fc1;
 }
 
 .container {
@@ -4446,13 +4571,13 @@ span.toptr {
 
 .welcome-message {
   display: flex;
-  align-items: center;
+  align-items: left;
   gap: 0.5rem;
   font-size: 0.9rem;
 }
 
 .welcome-message .pi {
-  color: #c8b967;
+  color: #FFFFFF;
 }
 
 .top-controls {
@@ -4470,6 +4595,9 @@ span.toptr {
 
 .currency-select :deep(.p-dropdown-label) {
   color: white;
+}
+.left-buttons{
+	margin-left: -200px;
 }
 
 .account-control {
@@ -4502,3 +4630,4 @@ span.toptr {
   }
 }
 </style>
+

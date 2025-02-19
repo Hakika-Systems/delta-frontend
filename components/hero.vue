@@ -21,7 +21,7 @@
     }"
   >
   <SwiperSlide v-for="(image, index) in imageBanners" :key="index">
-    <NuxtImg format="webp"  width="1920" height="600" :src="image.image" alt="OK shopeasy banners" loading="lazy" />
+    <NuxtImg format="webp"  width="1920" height="600" :src="image.image" alt="Delta Zimbabwe" loading="lazy" />
     </SwiperSlide>
   </Swiper>
 </div>
