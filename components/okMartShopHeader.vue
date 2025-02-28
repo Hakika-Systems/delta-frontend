@@ -38,7 +38,7 @@
       
       <!-- Right side -->
       <div class="top-controls">
-        <Dropdown 
+        <!-- <Dropdown 
           @change="saveCurrency()" 
           v-model="selected_currency" 
           :options="brand_currencies" 
@@ -46,7 +46,7 @@
           optionValue="id" 
           placeholder="Currency" 
           class="currency-select" 
-        />
+        /> -->
         <div class="account-control">
           <i class="pi pi-user"></i>
           <span v-if="mytoken" @click="navigateTo('/myaccount', {external: true})">My Account</span>
