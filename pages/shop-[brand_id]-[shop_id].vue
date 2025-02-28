@@ -561,7 +561,10 @@ const findConversionRatePrice = (price:any) => {
         if (typeof cartData?.data?.cart_total === 'number') {
           cart_total.value = cartData.data.cart_total;
         }
+      
         cart.value = cartData.data.items;
+        cart_total.value = cartData?.data?.cart_total;
+
 
         toast.add({
           severity: 'success',

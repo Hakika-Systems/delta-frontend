@@ -759,7 +759,7 @@ const findConversionRatePrice = (price:any) => {
 
     // Step 1: Find the default currency
 	//@ts-ignore
-    const defaultCurrency = currenciess.find(item => item.default === 1);
+    const defaultCurrency = currenciess.find(item => item.currency. is_default === 1);
     if (!defaultCurrency) {
         return null; // Return null or handle error if no default currency is found
     }
