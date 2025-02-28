@@ -1,269 +1,115 @@
 <template>
-    <okMartShopHeader/>
-    <div class="block-content surface-ground text-center px-4 py-8 md:px-6 lg:px-8">
-      <div class="text-900 font-medium text-3xl mb-2">Register an account</div>
-      <div class="text-700 line-height-3 mb-4">Already have an account? <a href="/signin" class="text-primary">Login</a></div>
-      
-      <!-- <div class="flex justify-content-center mb-4">
-        <ul class="p-2 m-0 list-none flex overflow-x-auto select-none">
-            <li @click="Individual_account()"  class="px-3">
-            <a class="cursor-pointer px-4 py-3 flex align-items-center hover:surface-100 border-round transition-colors transition-duration-150 p-ripple text-700 hover:bg-primary" data-pd-ripple="true">
-              <i class="pi pi-cog mr-2"></i>
-              <span class="font-medium" >Individual</span>
-              <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
-            </a>
-          </li>
-          <li class="flex align-items-center">
-            <div class="border-right-1 surface-border" style="width: 1px; height: 50%;"></div>
-          </li>
-          <li @click="Mukando()"  class="pr-3">
-            <a  class="cursor-pointer px-4 py-3 flex align-items-center hover:surface-100 border-round transition-colors transition-duration-150 p-ripple  hover:bg-primary text-700" data-pd-ripple="true">
-              <i class="pi pi-home mr-2"></i>
-              <span class="font-medium" >Mukando</span>
-              <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
-            </a>
-          </li>
-          <li class="flex align-items-center">
-            <div class="border-right-1 surface-border" style="width: 1px; height: 50%;"></div>
-          </li>
-          <li @click="Trader()"  class="px-3">
-            <a class="cursor-pointer px-4 py-3 flex align-items-center hover:surface-100 border-round transition-colors transition-duration-150 p-ripple  hover:bg-primary text-700" data-pd-ripple="true">
-              <i class="pi pi-users mr-2"></i>
-              <span class="font-medium" @click="trader = true">Trader</span>
-              <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root" style="height: 144px; width: 144px; top: -60.5557px; left: 23.3542px;"></span>
-            </a>
-          </li>
-          <li class="flex align-items-center">
-            <div class="border-right-1 surface-border" style="width: 1px; height: 50%;"></div>
-          </li>
-          <li @click="Business_account()"  class="px-3">
-            <a class="cursor-pointer px-4 py-3 flex align-items-center hover:surface-100 border-round transition-colors transition-duration-150 p-ripple text-700 hover:bg-primary"  data-pd-ripple="true">
-              <i class="pi pi-shopping-cart mr-2"></i>
-              <span class="font-medium" @click="business = true">Business Registration</span>
-              <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
-            </a>
-          </li>
-          <li class="flex align-items-center">
-            <div class="border-right-1 surface-border" style="width: 1px; height: 50%;"></div>
-          </li>
-          <li @click="Institution_account()"  class="px-3">
-            <a class="cursor-pointer px-4 py-3 flex align-items-center hover:surface-100 border-round transition-colors transition-duration-150 p-ripple text-700 hover:bg-primary" data-pd-ripple="true">
-              <i class="pi pi-user mr-2"></i>
-              <span class="font-medium" @click="Institution = true">Institution</span>
-              <span role="presentation" aria-hidden="true" data-p-ink="true" data-p-ink-active="false" class="p-ink" data-pc-name="ripple" data-pc-section="root"></span>
-            </a>
-          </li>
-         
-         
-        </ul>
-      </div> -->
-      <div  class="flex justify-content-center mb-4">
-          <div class="">
-            
-            <div class="surface-card p-4 shadow-2 border-round">
-                <label>Account Type</label>
-                <Dropdown v-model="selectedBusinessType" :options="businessTypes" placeholder="Select Business Type" class="w-full mb-5" />
-                <div v-if="selectedBusinessType === 'INDIVIDUAL'" class="grid formgrid p-fluid ">
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText placeholder="Enter Full Name" id="username" v-model="name" size="large" />
-                        <label for="username">Name</label>
-                    </FloatLabel>
-                </div>
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" v-model="email" size="large" />
-                        <label for="username">Email Address</label>
-                    </FloatLabel>
-                </div>
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText placeholder="+263779698569" id="phone" v-model="contact_number" size="large" />
-                        <label for="username">Phone Number</label>
-                    </FloatLabel>
-                </div>
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText placeholder="263779698569" id="username" v-model="whatsapp_number" size="large" />
-                        <label for="username">WhatsApp Number</label>
-                    </FloatLabel>
-                </div>
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <Password id="username" v-model="password" />
-                        <label for="username">Password</label>
-                    </FloatLabel>
-                </div>
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <Password id="confirm"   class="w-full password mb-3" toggleMask :feedback="false" v-model="password_confirmation" />
-                        <label for="confirm">Password Confirmation</label>
-                    </FloatLabel>
-                </div>
-                <div class="surface-border border-top-1  mb-4 col-12 "></div>
-                <div class="field mb-4 col-3">
-                    <Button :loading="loading" @click="individualRegistration()" :disabled="!name || !email || !whatsapp_number || !password || !password_confirmation" label="Sign Up" severity="success" />
-                </div>
-            </div>
+   
+    <div class="registration-container">
+      <div class="registration-card">
+        <!-- Logo Section -->
+        <div class="logo-section">
+          <div class="logo-background">
+            <NuxtImg 
+              format="webp" 
+              src='/images/delta_image.png' 
+              alt="Delta Logo" 
+              class="logo-image"
+            />
           </div>
         </div>
 
+        <!-- Welcome Text -->
+        <div class="welcome-text">
+          <h1>Create Account</h1>
+          <p>Already have an account? 
+            <NuxtLink to="/signin" class="login-link">Sign In</NuxtLink>
+          </p>
+        </div>
+
+        <!-- Account Type Selection -->
+        <div class="account-type-section">
+          <label class="input-label">Account Type</label>
+          <Dropdown 
+            v-model="selectedBusinessType" 
+            :options="businessTypes" 
+            placeholder="Select Account Type" 
+            class="account-dropdown"
+          />
+        </div>
+
+        <!-- Registration Form -->
+        <div v-if="selectedBusinessType === 'INDIVIDUAL'" class="registration-form">
+          <div class="form-grid">
+            <!-- Name and Email in first row -->
+            <div class="form-group">
+              <label class="input-label">Full Name</label>
+              <div class="input-wrapper">
+                <i class="pi pi-user"></i>
+                <InputText v-model="name" placeholder="Enter your full name" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="input-label">Email Address</label>
+              <div class="input-wrapper">
+                <i class="pi pi-envelope"></i>
+                <InputText v-model="email" placeholder="Enter your email" type="email" />
+              </div>
+            </div>
+
+            <!-- Phone and WhatsApp in second row -->
+            <div class="form-group">
+              <label class="input-label">Phone Number</label>
+              <div class="input-wrapper">
+                <i class="pi pi-phone"></i>
+                <InputText v-model="contact_number" placeholder="+263779698569" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="input-label">WhatsApp Number</label>
+              <div class="input-wrapper">
+                <i class="pi pi-whatsapp"></i>
+                <InputText v-model="whatsapp_number" placeholder="263779698569" />
+              </div>
+            </div>
+
+            <!-- Password fields spanning full width -->
+            <div class="form-group ">
+              <label class="input-label">Password</label>
+              <div class="input-wrapper">
+                <i class="pi pi-lock"></i>
+                <Password v-model="password" :feedback="true" toggleMask />
+              </div>
+            </div>
+
+            <div class="form-group ">
+              <label class="input-label">Confirm Password</label>
+              <div class="input-wrapper">
+                <i class="pi pi-lock"></i>
+                <Password v-model="password_confirmation" :feedback="false" toggleMask />
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <Button 
+            :loading="loading" 
+            @click="individualRegistration()" 
+            :disabled="!name || !email || !whatsapp_number || !password || !password_confirmation" 
+            class="submit-button"
+          >
+            <span v-if="!loading">Create Account</span>
+            <i v-else class="pi pi-spin pi-spinner"></i>
+          </Button>
+        </div>
       </div>
-      <!-- <div v-else-if="mukando == true" class="flex justify-content-center mb-4">
-          <div class="">
-            <div class="surface-card p-4 shadow-2 border-round">
-            <div class="grid formgrid p-fluid ">
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">Mukando Name</label>
-                    </FloatLabel>
-                </div>
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">Address</label>
-                    </FloatLabel>
-                </div>
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">Contact Number</label>
-                    </FloatLabel>
-                </div>
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">Whatsapp Phone Number</label>
-                    </FloatLabel>
-                </div>
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">Name of Treasurer</label>
-                    </FloatLabel>
-                </div>
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">Phone Number</label>
-                    </FloatLabel>
-                </div>
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">Enter Password</label>
-                    </FloatLabel>
-                </div>
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">Re-enter Password</label>
-                    </FloatLabel>
-                </div>
-                <div class="surface-border border-top-1  mb-4 col-12 "></div>
-                <div class="field mb-4 col-3">
-                    <Button label="Send Details" severity="success" />
-                </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-      <div v-else-if="trader == true" class="flex justify-content-center mb-4">
-          <div class="">
-            <div class="surface-card p-4 shadow-2 border-round">
-            <div class="grid formgrid p-fluid ">
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">Name of Bussiness</label>
-                    </FloatLabel>
-                </div>
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">Address</label>
-                    </FloatLabel>
-                </div>
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">Phone Number</label>
-                    </FloatLabel>
-                </div>
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">Whatsapp Phone Number</label>
-                    </FloatLabel>
-                </div>
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">Sector of Tradee.g Retail / Liquor</label>
-                    </FloatLabel>
-                </div>
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">Name of Representative</label>
-                    </FloatLabel>
-                </div>
-                <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">Designation</label>
-                    </FloatLabel>
-                </div>
-                <!-- <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">Phone Number of Representative</label>
-                    </FloatLabel>
-                </div> -->
-                <!-- <div class="field mb-4 col-6">
-                    <FloatLabel>
-                        <InputText id="username" size="large" v-model="value" />
-                        <label for="username">Email</label>
-                    </FloatLabel>
-                </div>
-               
-     
-                <div class="field mb-4 col-6">
-                    <FileUpload name="demo[]" url="/api/upload"  :multiple="true" accept="image/*" :maxFileSize="1000000">
-                        <template #empty>
-                            <span style="">Drag and drop files to here to upload Tax Clearance.</span>
-                        </template>
-                    </FileUpload>
-                </div>
-                <div class="field mb-4 col-6">
-                    <FileUpload name="demo[]" url="/api/upload"  :multiple="true" accept="image/*" :maxFileSize="1000000">
-                        <template #empty>
-                            <span style="">Drag and drop files to here to upload Trading License.</span>
-                        </template>
-                    </FileUpload>
-                </div>
-
-                <div class="surface-border border-top-1  mb-4 col-12 "></div>
-                <div class="field mb-4 col-3">
-                    <Button label="Send Details" severity="success" />
-                </div>
-            </div>
-          </div>
-        </div>
-
-      </div> -->
     </div>
-    <DeltaFooter />
+    
   </template>
 <script setup lang="ts">
 
 const frontStore = useFrontStore()
 useHead({
-  title: "OK ShopEasy Zimbabwe - Registration",
+  title: "Delta Zimbabwe - Registration",
   meta: [
-    { name: "description", content: "OKshop makes shopping in Zimbabwe easy and convenient!" },
+    { name: "description", content: "Delta makes shopping in Zimbabwe easy and convenient!" },
   ],
 });
 const phoneNumber = ref()
@@ -358,4 +204,160 @@ const individualRegistration = async () => {
 }
 </script>
 
+<style scoped>
+.registration-container {
+  min-height: 40vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: radial-gradient(circle at center, #15416e 0%, #097fc1 100%) !important;
+}
+
+.registration-card {
+  width: 100%;
+  max-width: 600px;
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.logo-section {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.logo-background {
+  background: #15416e;
+  padding: 1rem;
+  border-radius: 12px;
+  display: inline-block;
+}
+
+.logo-image {
+  width: 150px;
+  height: auto;
+  display: block;
+}
+
+.welcome-text {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.welcome-text h1 {
+  color: #333;
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.welcome-text p {
+  color: #666;
+  font-size: 1rem;
+}
+
+.login-link {
+  color: #c8b967;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.login-link:hover {
+  color: #baa73b;
+}
+
+.account-type-section {
+  margin-bottom: 2rem;
+}
+
+.account-dropdown {
+  width: 100%;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 0.75rem;
+}
+
+.input-label {
+  margin-bottom: 0.25rem;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.input-wrapper i {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  z-index: 1;
+}
+
+.input-wrapper :deep(input),
+.input-wrapper :deep(.p-password input) {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.5rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.input-wrapper :deep(input:focus),
+.input-wrapper :deep(.p-password input:focus) {
+  border-color: #c8b967;
+  box-shadow: 0 0 0 2px rgba(200, 185, 103, 0.1);
+}
+
+.submit-button {
+  width: 100%;
+  padding: 1rem;
+  background: #c8b967;
+  border: none;
+  color: white;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.submit-button:hover:not(:disabled) {
+  background: #baa73b;
+  transform: translateY(-1px);
+}
+
+.submit-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+.input-wrapper :deep(.p-password),
+.input-wrapper :deep(.p-password input) {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .registration-card {
+    padding: 1.5rem;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
   

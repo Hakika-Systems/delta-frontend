@@ -410,9 +410,9 @@ const frontStore = useFrontStore()
 const authStore = useAuthStore()
 import { FilterMatchMode } from 'primevue/api';
 useHead({
-  title: "OK ShopEasy Zimbabwe - Account Page",
+  title: "Delta Zimbabwe - Account Page",
   meta: [
-    { name: "description", content: "OKshop makes shopping in Zimbabwe easy and convenient!" },
+    { name: "description", content: "Delta makes shopping in Zimbabwe easy and convenient!" },
   ],
 });
 //@ts-ignore

@@ -205,9 +205,9 @@
   const toast = useToast()
   const frontStore = useFrontStore()
   useHead({
-  title: "OK ShopEasy Zimbabwe - Shop Page",
+  title: "Delta Zimbabwe - Shop Depot",
   meta: [
-    { name: "description", content: "OKshop makes shopping in Zimbabwe easy and convenient!" },
+    { name: "description", content: "Delta makes shopping in Zimbabwe easy and convenient!" },
   ],
 });
   const mytoken = useCookie('token');
@@ -575,7 +575,7 @@ const findConversionRatePrice = (price:any) => {
       }
 
     } catch (error: any) {
-      console.error('Error adding to cart:', error);
+    
       toast.add({
         severity: 'error',
         summary: 'Error',
@@ -632,7 +632,7 @@ const findConversionRatePrice = (price:any) => {
       }
 
     } catch (error: any) {
-      console.error('Error adding to cart:', error);
+    
       toast.add({
         severity: 'error',
         summary: 'Error',

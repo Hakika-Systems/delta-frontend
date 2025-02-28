@@ -133,9 +133,9 @@
  const add_address = ref(false)
  const toast = useToast()
  useHead({
-  title: "OK ShopEasy Zimbabwe - Order Details",
+  title: "Delta Zimbabwe - Order Details",
   meta: [
-    { name: "description", content: "OKshop makes shopping in Zimbabwe easy and convenient!" },
+    { name: "description", content: "Delta makes shopping in Zimbabwe easy and convenient!" },
   ],
 });
  import { FilterMatchMode } from 'primevue/api';

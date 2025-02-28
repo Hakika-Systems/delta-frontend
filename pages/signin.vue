@@ -1,63 +1,132 @@
 <template>
-    <OkMartShopHeader/>
-    <div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
-    <div class="w-full lg:w-6 p-4 lg:p-7 m-auto shadow-2 surface-card">
-      <div class="flex align-items-center justify-content-between mb-7">
-        <span class="text-2xl font-medium text-900">Sign In</span>
-        <span class="mr-3 text-900">Don't have an account? <NuxtLink @click="navigateTo('/registration',{external:true})" class="font-medium text-blue-500 hover:text-blue-700 cursor-pointer transition-colors transition-duration-150">  Sign Up</NuxtLink></span>
+
+  <div class="login-container">
+    <div class="login-card">
+      <!-- Logo Section -->
+      <div class="logo-section">
+        <div class="logo-background">
+          <NuxtImg 
+            format="webp" 
+            src='/images/delta_image.png' 
+            alt="Delta Logo" 
+            class="logo-image"
+          />
+        </div>
       </div>
-      <label for="email4" class="block text-900 font-medium mb-2">Email</label>
-      <InputText class="p-inputtext p-component w-full mb-3 p-3" placeholder="Email Address" v-model="email" />
-      <label for="password4" class="block text-900 font-medium mb-2">Password</label>
-      <Password  class="w-full password mb-3" placeholder="Enter Password" :feedback="false" toggleMask v-model="password" />
-      <div @click="forgot = true" class="flex align-items-center justify-content-between mb-6">
-        <a @click="forgot = true" class="font-medium text-blue-500 hover:text-blue-700 cursor-pointer transition-colors transition-duration-150">Forgot password?</a>
+
+      <!-- Welcome Text -->
+      <div class="welcome-text">
+        <h1>Welcome Back!</h1>
+        <p>Sign in to continue shopping</p>
       </div>
-      <Button :loading="loading" label="Sign In" @click="signIn()" class="w-full" /> 
+
+      <!-- Login Form -->
+      <form @submit.prevent="signIn" class="login-form">
+        <div class="form-group">
+          <div class="input-wrapper">
+            <i class="pi pi-envelope"></i>
+            <InputText 
+              v-model="email" 
+              type="email" 
+              placeholder="Email Address"
+              class="custom-input"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="input-wrapper">
+            <i class="pi pi-lock"></i>
+            <Password 
+              v-model="password" 
+              :feedback="false"
+              placeholder="Password"
+              toggleMask
+              class="custom-password"
+            />
+          </div>
+        </div>
+
+        <div class="form-options">
+          <div class="remember-me">
+            <Checkbox v-model="rememberMe" :binary="true" />
+            <label>Remember me</label>
+          </div>
+          <a @click="forgot = true" class="forgot-link">Forgot password?</a>
+        </div>
+
+        <Button 
+          type="submit"
+          :loading="loading" 
+          class="login-button"
+        >
+          <span v-if="!loading">Sign In</span>
+          <i v-else class="pi pi-spin pi-spinner"></i>
+        </Button>
+      </form>
+
+      <!-- <div class="divider">
+        <span>or continue with</span>
+      </div>
+
+      <div class="social-buttons">
+        <Button class="google-btn" severity="secondary">
+          <i class="pi pi-google"></i>
+          Google
+        </Button>
+        <Button class="facebook-btn" severity="secondary">
+          <i class="pi pi-facebook"></i>
+          Facebook
+        </Button>
+      </div> -->
+
+      <div class="signup-prompt">
+        Don't have an account? 
+        <NuxtLink 
+          @click="navigateTo('/registration',{external:true})" 
+          class="signup-link"
+        >
+          Sign Up
+        </NuxtLink>
+      </div>
     </div>
   </div>
-  <Dialog v-model:visible="forgot" modal header="Forgot Password" :style="{ width: '25rem' }">
-    <span class="p-text-secondary block mb-5">Enter your email address.</span>
-    <div class="flex align-items-center gap-3 mb-3">
-        <label for="username" class="font-semibold w-6rem">Email Address</label>
-        <InputText v-model='email' id="username" type="email" class="flex-auto"  />
+
+  <!-- Forgot Password Dialog -->
+  <Dialog v-model:visible="forgot" modal class="forgot-dialog">
+    <template #header>
+      <h3>Reset Password</h3>
+    </template>
+    <div class="forgot-content">
+      <p>Enter your email address to reset your password.</p>
+      <InputText 
+        v-model="email" 
+        type="email" 
+        placeholder="Email Address"
+        class="forgot-input"
+      />
+      <Button 
+        :loading="loading" 
+        @click="sendReset()"
+        class="reset-button"
+      >
+        Send Reset Link
+      </Button>
     </div>
-    <div class="flex justify-content-end gap-2">
-        <Button :loading="loading" type="button" label="Reset" @click="sendReset()"></Button>
-    </div>
-</Dialog>
-<Dialog v-model:visible="new_details" modal header="Change Password" :style="{ width: '25rem' }">
-    <span class="p-text-secondary block mb-5">Enter your new password.</span>
-    <div class="flex align-items-center gap-3 mb-3">
-        <label for="username" class="font-semibold w-6rem">Email Address</label>
-        <InputText v-model='email' id="username" type="email" class="flexx"  />
-    </div>
-    <div class="flex align-items-center gap-3 mb-3">
-        <label for="username" class="font-semibold w-6rem">Password</label>
-        <Password class="w-full" v-model="password" placeholder="Password" toggleMask />
-    </div>
-    <div class="flex align-items-center gap-3 mb-3">
-        <label for="username" class="font-semibold w-6rem">Confirm Password</label>
-        <Password :feedback="false" class="w-full" v-model="confirm_password" placeholder="Confirm Password" />
-    </div>
-    <div class="flex align-items-center gap-3 mb-3">
-        <label for="username" class="font-semibold w-6rem">OTP</label>
-        <InputOtp  class="w-full flexx" v-model="otp" :length="5" integerOnly />
-    </div>
-    <div class="flex justify-content-end gap-2">
-        <Button :loading="loading" type="button" label="Change Password" @click="changePassword()"></Button>
-    </div>
-</Dialog>
-<DeltaFooter />
-  </template>
+  </Dialog>
+
+ 
+</template>
+
 <script setup lang="ts">
 import Password from 'primevue/password';
+import Checkbox from 'primevue/checkbox'
 
 const authStore = useAuthStore()
 const frontStore = useFrontStore()
 const email = ref()
 useHead({
-  title: "OK ShopEasy Zimbabwe - Sign In",
+  title: "Delta Zimbabwe - Sign In",
   meta: [
     { name: "description", content: "OKshop makes shopping in Zimbabwe easy and convenient!" },
   ],
@@ -70,6 +139,7 @@ const loading = ref(false)
 const password = ref()
 const toast = useToast()
 const otp = ref()
+const rememberMe = ref(false)
 
 const signIn = async () => {
   loading.value = true;
@@ -215,6 +285,249 @@ input.p-inputtext.p-component.p-password-input {
 .flexx {
     height: 50px !important;
     width: 100%;
+}
+</style>
+
+<style scoped>
+.login-container {
+  min-height: calc(100vh - 00px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: radial-gradient(circle at center, #15416e 0%, #097fc1 100%) !important;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 440px;
+  background: white;
+  border-radius: 16px;
+  padding: 2.5rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.logo-section {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.logo-background {
+  background: #097fc1;
+  padding: 1.5rem;
+  border-radius: 12px;
+  display: inline-block;
+}
+
+.logo-image {
+  width: 180px;
+  height: auto;
+  display: block;
+}
+
+.welcome-text {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.welcome-text h1 {
+  color: #333;
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.welcome-text p {
+  color: #666;
+  font-size: 1rem;
+}
+
+.login-form {
+  margin-bottom: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.input-wrapper i {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  z-index: 1;
+}
+
+.custom-input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.5rem !important;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.custom-input:focus {
+  border-color: #c8b967;
+  box-shadow: 0 0 0 2px rgba(200, 185, 103, 0.1);
+}
+
+.custom-password {
+  width: 100%;
+}
+
+.custom-password :deep(.p-password-input) {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.5rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+}
+
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.forgot-link {
+  color: #c8b967;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.forgot-link:hover {
+  color: #baa73b;
+}
+
+.login-button {
+  width: 100%;
+  padding: 1rem;
+  background: #c8b967;
+  border: none;
+  color: white;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.login-button:hover {
+  background: #baa73b;
+  transform: translateY(-1px);
+}
+
+.divider {
+  text-align: center;
+  margin: 1.5rem 0;
+  position: relative;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 45%;
+  height: 1px;
+  background: #e0e0e0;
+}
+
+.divider::before {
+  left: 0;
+}
+
+.divider::after {
+  right: 0;
+}
+
+.divider span {
+  background: white;
+  padding: 0 1rem;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.social-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.google-btn,
+.facebook-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: white;
+  color: #333;
+  transition: all 0.3s ease;
+}
+
+.google-btn:hover,
+.facebook-btn:hover {
+  background: #f8f9fa;
+  transform: translateY(-1px);
+}
+
+.signup-prompt {
+  text-align: center;
+  color: #666;
+}
+
+.signup-link {
+  color: #c8b967;
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 0.5rem;
+}
+
+.signup-link:hover {
+  color: #baa73b;
+}
+
+.forgot-dialog {
+  max-width: 400px;
+}
+
+.forgot-content {
+  padding: 1.5rem;
+}
+
+.forgot-input {
+  width: 100%;
+  margin: 1rem 0;
+}
+
+.reset-button {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+  .login-card {
+    padding: 2rem;
+  }
+
+  .social-buttons {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
 

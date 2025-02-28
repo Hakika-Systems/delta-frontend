@@ -82,7 +82,8 @@
         </Button>
 
       </div> -->
-      
+	  <Button icon="pi pi-shopping-bag" label="All Categories"  @click= "isCategoriesOpen = true" class="search-button categories-dropdown" severity="secondary" style="min-width: 160px"   @mouseenter="isCategoriesOpen = true"
+	 />
       <InputText 
         v-if="!skeleton_loader"
         @keyup="debouncedSearch()" 
@@ -91,7 +92,16 @@
         placeholder="Search Products" 
         class="search-input" 
       />
-      <Button icon="pi pi-search" class="search-button" />
+     
+	  <div class="categories-menu" v-if="isCategoriesOpen">
+		<div v-for="(item, index) in menuItems" :key="index" class="categories-list">
+			<NuxtLink @click="goToCategory(item.id)" class="category-item">
+			<!-- <span class="category-icon">💻</span> -->
+			<span class="category-name">{{ item.title }}</span>
+			</NuxtLink>
+			
+		</div>
+		</div>
     </div>
 
     <!-- Search Results -->
@@ -143,97 +153,7 @@
  
 </div>
 
-    <div class="belowheader  px-6  flex align-items-center justify-content-between relative lg:static">
-      <div class="row col-12 mainnavv flex">
-        <div class="col-md-3 col-2">
-			<Skeleton v-if="skeleton_loader" height="4rem" width="6rem" class="mb-2 ml-2"></Skeleton>
-<div v-else id="mega-menu">
-<div class="btn-mega"><span class="pi pi-shopping-bag textt"></span>ALL CATEGORIES</div>
-<ul class="menu">
-  <li v-for="(item, index) in menuItems" :key="index">
-    <a @click="goToCategory(item.id)" class="dropdown cursor-pointer">
-      <span class="menu-title">{{ item.title }}</span>
-    </a>
-    <div class="drop-menu">
-  <div class="arrange">
-    <!-- Categories Section -->
-    <div class="col-8">
-      <div class="categories">
-        <div class="one-third" v-for="(category, catIndex) in item.categories" :key="catIndex">
-          <div @click="goToCategory(category.id)" class="cat-title cursor-pointer">{{ category.title }}</div>
-          <ul>
-            <li v-for="(subcategory, subIndex) in category.subcategories" :key="subIndex">
-              <a @click="goToCategory(subcategory.id)" class="cursor-pointer" title="">{{ subcategory?.name }}</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <!-- Banner Section -->
-    <div class="col-4">
-      <div class="banner-container">
-        <NuxtImg format="webp" :src="getMenuBannerUrl(item?.banners)" alt="Banner Image" loading="lazy" class="banner-image" />
-      </div>
-    </div>
-  </div>
-</div>
-  </li>
-</ul>
-</div>
-</div>
-         <!-- <div class="col-2">
-            <Skeleton v-if="categories_loading === true"  width="12rem" height="3rem" borderRadius="2px"></Skeleton>
-            <TieredMenu v-else class="shopbyisle" :model="categories" />
-         </div> -->
-         <div class="col-10">
-			<Skeleton v-if="menuLoader" height="2rem" class="mb-2"></Skeleton>
-            <MegaMenu v-else :model="dummyMenu" />
-         </div>
-      </div>
-      <OverlayPanel ref="op">
-            <div class="flex flex-column gap-3 w-50rem">
-                <div>
-                    <span class="font-medium text-900 block mb-2">Cart Items</span>
-                    <ul class="list-none p-0 m-0 flex flex-column gap-3">
-                        <p v-if="cart.length === 0">No Items in Cart</p>
-                        <li v-else v-for="(item, index) in cart" :key="item?.id" class="flex align-items-center gap-2">
-                <NuxtImg :src="getParsedImages(item?.product?.thumbnails)" style="width: 32px" format="webp" loading="lazy" />
-                <div class="col-4 flex align-items-center gap-2 text-color-secondary text-sm">
-                    <span class="font-medium">{{ item.product.name }}</span>
-                </div>
-                <div  class="col-2 flex align-items-center gap-2 text-color-secondary text-sm">
-                    <InputNumber
-						v-model="cart[index].quantity"
-						showButtons
-						class="p-inputnumber p-component p-inputwrapper p-inputwrapper-filled p-inputnumber-buttons-horizontal border-1 surface-border border-round"
-						buttonLayout="horizontal"
-						:min="1"
-						:max="99"
-						@update:modelValue="(value:any) => changeCartItem(value, item.id, item.product_id, item.unit_price)"
-						@blur="handleBlur(cart[index].quantity, item.id, item.product_id, item.unit_price)"
-					>
-           
-						<template #incrementbuttonicon>
-							<span class="pi pi-plus" :loading="loading" @click="increaseCartItem(item.id,item.product_id,cart[index].quantity,item.unit_price)" />
-						</template>
-						<template #decrementbuttonicon>
-							<span class="pi pi-minus" :loading="loading" @click="decreaseCartItem(item.id,item.product_id,cart[index].quantity,item.unit_price)" />
-						</template>
-					</InputNumber>
-                </div>
-                <div class="flex align-items-center gap-2 text-color-secondary ml-auto text-sm">
-                    <span>{{findCurrency()}}{{ findConversionRatePrice((lineTotal(item.unit_price,item.quantity)).toFixed(2))}}</span>
-                    <i  class="pi pi-trash" @click="removeFromCart(item.id)"></i>
-                </div>
-                </li>
-                    </ul>
-                </div>
-            </div>
-            <div>
-                <Button @click="goToCheckout()" type="button" label="Checkout" class="w-full mt-2 overlaycheckoutbtn" />
-        </div>
-        </OverlayPanel>
-    </div>
+    
     <Dialog v-model:visible="select_brand" modal header="Region Selection" :style="{ width: '25rem' }">
     <!-- <template #header>
         <div class="inline-flex align-items-center justify-content-center gap-2">
@@ -288,6 +208,7 @@
 	const changed = storeToRefs(frontStore).changed
     const chosenBrand = ref()
     const shopBranch = ref();
+	const isCategoriesOpen = ref(false)
     const branches = ref()
     const select_shop = ref()
     const shopLogo = ref();
@@ -301,7 +222,7 @@
     const name = useCookie('username');
     const user_id = useCookie('user_id');
     const currentBrand = ref()
-    const menuItems = ref()
+    const menuItems = ref([])
     const current_id = ref()
     const product_brands = ref()
 	const mylogo = ref()
@@ -4548,6 +4469,23 @@ span.toptr {
     display: none;
   }
 }
+
+.search-button {
+  background: #c8b967 !important;
+  border: none !important;
+  color: white !important;
+  height: 100% !important;
+  padding: 0.5rem 1.5rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.5rem !important;
+  white-space: nowrap !important;
+}
+
+.search-button:hover {
+  background: #baa73b !important;
+}
 </style>
 
 <style scoped>
@@ -4630,5 +4568,155 @@ span.toptr {
     justify-content: center;
   }
 }
+.with-dropdown {
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.categories-dropdown {
+  position: relative;
+}
+
+.pi-chevron-down {
+  font-size: 0.8rem;
+  transition: transform 0.2s ease;
+  
+  &.rotate {
+    transform: rotate(180deg);
+  }
+}
+
+.categories-menu {
+  position: absolute;
+  margin-top: -2px;
+ 
+  left: 0;
+  background: white;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  min-width: 280px;
+  z-index: 1000;
+  
+
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+}
+
+.categories-dropdown:hover .categories-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.categories-list {
+  padding: 0.5rem 0;
+}
+
+.category-item {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  color: #2B3445;
+  text-decoration: none;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #f8f9fa;
+    color: #f35526;
+    padding-left: 2rem;
+  }
+}
+
+.category-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.category-name {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.sale-link {
+  color: #f35526 !important;
+}
+
+.shop-dropdown {
+  position: relative;
+}
+
+.shop-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  min-width: 800px;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  margin-top: 0.5rem;
+}
+
+.shop-dropdown:hover .shop-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.shop-column {
+  h3 {
+    color: #2B3445;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #f8f9fa;
+  }
+}
+
+.shop-links {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.shop-item {
+  display: flex;
+  align-items: center;
+  color: #2B3445;
+  text-decoration: none;
+  font-size: 0.95rem;
+  padding: 0.5rem;
+  transition: all 0.2s ease;
+  border-radius: 6px;
+
+  &:hover {
+    background: #f8f9fa;
+    color: #f35526;
+    transform: translateX(5px);
+  }
+}
+
+.shop-icon {
+  margin-right: 0.75rem;
+  font-size: 1.2rem;
+}
+
 </style>
 

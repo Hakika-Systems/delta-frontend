@@ -143,9 +143,9 @@ import { createId } from '@paralleldrive/cuid2';
 const cart:any = storeToRefs(frontStore).cart
 const {params:{id,brand_id,shop_id,category_id}} = useRoute()
 useHead({
-  title: "OK ShopEasy Zimbabwe - Detail Page",
+  title: "Delta Zimbabwe - Detail Page",
   meta: [
-    { name: "description", content: "OKshop makes shopping in Zimbabwe easy and convenient!" },
+    { name: "description", content: "Delta makes shopping in Zimbabwe easy and convenient!" },
   ],
 });
 const toast = useToast()

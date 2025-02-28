@@ -978,15 +978,24 @@ export const useFrontStore = defineStore('front', {
       }
     },
     async getCart() {
+      const url = `${SHOP_URL}/api/carts/${this.cart_id}`;
+      const token = useCookie('token').value || "";
+      
+      const headers = {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      };
+      
       try {
-        const response = await $fetch('/api/cart'); // your actual API endpoint
-        if (response?.data) {
-          this.cart = response.data.items;
-          this.cart_total = response.data.cart_total;
-        }
-        return response;
+        const response = await fetch(url, {
+          method: "GET",
+          headers
+        });
+        const data = await response.json();
+        return data;
       } catch (error) {
-        console.error('Error getting cart:', error);
+        console.error('Error:', error);
         throw error;
       }
     },

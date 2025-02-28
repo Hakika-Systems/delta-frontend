@@ -84,9 +84,9 @@
   const order_items = ref()
   const old_cart_id = storeToRefs(frontStore).old_cart_id
   useHead({
-  title: "OK ShopEasy Zimbabwe - Order Summary",
+  title: "Delta Zimbabwe Order Summary",
   meta: [
-    { name: "description", content: "OKshop makes shopping in Zimbabwe easy and convenient!" },
+    { name: "description", content: "Delta makes shopping in Zimbabwe easy and convenient!" },
   ],
 });
   const getParsedImages = (images: string) => {

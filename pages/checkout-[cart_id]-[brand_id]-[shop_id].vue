@@ -295,9 +295,9 @@ import InputText from 'primevue/inputtext';
 import debounce from 'debounce';
 const toast = useToast()
 useHead({
-  title: "OK ShopEasy Zimbabwe - Checkout",
+  title: "Delta Zimbabwe - Checkout",
   meta: [
-    { name: "description", content: "OKshop makes shopping in Zimbabwe easy and convenient!" },
+    { name: "description", content: "Delta makes shopping in Zimbabwe easy and convenient!" },
   ],
 });
 const loading = ref(false)

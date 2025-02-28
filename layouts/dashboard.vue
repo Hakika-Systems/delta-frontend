@@ -133,8 +133,8 @@ export default defineNuxtComponent({
         { name: "viewport", content: "width=device-width, initial-scale=0.7" },
         {
           hid: "description",
-          name: "OK shopeasy e-commerce system description",
-          content: "OK Zimbabwe Limited",
+          name: "Delta Zimbabwe",
+          content: "Delta",
         },
       ],
       link: [

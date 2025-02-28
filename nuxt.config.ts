@@ -3,7 +3,7 @@ import Aura from "@primevue/themes/aura";
 export default defineNuxtConfig({
   site: {
     url: 'https://okshopeasy.com/',
-    name: 'OK ShopEasy',
+    name: 'Delta Zimbabwe',
     description: 'Number One Online Store in Zimbabwe',
     defaultLocale: 'en',
     redirectToCanonicalSiteUrl: true
