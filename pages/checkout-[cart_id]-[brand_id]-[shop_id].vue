@@ -247,7 +247,7 @@
                   </div>
                 </div>
                 <div class="py-2 mt-3 border-bottom-1 surface-border">
-                <div class="p-inputgroup mb-3">
+                <div class="p-inputgroup group mb-3">
                   <input class="p-inputtext p-component p-filled w-full" data-pc-name="inputtext" v-model="coupon_code" data-pc-section="root" type="text" placeholder="Enter Promo code | Coupon code | Discount code">
                   <button class="aply p-button p-component" type="button" aria-label="Apply" data-pc-name="button" data-pc-section="root" data-pd-ripple="true">
                     <!---->
@@ -860,8 +860,17 @@ const  confirmOrder = async () => {
 </script>
 <style scoped>
 .aply {
-  background-color: #c8b967;
-  border: 2px solid #c8b967;
+  background: linear-gradient(90deg, #0958a9 0%, #0747a6 100%);
+  border: 2px solid #0747a6;
+}
+.p-inputgroup {
+    display: flex
+;
+    align-items: stretch;
+    border: 2px solid #0747a6;
+    border-radius: 8px;
+    overflow: hidden;
+    background: white;
 }
 
 .payheight {

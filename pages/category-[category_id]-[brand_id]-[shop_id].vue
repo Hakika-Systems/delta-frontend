@@ -38,7 +38,7 @@
                       {{ findCurrency() }}{{ product.prices[0]?.price  }}
                     </span>
                   </div>
-                  <div class="custom-input-number mb-4">
+                  <div class="custom-input-number mb-">
     <!-- InputNumber with stacked buttons -->
     <InputNumber
       v-model="quantities[product.id]"
