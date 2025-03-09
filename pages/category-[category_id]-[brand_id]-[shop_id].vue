@@ -26,17 +26,19 @@
           <div class="grid">
             <div v-for="product in products" :key="product.id" class="col-12 md:col-6 lg:col-3">
               <div class="p-2">
-                <div class="border-1 surface-border border-round m-2 p-3">
-                  <div @click="goToDetailPage(product)" class="surface-50 flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
-                    <NuxtImg :src="getParsedImages(product.images)" class="product_image object-cover" loading="lazy" format="webp" />
+                <div class=" delta-product-card surface-card border-round-xl p-4" style="min-height: 350px; display: flex; flex-direction: column; justify-content: space-between;">
+                  <div @click="goToDetailPage(product)" class="product-image-wrapper mb-4 ">
+                    <NuxtImg :src="getParsedImages(product.images)" class="product-image " loading="lazy" format="webp" />
                   </div>
-                  <div @click="goToDetailPage(product)" class="mb-3 font-medium nametext cursor-pointer">{{ addEllipsis(product.name) }}</div>
+                  <div @click="goToDetailPage(product)"  class="product-name text-xl font-bold mb-2 text-900 cursor-pointer" >{{ addEllipsis(product.name) }}</div>
                   <div class="mb-4">
                   </div>
                   <div class="flex justify-content-between align-items-center">
-                    <span class="font-bold text-900 ml-2">{{findCurrency()}}{{product?.prices[0]?.price ? findConversionRatePrice(product.prices[0]?.price) : formatCurrency(0)}}</span>
+                    <span class="product-price">
+                      {{ findCurrency() }}{{ product.prices[0]?.price  }}
+                    </span>
                   </div>
-<div v-if="product?.details[0]?.quantity >= 1" class="custom-input-number">
+                  <div class="custom-input-number">
     <!-- InputNumber with stacked buttons -->
     <InputNumber
       v-model="quantities[product.id]"
@@ -46,28 +48,30 @@
       inputId="vertical-buttons"
       showButtons
       buttonLayout="stacked"
-      class="w-12rem"
+      class="quantity-input"
     >
       <!-- Custom Increment Button -->
       <template #incrementbuttonicon>
-        <span @click="increaseQuantity(product.id)"  class="pi pi-plus" />
+        <span class="pi pi-plus" />
       </template>
       <!-- Custom Decrement Button -->
       <template #decrementbuttonicon>
-        <span  @click="decreaseQuantity(product.id)" class="pi pi-minus" />
+        <span class="pi pi-minus" />
       </template>
     </InputNumber>
 
     <!-- Add to Cart Button -->
-    <Button
+    <Button v-if="product?.details[0]?.quantity >= 1"
       label="Add"
       :loading="current_id === product.id"
       icon="pi pi-cart-arrow-down"
-      class="w-full p-button-success"
+      class="add-to-cart-btn"
       @click="addToCart(product.id, product.prices[0]?.price)"
     />
+    <Button v-else  icon="pi pi-cart-arrow-down" label="Out of Stock" class="w-full mt-1 cart" disabled/>
   </div>
-   <Button v-else :loading="loading" icon="pi pi-cart-arrow-down" label="Out of Stock" class="w-full mt-1 cart" disabled/>
+
+   
                 </div>
               </div>
             </div>
@@ -593,14 +597,86 @@ const buttonColor = active_brand?.value?.button_color;
    .p-inputtext:focus {
        outline: none;
    }
-   .p-button {
-   color: #ffffff;
-   background: v-bind('buttonColor') !important;
-   border: 1px solid v-bind('buttonColor') !important;
-   padding: 0.5rem 1rem;
-   font-size: 1rem;
-   transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s, outline-color 0.2s;
-   border-radius: 6px;
-   outline-color: transparent;
+   .delta-product-card {
+  position: relative;
+  transition: all 0.3s ease;
+  background: white;
+  border: 1px solid rgba(9, 88, 169, 0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
+.delta-product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(9, 88, 169, 0.15);
+  border-color: #c8b967;
+}
+.product-image-wrapper {
+  background: #ffffff;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  padding: 1rem;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.product-image {
+  max-height: 200px;
+  width: auto;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.delta-product-card:hover .product-image {
+  transform: scale(1.05);
+}
+.product-price {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #15416e;
+  }
+  .quantity-input {
+    width: 100%;
+  }
+  .quantity-input :deep(.p-inputnumber-button) {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    color: #15416e;
+  }
+  
+  .quantity-input :deep(.p-inputnumber-button:hover) {
+    background: #e9ecef;
+    color: #097fc1;
+  }
+  
+  .quantity-input :deep(.p-inputnumber-button-up) {
+    border-top-right-radius: 4px;
+  }
+  
+  .quantity-input :deep(.p-inputnumber-button-down) {
+    border-bottom-right-radius: 4px;
+  }
+  .add-to-cart-btn {
+    
+  
+    width: 100%;
+    
+    background: linear-gradient(90deg, #0958a9 0%, #0747a6 100%);
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  }
+  
+  .add-to-cart-btn:hover {
+    background: linear-gradient(90deg, #0958a9 0%, #c8b967 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(9, 88, 169, 0.2);
+  }
+  
    </style>

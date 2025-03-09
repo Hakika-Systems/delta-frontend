@@ -1093,7 +1093,7 @@ span.pi.pi-minus {
     
   
     width: 100%;
-    
+
     background: linear-gradient(90deg, #0958a9 0%, #0747a6 100%);
   border: none;
   padding: 0.8rem 1.5rem;
