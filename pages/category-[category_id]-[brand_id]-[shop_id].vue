@@ -33,12 +33,12 @@
                   <div @click="goToDetailPage(product)"  class="product-name text-xl font-bold mb-2 text-900 cursor-pointer" >{{ addEllipsis(product.name) }}</div>
                   <div class="mb-4">
                   </div>
-                  <div class="flex justify-content-between align-items-center">
+                  <div class="flex justify-content-between align-items-center mb-2">
                     <span class="product-price">
                       {{ findCurrency() }}{{ product.prices[0]?.price  }}
                     </span>
                   </div>
-                  <div class="custom-input-number">
+                  <div class="custom-input-number mb-4">
     <!-- InputNumber with stacked buttons -->
     <InputNumber
       v-model="quantities[product.id]"
@@ -48,7 +48,8 @@
       inputId="vertical-buttons"
       showButtons
       buttonLayout="stacked"
-      class="quantity-input"
+      class="quantity-input w-fll"
+      
     >
       <!-- Custom Increment Button -->
       <template #incrementbuttonicon>
@@ -59,13 +60,14 @@
         <span class="pi pi-minus" />
       </template>
     </InputNumber>
-
+                  </div>
     <!-- Add to Cart Button -->
+     <div>
     <Button v-if="product?.details[0]?.quantity >= 1"
       label="Add"
       :loading="current_id === product.id"
       icon="pi pi-cart-arrow-down"
-      class="add-to-cart-btn"
+      class="add-to-cart-btn "
       @click="addToCart(product.id, product.prices[0]?.price)"
     />
     <Button v-else  icon="pi pi-cart-arrow-down" label="Out of Stock" class="w-full mt-1 cart" disabled/>
