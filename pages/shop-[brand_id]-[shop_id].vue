@@ -54,7 +54,7 @@
       <!-- Image Section -->
       <div 
         @click="goToDetailPage(data)" 
-        class="product-image-container flex align-items-center justify-content-center mb-3 mx-auto cursor-pointer"
+        class="product-image-warpper flex align-items-center justify-content-center mb-3 mx-auto cursor-pointer"
       >
         <NuxtImg 
           format="webp"  
@@ -124,11 +124,11 @@
     <!-- Product Card -->
     <div class="col-12 md:col-6 lg:col-3">
       <div class="p-2">
-        <div class="product-card border-round m-2 p-3" style="min-height: 350px; display: flex; flex-direction: column; justify-content: space-between;">
-          <div @click="goToDetailPage(product)" class="product-image-container flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
+        <div class="delta-product-card surface-card border-round-xl p-4" style="min-height: 350px; display: flex; flex-direction: column; justify-content: space-between;">
+          <div @click="goToDetailPage(product)" class="product-image-wrapper flex cursor-pointer align-items-center justify-content-center mb-3 mx-auto">
             <NuxtImg format="webp" class="product_image object-cover" :placeholder="[50, 50, 50, 50]"   :src="getParsedImages(product.images)" :alt="product?.name" loading="lazy" />
           </div>
-          <div @click="goToDetailPage(product)" class="product-name">
+          <div @click="goToDetailPage(product)" class="product-name text-xl font-bold mb-2 text-900">
             {{product.name }}
           </div>
           <div class="mb-4"></div>
@@ -842,16 +842,7 @@ span.pi.pi-minus {
     .p-inputtext:focus {
         outline: none;
     }
-    .p-button {
-    color: #ffffff;
-    background: #c8b967 !important;
-    border: 1px solid #c8b967 !important;
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s, outline-color 0.2s;
-    border-radius: 6px;
-    outline-color: transparent;
-}
+
     </style>
     <style>
 
@@ -1074,7 +1065,7 @@ span.pi.pi-minus {
   
   .product-name {
     font-size: 1rem;
-    color: #15416e;
+  
     font-weight: 500;
     margin: 1rem 0;
     line-height: 1.4;
@@ -1085,6 +1076,7 @@ span.pi.pi-minus {
     -webkit-box-orient: vertical;
     cursor: pointer;
     transition: color 0.2s ease;
+    
   }
   
   .product-name:hover {
@@ -1098,16 +1090,21 @@ span.pi.pi-minus {
   }
   
   .add-to-cart-btn {
-    background: linear-gradient(90deg, #15416e 0%, #097fc1 100%);
-    border: none;
+    
+  
     width: 100%;
-    margin-top: 1rem;
-    transition: all 0.3s ease;
+    
+    background: linear-gradient(90deg, #0958a9 0%, #0747a6 100%);
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
   }
   
   .add-to-cart-btn:hover {
-    background: linear-gradient(90deg, #097fc1 0%, #15416e 100%);
-    transform: translateY(-2px);
+    background: linear-gradient(90deg, #0958a9 0%, #c8b967 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(9, 88, 169, 0.2);
   }
   
   .add-to-cart-btn:focus {
@@ -1160,4 +1157,44 @@ span.pi.pi-minus {
   .quantity-input :deep(.p-inputnumber-button-down) {
     border-bottom-right-radius: 4px;
   }
+  .delta-product-card {
+  position: relative;
+  transition: all 0.3s ease;
+  background: white;
+  border: 1px solid rgba(9, 88, 169, 0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.delta-product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(9, 88, 169, 0.15);
+  border-color: #c8b967;
+}
+.product-image-wrapper {
+  background: #ffffff;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  padding: 1rem;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.product-image {
+  max-height: 200px;
+  width: auto;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.delta-product-card:hover .product-image {
+  transform: scale(1.05);
+}
+
+
   </style>

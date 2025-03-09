@@ -249,7 +249,7 @@
                 <div class="py-2 mt-3 border-bottom-1 surface-border">
                 <div class="p-inputgroup mb-3">
                   <input class="p-inputtext p-component p-filled w-full" data-pc-name="inputtext" v-model="coupon_code" data-pc-section="root" type="text" placeholder="Enter Promo code | Coupon code | Discount code">
-                  <button class="p-button p-component" type="button" aria-label="Apply" data-pc-name="button" data-pc-section="root" data-pd-ripple="true">
+                  <button class="aply p-button p-component" type="button" aria-label="Apply" data-pc-name="button" data-pc-section="root" data-pd-ripple="true">
                     <!---->
                     <span class="p-button-label" data-pc-section="label">Apply</span>
                     <!---->
@@ -280,7 +280,7 @@
                   </div>
                 </div>
                 <InlineMessage class="w-12 mt-5" v-if="cartTotal() < minimum_order && delivery_option === 'Delivery'" severity="info">Please note the minumum order is {{findCurrency()}}{{ minimum_order }} </InlineMessage>
-                <Button :disabled="isButtonDisabled" :loading="loading" @click="confirmOrder()" class="p-button p-component p-button-primary w-full mt-3" label="Place Order" />
+                <Button :disabled="isButtonDisabled" :loading="loading" @click="confirmOrder()" class="aply p-button p-component p-button-primary w-full mt-3" label="Place Order" />
               </div>
             </div>
           </div>
@@ -859,10 +859,11 @@ const  confirmOrder = async () => {
 }
 </script>
 <style scoped>
-.border-top {
-    /* border-style: solid; */
-    border: 5px solid #30c804 !important;
+.aply {
+  background-color: #c8b967;
+  border: 2px solid #c8b967;
 }
+
 .payheight {
   height: 75px !important;
 }

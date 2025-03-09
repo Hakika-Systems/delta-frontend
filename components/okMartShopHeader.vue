@@ -93,7 +93,7 @@
         class="search-input" 
       />
      
-	  <div class="categories-menu" v-if="isCategoriesOpen">
+	  <div  class="categories-menu" v-if="isCategoriesOpen" @mouseleave="isCategoriesOpen =false">
 		<div v-for="(item, index) in menuItems" :key="index" class="categories-list">
 			<NuxtLink @click="goToCategory(item.id)" class="category-item">
 			<!-- <span class="category-icon">💻</span> -->
