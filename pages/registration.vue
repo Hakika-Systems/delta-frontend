@@ -323,7 +323,7 @@ const individualRegistration = async () => {
 .submit-button {
   width: 100%;
   padding: 1rem;
-  background: #c8b967;
+  background: linear-gradient(90deg, #0958a9 0%, #0747a6 100%);
   border: none;
   color: white;
   font-weight: 500;
@@ -332,8 +332,9 @@ const individualRegistration = async () => {
 }
 
 .submit-button:hover:not(:disabled) {
-  background: #baa73b;
-  transform: translateY(-1px);
+  background: linear-gradient(90deg, #0958a9 0%, #c8b967 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(9, 88, 169, 0.2);
 }
 
 .submit-button:disabled {

@@ -176,7 +176,7 @@
         <InputText v-model="tracking_id" id="email" class="flex-auto" autocomplete="off" />
     </div>
     <div class="flex justify-content-end gap-2">
-        <Button :disabled="!tracking_id" @click="goToTracking(tracking_id)" type="button" label="Track Order"></Button>
+        <Button class="tracking_button" :disabled="!tracking_id" @click="goToTracking(tracking_id)" type="button" label="Track Order"></Button>
     </div>
 </Dialog>
 <Dialog v-model:visible="select_shop" modal header="Shop Selection" :style="{ width: '25rem' }">
@@ -4716,6 +4716,10 @@ span.toptr {
 .shop-icon {
   margin-right: 0.75rem;
   font-size: 1.2rem;
+}
+.tracking_button{
+	background-color: #0747a6;
+	background: linear-gradient(90deg, #0958a9 0%, #0747a6 100%);
 }
 
 </style>

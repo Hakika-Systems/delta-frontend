@@ -60,7 +60,7 @@
           :loading="loading" 
           class="login-button"
         >
-          <span v-if="!loading">Sign In</span>
+          <span v-if="!loading" >Sign In</span>
           <i v-else class="pi pi-spin pi-spinner"></i>
         </Button>
       </form>
@@ -84,7 +84,7 @@
         Don't have an account? 
         <NuxtLink 
           @click="navigateTo('/registration',{external:true})" 
-          class="signup-link"
+          class="signup-link cursor-pointer"
         >
           Sign Up
         </NuxtLink>
@@ -415,7 +415,7 @@ input.p-inputtext.p-component.p-password-input {
 .login-button {
   width: 100%;
   padding: 1rem;
-  background: #c8b967;
+  background: linear-gradient(90deg, #0958a9 0%, #0747a6 100%);
   border: none;
   color: white;
   font-weight: 500;
@@ -424,8 +424,9 @@ input.p-inputtext.p-component.p-password-input {
 }
 
 .login-button:hover {
-  background: #baa73b;
-  transform: translateY(-1px);
+  background: linear-gradient(90deg, #0958a9 0%, #c8b967 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(9, 88, 169, 0.2);
 }
 
 .divider {
